@@ -1,19 +1,19 @@
 <template>
-  <div class="home-view">
-    <HomeComponent></HomeComponent>
+  <div class="home-component">
+    <Home></Home>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import HomeComponent from '@/components/Home.vue'
+import Home from '@/storybook/Home/Home.vue'
 
 @Component({
   components: {
-    HomeComponent
+    Home
   }
 })
-export default class HomeView extends Vue {
+export default class HomeComponent extends Vue {
 }
 </script>
 <style lang="scss" scoped>

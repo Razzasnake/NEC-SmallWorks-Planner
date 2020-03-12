@@ -6,8 +6,8 @@
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import Map from '@/storybook/Map/Map.vue'
-import Table from '@/storybook/Table/Table.vue'
+import Map from '@/storybook/Views/Map/Map.vue'
+import Table from '@/storybook/Views/Table/Table.vue'
 
 @Component({
   components: {

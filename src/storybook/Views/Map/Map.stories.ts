@@ -2,7 +2,7 @@ import Map from './Map.vue'
 
 export default {
   component: Map,
-  title: 'Map'
+  title: 'Views|Map'
 }
 
 const _Map = () => ({

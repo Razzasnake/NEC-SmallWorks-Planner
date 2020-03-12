@@ -2,7 +2,7 @@ import Table from './Table.vue'
 
 export default {
   component: Table,
-  title: 'Table'
+  title: 'Views|Table'
 }
 
 const _Table = () => ({

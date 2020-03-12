@@ -2,7 +2,7 @@ import TableAndMap from './TableAndMap.vue'
 
 export default {
   component: TableAndMap,
-  title: 'TableAndMap'
+  title: 'Views|TableAndMap'
 }
 
 const _TableAndMap = () => ({
