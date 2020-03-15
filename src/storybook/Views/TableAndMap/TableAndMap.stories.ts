@@ -1,4 +1,5 @@
 import TableAndMap from './TableAndMap.vue'
+import { uploadedFileGenerator } from '@/generator/UploadedFileGenerator'
 
 export default {
   component: TableAndMap,
@@ -8,7 +9,15 @@ export default {
 const _TableAndMap = () => ({
   components: { TableAndMap },
   template:
-    `<TableAndMap></TableAndMap>`
+    `<TableAndMap
+      style="height: 100vh;"
+      :uploadedFile="uploadedFile"
+    ></TableAndMap>`,
+  props: {
+    uploadedFile: {
+      default: uploadedFileGenerator()
+    }
+  }
 })
 
 export { _TableAndMap }

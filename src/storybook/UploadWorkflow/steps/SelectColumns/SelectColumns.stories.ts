@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions'
 
 export default {
   component: SelectColumns,
-  title: 'Upload Workflow|SelectColumns'
+  title: 'Upload Workflow|steps/SelectColumns'
 }
 
 const _SelectColumns = () => ({
@@ -12,7 +12,9 @@ const _SelectColumns = () => ({
     <SelectColumns
       :value="value"
       :columnSelections="columnSelections"
+      :firstRowHeader="firstRowHeader"
       @updateSelections="updateSelections"
+      @updateFirstRowHeader="updateFirstRowHeader"
     ></SelectColumns>`,
   props: {
     value: {
@@ -26,10 +28,14 @@ const _SelectColumns = () => ({
         lat: null,
         lng: null
       }
+    },
+    firstRowHeader: {
+      default: true
     }
   },
   methods: {
-    updateSelections: action('updateSelections')
+    updateSelections: action('updateSelections'),
+    updateFirstRowHeader: action('updateFirstRowHeader')
   }
 })
 

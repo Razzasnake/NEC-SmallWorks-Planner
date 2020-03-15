@@ -7,22 +7,26 @@
         v-if="step === 1"
         :value="uploadedFile"
         :columnSelections="columnSelections"
+        :firstRowHeader="firstRowHeader"
         @updateSelections="updateSelections"
+        @updateFirstRowHeader="updateFirstRowHeader"
       ></SelectColumns>
       <Upsell v-if="step === 2"></Upsell>
     </div>
     <div v-if="step > 0" class="upload-workflow__footer">
       <b-button @click="back" style="margin-right: 10px;">Back</b-button>
       <b-button v-if="step < 2" type="is-primary" @click="next" :disabled="nextIsDisabled">Next</b-button>
-      <b-button v-else type="is-primary" @click="finish" :disabled="finishIsDisabled">Finish</b-button>
+      <b-button v-else type="is-primary" @click="finish">Finish</b-button>
     </div>
   </div>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
-import Upload from "./Upload/Upload.vue";
-import SelectColumns from "./SelectColumns/SelectColumns.vue";
-import Upsell from "./Upsell/Upsell.vue";
+import Upload from "./steps/Upload/Upload.vue";
+import SelectColumns from "./steps/SelectColumns/SelectColumns.vue";
+import Upsell from "./steps/Upsell/Upsell.vue";
+import UploadedFile from "@/entities/UploadedFile";
+import UploadWorkflowLogic from "./UploadWorkflowLogic";
 
 /**
  * Add all of the parts of the workflow together
@@ -43,20 +47,25 @@ export default class UploadWorkflow extends Vue {
     lat: null,
     lng: null
   };
+  private firstRowHeader: boolean = true;
 
   private get nextIsDisabled() {
     return (
       this.columnSelections.lat === null || this.columnSelections.lng === null
     );
   }
-  private get finishIsDisabled() {
-    return false;
-  }
 
   private fileUploaded(data: any[][]) {
     this.uploadedFile = data;
+    this.columnSelections = UploadWorkflowLogic.guessColumnTypes(data);
+    this.firstRowHeader = UploadWorkflowLogic.guessFirstRowHeader(data)
     this.next();
   }
+
+  private updateFirstRowHeader(newVal: boolean) {
+    this.firstRowHeader = newVal;
+  }
+
   private updateSelections(selections: {
     lat: null | number;
     lng: null | number;
@@ -70,10 +79,15 @@ export default class UploadWorkflow extends Vue {
   }
 
   private finish() {
-    this.$emit("finish", {
-      uploadedFile: this.uploadedFile,
-      columnSelections: this.columnSelections
+    const uploadedFile = new UploadedFile({
+      data: this.uploadedFile,
+      columnSelections: {
+        lat: this.columnSelections.lat!,
+        lng: this.columnSelections.lng!
+      },
+      firstRowHeader: this.firstRowHeader
     });
+    this.$emit("finish", uploadedFile);
   }
 
   private back() {

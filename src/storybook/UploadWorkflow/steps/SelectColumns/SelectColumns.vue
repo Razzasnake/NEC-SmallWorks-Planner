@@ -1,5 +1,6 @@
 <template>
   <div style="width: 100%;">
+    <b-checkbox v-model="firstRowHeaderAux">First Row Header</b-checkbox>
     <b-table :data="tableData" :columns="tableColumns">
       <template slot="header" slot-scope="scope">
         <b-dropdown hoverable aria-role="list">
@@ -42,41 +43,35 @@ export default class SelectColumns extends Vue {
    */
   @Prop()
   private columnSelections!: { lat: null | number; lng: null | number };
+  /**
+   * The row that contains the headers for this file.
+   */
+  @Prop()
+  private firstRowHeader!: boolean;
+
   private columnSelectionsAux: {
     lat: null | number;
     lng: null | number;
   } = Object.assign({}, this.columnSelections);
 
-  @Watch("columnSelections")
-  private columnSelectionsUpdated() {
-    this.columnSelectionsAux = Object.assign({}, this.columnSelections);
+  private get firstRowHeaderAux() {
+    return this.firstRowHeader;
   }
-
-  private mounted() {
-    const latTerms = new Set(["latitude", "lat"]);
-    const lngTerms = new Set(["longitude", "lng", "lon"]);
-    if (this.value.length) {
-      const headers = this.value[0];
-      headers.forEach((h, index) => {
-        const cleanH = h.toLowerCase();
-        if (latTerms.has(cleanH)) {
-          this.columnSelectionsAux.lat = index;
-        } else if (lngTerms.has(cleanH)) {
-          this.columnSelectionsAux.lng = index;
-        }
-      });
-    }
-    this.$emit("updateSelections", this.columnSelectionsAux);
+  private set firstRowHeaderAux(newVal: boolean) {
+    this.$emit("updateFirstRowHeader", newVal);
   }
 
   private get tableData() {
-    return this.value.slice(0, 5).map((row, rowIndex) => {
-      const data: { [key: string]: any } = {};
-      row.forEach((col, colIndex) => {
-        data[colIndex.toString()] = col;
+    return this.value
+      .slice(this.firstRowHeaderAux ? 1 : 0)
+      .slice(0, 5)
+      .map((row, rowIndex) => {
+        const data: { [key: string]: any } = {};
+        row.forEach((col, colIndex) => {
+          data[colIndex.toString()] = col;
+        });
+        return data;
       });
-      return data;
-    });
   }
 
   private get tableColumns() {
@@ -85,6 +80,12 @@ export default class SelectColumns extends Vue {
         return { field: colIndex.toString(), label: colIndex.toString() };
       });
     }
+    return [];
+  }
+
+  @Watch("columnSelections")
+  private columnSelectionsUpdated() {
+    this.columnSelectionsAux = Object.assign({}, this.columnSelections);
   }
 
   private latClicked(index: number) {
