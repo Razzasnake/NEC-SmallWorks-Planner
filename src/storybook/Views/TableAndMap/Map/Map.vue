@@ -22,7 +22,7 @@ export default class Map extends Vue {
   private map: google.maps.Map | null = null;
 
   private mounted() {
-    const loader = new Loader(process.env.GOOGLEMAPS_KEY);
+    const loader = new Loader(process.env.VUE_APP_GOOGLEMAPS_KEY);
     loader.load().then(google => {
       const el = document.getElementById("map");
       if (el) {

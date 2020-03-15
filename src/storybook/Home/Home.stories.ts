@@ -8,7 +8,8 @@ export default {
 const _Home = () => ({
   components: { Home },
   template: `
-    <Home 
+    <Home
+      style="height: 100vh;"
     ></Home>`,
   props: {
   },

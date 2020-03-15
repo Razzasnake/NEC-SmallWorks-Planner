@@ -1,7 +1,7 @@
 <template>
   <b-navbar :shadow="true">
     <template slot="brand">
-      <b-navbar-item tag="router-link">
+      <b-navbar-item>
         TableAndMap
       </b-navbar-item>
     </template>

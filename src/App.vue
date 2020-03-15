@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <NavBar></NavBar>
-    <img alt="Vue logo" :src='require("@/assets/logo.png")'>
     <router-view></router-view>
   </div>
 </template>

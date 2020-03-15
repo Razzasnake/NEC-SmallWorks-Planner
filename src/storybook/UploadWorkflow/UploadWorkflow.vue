@@ -98,6 +98,10 @@ export default class UploadWorkflow extends Vue {
 </script>
 <style lang='scss' scoped>
 .upload-workflow {
+  position: relative;
+  height: 384px;
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
   padding: 10px;
   width: 50%;
   min-width: 750px;
@@ -107,7 +111,9 @@ export default class UploadWorkflow extends Vue {
     justify-content: center;
   }
   .upload-workflow__footer {
-    float: right;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
   }
 }
 </style>
