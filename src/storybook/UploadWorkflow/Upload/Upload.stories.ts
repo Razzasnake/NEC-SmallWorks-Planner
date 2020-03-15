@@ -1,4 +1,5 @@
 import Upload from './Upload.vue'
+import { action } from '@storybook/addon-actions'
 
 export default {
   component: Upload,
@@ -8,11 +9,13 @@ export default {
 const _Upload = () => ({
   components: { Upload },
   template: `
-    <Upload 
+    <Upload
+      @fileUploaded="fileUploaded"
     ></Upload>`,
   props: {
   },
   methods: {
+    fileUploaded: action('fileUploaded')
   }
 })
 
