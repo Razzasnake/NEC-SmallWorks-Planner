@@ -1,6 +1,6 @@
 <template>
   <div class="all">
-    <NavBar :displayUpload="uploadedFile !== null" @finish="finish"></NavBar>
+    <NavBar :displayUpload="uploadedFile !== null" @finish="finish" @goHome="goHome"></NavBar>
     <div class="content" :style="`background: url(${require('@/assets/background.jpg')}) center;`">
       <TableAndMap
         v-if="uploadedFile"
@@ -56,6 +56,19 @@ export default class Home extends Vue {
   private finish(uploadedFile: UploadedFile) {
     this.tableLogic = new TableLogic(uploadedFile);
     this.uploadedFile = uploadedFile;
+  }
+
+  private goHome(): void {
+    this.uploadedFile = null
+    this.filterChanged({})
+    this.sortChanged([])
+    this.map = {
+      summary: [],
+      overlayEventJsons: [],
+      infoWindowKeys: [],
+      allowDraw: true
+    }
+    this.tableLogic = null
   }
 
   private updateOverlayEventJsons(overlayEventJsons: OverlayJson[]) {

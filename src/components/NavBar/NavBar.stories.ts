@@ -13,6 +13,7 @@ const _NavBar = () => ({
     <NavBar
       :displayUpload="displayUpload"
       @finish="finish"
+      @goHome="goHome"
     ></NavBar>`,
   props: {
     displayUpload: {
@@ -20,7 +21,8 @@ const _NavBar = () => ({
     }
   },
   methods: {
-    finish: action('finish')
+    finish: action('finish'),
+    goHome: action('goHome')
   }
 })
 

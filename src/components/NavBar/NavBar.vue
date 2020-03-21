@@ -1,7 +1,7 @@
 <template>
   <b-navbar :shadow="true">
     <template slot="brand">
-      <b-navbar-item tag="div">Table &amp; Map</b-navbar-item>
+      <b-navbar-item tag="a" @click="goHome">Table &amp; Map</b-navbar-item>
     </template>
     <template slot="end" v-if="displayUpload">
       <b-navbar-item tag="div">
@@ -35,6 +35,13 @@ export default class NavBar extends Vue {
      * Emit the uploaded file
      */
     this.$emit("finish", uploadedFile);
+  }
+
+  private goHome() {
+    /**
+     * User wants to go back to the home page
+     */
+    this.$emit('goHome')
   }
 }
 </script>
