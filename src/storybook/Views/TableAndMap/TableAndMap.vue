@@ -328,6 +328,6 @@ export default class TableAndMap extends Vue {
 }
 </style>
 <style lang='scss' scoped>
-@import '~ag-grid-enterprise/dist/styles/ag-grid.css';
-@import '~ag-grid-enterprise/dist/styles/ag-theme-balham.css';
+@import '~ag-grid-community/dist/styles/ag-grid.css';
+@import '~ag-grid-community/dist/styles/ag-theme-balham.css';
 </style>
