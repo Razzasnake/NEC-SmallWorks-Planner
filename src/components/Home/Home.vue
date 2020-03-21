@@ -1,37 +1,42 @@
 <template>
-  <div class="content" :style="`background: url(${require('@/assets/background.jpg')}) center;`">
-    <TableAndMap
-      v-if="uploadedFile"
-      class="content__table-and-map"
-      :uploadedFile="uploadedFile"
-      :filters="filters"
-      :sorting="sorting"
-      :map="map"
-      :tableLogic="tableLogic"
-      @updateOverlayEventJsons="updateOverlayEventJsons"
-      @rowSelectionsChanged="rowSelectionsChanged"
-      @sortChanged="sortChanged"
-      @filterChanged="filterChanged"
-    ></TableAndMap>
-    <div v-else class="begin">
-      <CallToAction @finish="finish"></CallToAction>
+  <div class="all">
+    <NavBar :displayUpload="uploadedFile !== null" @finish="finish"></NavBar>
+    <div class="content" :style="`background: url(${require('@/assets/background.jpg')}) center;`">
+      <TableAndMap
+        v-if="uploadedFile"
+        class="content__table-and-map"
+        :uploadedFile="uploadedFile"
+        :filters="filters"
+        :sorting="sorting"
+        :map="map"
+        :tableLogic="tableLogic"
+        @updateOverlayEventJsons="updateOverlayEventJsons"
+        @rowSelectionsChanged="rowSelectionsChanged"
+        @sortChanged="sortChanged"
+        @filterChanged="filterChanged"
+      ></TableAndMap>
+      <div v-else class="begin">
+        <CallToAction @finish="finish"></CallToAction>
+      </div>
     </div>
   </div>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
-import TableAndMap from "@/storybook/Views/TableAndMap/TableAndMap.vue";
+import TableAndMap from "@/components/TableAndMap/TableAndMap.vue";
 import CallToAction from "./CallToAction/CallToAction.vue";
 import UploadedFile from "@/entities/UploadedFile";
-import TableLogic from "@/storybook/Views/TableAndMap/TableLogic";
-import { OverlayJson } from "../Views/TableAndMap/GoogleMap/Utils";
-import { TableAndMapMap } from "../Views/TableAndMap/Types";
+import TableLogic from "@/components/TableAndMap/TableLogic";
+import { OverlayJson } from "../TableAndMap/GoogleMap/Utils";
+import { TableAndMapMap } from "../TableAndMap/Types";
+import NavBar from "@/components/NavBar/NavBar.vue";
 
 /**
  * Contain content about what TableAndMap what it does
  */
 @Component({
   components: {
+    NavBar,
     CallToAction,
     TableAndMap
   }
@@ -76,17 +81,20 @@ export default class Home extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-.content {
+.all {
   height: 100%;
-  background-size: cover;
-  .begin {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .content__table-and-map {
-    height: 100%;
+  .content {
+    height: calc(100% - 52px);
+    background-size: cover;
+    .begin {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .content__table-and-map {
+      height: 100%;
+    }
   }
 }
 </style>

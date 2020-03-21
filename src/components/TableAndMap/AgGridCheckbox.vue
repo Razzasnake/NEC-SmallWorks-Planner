@@ -30,12 +30,12 @@ import { ICellRendererParams } from "ag-grid-community";
 export default class AgGridCheckbox extends Vue {
   private state = { isChecked: false };
   private params!: ICellRendererParams;
-  mounted() {
+  private mounted() {
     let boolValue = this.params.value.toString() === "true";
     this.state.isChecked = boolValue;
     this.params.node.setSelected(boolValue);
   }
-  change() {
+  private change() {
     const checked = !this.state.isChecked;
     this.state.isChecked = checked;
     this.params.setValue(checked);

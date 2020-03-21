@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions'
 import { uploadedFileGenerator } from '@/generator/UploadedFileGenerator'
 
 export default {
-  title: 'Views|TableAndMap',
+  title: 'TableAndMap|TableAndMap',
   component: TableAndMap
 }
 

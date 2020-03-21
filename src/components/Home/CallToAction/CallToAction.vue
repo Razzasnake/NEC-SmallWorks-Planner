@@ -9,7 +9,7 @@
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
-import UploadWorkflow from "@/storybook/UploadWorkflow/UploadWorkflow.vue";
+import UploadWorkflow from "@/components/UploadWorkflow/UploadWorkflow.vue";
 import UploadedFile from "@/entities/UploadedFile";
 
 /**

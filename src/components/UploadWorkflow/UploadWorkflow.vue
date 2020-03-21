@@ -105,6 +105,9 @@ export default class UploadWorkflow extends Vue {
       },
       firstRowHeader: this.firstRowHeader
     });
+    /**
+     * Emit the uploaded file
+     */
     this.$emit("finish", uploadedFile);
     this.reset();
   }
