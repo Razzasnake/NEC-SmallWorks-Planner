@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Upload @fileUploaded="fileUploaded" @updateLoading="updateLoading"></Upload>
+    <Upload @fileUploaded="fileUploaded"></Upload>
     <b-modal :active="step > 0" :on-cancel="reset" has-modal-card trap-focus aria-role="dialog" aria-modal>
       <div class="card">
         <header class="card-header">
@@ -129,13 +129,6 @@ export default class UploadWorkflow extends Vue {
       lng: null
     };
     this.firstRowHeader = true;
-  }
-
-  private updateLoading(loading: boolean): void {
-    /**
-     * Update the parent with the loading state
-     */
-    this.$emit("updateLoading", loading);
   }
 }
 </script>

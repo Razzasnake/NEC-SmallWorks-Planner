@@ -11,13 +11,11 @@ const _UploadWorkflow = () => ({
   template: `
     <UploadWorkflow
       @finish="finish"
-      @updateLoading="updateLoading"
     ></UploadWorkflow>`,
   props: {
   },
   methods: {
-    finish: action('finish'),
-    updateLoading: action('updateLoading')
+    finish: action('finish')
   }
 })
 

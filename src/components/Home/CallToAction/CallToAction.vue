@@ -1,10 +1,9 @@
 <template>
   <div class="card call-to-action">
     <div class="card-content">
-      <b-loading :active="loading"></b-loading>
       <p class="title">Table &amp; Map</p>
       <p class="subtitle">View and interact with your geographical data on a map and in a table.</p>
-      <UploadWorkflow class="upload-workflow" @finish="finish" @updateLoading="updateLoading"></UploadWorkflow>
+      <UploadWorkflow class="upload-workflow" @finish="finish"></UploadWorkflow>
     </div>
   </div>
 </template>
@@ -22,16 +21,11 @@ import UploadedFile from "@/entities/UploadedFile";
   }
 })
 export default class CallToAction extends Vue {
-  private loading: boolean = false;
-
   private finish(uploadedFile: UploadedFile) {
     /**
      * Emit the uploaded file
      */
     this.$emit("finish", uploadedFile);
-  }
-  private updateLoading(loading: boolean) {
-    this.loading = loading;
   }
 }
 </script>

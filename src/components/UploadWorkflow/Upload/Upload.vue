@@ -1,5 +1,6 @@
 <template>
   <b-field>
+    <b-loading :active="loading"></b-loading>
     <b-upload v-model="dropFiles" @input="fileUploaded" :accept="accept">
       <a class="button is-primary">
         <b-icon icon="upload"></b-icon>
@@ -21,12 +22,13 @@ import XLSX from "xlsx";
 export default class Upload extends Vue {
   private dropFiles: File | null = null;
   private accept: string = ".xls,.xlr,.xlt,.xlsx,.xlsm,.xlsb,.csv";
+  private loading: boolean = false;
 
   private fileUploaded(file: File) {
     /**
      * Update the parent with the loading state
      */
-    this.$emit("updateLoading", true);
+    this.loading = true;
     const reader = new FileReader();
     reader.onloadend = e => {
       try {
@@ -37,7 +39,7 @@ export default class Upload extends Vue {
            */
           this.$emit("fileUploaded", this.convert(bstr));
           this.dropFiles = null;
-          this.$emit("updateLoading", false);
+          this.loading = false;
         } else {
           this.handleFailure(file);
         }
@@ -56,7 +58,7 @@ export default class Upload extends Vue {
 
   private handleFailure(file: File) {
     // TODO
-    this.$emit("updateLoading", false);
+    this.loading = false;
   }
 }
 </script>
