@@ -38,10 +38,10 @@ const QUESTIONS = [
 ]
 
 const callback = (answers) => {
-  fs.mkdir(`${__dirname}/../src/storybook/__GENERATED/`, () => {
+  fs.mkdir(`${__dirname}/../src/components/__GENERATED/`, () => {
     // Path exists
   })
-  fs.mkdir(`${__dirname}/../src/storybook/__GENERATED/${answers.__COMPONENT}`, (err) => {
+  fs.mkdir(`${__dirname}/../src/components/__GENERATED/${answers.__COMPONENT}`, (err) => {
     if (err) {
       throw Error('Could not write to folder. NPM may not have privileges to access it, or there may already be a component with that name')
     }
@@ -57,7 +57,7 @@ const callback = (answers) => {
               content = content.replace(new RegExp(key, 'g'), answers[key])
             })
             const filename = `${file.replace('Example', answers.__COMPONENT)}`
-            fs.writeFile(`${__dirname}/../src/storybook/__GENERATED/${answers.__COMPONENT}/${filename}`, content, () => {
+            fs.writeFile(`${__dirname}/../src/components/__GENERATED/${answers.__COMPONENT}/${filename}`, content, () => {
               // Overide the file.
             })
           }

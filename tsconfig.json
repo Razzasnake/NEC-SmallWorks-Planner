@@ -35,6 +35,6 @@
   ],
   "exclude": [
     "node_modules",
-    "src/storybook/**/*.stories.ts" // TODO: Currently throws console errors if stories are included.
+    "src/components/**/*.stories.ts" // TODO: Currently throws console errors if stories are included.
   ]
 }

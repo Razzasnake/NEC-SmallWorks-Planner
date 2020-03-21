@@ -2,7 +2,7 @@ import Upsell from './Upsell.vue'
 
 export default {
   component: Upsell,
-  title: 'Upload Workflow|steps/Upsell'
+  title: 'Upload Workflow|Upsell'
 }
 
 const _Upsell = () => ({

@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions'
 
 export default {
   component: Upload,
-  title: 'Upload Workflow|steps/Upload'
+  title: 'Upload Workflow|Upload'
 }
 
 const _Upload = () => ({
