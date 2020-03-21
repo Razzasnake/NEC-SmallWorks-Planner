@@ -1,4 +1,5 @@
 import NavBar from './NavBar.vue'
+import { action } from '@storybook/addon-actions'
 
 export default {
   component: NavBar,
@@ -8,11 +9,11 @@ export default {
 const _NavBar = () => ({
   components: { NavBar },
   template: `
-    <NavBar 
+    <NavBar
+      @finish="finish"
     ></NavBar>`,
-  props: {
-  },
   methods: {
+    finish: action('finish')
   }
 })
 
