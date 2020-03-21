@@ -1,6 +1,7 @@
 import moment from 'moment'
 import { ColDef, ColGroupDef, SideBarDef, MenuItemDef } from 'ag-grid-community'
 import UploadedFile from '@/entities/UploadedFile'
+import AgGridCheckbox from './AgGridCheckbox.vue'
 
 export default class TableLogic {
   public statusBar = {
@@ -46,7 +47,14 @@ export default class TableLogic {
   public columnDefs: (ColDef | ColGroupDef)[] = []
 
   constructor(uploadedFile: UploadedFile) {
-    this.columnDefs = uploadedFile.data[0].data.map((_, index) => {
+    const isSelectedCol: (ColDef | ColGroupDef)[] = [{
+      headerName: '',
+      field: 'isSelected',
+      pinned: 'left',
+      width: 43,
+      cellRendererFramework: AgGridCheckbox
+    }]
+    const generatedCols: (ColDef | ColGroupDef)[] = uploadedFile.data[0].data.map((_, index) => {
       if (uploadedFile.firstRowHeader) {
         return {
           headerName: uploadedFile.data[0].data[index],
@@ -59,6 +67,7 @@ export default class TableLogic {
         }
       }
     })
+    this.columnDefs = isSelectedCol.concat(generatedCols)
   }
 
   public getContextMenuItems(): (MenuItemDef | string)[] {

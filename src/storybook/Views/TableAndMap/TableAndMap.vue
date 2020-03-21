@@ -42,20 +42,21 @@
           @cellKeyPress="onCellKeyPress"
         ></AgGridVue>
       </div>
-      <!-- @slot Preview card that appears on the right side of the window -->
-      <slot
-        name="preview"
-        :select="select"
-        :deselect="deselect"
+      <PreviewCard
+        class="entity-preview"
+        v-if="clickedMarker"
         :clickedMarker="clickedMarker"
-        :close="close"
-      ></slot>
+        @select="select"
+        @deselect="deselect"
+        @close="close"
+      ></PreviewCard>
     </div>
   </div>
 </template>
 <script lang='ts'>
 import { Component, Prop, Watch, Vue } from 'vue-property-decorator'
 import { AgGridVue } from 'ag-grid-vue'
+import PreviewCard from './PreviewCard/PreviewCard.vue'
 // import 'ag-grid-enterprise'
 import GoogleMap from './GoogleMap/GoogleMap.vue'
 import Split from 'split.js'
@@ -71,7 +72,8 @@ import UploadedFile, { Row } from '@/entities/UploadedFile'
 @Component({
   components: {
     GoogleMap,
-    AgGridVue
+    AgGridVue,
+    PreviewCard
   }
 })
 export default class TableAndMap extends Vue {
@@ -140,14 +142,17 @@ export default class TableAndMap extends Vue {
     }
   }
 
-  private createInfoWindow(marker: google.maps.Marker, index: number): google.maps.InfoWindow | null {
+  private createInfoWindow(marker: google.maps.Marker, row: Row): google.maps.InfoWindow | null {
     return new google.maps.InfoWindow({
-      content: `TODO: Info Window - ${index}`
+      content: `TODO: Info Window - ${row.index}`
     })
   }
 
-  private markerSelected(row: Row): void {
-    this.clickedMarker = row
+  private markerSelected(id: string): void {
+    const clickedMarker = this.rowData.find(_ => _.id === id)
+    if (clickedMarker) {
+      this.clickedMarker = clickedMarker
+    }
   }
 
   private updateOverlayEvents(overlayEvents: google.maps.drawing.OverlayCompleteEvent[]): void {

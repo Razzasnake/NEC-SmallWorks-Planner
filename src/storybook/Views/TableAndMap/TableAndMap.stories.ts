@@ -2,7 +2,6 @@ import TableLogic from './TableLogic'
 import TableAndMap from './TableAndMap.vue'
 import { action } from '@storybook/addon-actions'
 import { uploadedFileGenerator } from '@/generator/UploadedFileGenerator'
-import UploadedFile from '@/entities/UploadedFile'
 
 export default {
   title: 'Views|TableAndMap',
@@ -25,11 +24,7 @@ const _TableAndMap = () => ({
         @rowSelectionsChanged="rowSelectionsChanged"
         @sortChanged="sortChanged"
         @filterChanged="filterChanged"
-      >
-        <div slot="preview" class="card entity-preview">
-          Preview Here!
-        </div>
-      </TableAndMap>
+      ></TableAndMap>
     </div>`,
   props: {
     uploadedFile: {

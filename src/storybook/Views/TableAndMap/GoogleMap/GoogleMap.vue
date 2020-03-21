@@ -164,7 +164,7 @@ export default class GoogleMap extends Vue {
           /**
            * Notify the parent of the marker that has been clicked
            */
-          this.$emit("markerSelected", row);
+          this.$emit("markerSelected", row.id);
         }
       });
       this.addInfoWindow(newMarker, row);
