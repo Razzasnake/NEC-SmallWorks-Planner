@@ -163,6 +163,8 @@ export default class GoogleMap extends Vue {
           this.map.panTo(position);
           /**
            * Notify the parent of the marker that has been clicked
+           *
+           * @type {string}
            */
           this.$emit("markerSelected", row.id);
         }
@@ -222,7 +224,7 @@ export default class GoogleMap extends Vue {
         resolve(google);
       });
     }
-    return loader
+    return loader;
   }
 
   private mounted(): void {
@@ -327,6 +329,8 @@ export default class GoogleMap extends Vue {
     if (emit) {
       /**
        * Notify the parent of all of the polygons currently being displayed on the map
+       *
+       * @type {google.maps.drawing.OverlayCompleteEvent[]}
        */
       this.$emit("updateOverlayEvents", this.overlayEvents.concat(newEvent));
     }

@@ -3,7 +3,7 @@ import { OverlayJson } from './GoogleMap/Utils'
 interface TableAndMapMap {
   summary: { label: string, value: string }[],
   overlayEventJsons: OverlayJson[],
-  infoWindowKeys: {label: string, prop: string}[],
+  infoWindowKeys: { label: string, prop: string }[],
   allowDraw: boolean,
   markerSelected: (index: number) => void,
   updateOverlayEventJsons: (newOverlayEvents: OverlayJson[]) => void

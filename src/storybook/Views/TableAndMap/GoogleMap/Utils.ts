@@ -9,23 +9,23 @@ export default class Utils {
   public static overlayEventsToJson(arr: google.maps.drawing.OverlayCompleteEvent[]) {
     return arr.map(event => {
       switch (event.type) {
-      case google.maps.drawing.OverlayType.RECTANGLE:
-        return {
-          type: this.t_(event.type),
-          geometry: this.b_((event.overlay as google.maps.Rectangle).getBounds())
-        }
-      case google.maps.drawing.OverlayType.POLYGON:
-        return {
-          type: this.t_(event.type),
-          geometry: this.m_((event.overlay as google.maps.Polygon).getPaths())
-        }
-      case google.maps.drawing.OverlayType.CIRCLE:
-        const circle = event.overlay as google.maps.Circle
-        return {
-          type: this.t_(event.type),
-          geometry: this.p_(circle.getCenter()),
-          radius: circle.getRadius()
-        }
+        case google.maps.drawing.OverlayType.RECTANGLE:
+          return {
+            type: this.t_(event.type),
+            geometry: this.b_((event.overlay as google.maps.Rectangle).getBounds())
+          }
+        case google.maps.drawing.OverlayType.POLYGON:
+          return {
+            type: this.t_(event.type),
+            geometry: this.m_((event.overlay as google.maps.Polygon).getPaths())
+          }
+        case google.maps.drawing.OverlayType.CIRCLE:
+          const circle = event.overlay as google.maps.Circle
+          return {
+            type: this.t_(event.type),
+            geometry: this.p_(circle.getCenter()),
+            radius: circle.getRadius()
+          }
       }
     }) as OverlayJson[]
   }
@@ -33,28 +33,28 @@ export default class Utils {
   public static jsonToOverlayEvents(arr: OverlayJson[]) {
     return arr.map(json => {
       switch (json.type) {
-      case 'RECTANGLE':
-        return {
-          type: google.maps.drawing.OverlayType.RECTANGLE,
-          overlay: new google.maps.Rectangle({
-            bounds: this.bb_.apply(this, json.geometry as [[number, number], [number, number]])
-          })
-        }
-      case 'POLYGON':
-        return {
-          type: google.maps.drawing.OverlayType.POLYGON,
-          overlay: new google.maps.Polygon({
-            paths: this.mm_(json.geometry as [number, number][][])
-          })
-        }
-      case 'CIRCLE':
-        return {
-          type: google.maps.drawing.OverlayType.CIRCLE,
-          overlay: new google.maps.Circle({
-            radius: json.radius,
-            center: this.pp_.apply(this, json.geometry as [number, number])
-          })
-        }
+        case 'RECTANGLE':
+          return {
+            type: google.maps.drawing.OverlayType.RECTANGLE,
+            overlay: new google.maps.Rectangle({
+              bounds: this.bb_.apply(this, json.geometry as [[number, number], [number, number]])
+            })
+          }
+        case 'POLYGON':
+          return {
+            type: google.maps.drawing.OverlayType.POLYGON,
+            overlay: new google.maps.Polygon({
+              paths: this.mm_(json.geometry as [number, number][][])
+            })
+          }
+        case 'CIRCLE':
+          return {
+            type: google.maps.drawing.OverlayType.CIRCLE,
+            overlay: new google.maps.Circle({
+              radius: json.radius,
+              center: this.pp_.apply(this, json.geometry as [number, number])
+            })
+          }
       }
     }) as google.maps.drawing.OverlayCompleteEvent[]
   }

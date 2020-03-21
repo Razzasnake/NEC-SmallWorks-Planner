@@ -69,6 +69,9 @@ import { LicenseManager } from "ag-grid-enterprise"
 import UploadedFile, { Row } from '@/entities/UploadedFile'
 // LicenseManager.setLicenseKey('[TRIAL]_19_May_2020_[v2]_MTU4OTg0NjQwMDAwMA==d1c6b5b83d825b730415f17032aea8c0')
 
+/**
+ * Display the uploaded file in a table and on a map.
+ */
 @Component({
   components: {
     GoogleMap,
