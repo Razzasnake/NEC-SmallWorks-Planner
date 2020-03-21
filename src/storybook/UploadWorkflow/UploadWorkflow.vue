@@ -1,23 +1,31 @@
 <template>
-  <div class="upload-workflow">
-    <b-progress :value="progress" show-value type="is-primary">{{ `${this.step + 1} out of 3` }}</b-progress>
-    <div class="upload-workflow__content">
-      <Upload v-if="step === 0" @fileUploaded="fileUploaded"></Upload>
-      <SelectColumns
-        v-if="step === 1"
-        :value="uploadedFile"
-        :columnSelections="columnSelections"
-        :firstRowHeader="firstRowHeader"
-        @updateSelections="updateSelections"
-        @updateFirstRowHeader="updateFirstRowHeader"
-      ></SelectColumns>
-      <Upsell v-if="step === 2"></Upsell>
-    </div>
-    <div v-if="step > 0" class="upload-workflow__footer">
-      <b-button @click="back" style="margin-right: 10px;">Back</b-button>
-      <b-button v-if="step < 2" type="is-primary" @click="next" :disabled="nextIsDisabled">Next</b-button>
-      <b-button v-else type="is-primary" @click="finish">Finish</b-button>
-    </div>
+  <div>
+    <Upload @fileUploaded="fileUploaded"></Upload>
+    <b-modal :active="step > 0" has-modal-card trap-focus aria-role="dialog" aria-modal>
+      <div class="card">
+        <header class="card-header">
+          <p class="card-header-title">{{ title }}</p>
+        </header>
+        <div class="card-content">
+          <div class="content">
+            <SelectColumns
+              v-if="step === 1"
+              :value="uploadedFile"
+              :columnSelections="columnSelections"
+              :firstRowHeader="firstRowHeader"
+              @updateSelections="updateSelections"
+              @updateFirstRowHeader="updateFirstRowHeader"
+            ></SelectColumns>
+            <Upsell v-if="step === 2"></Upsell>
+          </div>
+        </div>
+        <footer class="card-footer">
+          <span class="card-footer-item" @click="back">Back</span>
+          <span v-if="step < 2" class="card-footer-item" @click="next">Next</span>
+          <span v-else class="card-footer-item" @click="finish">Finish</span>
+        </footer>
+      </div>
+    </b-modal>
   </div>
 </template>
 <script lang='ts'>
@@ -49,6 +57,16 @@ export default class UploadWorkflow extends Vue {
   };
   private firstRowHeader: boolean = true;
 
+  private get title() {
+    if (this.step === 1) {
+      return 'Select Columns'
+    } else if (this.step === 2) {
+      return 'Upsell'
+    } else {
+      return ''
+    }
+  }
+
   private get nextIsDisabled() {
     return (
       this.columnSelections.lat === null || this.columnSelections.lng === null
@@ -58,7 +76,7 @@ export default class UploadWorkflow extends Vue {
   private fileUploaded(data: any[][]) {
     this.uploadedFile = data;
     this.columnSelections = UploadWorkflowLogic.guessColumnTypes(data);
-    this.firstRowHeader = UploadWorkflowLogic.guessFirstRowHeader(data)
+    this.firstRowHeader = UploadWorkflowLogic.guessFirstRowHeader(data);
     this.next();
   }
 
@@ -88,32 +106,37 @@ export default class UploadWorkflow extends Vue {
       firstRowHeader: this.firstRowHeader
     });
     this.$emit("finish", uploadedFile);
+    this.reset();
   }
 
   private back() {
     this.step = this.step - 1;
     this.progress = this.progress - 50;
+    if (this.step === 0) {
+      this.reset();
+    }
+  }
+
+  private reset() {
+    this.step = 0;
+    this.progress = 0;
+    this.uploadedFile = [];
+    this.columnSelections = {
+      lat: null,
+      lng: null
+    };
+    this.firstRowHeader = true;
   }
 }
 </script>
 <style lang='scss' scoped>
-.upload-workflow {
-  position: relative;
-  height: 384px;
-  border: 1px solid #E0E0E0;
-  border-radius: 4px;
-  padding: 10px;
+.card-footer-item {
+  color: #7957d5;
+  cursor: pointer;
+}
+.content {
+  height: 300px;
   width: 50%;
   min-width: 750px;
-  .upload-workflow__content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .upload-workflow__footer {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-  }
 }
 </style>

@@ -24,6 +24,7 @@
   "dependencies": {
     "@mdi/font": "^5.0.45",
     "ag-grid-community": "^22.1.1",
+    "ag-grid-enterprise": "^23.0.1",
     "ag-grid-vue": "^22.1.1",
     "buefy": "^0.8.13",
     "google-maps": "^4.2.3",

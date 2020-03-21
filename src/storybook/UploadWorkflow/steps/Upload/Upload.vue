@@ -1,18 +1,12 @@
 <template>
-  <section>
-    <b-field>
-      <b-upload v-model="dropFiles" drag-drop @input="fileUploaded" :accept="accept">
-        <section class="section">
-          <div class="content has-text-centered">
-            <p>
-              <b-icon icon="upload" size="is-large"></b-icon>
-            </p>
-            <p>Drop your file here or click to upload</p>
-          </div>
-        </section>
-      </b-upload>
-    </b-field>
-  </section>
+  <b-field>
+    <b-upload v-model="dropFiles" @input="fileUploaded" :accept="accept">
+      <a class="button is-primary">
+        <b-icon icon="upload"></b-icon>
+        <span>Click to upload</span>
+      </a>
+    </b-upload>
+  </b-field>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
@@ -38,6 +32,7 @@ export default class Upload extends Vue {
            * File has been uploaded
            */
           this.$emit("fileUploaded", this.convert(bstr));
+          this.dropFiles = null
         } else {
           this.handleFailure(file);
         }

@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%;">
+  <div class="select-columns">
     <b-checkbox v-model="firstRowHeaderAux">First Row Header</b-checkbox>
     <b-table :data="tableData" :columns="tableColumns">
       <template slot="header" slot-scope="scope">
@@ -106,4 +106,7 @@ export default class SelectColumns extends Vue {
 }
 </script>
 <style lang='scss' scoped>
+.select-columns {
+  height: 100%;
+}
 </style>
