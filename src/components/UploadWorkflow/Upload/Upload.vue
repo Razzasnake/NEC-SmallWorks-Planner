@@ -23,6 +23,10 @@ export default class Upload extends Vue {
   private accept: string = ".xls,.xlr,.xlt,.xlsx,.xlsm,.xlsb,.csv";
 
   private fileUploaded(file: File) {
+    /**
+     * Update the parent with the loading state
+     */
+    this.$emit("updateLoading", true);
     const reader = new FileReader();
     reader.onloadend = e => {
       try {
@@ -32,7 +36,8 @@ export default class Upload extends Vue {
            * File has been uploaded
            */
           this.$emit("fileUploaded", this.convert(bstr));
-          this.dropFiles = null
+          this.dropFiles = null;
+          this.$emit("updateLoading", false);
         } else {
           this.handleFailure(file);
         }
@@ -51,6 +56,7 @@ export default class Upload extends Vue {
 
   private handleFailure(file: File) {
     // TODO
+    this.$emit("updateLoading", false);
   }
 }
 </script>

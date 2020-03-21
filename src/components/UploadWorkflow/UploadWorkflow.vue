@@ -1,7 +1,7 @@
 <template>
   <div>
-    <Upload @fileUploaded="fileUploaded"></Upload>
-    <b-modal :active="step > 0" has-modal-card trap-focus aria-role="dialog" aria-modal>
+    <Upload @fileUploaded="fileUploaded" @updateLoading="updateLoading"></Upload>
+    <b-modal :active="step > 0" :on-cancel="reset" has-modal-card trap-focus aria-role="dialog" aria-modal>
       <div class="card">
         <header class="card-header">
           <p class="card-header-title">{{ title }}</p>
@@ -30,9 +30,9 @@
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
-import Upload from "./steps/Upload/Upload.vue";
-import SelectColumns from "./steps/SelectColumns/SelectColumns.vue";
-import Upsell from "./steps/Upsell/Upsell.vue";
+import Upload from "./Upload/Upload.vue";
+import SelectColumns from "./SelectColumns/SelectColumns.vue";
+import Upsell from "./Upsell/Upsell.vue";
 import UploadedFile from "@/entities/UploadedFile";
 import UploadWorkflowLogic from "./UploadWorkflowLogic";
 
@@ -59,11 +59,11 @@ export default class UploadWorkflow extends Vue {
 
   private get title() {
     if (this.step === 1) {
-      return 'Select Columns'
+      return "Select Columns";
     } else if (this.step === 2) {
-      return 'Upsell'
+      return "Upsell";
     } else {
-      return ''
+      return "";
     }
   }
 
@@ -129,6 +129,13 @@ export default class UploadWorkflow extends Vue {
       lng: null
     };
     this.firstRowHeader = true;
+  }
+
+  private updateLoading(loading: boolean): void {
+    /**
+     * Update the parent with the loading state
+     */
+    this.$emit("updateLoading", loading);
   }
 }
 </script>

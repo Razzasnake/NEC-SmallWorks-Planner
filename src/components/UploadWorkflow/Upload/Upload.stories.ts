@@ -11,11 +11,13 @@ const _Upload = () => ({
   template: `
     <Upload
       @fileUploaded="fileUploaded"
+      @updateLoading="updateLoading"
     ></Upload>`,
   props: {
   },
   methods: {
-    fileUploaded: action('fileUploaded')
+    fileUploaded: action('fileUploaded'),
+    updateLoading: action('updateLoading')
   }
 })
 
