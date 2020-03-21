@@ -7,6 +7,7 @@
     </header>
     <div class="card-content">
       <div class="content">
+        <!-- TODO -->
         {{ clickedMarker }}
       </div>
     </div>
