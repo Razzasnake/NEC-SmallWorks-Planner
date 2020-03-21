@@ -62,7 +62,7 @@ export default class Utils {
   private static t_(s: string): string {
     const t = ['CIRCLE', 'RECTANGLE', 'POLYGON']
     for (let i = 0; i < t.length; ++i) {
-      if (s === google.maps.drawing.OverlayType[t[i]]) {
+      if (s.toUpperCase() === t[i]) {
         return t[i]
       }
     }
@@ -81,7 +81,7 @@ export default class Utils {
     return new google.maps.LatLng(lat, lng)
   }
 
-  private static m_(paths) {
+  private static m_(paths: any[] | any) {
     paths = paths.getArray ? paths.getArray() : paths
     const r: [number, number][][] = []
     for (let i = 0; i < paths.length; ++i) {
@@ -90,7 +90,7 @@ export default class Utils {
     return r
   }
 
-  private static l_(path): [number, number][] {
+  private static l_(path: any): [number, number][] {
     path = path.getArray ? path.getArray() : path
     const r: [number, number][] = []
     for (let i = 0; i < path.length; ++i) {
@@ -106,7 +106,7 @@ export default class Utils {
     )
   }
 
-  private static mm_(paths) {
+  private static mm_(paths: [number, number][][]) {
     const r: google.maps.LatLng[][] = []
     for (let i = 0; i < paths.length; ++i) {
       r.push(this.ll_(paths[i]))

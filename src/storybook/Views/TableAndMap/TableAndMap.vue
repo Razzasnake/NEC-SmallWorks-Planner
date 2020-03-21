@@ -63,7 +63,7 @@ import Split from 'split.js'
 import { cloneDeep } from 'lodash'
 import { TableAndMapMap } from './Types'
 import Utils from './GoogleMap/Utils'
-import { GridApi, RowNode } from 'ag-grid-community'
+import { GridApi, RowNode, CellKeyPressEvent, GridOptions } from 'ag-grid-community'
 import TableLogic from './TableLogic'
 import { LicenseManager } from "ag-grid-enterprise"
 import UploadedFile, { Row } from '@/entities/UploadedFile'
@@ -263,7 +263,7 @@ export default class TableAndMap extends Vue {
     return data.id
   }
 
-  private fillOperation(options) {
+  private fillOperation(options: any) {
     if (options.column.colId === 'isSelected') {
       const toUse = options.initialValues[0]
       /* We have to use nextTick here. Cell ranges isn't updated until after next tick. */
@@ -296,9 +296,9 @@ export default class TableAndMap extends Vue {
     this.clickedMarker = null
   }
 
-  private onCellKeyPress(e): void {
-    if (e.event.keyCode === 32) {
-      e.node.setDataValue('isSelected', e.node.selected)      
+  private onCellKeyPress(e: CellKeyPressEvent): void {
+    if (e.event && (e.event as KeyboardEvent).keyCode === 32) {
+      e.node.setDataValue('isSelected', e.node.isSelected())
     }
   }
 }
