@@ -1,9 +1,9 @@
 <template>
-  <div class="card call-to-action">
-    <div class="card-content">
-      <p class="title">Table &amp; Map</p>
-      <p class="subtitle">View and interact with your geographical data on a map and in a table.</p>
-      <UploadWorkflow class="upload-workflow" @finish="finish"></UploadWorkflow>
+  <div style="text-align: center;">
+    <div class="title">Table &amp; Map</div>
+    <div class="subtitle">Beautiful Map. Winning Presentation. No Nonsense.</div>
+    <div style="display: flex; justify-content: center;">
+      <UploadWorkflow @finish="finish"></UploadWorkflow>
     </div>
   </div>
 </template>
@@ -30,12 +30,4 @@ export default class CallToAction extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-.call-to-action {
-  height: 300px;
-  width: 600px;
-  .upload-workflow {
-    display: flex;
-    justify-content: center;
-  }
-}
 </style>

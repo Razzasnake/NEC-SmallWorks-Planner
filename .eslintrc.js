@@ -5,8 +5,7 @@ module.exports = {
   },
   'extends': [
     'plugin:vue/essential',
-    '@vue/typescript',
-    'plugin:sonarjs/recommended'
+    '@vue/typescript'
   ],
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',

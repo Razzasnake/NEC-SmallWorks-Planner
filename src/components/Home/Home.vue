@@ -1,7 +1,7 @@
 <template>
   <div class="all">
     <NavBar :displayUpload="uploadedFile !== null" @finish="finish" @goHome="goHome"></NavBar>
-    <div class="content" :style="`background: url(${require('@/assets/background.jpg')}) center;`">
+    <div class="content" :style="`background: url(${require('@/assets/background.svg')}) center;`">
       <TableAndMap
         v-if="uploadedFile"
         class="content__table-and-map"
@@ -106,7 +106,6 @@ export default class Home extends Vue {
   height: 100%;
   .content {
     height: calc(100% - 52px);
-    background-size: cover;
     .begin {
       height: 100%;
       display: flex;
