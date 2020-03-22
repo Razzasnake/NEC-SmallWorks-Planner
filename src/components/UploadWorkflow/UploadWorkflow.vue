@@ -11,7 +11,7 @@
     >
       <div class="card">
         <header class="card-header">
-          <p class="card-header-title">{{ title }}</p>
+          <p class="card-header-title">Select Columns</p>
         </header>
         <div class="card-content">
           <div class="content">
@@ -23,13 +23,11 @@
               @updateSelections="updateSelections"
               @updateFirstRowHeader="updateFirstRowHeader"
             ></SelectColumns>
-            <Upsell v-if="step === 2"></Upsell>
           </div>
         </div>
         <div style="padding: 1.5rem; text-align: right;">
-          <b-button @click="back" style="margin-right: 10px;">Back</b-button>
-          <b-button v-if="step < 2" class="is-primary" @click="next" :disabled="nextIsDisabled">Next</b-button>
-          <b-button v-else class="is-primary" @click="finish">Finish</b-button>
+          <b-button @click="reset" style="margin-right: 10px;">Back</b-button>
+          <b-button class="is-primary" @click="finish" :disabled="finishIsDisabled">Finish</b-button>
         </div>
       </div>
     </b-modal>
@@ -39,7 +37,6 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import Upload from "./Upload/Upload.vue";
 import SelectColumns from "./SelectColumns/SelectColumns.vue";
-import Upsell from "./Upsell/Upsell.vue";
 import UploadedFile from "@/entities/UploadedFile";
 import UploadWorkflowLogic from "./UploadWorkflowLogic";
 
@@ -49,32 +46,19 @@ import UploadWorkflowLogic from "./UploadWorkflowLogic";
 @Component({
   components: {
     Upload,
-    SelectColumns,
-    Upsell
+    SelectColumns
   }
 })
 export default class UploadWorkflow extends Vue {
-  private step = 0;
-  private progress = 0;
-
+  private step: number = 0;
   private uploadedFile: any[][] = [];
   private columnSelections: { lat: null | number; lng: null | number } = {
     lat: null,
     lng: null
   };
-  private firstRowHeader: boolean = true;
+  private firstRowHeader: boolean = true
 
-  private get title() {
-    if (this.step === 1) {
-      return "Select Columns";
-    } else if (this.step === 2) {
-      return "Upsell";
-    } else {
-      return "";
-    }
-  }
-
-  private get nextIsDisabled() {
+  private get finishIsDisabled() {
     return (
       this.columnSelections.lat === null || this.columnSelections.lng === null
     );
@@ -88,9 +72,7 @@ export default class UploadWorkflow extends Vue {
       this.columnSelections.lat !== null &&
       this.columnSelections.lng !== null
     ) {
-      /* We have everything we need, skip select columns step. */
-      this.step = 2;
-      this.progress = 100;
+      this.finish();
     } else {
       this.next();
     }
@@ -109,7 +91,6 @@ export default class UploadWorkflow extends Vue {
 
   private next() {
     this.step = this.step + 1;
-    this.progress = this.progress + 50;
   }
 
   private finish() {
@@ -128,17 +109,8 @@ export default class UploadWorkflow extends Vue {
     this.reset();
   }
 
-  private back() {
-    this.step = this.step - 1;
-    this.progress = this.progress - 50;
-    if (this.step === 0) {
-      this.reset();
-    }
-  }
-
   private reset() {
     this.step = 0;
-    this.progress = 0;
     this.uploadedFile = [];
     this.columnSelections = {
       lat: null,

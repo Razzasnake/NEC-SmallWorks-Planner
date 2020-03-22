@@ -20,7 +20,7 @@ export default class UploadWorkflowLogic {
   }
 
   public static guessFirstRowHeader(data: any[][]) {
-    // TODO: to implement
-    return true
+    const notStrings = data[0].filter(_ => typeof _ !== 'string')
+    return notStrings.length === 0
   }
 }
