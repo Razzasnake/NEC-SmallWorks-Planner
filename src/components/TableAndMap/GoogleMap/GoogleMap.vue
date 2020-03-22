@@ -628,7 +628,7 @@ export default class GoogleMap extends Vue {
     div {
       cursor: pointer;
       span {
-        margin: 5px;
+        margin: 2px;
       }
     }
   }
