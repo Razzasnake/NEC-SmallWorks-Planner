@@ -4,7 +4,7 @@
       <div :id="mapId" style="height: 100%;">
         <GoogleMap
           v-if="map"
-          :rowData="rowData"
+          :uploadedFile="uploadedFile"
           :hiddenMarkerIndices="hiddenMarkerIndices"
           :selectedMarkerIndices="selectedMarkerIndices"
           :summary="map.summary"

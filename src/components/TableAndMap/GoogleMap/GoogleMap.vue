@@ -25,7 +25,7 @@
 <script lang='ts'>
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { Loader } from "google-maps";
-import { Row } from "@/entities/UploadedFile";
+import UploadedFile, { Row } from "@/entities/UploadedFile";
 
 type AvailableOverlays =
   | google.maps.Polygon
@@ -42,8 +42,8 @@ export default class GoogleMap extends Vue {
   /**
    * The uploaded file to display on the map
    */
-  @Prop({ default: () => [] })
-  private rowData!: Row[];
+  @Prop()
+  private uploadedFile!: UploadedFile;
   /**
    * All of the polygons being displayed on the map
    */
@@ -148,11 +148,11 @@ export default class GoogleMap extends Vue {
     this.clearSelection();
   }
 
-  @Watch("rowData")
+  @Watch("uploadedFile")
   private initMarkers(): void {
     this.clearMarkers();
     const drawnMarkers: google.maps.Marker[] = [];
-    this.rowData.forEach((row, index) => {
+    this.uploadedFile.data.slice(this.uploadedFile.firstRowHeader ? 1 : 0).forEach((row, index) => {
       if (row.lat === null || row.lng === null) {
         drawnMarkers.push(new google.maps.Marker());
         return;
