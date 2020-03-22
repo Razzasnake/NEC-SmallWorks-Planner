@@ -122,12 +122,14 @@ export default class TableAndMap extends Vue {
   @Watch('uploadedFile')
   private uploadedFileUpdated(): void {
     this.rowData = cloneDeep(this.uploadedFile.data.slice(this.uploadedFile.firstRowHeader ? 1 : 0))
+    this.hiddenMarkerIndices = new Set()
     this.selectedMarkerIndices = new Set(this.uploadedFile.data.map((row, index) => {
       if (row.isSelected) {
         return index
       }
       return -1
     }).filter(_ => _ > -1))
+    this.clickedMarker = null
   }
 
   private created(): void {
