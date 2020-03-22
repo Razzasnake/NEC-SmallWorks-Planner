@@ -25,8 +25,8 @@ const _SelectColumns = () => ({
     },
     columnSelections: {
       default: {
-        lat: null,
-        lng: null
+        lat: 0,
+        lng: 1
       }
     },
     firstRowHeader: {

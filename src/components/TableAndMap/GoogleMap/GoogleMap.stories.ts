@@ -7,12 +7,14 @@ export default {
   component: GoogleMap,
 }
 
+const uploadedFile = uploadedFileGenerator(100)
+
 const _GoogleMap = () => ({
   components: { GoogleMap },
   template:
     `<div style="height: 100vh">
       <GoogleMap
-        :uploadedFile="uploadedFile"
+        :rowData="rowData"
         :hiddenMarkerIndices="hiddenMarkerIndices"
         :selectedMarkerIndices="selectedMarkerIndices"
         :overlayEvents="overlayEvents"
@@ -24,8 +26,8 @@ const _GoogleMap = () => ({
       ></GoogleMap>
     </div>`,
   props: {
-    uploadedFile: {
-      default: uploadedFileGenerator(100)
+    rowData: {
+      default: uploadedFile.data.slice(uploadedFile.firstRowHeader ? 1 : 0)
     },
     hiddenMarkerIndices: {
       default: new Set()

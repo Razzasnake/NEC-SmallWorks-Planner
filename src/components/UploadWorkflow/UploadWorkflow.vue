@@ -1,7 +1,14 @@
 <template>
   <div>
     <Upload @fileUploaded="fileUploaded"></Upload>
-    <b-modal :active="step > 0" :on-cancel="reset" has-modal-card trap-focus aria-role="dialog" aria-modal>
+    <b-modal
+      :active="step > 0"
+      :on-cancel="reset"
+      has-modal-card
+      trap-focus
+      aria-role="dialog"
+      aria-modal
+    >
       <div class="card">
         <header class="card-header">
           <p class="card-header-title">{{ title }}</p>
@@ -19,11 +26,11 @@
             <Upsell v-if="step === 2"></Upsell>
           </div>
         </div>
-        <footer class="card-footer">
-          <span class="card-footer-item" @click="back">Back</span>
-          <span v-if="step < 2" class="card-footer-item" @click="next">Next</span>
-          <span v-else class="card-footer-item" @click="finish">Finish</span>
-        </footer>
+        <div style="padding: 1.5rem; text-align: right;">
+          <b-button @click="back" style="margin-right: 10px;">Back</b-button>
+          <b-button v-if="step < 2" class="is-primary" @click="next" :disabled="nextIsDisabled">Next</b-button>
+          <b-button v-else class="is-primary" @click="finish">Finish</b-button>
+        </div>
       </div>
     </b-modal>
   </div>
@@ -141,5 +148,8 @@ export default class UploadWorkflow extends Vue {
   height: 300px;
   width: 50%;
   min-width: 750px;
+}
+.card__footer {
+  margin: 10px;
 }
 </style>

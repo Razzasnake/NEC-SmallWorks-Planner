@@ -1,26 +1,30 @@
 <template>
-  <div class="select-columns">
-    <b-checkbox v-model="firstRowHeaderAux">First Row Header</b-checkbox>
-    <b-table :data="tableData" :columns="tableColumns">
-      <template slot="header" slot-scope="scope">
-        <b-dropdown hoverable aria-role="list">
-          <button class="button" slot="trigger">
-            <span v-if="scope.index === columnSelectionsAux.lat">Latitude</span>
-            <span v-else-if="scope.index === columnSelectionsAux.lng">Longitude</span>
-            <span v-else>N/A</span>
-            <b-icon icon="menu-down"></b-icon>
-          </button>
-          <b-dropdown-item aria-role="listitem" @click="latClicked(scope.index)">
-            Latitude
-            <b-icon v-if="scope.index === columnSelectionsAux.lat" icon="check" size="is-small"></b-icon>
-          </b-dropdown-item>
-          <b-dropdown-item aria-role="listitem" @click="lngClicked(scope.index)">
-            Longitude
-            <b-icon v-if="scope.index === columnSelectionsAux.lng" icon="check" size="is-small"></b-icon>
-          </b-dropdown-item>
-        </b-dropdown>
-      </template>
-    </b-table>
+  <div>
+    <b-field label="First Row Header">
+      <b-checkbox v-model="firstRowHeaderAux"></b-checkbox>
+    </b-field>
+    <b-field label="Latitude">
+      <b-autocomplete
+        v-model="latSearch"
+        placeholder="Search for a column"
+        :data="filterOptions(latSearch)"
+        @input="latSelect"
+        open-on-focus
+        keep-first
+        clearable
+      ></b-autocomplete>
+    </b-field>
+    <b-field label="Longitude">
+      <b-autocomplete
+        v-model="lngSearch"
+        placeholder="Search for a column"
+        :data="filterOptions(lngSearch)"
+        @input="lngSelect"
+        open-on-focus
+        keep-first
+        clearable
+      ></b-autocomplete>
+    </b-field>
   </div>
 </template>
 <script lang='ts'>
@@ -49,64 +53,89 @@ export default class SelectColumns extends Vue {
   @Prop()
   private firstRowHeader!: boolean;
 
-  private columnSelectionsAux: {
-    lat: null | number;
-    lng: null | number;
-  } = Object.assign({}, this.columnSelections);
+  private latSearch: string = "";
+  private lngSearch: string = "";
 
   private get firstRowHeaderAux() {
     return this.firstRowHeader;
   }
+
   private set firstRowHeaderAux(newVal: boolean) {
     this.$emit("updateFirstRowHeader", newVal);
   }
 
-  private get tableData() {
-    return this.value
-      .slice(this.firstRowHeaderAux ? 1 : 0)
-      .slice(0, 5)
-      .map((row, rowIndex) => {
-        const data: { [key: string]: any } = {};
-        row.forEach((col, colIndex) => {
-          data[colIndex.toString()] = col;
-        });
-        return data;
-      });
-  }
-
-  private get tableColumns() {
-    if (this.value[0]) {
-      return this.value[0].map((col, colIndex) => {
-        return { field: colIndex.toString(), label: colIndex.toString() };
-      });
+  private get allOptions(): string[] {
+    if (this.firstRowHeader) {
+      return this.value[0].map(_ => _.toString());
+    } else {
+      return this.value[0].map((_, index) => `Column ${index.toString()}`);
     }
-    return [];
   }
 
   @Watch("columnSelections")
   private columnSelectionsUpdated() {
-    this.columnSelectionsAux = Object.assign({}, this.columnSelections);
+    this.updateSearchs();
   }
 
-  private latClicked(index: number) {
-    this.columnSelectionsAux.lat = index;
-    if (this.columnSelectionsAux.lng === index) {
-      this.columnSelectionsAux.lng = null;
-    }
-    this.$emit("updateSelections", this.columnSelectionsAux);
+  private created() {
+    this.updateSearchs();
   }
 
-  private lngClicked(index: number) {
-    this.columnSelectionsAux.lng = index;
-    if (this.columnSelectionsAux.lat === index) {
-      this.columnSelectionsAux.lat = null;
+  private updateSearchs() {
+    if (this.columnSelections.lat !== null) {
+      this.latSearch = this.allOptions[this.columnSelections.lat];
+    } else {
+      this.latSearch = "";
     }
-    this.$emit("updateSelections", this.columnSelectionsAux);
+    if (this.columnSelections.lng !== null) {
+      this.lngSearch = this.allOptions[this.columnSelections.lng];
+    } else {
+      this.lngSearch = "";
+    }
+  }
+
+  private filterOptions(search: string | undefined) {
+    if (!search) {
+      return this.allOptions;
+    }
+    return this.allOptions.filter(option => {
+      return (
+        option
+          .toString()
+          .toLowerCase()
+          .indexOf(search.toLowerCase()) >= 0
+      );
+    });
+  }
+
+  private latSelect(latSearch: string) {
+    const columnSelectionsAux = Object.assign({}, this.columnSelections);
+    const index = this.allOptions.indexOf(latSearch);
+    if (index >= 0) {
+      columnSelectionsAux.lat = index;
+      if (columnSelectionsAux.lng === index) {
+        columnSelectionsAux.lng = null;
+      }
+    } else {
+      columnSelectionsAux.lat = null;
+    }
+    this.$emit("updateSelections", columnSelectionsAux);
+  }
+
+  private lngSelect(lngSearch: string) {
+    const columnSelectionsAux = Object.assign({}, this.columnSelections);
+    const index = this.allOptions.indexOf(lngSearch);
+    if (index >= 0) {
+      columnSelectionsAux.lng = index;
+      if (columnSelectionsAux.lat === index) {
+        columnSelectionsAux.lat = null;
+      }
+    } else {
+      columnSelectionsAux.lng = null;
+    }
+    this.$emit("updateSelections", columnSelectionsAux);
   }
 }
 </script>
 <style lang='scss' scoped>
-.select-columns {
-  height: 100%;
-}
 </style>
