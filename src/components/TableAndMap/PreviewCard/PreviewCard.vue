@@ -5,11 +5,7 @@
       <b-button style="width: 50%" v-else @click="deselect">Deselect</b-button>
       <b-button style="width: 50%" @click="close">Close</b-button>
     </header>
-    <div class="card-content">
-      <div class="content">
-        <b-table striped narrowed hoverable :data="tableData" :columns="tableColumns"></b-table>
-      </div>
-    </div>
+    <b-table striped narrowed hoverable :data="tableData" :columns="tableColumns"></b-table>
   </div>
 </template>
 <script lang='ts'>

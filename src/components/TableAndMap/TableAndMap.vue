@@ -308,6 +308,8 @@ export default class TableAndMap extends Vue {
     height: 100%;
     position: relative;
     .entity-preview {
+      height: 100%;
+      overflow: auto;
       z-index: 160;
       position: absolute;
       top: -2px;
