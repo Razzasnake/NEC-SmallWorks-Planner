@@ -58,7 +58,6 @@
 import { Component, Prop, Watch, Vue } from 'vue-property-decorator'
 import { AgGridVue } from 'ag-grid-vue'
 import PreviewCard from './PreviewCard/PreviewCard.vue'
-// import 'ag-grid-enterprise'
 import GoogleMap from './GoogleMap/GoogleMap.vue'
 import Split from 'split.js'
 import { cloneDeep } from 'lodash'
@@ -66,9 +65,7 @@ import { TableAndMapMap } from './Types'
 import Utils from './GoogleMap/Utils'
 import { GridApi, RowNode, CellKeyPressEvent, GridOptions } from 'ag-grid-community'
 import TableLogic from './TableLogic'
-import { LicenseManager } from "ag-grid-enterprise"
 import UploadedFile, { Row } from '@/entities/UploadedFile'
-// LicenseManager.setLicenseKey('[TRIAL]_19_May_2020_[v2]_MTU4OTg0NjQwMDAwMA==d1c6b5b83d825b730415f17032aea8c0')
 
 /**
  * Display the uploaded file in a table and on a map.

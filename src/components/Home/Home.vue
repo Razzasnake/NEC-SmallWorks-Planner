@@ -54,21 +54,29 @@ export default class Home extends Vue {
   private tableLogic: TableLogic | null = null;
 
   private finish(uploadedFile: UploadedFile) {
-    this.tableLogic = new TableLogic(uploadedFile);
     this.uploadedFile = uploadedFile;
-  }
-
-  private goHome(): void {
-    this.uploadedFile = null
-    this.filterChanged({})
-    this.sortChanged([])
+    this.filterChanged({});
+    this.sortChanged([]);
     this.map = {
       summary: [],
       overlayEventJsons: [],
       infoWindowKeys: [],
       allowDraw: true
-    }
-    this.tableLogic = null
+    };
+    this.tableLogic = new TableLogic(uploadedFile);
+  }
+
+  private goHome(): void {
+    this.uploadedFile = null;
+    this.filterChanged({});
+    this.sortChanged([]);
+    this.map = {
+      summary: [],
+      overlayEventJsons: [],
+      infoWindowKeys: [],
+      allowDraw: true
+    };
+    this.tableLogic = null;
   }
 
   private updateOverlayEventJsons(overlayEventJsons: OverlayJson[]) {

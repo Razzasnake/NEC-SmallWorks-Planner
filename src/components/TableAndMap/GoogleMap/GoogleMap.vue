@@ -148,7 +148,7 @@ export default class GoogleMap extends Vue {
     this.clearSelection();
   }
 
-  @Watch("googleMarkers")
+  @Watch("rowData")
   private initMarkers(): void {
     this.clearMarkers();
     const drawnMarkers: google.maps.Marker[] = [];
