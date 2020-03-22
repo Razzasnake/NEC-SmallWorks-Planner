@@ -84,7 +84,16 @@ export default class UploadWorkflow extends Vue {
     this.uploadedFile = data;
     this.columnSelections = UploadWorkflowLogic.guessColumnTypes(data);
     this.firstRowHeader = UploadWorkflowLogic.guessFirstRowHeader(data);
-    this.next();
+    if (
+      this.columnSelections.lat !== null &&
+      this.columnSelections.lng !== null
+    ) {
+      /* We have everything we need, skip select columns step. */
+      this.step = 2;
+      this.progress = 100;
+    } else {
+      this.next();
+    }
   }
 
   private updateFirstRowHeader(newVal: boolean) {
