@@ -153,7 +153,8 @@ export default class GoogleMap extends Vue {
     this.clearMarkers();
     const drawnMarkers: google.maps.Marker[] = [];
     this.rowData.forEach((row, index) => {
-      if (!row.lat && !row.lng) {
+      if (!row.lat || !row.lng) {
+        drawnMarkers.push(new google.maps.Marker())
         return;
       }
       const position = { lat: row.lat!, lng: row.lng! };
