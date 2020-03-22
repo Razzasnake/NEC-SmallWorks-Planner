@@ -46,6 +46,7 @@
         class="entity-preview"
         v-if="clickedMarker"
         :clickedMarker="clickedMarker"
+        :uploadedFile="uploadedFile"
         @select="select"
         @deselect="deselect"
         @close="close"
@@ -83,7 +84,7 @@ export default class TableAndMap extends Vue {
   /**
    * All of the google markers to display in the table and map
    */
-  @Prop({ default: () => [] })
+  @Prop()
   private uploadedFile!: UploadedFile
   /**
    * An object used to apply previous filters

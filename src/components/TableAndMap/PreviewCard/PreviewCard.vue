@@ -1,21 +1,20 @@
 <template>
   <div class="card">
     <header class="card-header">
-      <span v-if="!clickedMarker.isSelected" class="card-footer-item" @click="select">Select</span>
-      <span v-else class="card-footer-item" @click="deselect">Deselect</span>
-      <span class="card-footer-item" @click="close">Close</span>
+      <b-button style="width: 50%" v-if="!clickedMarker.isSelected" @click="select">Select</b-button>
+      <b-button style="width: 50%" v-else @click="deselect">Deselect</b-button>
+      <b-button style="width: 50%" @click="close">Close</b-button>
     </header>
     <div class="card-content">
       <div class="content">
-        <!-- TODO -->
-        {{ clickedMarker }}
+        <b-table striped narrowed hoverable :data="tableData" :columns="tableColumns"></b-table>
       </div>
     </div>
   </div>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { Row } from "@/entities/UploadedFile";
+import UploadedFile, { Row } from "@/entities/UploadedFile";
 
 /**
  * Display a preview of the marker/row that has been clicked.
@@ -24,8 +23,44 @@ import { Row } from "@/entities/UploadedFile";
   components: {}
 })
 export default class PreviewCard extends Vue {
+  /**
+   * The row that was clicked
+   */
   @Prop()
   private clickedMarker!: Row;
+  /**
+   * The entire file that was uploaded
+   */
+  @Prop({ default: null })
+  private uploadedFile!: UploadedFile;
+
+  private get tableData() {
+    let values: { label: any; value: any }[] = [];
+    if (this.uploadedFile.firstRowHeader) {
+      this.uploadedFile.data[0].data.forEach((key, index) => {
+        values.push({ label: key, value: this.clickedMarker.data[index] });
+      });
+    } else {
+      this.uploadedFile.data[0].data.forEach((_, index) => {
+        const key = `Column ${index.toString()}`;
+        values.push({ label: key, value: this.clickedMarker.data[index] });
+      });
+    }
+    return values;
+  }
+
+  private get tableColumns() {
+    return [
+      {
+        field: "label",
+        label: "Label"
+      },
+      {
+        field: "value",
+        label: "Value"
+      }
+    ];
+  }
 
   private select(): void {
     /**

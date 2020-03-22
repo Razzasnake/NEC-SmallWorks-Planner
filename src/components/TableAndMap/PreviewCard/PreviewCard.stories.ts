@@ -7,11 +7,14 @@ export default {
   component: PreviewCard
 }
 
+const uploadedFile = uploadedFileGenerator()
+
 const _PreviewCard = () => ({
   components: { PreviewCard },
   template:
     `<div style="height: 100vh">
       <PreviewCard
+        :uploadedFile="uploadedFile"
         :clickedMarker="clickedMarker"
         @select="select"
         @deselect="deselect"
@@ -19,8 +22,11 @@ const _PreviewCard = () => ({
       ></PreviewCard>
     </div>`,
   props: {
+    uploadedFile: {
+      default: uploadedFile
+    },
     clickedMarker: {
-      default: uploadedFileGenerator().data[0]
+      default: uploadedFile.data[1]
     }
   },
   methods: {
