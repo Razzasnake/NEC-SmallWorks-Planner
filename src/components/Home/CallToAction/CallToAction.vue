@@ -1,7 +1,7 @@
 <template>
   <div style="text-align: center;">
     <div class="title">Table &amp; Map</div>
-    <div class="subtitle">Beautiful Map. Winning Presentation. No Nonsense.</div>
+    <div class="subtitle">View data in an interactive map. Upload an excel/csv file and see for yourself!</div>
     <div style="display: flex; justify-content: center;">
       <UploadWorkflow @finish="finish"></UploadWorkflow>
     </div>
