@@ -1,44 +1,42 @@
 <template>
-  <div class="table-and-map">
-    <div class="content">
-      <div :id="mapId" style="height: 100%;">
-        <GoogleMap
-          v-if="map"
-          :uploadedFile="uploadedFile"
-          :hiddenMarkerIndices="hiddenMarkerIndices"
-          :selectedMarkerIndices="selectedMarkerIndices"
-          :summary="map.summary"
-          :overlayEvents="overlayEvents"
-          :createInfoWindow="createInfoWindow"
-          :allowDraw="map.allowDraw"
-          @markerSelected="markerSelected"
-          @updateOverlayEvents="updateOverlayEvents"
-        ></GoogleMap>
-      </div>
-      <div :id="tableId" style="height: 100%;">
-        <Table
-          ref="Table"
-          :rowData="rowData"
-          :filters="filters"
-          :sorting="sorting"
-          :tableLogic="tableLogic"
-          :overlayEvents="overlayEvents"
-          @rowSelectionsChanged="rowSelectionsChanged"
-          @sortChanged="sortChanged"
-          @filterChanged="filterChanged"
-          @hiddenMarkerIndicesChanged="hiddenMarkerIndicesChanged"
-        ></Table>
-      </div>
-      <PreviewCard
-        class="entity-preview"
-        v-if="clickedMarker"
-        :clickedMarker="clickedMarker"
+  <div class="table-and-map full-height">
+    <div :id="mapId" class="full-height">
+      <GoogleMap
+        v-if="map"
         :uploadedFile="uploadedFile"
-        @select="$refs.Table.select"
-        @deselect="$refs.Table.deselect"
-        @close="close"
-      ></PreviewCard>
+        :hiddenMarkerIndices="hiddenMarkerIndices"
+        :selectedMarkerIndices="selectedMarkerIndices"
+        :summary="map.summary"
+        :overlayEvents="overlayEvents"
+        :createInfoWindow="createInfoWindow"
+        :allowDraw="map.allowDraw"
+        @markerSelected="markerSelected"
+        @updateOverlayEvents="updateOverlayEvents"
+      ></GoogleMap>
     </div>
+    <div :id="tableId" class="full-height">
+      <Table
+        ref="Table"
+        :rowData="rowData"
+        :filters="filters"
+        :sorting="sorting"
+        :tableLogic="tableLogic"
+        :overlayEvents="overlayEvents"
+        @rowSelectionsChanged="rowSelectionsChanged"
+        @sortChanged="sortChanged"
+        @filterChanged="filterChanged"
+        @hiddenMarkerIndicesChanged="hiddenMarkerIndicesChanged"
+      ></Table>
+    </div>
+    <PreviewCard
+      class="entity-preview"
+      v-if="clickedMarker"
+      :clickedMarker="clickedMarker"
+      :uploadedFile="uploadedFile"
+      @select="$refs.Table.select"
+      @deselect="$refs.Table.deselect"
+      @close="close"
+    ></PreviewCard>
   </div>
 </template>
 <script lang='ts'>
@@ -228,23 +226,24 @@ export default class TableAndMap extends Vue {
   }
 }
 </script>
-<style lang='scss'>
-.table-and-map {
+<style lang='scss' scoped>
+.full-height {
   height: 100%;
-  .content {
+}
+.table-and-map {
+  position: relative;
+  .entity-preview {
     height: 100%;
-    position: relative;
-    .entity-preview {
-      height: 100%;
-      overflow: auto;
-      z-index: 160;
-      position: absolute;
-      top: -2px;
-      right: 0px;
-      width: 500px;
-    }
+    overflow: auto;
+    z-index: 160;
+    position: absolute;
+    top: -2px;
+    right: 0px;
+    width: 500px;
   }
 }
+</style>
+<style lang='scss'>
 .gutter {
   background-color: #eeeeee;
   background-repeat: no-repeat;

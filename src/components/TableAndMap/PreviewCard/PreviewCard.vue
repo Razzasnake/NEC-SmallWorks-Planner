@@ -1,9 +1,9 @@
 <template>
   <div class="card">
     <header class="card-header">
-      <b-button style="width: 50%" v-if="!clickedMarker.isSelected" @click="select">Select</b-button>
-      <b-button style="width: 50%" v-else @click="deselect">Deselect</b-button>
-      <b-button style="width: 50%" @click="close">Close</b-button>
+      <b-button class="width-50" v-if="!clickedMarker.isSelected" @click="select">Select</b-button>
+      <b-button class="width-50" v-else @click="deselect">Deselect</b-button>
+      <b-button class="width-50" @click="close">Close</b-button>
     </header>
     <b-table striped narrowed hoverable :data="tableData" :columns="tableColumns"></b-table>
   </div>
@@ -90,5 +90,8 @@ export default class PreviewCard extends Vue {
 .card-footer-item {
   color: #7957d5;
   cursor: pointer;
+}
+.width-50 {
+  width: 50%;
 }
 </style>
