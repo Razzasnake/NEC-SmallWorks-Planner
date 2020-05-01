@@ -87,10 +87,6 @@ export default class PreviewCard extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-.card-footer-item {
-  color: #7957d5;
-  cursor: pointer;
-}
 .width-50 {
   width: 50%;
 }

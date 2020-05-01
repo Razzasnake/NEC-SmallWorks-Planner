@@ -121,10 +121,6 @@ export default class UploadWorkflow extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-.card-footer-item {
-  color: #7957d5;
-  cursor: pointer;
-}
 .content {
   height: 300px;
   width: 50%;
