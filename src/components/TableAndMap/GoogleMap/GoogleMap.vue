@@ -152,30 +152,32 @@ export default class GoogleMap extends Vue {
   private initMarkers(): void {
     this.clearMarkers();
     const drawnMarkers: google.maps.Marker[] = [];
-    this.uploadedFile.data.slice(this.uploadedFile.firstRowHeader ? 1 : 0).forEach((row, index) => {
-      if (row.lat === null || row.lng === null) {
-        drawnMarkers.push(new google.maps.Marker());
-        return;
-      }
-      const position = { lat: row.lat!, lng: row.lng! };
-      const newMarker = this.createMarker(position, row.isSelected);
-      newMarker.addListener("click", () => {
-        if (this.map) {
-          this.map.panTo(position);
-          /**
-           * Notify the parent of the marker that has been clicked
-           *
-           * @type {string}
-           */
-          this.$emit("markerSelected", row.id);
+    this.uploadedFile.data
+      .slice(this.uploadedFile.firstRowHeader ? 1 : 0)
+      .forEach((row, index) => {
+        if (row.lat === null || row.lng === null) {
+          drawnMarkers.push(new google.maps.Marker());
+          return;
         }
+        const position = { lat: row.lat!, lng: row.lng! };
+        const newMarker = this.createMarker(position, row.isSelected);
+        newMarker.addListener("click", () => {
+          if (this.map) {
+            this.map.panTo(position);
+            /**
+             * Notify the parent of the marker that has been clicked
+             *
+             * @type {string}
+             */
+            this.$emit("markerSelected", row.id);
+          }
+        });
+        this.addInfoWindow(newMarker, row);
+        if (this.hiddenMarkerIndices.has(index)) {
+          newMarker.setVisible(false);
+        }
+        drawnMarkers.push(newMarker);
       });
-      this.addInfoWindow(newMarker, row);
-      if (this.hiddenMarkerIndices.has(index)) {
-        newMarker.setVisible(false);
-      }
-      drawnMarkers.push(newMarker);
-    });
     this.markers = drawnMarkers;
   }
 
@@ -228,7 +230,7 @@ export default class GoogleMap extends Vue {
     return loader;
   }
 
-  private mounted(): void {
+  private created(): void {
     this.injectGoogleMapsLibrary().then(google => {
       const mapEl = document.getElementById(this.mapId);
       if (!mapEl) {

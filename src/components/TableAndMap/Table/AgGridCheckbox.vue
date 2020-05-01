@@ -12,20 +12,7 @@ import { ICellRendererParams } from "ag-grid-community";
  * A checkbox renderer to be used in ag-grid.
  */
 @Component({
-  template: `
-    <div style="cursor: pointer">
-      <span
-        v-if="state.isChecked"
-        class="ag-icon ag-icon-checkbox-checked"
-        @click="change"
-      ></span>
-      <span
-        v-else
-        class="ag-icon ag-icon-checkbox-unchecked"
-        @click="change"
-      ></span>
-    </div>
-  `
+  components: {}
 })
 export default class AgGridCheckbox extends Vue {
   private state = { isChecked: false };
