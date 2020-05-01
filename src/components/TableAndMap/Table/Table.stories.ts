@@ -1,34 +1,34 @@
-import TableLogic from './Table/TableLogic'
-import TableAndMap from './TableAndMap.vue'
+import TableLogic from './TableLogic'
+import Table from './Table.vue'
 import { action } from '@storybook/addon-actions'
 import { uploadedFileGenerator } from '@/generator/UploadedFileGenerator'
 
 export default {
-  title: 'TableAndMap|TableAndMap',
-  component: TableAndMap
+  title: 'TableandMap|Table',
+  component: Table
 }
 
 const uploadedFile = uploadedFileGenerator()
 
-const _TableAndMap = () => ({
-  components: { TableAndMap },
+const _Table = () => ({
+  components: { Table },
   template:
     `<div style="height: 100vh">
-      <TableAndMap
-        :uploadedFile="uploadedFile"
+      <Table
+        :rowData="rowData"
         :filters="filters"
         :sorting="sorting"
-        :map="map"
         :tableLogic="tableLogic"
-        @updateOverlayEventJsons="updateOverlayEventJsons"
+        :overlayEvents="overlayEvents"
         @rowSelectionsChanged="rowSelectionsChanged"
         @sortChanged="sortChanged"
         @filterChanged="filterChanged"
-      ></TableAndMap>
+        @hiddenMarkerIndicesChanged="hiddenMarkerIndicesChanged"
+      ></Table>
     </div>`,
   props: {
-    uploadedFile: {
-      default: uploadedFile
+    rowData: {
+      default: uploadedFile.data.slice(uploadedFile.firstRowHeader ? 1 : 0)
     },
     filters: {
       default: []
@@ -38,26 +38,17 @@ const _TableAndMap = () => ({
     },
     tableLogic: {
       default: new TableLogic(uploadedFile)
-    }
-  },
-  data() {
-    return {
-      map: {
-        summary: [],
-        overlayEventJsons: [],
-        infoWindowKeys: [],
-        allowDraw: true
-      }
+    },
+    overlayEvents: {
+      default: []
     }
   },
   methods: {
-    updateOverlayEventJsons(newJsons) {
-      (this as any).$data.map.overlayEventJsons = newJsons
-    },
     rowSelectionsChanged: action('rowSelectionsChanged'),
     sortChanged: action('sortChanged'),
-    filterChanged: action('filterChanged')
+    filterChanged: action('filterChanged'),
+    hiddenMarkerIndicesChanged: action('hiddenMarkerIndicesChanged')
   }
 })
 
-export { _TableAndMap }
+export { _Table }
