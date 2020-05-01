@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions'
 
 export default {
   component: FileOption,
-  title: 'Toolbar|Options/FileOption'
+  title: 'NavBar|Options/FileOption'
 }
 
 const _FileOption = () => ({

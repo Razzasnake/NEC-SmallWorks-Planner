@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions'
 
 export default {
   component: ViewOption,
-  title: 'Toolbar|Options/ViewOption'
+  title: 'NavBar|Options/ViewOption'
 }
 
 const _ViewOption = () => ({
