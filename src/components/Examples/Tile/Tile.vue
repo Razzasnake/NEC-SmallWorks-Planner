@@ -7,7 +7,8 @@
         </div>
         <div class="column">
           <div class="title">
-            <span>{{ exampleAnalysis.title }}</span>
+            <span>{{ exampleAnalysis.title }} </span>
+            <a :href="exampleAnalysis.url" target="_blank"><b-icon icon="link"></b-icon></a>
             <span class="float-right">
               <b-tag type="is-light">{{ exampleAnalysis.formattedCreatedOn }}</b-tag>
             </span>

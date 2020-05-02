@@ -1,5 +1,6 @@
 <template>
   <div class="examples">
+    <b-loading :active="loading"></b-loading>
     <div v-for="example in exampleAnalyses" :key="example.id" class="example">
       <Tile :exampleAnalysis="example" @preview="preview"></Tile>
     </div>
@@ -21,6 +22,7 @@ import UploadedFile from "@/entities/UploadedFile";
 })
 export default class Examples extends Vue {
   private exampleAnalyses: ExampleAnalysis[] = [];
+  private loading = true;
 
   private async created() {
     this.exampleAnalyses = [
@@ -42,6 +44,7 @@ export default class Examples extends Vue {
         }
       })
     ];
+    this.loading = false
   }
 
   private preview(exampleAnalysis: ExampleAnalysis) {
