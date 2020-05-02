@@ -15,8 +15,7 @@ const _NavBar = () => ({
       :viewOptions="viewOptions"
       @finish="finish"
       @goHome="goHome"
-      @clearFilters="clearFilters"
-      @updateViewOptions="updateViewOptions"
+      @updateSettings="updateSettings"
     ></NavBar>`,
   props: {
     inAnalysis: {
@@ -29,8 +28,7 @@ const _NavBar = () => ({
   methods: {
     finish: action('finish'),
     goHome: action('goHome'),
-    clearFilters: action('clearFilters'),
-    updateViewOptions: action('updateViewOptions')
+    updateSettings: action('updateSettings')
   }
 })
 

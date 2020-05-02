@@ -3,7 +3,7 @@
     <div slot="trigger" class="option">
       <span>File</span>
     </div>
-    <b-dropdown-item @click="clearFilters">Clear Filters</b-dropdown-item>
+    <b-dropdown-item @click="updateSettings">Update Settings</b-dropdown-item>
   </b-dropdown>
 </template>
 <script lang='ts'>
@@ -16,8 +16,8 @@ import { Component, Prop, Vue } from "vue-property-decorator";
   components: {}
 })
 export default class FileOption extends Vue {
-  private clearFilters(): void {
-    this.$emit("clearFilters");
+  private updateSettings(): void {
+    this.$emit("updateSettings");
   }
 }
 </script>

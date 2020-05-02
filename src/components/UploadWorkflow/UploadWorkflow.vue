@@ -25,8 +25,8 @@
             ></SelectColumns>
           </div>
         </div>
-        <div style="padding: 1.5rem; text-align: right;">
-          <b-button @click="reset" style="margin-right: 10px;">Back</b-button>
+        <div class="upload-footer">
+          <b-button @click="reset" class="margin-right">Back</b-button>
           <b-button class="is-primary" @click="finish" :disabled="finishIsDisabled">Finish</b-button>
         </div>
       </div>
@@ -56,7 +56,7 @@ export default class UploadWorkflow extends Vue {
     lat: null,
     lng: null
   };
-  private firstRowHeader: boolean = true
+  private firstRowHeader: boolean = true;
 
   private get finishIsDisabled() {
     return (
@@ -128,5 +128,12 @@ export default class UploadWorkflow extends Vue {
 }
 .card__footer {
   margin: 10px;
+}
+.upload-footer {
+  padding: 1.5rem;
+  text-align: right;
+  .margin-right {
+    margin-right: 10px;
+  }
 }
 </style>

@@ -5,7 +5,7 @@
         <div @click="goHome" class="clickable">Table &amp; Map</div>
       </div>
       <div class="navbar-item" v-if="inAnalysis">
-        <FileOption class="navbar-item" @clearFilters="clearFilters"></FileOption>
+        <FileOption class="navbar-item" @updateSettings="updateSettings"></FileOption>
       </div>
       <div class="navbar-item" v-if="inAnalysis">
         <ViewOption :viewOptions="viewOptions" @updateViewOptions="updateViewOptions"></ViewOption>
@@ -61,11 +61,11 @@ export default class NavBar extends Vue {
     this.$emit("goHome");
   }
 
-  private clearFilters() {
+  private updateSettings() {
     /**
-     * Clear the filters
+     * Update the setttings of this file
      */
-    this.$emit("clearFilters");
+    this.$emit('updateSettings')
   }
 
   private updateViewOptions(viewOptions: string[]) {

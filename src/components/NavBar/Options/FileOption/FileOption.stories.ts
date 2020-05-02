@@ -10,12 +10,12 @@ const _FileOption = () => ({
   components: { FileOption },
   template: `
     <FileOption
-      @clearFilters="clearFilters"
+      @updateSettings="updateSettings"
     ></FileOption>`,
   props: {
   },
   methods: {
-    clearFilters: action('clearFilters')
+    updateSettings: action('updateSettings')
   }
 })
 

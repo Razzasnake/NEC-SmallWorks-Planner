@@ -5,7 +5,7 @@
       :viewOptions="viewOptions"
       @finish="finish"
       @goHome="goHome"
-      @clearFilters="clearFilters"
+      @updateSettings="updateSettings"
       @updateViewOptions="updateViewOptions"
     ></NavBar>
     <div class="content" :style="`background: url(${require('@/assets/background.svg')}) center;`">
@@ -59,10 +59,11 @@ export default class Home extends Vue {
     allowDraw: true
   };
   private tableLogic: TableLogic | null = null;
-  private viewOptions: string[] = ['map', 'table']
+  private viewOptions: string[] = ["map", "table"];
+  private updateSettingsVisible: boolean = false;
 
   private get inAnalysis(): boolean {
-    return this.uploadedFile !== null
+    return this.uploadedFile !== null;
   }
 
   private finish(uploadedFile: UploadedFile) {
@@ -75,6 +76,7 @@ export default class Home extends Vue {
       allowDraw: true
     };
     this.tableLogic = new TableLogic(uploadedFile);
+    this.updateSettingsVisible = false;
   }
 
   private goHome(): void {
@@ -110,13 +112,12 @@ export default class Home extends Vue {
     this.filters = filters;
   }
 
-  private clearFilters() {
-    this.filterChanged({});
-    this.map.overlayEventJsons = [];
+  private updateSettings() {
+    this.updateSettingsVisible = true;
   }
 
   private updateViewOptions(viewOptions: string[]) {
-    this.viewOptions = viewOptions
+    this.viewOptions = viewOptions;
   }
 }
 </script>
