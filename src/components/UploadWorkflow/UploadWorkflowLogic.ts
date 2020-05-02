@@ -15,6 +15,7 @@ export default class UploadWorkflowLogic {
           columnSelections.lng = index;
         }
       });
+      // TODO: If we can't find perfect equality, let's see if it contains the string
     }
     return columnSelections
   }

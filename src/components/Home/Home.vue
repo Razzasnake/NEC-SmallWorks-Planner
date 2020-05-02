@@ -1,10 +1,24 @@
 <template>
   <div class="all">
-    <NavBar :displayUpload="uploadedFile !== null" @finish="finish" @goHome="goHome"></NavBar>
+    <NavBar
+      :inAnalysis="inAnalysis"
+      :viewOptions="viewOptions"
+      @finish="finish"
+      @goHome="goHome"
+      @updateSettings="updateSettings"
+      @updateViewOptions="updateViewOptions"
+    ></NavBar>
+    <UploadWorkflow
+      v-if="uploadedFile && updateSettingsVisible"
+      :passedUploadedFile="uploadedFile"
+      @finish="finish"
+      @closeModal="closeUpdateSettings"
+    ></UploadWorkflow>
     <div class="content" :style="`background: url(${require('@/assets/background.svg')}) center;`">
       <TableAndMap
         v-if="uploadedFile"
         class="content__table-and-map"
+        :viewOptions="viewOptions"
         :uploadedFile="uploadedFile"
         :filters="filters"
         :sorting="sorting"
@@ -25,6 +39,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import TableAndMap from "@/components/TableAndMap/TableAndMap.vue";
 import CallToAction from "./CallToAction/CallToAction.vue";
+import UploadWorkflow from "@/components/UploadWorkflow/UploadWorkflow.vue";
 import UploadedFile from "@/entities/UploadedFile";
 import TableLogic from "@/components/TableAndMap/Table/TableLogic";
 import { OverlayJson } from "../TableAndMap/GoogleMap/Utils";
@@ -37,6 +52,7 @@ import NavBar from "@/components/NavBar/NavBar.vue";
 @Component({
   components: {
     NavBar,
+    UploadWorkflow,
     CallToAction,
     TableAndMap
   }
@@ -46,24 +62,29 @@ export default class Home extends Vue {
   private filters: { [colId: string]: any } = {};
   private sorting: { colId: string; sort: string }[] = [];
   private map: TableAndMapMap = {
-    summary: [],
     overlayEventJsons: [],
     infoWindowKeys: [],
     allowDraw: true
   };
   private tableLogic: TableLogic | null = null;
+  private viewOptions: string[] = ["map", "table"];
+  private updateSettingsVisible: boolean = false;
+
+  private get inAnalysis(): boolean {
+    return this.uploadedFile !== null;
+  }
 
   private finish(uploadedFile: UploadedFile) {
     this.uploadedFile = uploadedFile;
     this.filterChanged({});
     this.sortChanged([]);
     this.map = {
-      summary: [],
       overlayEventJsons: [],
       infoWindowKeys: [],
       allowDraw: true
     };
     this.tableLogic = new TableLogic(uploadedFile);
+    this.updateSettingsVisible = false;
   }
 
   private goHome(): void {
@@ -71,7 +92,6 @@ export default class Home extends Vue {
     this.filterChanged({});
     this.sortChanged([]);
     this.map = {
-      summary: [],
       overlayEventJsons: [],
       infoWindowKeys: [],
       allowDraw: true
@@ -99,13 +119,26 @@ export default class Home extends Vue {
   private filterChanged(filters: { [colId: string]: any }) {
     this.filters = filters;
   }
+
+  private updateSettings() {
+    this.updateSettingsVisible = true;
+  }
+
+  private closeUpdateSettings() {
+    this.updateSettingsVisible = false
+  }
+
+  private updateViewOptions(viewOptions: string[]) {
+    this.viewOptions = viewOptions;
+  }
+
 }
 </script>
 <style lang='scss' scoped>
 .all {
   height: 100%;
   .content {
-    height: calc(100% - 52px);
+    height: calc(100% - 56px);
     .begin {
       height: 100%;
       display: flex;

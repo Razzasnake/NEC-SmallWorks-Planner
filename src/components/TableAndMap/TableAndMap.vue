@@ -1,12 +1,11 @@
 <template>
   <div class="table-and-map full-height">
-    <div :id="mapId" class="full-height">
+    <div :id="mapId" :class="sectionClass" v-show="hasMap">
       <GoogleMap
         v-if="map"
         :uploadedFile="uploadedFile"
         :hiddenMarkerIndices="hiddenMarkerIndices"
         :selectedMarkerIndices="selectedMarkerIndices"
-        :summary="map.summary"
         :overlayEvents="overlayEvents"
         :createInfoWindow="createInfoWindow"
         :allowDraw="map.allowDraw"
@@ -14,7 +13,7 @@
         @updateOverlayEvents="updateOverlayEvents"
       ></GoogleMap>
     </div>
-    <div :id="tableId" class="full-height">
+    <div :id="tableId" :class="sectionClass" v-show="hasTable">
       <Table
         ref="Table"
         :rowData="rowData"
@@ -51,6 +50,9 @@ import Utils from "./GoogleMap/Utils";
 import TableLogic from "./Table/TableLogic";
 import UploadedFile, { Row } from "@/entities/UploadedFile";
 
+interface Split {
+  destroy: () => void;
+}
 /**
  * Display the uploaded file in a table and on a map.
  */
@@ -62,6 +64,11 @@ import UploadedFile, { Row } from "@/entities/UploadedFile";
   }
 })
 export default class TableAndMap extends Vue {
+  /**
+   * The current view settings
+   */
+  @Prop({ default: () => ["table", "map"] })
+  private viewOptions!: string[];
   /**
    * All of the google markers to display in the table and map
    */
@@ -102,6 +109,22 @@ export default class TableAndMap extends Vue {
   private hiddenMarkerIndices: Set<number> = new Set();
   private selectedMarkerIndices: Set<number> = new Set();
   private clickedMarker: Row | null = null;
+  private splitInstance: Split | null = null;
+
+  private get hasMap(): boolean {
+    return this.viewOptions.indexOf("map") > -1;
+  }
+
+  private get hasTable(): boolean {
+    return this.viewOptions.indexOf("table") > -1;
+  }
+
+  private get sectionClass(): string {
+    if (this.hasMap && this.hasTable) {
+      return "half-height";
+    }
+    return "full-height";
+  }
 
   private get overlayEvents(): google.maps.drawing.OverlayCompleteEvent[] {
     if (this.map) {
@@ -129,20 +152,30 @@ export default class TableAndMap extends Vue {
     this.clickedMarker = null;
   }
 
+  @Watch("viewOptions")
+  private viewOptionsUpdated(): void {
+    if (
+      document.getElementById(this.mapId) &&
+      document.getElementById(this.tableId)
+    ) {
+      if (this.hasMap && this.hasTable) {
+        this.splitInstance = Split([`#${this.mapId}`, `#${this.tableId}`], {
+          direction: "vertical",
+          sizes: [50, 50]
+        });
+      } else if (this.splitInstance) {
+        this.splitInstance.destroy();
+        this.splitInstance = null;
+      }
+    }
+  }
+
   private created(): void {
     this.uploadedFileUpdated();
   }
 
   private mounted(): void {
-    if (
-      document.getElementById(this.mapId) &&
-      document.getElementById(this.tableId)
-    ) {
-      Split([`#${this.mapId}`, `#${this.tableId}`], {
-        direction: "vertical",
-        sizes: [50, 50]
-      });
-    }
+    this.viewOptionsUpdated();
   }
 
   private createInfoWindow(
@@ -224,11 +257,26 @@ export default class TableAndMap extends Vue {
   private close(): void {
     this.clickedMarker = null;
   }
+
+  private mapOnlySelectDeselect(ids: Set<string>) {
+    const selectedMarkerIndices: Set<number> = new Set();
+    const selectedMarkerIds: string[] = [];
+    this.rowData.forEach((row, index) => {
+      if (ids.has(row.id)) {
+        selectedMarkerIndices.add(index);
+        selectedMarkerIds.push(row.id);
+      }
+    });
+    this.rowSelectionsChanged({ selectedMarkerIndices, selectedMarkerIds });
+  }
 }
 </script>
 <style lang='scss' scoped>
 .full-height {
   height: 100%;
+}
+.half-height {
+  height: 50%;
 }
 .table-and-map {
   position: relative;

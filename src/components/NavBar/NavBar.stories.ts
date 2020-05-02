@@ -11,18 +11,24 @@ const _NavBar = () => ({
   components: { NavBar },
   template: `
     <NavBar
-      :displayUpload="displayUpload"
+      :inAnalysis="inAnalysis"
+      :viewOptions="viewOptions"
       @finish="finish"
       @goHome="goHome"
+      @updateSettings="updateSettings"
     ></NavBar>`,
   props: {
-    displayUpload: {
-      default: boolean('displayUpload', true)
+    inAnalysis: {
+      default: boolean('inAnalysis', true)
+    },
+    viewOptions: {
+      default: ['table', 'map']
     }
   },
   methods: {
     finish: action('finish'),
-    goHome: action('goHome')
+    goHome: action('goHome'),
+    updateSettings: action('updateSettings')
   }
 })
 

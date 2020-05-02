@@ -2,7 +2,7 @@
   <b-field>
     <b-loading :active="loading"></b-loading>
     <b-upload v-model="dropFiles" @input="fileUploaded" :accept="accept">
-      <a class="button grey">
+      <a class="button is-primary">
         <b-icon icon="upload"></b-icon>
         <span>Click to upload</span>
       </a>
@@ -63,8 +63,4 @@ export default class Upload extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-.grey {
-  background-color: #757575;
-  color: #F5F5F5;
-}
 </style>

@@ -30,6 +30,10 @@ export default class UploadedFile {
   public columnSelections: { lat: number, lng: number };
   public firstRowHeader: boolean;
 
+  public get rawData(): any[][] {
+    return this.data.map(row => row.data)
+  }
+
   constructor(obj: { data: any[][], columnSelections: { lat: number, lng: number }, firstRowHeader: boolean }) {
     this.data = obj.data.map((_, index) => new Row(index, _, obj.columnSelections));
     this.columnSelections = obj.columnSelections;

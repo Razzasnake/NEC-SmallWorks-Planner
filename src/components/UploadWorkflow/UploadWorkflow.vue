@@ -25,8 +25,8 @@
             ></SelectColumns>
           </div>
         </div>
-        <div style="padding: 1.5rem; text-align: right;">
-          <b-button @click="reset" style="margin-right: 10px;">Back</b-button>
+        <div class="upload-footer">
+          <b-button @click="reset" class="margin-right">Back</b-button>
           <b-button class="is-primary" @click="finish" :disabled="finishIsDisabled">Finish</b-button>
         </div>
       </div>
@@ -50,18 +50,30 @@ import UploadWorkflowLogic from "./UploadWorkflowLogic";
   }
 })
 export default class UploadWorkflow extends Vue {
+  @Prop({ default: null })
+  private passedUploadedFile!: UploadedFile | null;
+
   private step: number = 0;
   private uploadedFile: any[][] = [];
   private columnSelections: { lat: null | number; lng: null | number } = {
     lat: null,
     lng: null
   };
-  private firstRowHeader: boolean = true
+  private firstRowHeader: boolean = true;
 
   private get finishIsDisabled() {
     return (
       this.columnSelections.lat === null || this.columnSelections.lng === null
     );
+  }
+
+  private created() {
+    if (this.passedUploadedFile) {
+      this.uploadedFile = this.passedUploadedFile.rawData;
+      this.columnSelections = this.passedUploadedFile.columnSelections;
+      this.firstRowHeader = this.passedUploadedFile.firstRowHeader;
+      this.next();
+    }
   }
 
   private fileUploaded(data: any[][]) {
@@ -117,14 +129,11 @@ export default class UploadWorkflow extends Vue {
       lng: null
     };
     this.firstRowHeader = true;
+    this.$emit('closeModal')
   }
 }
 </script>
 <style lang='scss' scoped>
-.card-footer-item {
-  color: #7957d5;
-  cursor: pointer;
-}
 .content {
   height: 300px;
   width: 50%;
@@ -132,5 +141,12 @@ export default class UploadWorkflow extends Vue {
 }
 .card__footer {
   margin: 10px;
+}
+.upload-footer {
+  padding: 1.5rem;
+  text-align: right;
+  .margin-right {
+    margin-right: 10px;
+  }
 }
 </style>
