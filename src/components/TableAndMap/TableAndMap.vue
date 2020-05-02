@@ -182,9 +182,23 @@ export default class TableAndMap extends Vue {
     marker: google.maps.Marker,
     row: Row
   ): google.maps.InfoWindow | null {
-    return new google.maps.InfoWindow({
-      content: `TODO: Info Window - ${row.index}`
-    });
+    if (this.uploadedFile.firstRowHeader) {
+      const keys = ['Name', 'Address']
+      let content = ''
+      this.uploadedFile.data[0].data.forEach((header: string, index: number) => {
+        keys.forEach(key => {
+          if (header.toLowerCase().indexOf(key.toLowerCase()) > -1) {
+            content = content + `<div><b>${header}:</b> ${row[index]}</div>`
+          }
+        })
+      })
+      if (content.length) {
+        return new google.maps.InfoWindow({
+          content,
+        });
+      }
+    }
+    return null
   }
 
   private markerSelected(id: string): void {
