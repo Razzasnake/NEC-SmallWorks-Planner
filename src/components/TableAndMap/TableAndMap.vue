@@ -6,7 +6,6 @@
         :uploadedFile="uploadedFile"
         :hiddenMarkerIndices="hiddenMarkerIndices"
         :selectedMarkerIndices="selectedMarkerIndices"
-        :summary="map.summary"
         :overlayEvents="overlayEvents"
         :createInfoWindow="createInfoWindow"
         :allowDraw="map.allowDraw"

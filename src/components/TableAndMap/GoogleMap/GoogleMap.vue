@@ -8,17 +8,6 @@
       size="mini"
       icon="el-icon-delete"
     >Delete Boundary</b-button>
-    <div class="card summary">
-      <!-- @slot Slot for the summary in the top-right of the map. -->
-      <slot name="summary">
-        <table>
-          <tr v-for="(x, index) in summary" :key="index">
-            <td>{{ x.label }}</td>
-            <td align="right">{{ x.value }}</td>
-          </tr>
-        </table>
-      </slot>
-    </div>
     <div class="google-map" :id="mapId" />
   </div>
 </template>
@@ -49,11 +38,6 @@ export default class GoogleMap extends Vue {
    */
   @Prop({ default: () => [] })
   private overlayEvents!: google.maps.drawing.OverlayCompleteEvent[];
-  /**
-   * Data to display in the top-right of map with high level aggregated data
-   */
-  @Prop({ default: () => [] })
-  private summary!: { label: string; value: string }[];
   /**
    * Function that creates a google maps info window, passed in to keep class generic
    */
@@ -611,15 +595,8 @@ export default class GoogleMap extends Vue {
   margin: 5px;
   z-index: 10;
   top: -1px;
-  left: 140px;
-}
-.summary {
-  position: absolute;
-  margin: 5px;
-  z-index: 10;
-  top: -1px;
-  right: 0px;
-  font-size: 14px;
+  left: 120px;
+  font-size: 13px;
 }
 </style>
 <style lang='scss'>

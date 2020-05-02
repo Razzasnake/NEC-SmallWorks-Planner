@@ -10,11 +10,11 @@ const _ViewOption = () => ({
   components: { ViewOption },
   template: `
     <ViewOption
-      :viewOptions="viewOptionOptions"
+      :viewOptions="viewOptions"
       @updateViewOptions="updateViewOptions"
     ></ViewOption>`,
   props: {
-    viewOptionOptions: {
+    viewOptions: {
       default: ['map', 'table']
     }
   },

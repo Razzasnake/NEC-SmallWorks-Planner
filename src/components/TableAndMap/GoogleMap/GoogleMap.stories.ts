@@ -16,7 +16,6 @@ const _GoogleMap = () => ({
         :hiddenMarkerIndices="hiddenMarkerIndices"
         :selectedMarkerIndices="selectedMarkerIndices"
         :overlayEvents="overlayEvents"
-        :summary="summary"
         :createInfoWindow="createInfoWindow"
         :allowDraw="allowDraw"
         @markerSelected="markerSelected"
@@ -32,9 +31,6 @@ const _GoogleMap = () => ({
     },
     selectedMarkerIndices: {
       default: new Set()
-    },
-    summary: {
-      default: []
     },
     createInfoWindow: {
       default: () => {

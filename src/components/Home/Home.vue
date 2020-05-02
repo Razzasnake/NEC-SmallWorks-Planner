@@ -1,6 +1,6 @@
 <template>
   <div class="all">
-    <NavBar :displayUpload="uploadedFile !== null" @finish="finish" @goHome="goHome"></NavBar>
+    <NavBar :inAnalysis="inAnalysis" @finish="finish" @goHome="goHome"></NavBar>
     <div class="content" :style="`background: url(${require('@/assets/background.svg')}) center;`">
       <TableAndMap
         v-if="uploadedFile"
@@ -46,19 +46,21 @@ export default class Home extends Vue {
   private filters: { [colId: string]: any } = {};
   private sorting: { colId: string; sort: string }[] = [];
   private map: TableAndMapMap = {
-    summary: [],
     overlayEventJsons: [],
     infoWindowKeys: [],
     allowDraw: true
   };
   private tableLogic: TableLogic | null = null;
 
+  private get inAnalysis(): boolean {
+    return this.uploadedFile !== null
+  }
+
   private finish(uploadedFile: UploadedFile) {
     this.uploadedFile = uploadedFile;
     this.filterChanged({});
     this.sortChanged([]);
     this.map = {
-      summary: [],
       overlayEventJsons: [],
       infoWindowKeys: [],
       allowDraw: true
@@ -71,7 +73,6 @@ export default class Home extends Vue {
     this.filterChanged({});
     this.sortChanged([]);
     this.map = {
-      summary: [],
       overlayEventJsons: [],
       infoWindowKeys: [],
       allowDraw: true
@@ -105,7 +106,7 @@ export default class Home extends Vue {
 .all {
   height: 100%;
   .content {
-    height: calc(100% - 52px);
+    height: calc(100% - 56px);
     .begin {
       height: 100%;
       display: flex;

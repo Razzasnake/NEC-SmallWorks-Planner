@@ -11,13 +11,13 @@ const _NavBar = () => ({
   components: { NavBar },
   template: `
     <NavBar
-      :displayUpload="displayUpload"
+      :inAnalysis="inAnalysis"
       @finish="finish"
       @goHome="goHome"
     ></NavBar>`,
   props: {
-    displayUpload: {
-      default: boolean('displayUpload', true)
+    inAnalysis: {
+      default: boolean('inAnalysis', true)
     }
   },
   methods: {

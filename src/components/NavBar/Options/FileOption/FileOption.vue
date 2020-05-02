@@ -7,17 +7,17 @@
   </b-dropdown>
 </template>
 <script lang='ts'>
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 /**
  * Contain general functionality
  */
 @Component({
-  components: { }
+  components: {}
 })
 export default class FileOption extends Vue {
   private clearFilters(): void {
-    this.$emit('clearFilters')
+    this.$emit("clearFilters");
   }
 }
 </script>

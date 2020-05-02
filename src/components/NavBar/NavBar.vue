@@ -1,34 +1,48 @@
 <template>
-  <b-navbar :shadow="true">
-    <template slot="brand">
-      <b-navbar-item tag="a" @click="goHome">Table &amp; Map</b-navbar-item>
-    </template>
-    <template slot="end" v-if="displayUpload">
-      <b-navbar-item tag="div">
+  <nav class="navbar is-light">
+    <div class="navbar-start">
+      <div class="navbar-item">
+        <div @click="goHome" class="clickable">Table &amp; Map</div>
+      </div>
+      <div class="navbar-item" v-if="inAnalysis">
+        <FileOption class="navbar-item" @clearFilters="clearFilters"></FileOption>
+      </div>
+      <div class="navbar-item" v-if="inAnalysis">
+        <ViewOption :viewOptions="viewOptions" @updateViewOptions="updateViewOptions"></ViewOption>
+      </div>
+    </div>
+    <div class="navbar-end" v-if="inAnalysis">
+      <div class="navbar-item">
         <UploadWorkflow @finish="finish"></UploadWorkflow>
-      </b-navbar-item>
-    </template>
-  </b-navbar>
+      </div>
+    </div>
+  </nav>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
 import UploadedFile from "@/entities/UploadedFile";
 import UploadWorkflow from "@/components/UploadWorkflow/UploadWorkflow.vue";
+import FileOption from "@/components/NavBar/Options/FileOption/FileOption.vue";
+import ViewOption from "@/components/NavBar/Options/ViewOption/ViewOption.vue";
 
 /**
  * Navigation Bar at the top of the website to navigate between sections
  */
 @Component({
   components: {
-    UploadWorkflow
+    UploadWorkflow,
+    FileOption,
+    ViewOption
   }
 })
 export default class NavBar extends Vue {
   /**
-   * Whether or not to display the Click to upload button in the top-right
+   * Whether or not the user is in an anlysis or not
    */
   @Prop({ default: true })
-  private displayUpload!: boolean
+  private inAnalysis!: boolean;
+
+  private viewOptions: string[] = ["table", "map"];
 
   private finish(uploadedFile: UploadedFile) {
     /**
@@ -41,9 +55,29 @@ export default class NavBar extends Vue {
     /**
      * User wants to go back to the home page
      */
-    this.$emit('goHome')
+    this.$emit("goHome");
+  }
+
+  private clearFilters() {
+    /**
+     * Clear the filters
+     */
+    this.$emit("clearFilters");
+  }
+
+  private updateViewOptions(viewOptions: string[]) {
+    this.viewOptions = viewOptions;
+    /**
+     * Notify the parent to modify what is in view
+     *
+     * @type {string[]}
+     */
+    this.$emit("updateViewOptions", viewOptions);
   }
 }
 </script>
 <style lang='scss' scoped>
+.clickable {
+  cursor: pointer;
+}
 </style>

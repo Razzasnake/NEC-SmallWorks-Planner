@@ -8,26 +8,26 @@
   </b-dropdown>
 </template>
 <script lang='ts'>
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 /**
  * The view dropdown in the toolbar
  */
 @Component({
-  components: { }
+  components: {}
 })
 export default class ViewOption extends Vue {
   /**
    * What to display on the main section of the app.
    */
-  @Prop({ default: () => ['map', 'table'] })
-  private viewOptions!: string[]
+  @Prop({ default: () => ["map", "table"] })
+  private viewOptions!: string[];
 
   private get viewOptionsAux(): string[] {
-    return this.viewOptions
+    return this.viewOptions;
   }
   private set viewOptionsAux(newValues: string[]) {
-    this.$emit('updateViewOptions', newValues)
+    this.$emit("updateViewOptions", newValues);
   }
 }
 </script>
