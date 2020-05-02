@@ -12,17 +12,25 @@ const _NavBar = () => ({
   template: `
     <NavBar
       :inAnalysis="inAnalysis"
+      :viewOptions="viewOptions"
       @finish="finish"
       @goHome="goHome"
+      @clearFilters="clearFilters"
+      @updateViewOptions="updateViewOptions"
     ></NavBar>`,
   props: {
     inAnalysis: {
       default: boolean('inAnalysis', true)
+    },
+    viewOptions: {
+      default: ['table', 'map']
     }
   },
   methods: {
     finish: action('finish'),
-    goHome: action('goHome')
+    goHome: action('goHome'),
+    clearFilters: action('clearFilters'),
+    updateViewOptions: action('updateViewOptions')
   }
 })
 

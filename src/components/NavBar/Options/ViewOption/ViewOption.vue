@@ -18,7 +18,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 })
 export default class ViewOption extends Vue {
   /**
-   * What to display on the main section of the app.
+   * The current view settings
    */
   @Prop({ default: () => ["map", "table"] })
   private viewOptions!: string[];
@@ -33,7 +33,6 @@ export default class ViewOption extends Vue {
 </script>
 <style lang='scss' scoped>
 .option {
-  display: flex;
   cursor: pointer;
 }
 </style>

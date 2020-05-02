@@ -41,8 +41,11 @@ export default class NavBar extends Vue {
    */
   @Prop({ default: true })
   private inAnalysis!: boolean;
-
-  private viewOptions: string[] = ["table", "map"];
+  /**
+   * The current view settings
+   */
+  @Prop({ default: () => ["table", "map"] })
+  private viewOptions!: string[];
 
   private finish(uploadedFile: UploadedFile) {
     /**

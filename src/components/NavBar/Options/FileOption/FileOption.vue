@@ -23,7 +23,6 @@ export default class FileOption extends Vue {
 </script>
 <style lang='scss' scoped>
 .option {
-  display: flex;
   cursor: pointer;
 }
 </style>

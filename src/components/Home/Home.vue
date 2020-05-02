@@ -1,10 +1,18 @@
 <template>
   <div class="all">
-    <NavBar :inAnalysis="inAnalysis" @finish="finish" @goHome="goHome"></NavBar>
+    <NavBar
+      :inAnalysis="inAnalysis"
+      :viewOptions="viewOptions"
+      @finish="finish"
+      @goHome="goHome"
+      @clearFilters="clearFilters"
+      @updateViewOptions="updateViewOptions"
+    ></NavBar>
     <div class="content" :style="`background: url(${require('@/assets/background.svg')}) center;`">
       <TableAndMap
         v-if="uploadedFile"
         class="content__table-and-map"
+        :viewOptions="viewOptions"
         :uploadedFile="uploadedFile"
         :filters="filters"
         :sorting="sorting"
@@ -51,6 +59,7 @@ export default class Home extends Vue {
     allowDraw: true
   };
   private tableLogic: TableLogic | null = null;
+  private viewOptions: string[] = ['map', 'table']
 
   private get inAnalysis(): boolean {
     return this.uploadedFile !== null
@@ -99,6 +108,15 @@ export default class Home extends Vue {
 
   private filterChanged(filters: { [colId: string]: any }) {
     this.filters = filters;
+  }
+
+  private clearFilters() {
+    this.filterChanged({});
+    this.map.overlayEventJsons = [];
+  }
+
+  private updateViewOptions(viewOptions: string[]) {
+    this.viewOptions = viewOptions
   }
 }
 </script>
