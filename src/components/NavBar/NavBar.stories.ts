@@ -15,6 +15,7 @@ const _NavBar = () => ({
       :viewOptions="viewOptions"
       @finish="finish"
       @goHome="goHome"
+      @goExamples="goExamples"
       @updateSettings="updateSettings"
     ></NavBar>`,
   props: {
@@ -28,6 +29,7 @@ const _NavBar = () => ({
   methods: {
     finish: action('finish'),
     goHome: action('goHome'),
+    goExamples: action('goExamples'),
     updateSettings: action('updateSettings')
   }
 })

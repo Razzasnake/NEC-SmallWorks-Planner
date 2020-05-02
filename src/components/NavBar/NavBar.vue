@@ -16,6 +16,11 @@
         <UploadWorkflow @finish="finish"></UploadWorkflow>
       </div>
     </div>
+    <div class="navbar-end" v-else>
+      <div class="navbar-item">
+        <div @click="goExamples" class="clickable">Examples</div>
+      </div>
+    </div>
   </nav>
 </template>
 <script lang='ts'>
@@ -59,6 +64,13 @@ export default class NavBar extends Vue {
      * User wants to go back to the home page
      */
     this.$emit("goHome");
+  }
+
+  private goExamples() {
+    /**
+     * User wants to view the examples section
+     */
+    this.$emit("goExamples");
   }
 
   private updateSettings() {

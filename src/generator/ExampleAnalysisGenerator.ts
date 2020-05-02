@@ -1,12 +1,22 @@
 import ExampleAnalysis from "@/entities/ExampleAnalysis"
+import ExampleData from '@/assets/examples/hospitals/data'
 
 const exampleAnalysisGenerator = () => {
   return new ExampleAnalysis({
     id: 0,
     title: 'Hospitals',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-    img: require('@/assets/examples/hospitals-preview.svg'),
-    createdOn: new Date()
+    description: 'This database contains locations of Hospitals for 50 states and Washington D.C. , Puerto Rico and US territories. The dataset only includes hospital facilities and does not include nursing homes. Data for all the states was acquired from respective states departments or their open source websites and then geocoded and converted into a spatial database.',
+    preview: require('@/assets/examples/hospitals/preview.jpg'),
+    url: "https://hifld-geoplatform.opendata.arcgis.com/datasets/hospitals",
+    createdOn: new Date(),
+    config: {
+      data: ExampleData,
+      columnSelections: {
+        lat: 15,
+        lng: 16
+      },
+      firstRowHeader: true
+    }
   })
 }
 

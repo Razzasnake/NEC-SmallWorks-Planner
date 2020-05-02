@@ -5,32 +5,38 @@
       :viewOptions="viewOptions"
       @finish="finish"
       @goHome="goHome"
+      @goExamples="goExamples"
       @updateSettings="updateSettings"
       @updateViewOptions="updateViewOptions"
     ></NavBar>
-    <UploadWorkflow
-      v-if="uploadedFile && updateSettingsVisible"
-      :passedUploadedFile="uploadedFile"
-      @finish="finish"
-      @closeModal="closeUpdateSettings"
-    ></UploadWorkflow>
-    <div class="content" :style="`background: url(${require('@/assets/background.svg')}) center;`">
-      <TableAndMap
-        v-if="uploadedFile"
-        class="content__table-and-map"
-        :viewOptions="viewOptions"
-        :uploadedFile="uploadedFile"
-        :filters="filters"
-        :sorting="sorting"
-        :map="map"
-        :tableLogic="tableLogic"
-        @updateOverlayEventJsons="updateOverlayEventJsons"
-        @rowSelectionsChanged="rowSelectionsChanged"
-        @sortChanged="sortChanged"
-        @filterChanged="filterChanged"
-      ></TableAndMap>
-      <div v-else class="begin">
-        <CallToAction @finish="finish"></CallToAction>
+    <div v-if="displayExamples">
+      <Examples @finish="finish"></Examples>
+    </div>
+    <div v-else class="content">
+      <UploadWorkflow
+        v-if="uploadedFile && updateSettingsVisible"
+        :passedUploadedFile="uploadedFile"
+        @finish="finish"
+        @closeModal="closeUpdateSettings"
+      ></UploadWorkflow>
+      <div :style="`background: url(${require('@/assets/background.svg')}) center; height: 100%;`">
+        <TableAndMap
+          v-if="uploadedFile"
+          class="content__table-and-map"
+          :viewOptions="viewOptions"
+          :uploadedFile="uploadedFile"
+          :filters="filters"
+          :sorting="sorting"
+          :map="map"
+          :tableLogic="tableLogic"
+          @updateOverlayEventJsons="updateOverlayEventJsons"
+          @rowSelectionsChanged="rowSelectionsChanged"
+          @sortChanged="sortChanged"
+          @filterChanged="filterChanged"
+        ></TableAndMap>
+        <div v-else class="begin">
+          <CallToAction @finish="finish"></CallToAction>
+        </div>
       </div>
     </div>
   </div>
@@ -45,6 +51,7 @@ import TableLogic from "@/components/TableAndMap/Table/TableLogic";
 import { OverlayJson } from "../TableAndMap/GoogleMap/Utils";
 import { TableAndMapMap } from "../TableAndMap/Types";
 import NavBar from "@/components/NavBar/NavBar.vue";
+import Examples from "@/components/Examples/Examples.vue";
 
 /**
  * Contain content about what TableAndMap what it does
@@ -54,7 +61,8 @@ import NavBar from "@/components/NavBar/NavBar.vue";
     NavBar,
     UploadWorkflow,
     CallToAction,
-    TableAndMap
+    TableAndMap,
+    Examples
   }
 })
 export default class Home extends Vue {
@@ -69,6 +77,7 @@ export default class Home extends Vue {
   private tableLogic: TableLogic | null = null;
   private viewOptions: string[] = ["map", "table"];
   private updateSettingsVisible: boolean = false;
+  private displayExamples: boolean = false;
 
   private get inAnalysis(): boolean {
     return this.uploadedFile !== null;
@@ -85,6 +94,7 @@ export default class Home extends Vue {
     };
     this.tableLogic = new TableLogic(uploadedFile);
     this.updateSettingsVisible = false;
+    this.displayExamples = false;
   }
 
   private goHome(): void {
@@ -97,6 +107,11 @@ export default class Home extends Vue {
       allowDraw: true
     };
     this.tableLogic = null;
+    this.displayExamples = false;
+  }
+
+  private goExamples(): void {
+    this.displayExamples = true;
   }
 
   private updateOverlayEventJsons(overlayEventJsons: OverlayJson[]) {
@@ -125,13 +140,12 @@ export default class Home extends Vue {
   }
 
   private closeUpdateSettings() {
-    this.updateSettingsVisible = false
+    this.updateSettingsVisible = false;
   }
 
   private updateViewOptions(viewOptions: string[]) {
     this.viewOptions = viewOptions;
   }
-
 }
 </script>
 <style lang='scss' scoped>

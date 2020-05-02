@@ -1,9 +1,29 @@
-export default class ExampleAnalysis {
+interface ExampleAnalysisI {
+  id: number
+  title: string
+  description: string
+  preview: string
+  url: string
+  createdOn: Date
+  config: {
+    data: any[][],
+    columnSelections: { lat: number, lng: number },
+    firstRowHeader: boolean
+  }
+}
+
+export default class ExampleAnalysis implements ExampleAnalysisI {
   public id!: number;
   public title!: string;
   public description!: string;
-  public img!: string;
+  public preview!: string;
+  public url!: string;
   public createdOn!: Date;
+  public config!: {
+    data: any[][],
+    columnSelections: { lat: number, lng: number },
+    firstRowHeader: boolean
+  };
 
   public get formattedCreatedOn(): string {
     const year = this.createdOn.getFullYear().toString();
@@ -20,6 +40,8 @@ export default class ExampleAnalysis {
     if (hours > 12) {
       hours = hours - 12;
       amPm = "PM";
+    } else if (hours === 0) {
+      hours = 12
     }
     const minutes = this.createdOn
       .getMinutes()
@@ -30,7 +52,7 @@ export default class ExampleAnalysis {
       .padStart(2, "0")}:${minutes} ${amPm}`;
   }
 
-  constructor(obj: ExampleAnalysis) {
+  constructor(obj: ExampleAnalysisI) {
     Object.assign(this, obj)
   }
 }

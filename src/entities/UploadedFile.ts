@@ -13,12 +13,8 @@ class Row {
     this.id = index.toString();
     this.data = row;
     this.isSelected = false;
-    if (typeof row[columnSelections.lat] === 'number') {
-      this.lat = row[columnSelections.lat];
-    }
-    if (typeof row[columnSelections.lng] === 'number') {
-      this.lng = row[columnSelections.lng];
-    }
+    this.lat = parseFloat(row[columnSelections.lat]);
+    this.lng = parseFloat(row[columnSelections.lng]);
     row.forEach((col, index) => {
       this[index.toString()] = col;
     })

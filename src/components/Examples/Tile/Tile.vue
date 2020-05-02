@@ -3,7 +3,7 @@
     <div class="card-content">
       <div class="content columns">
         <div class="column is-one-half">
-          <img :src="exampleAnalysis.img" />
+          <img :src="exampleAnalysis.preview" />
         </div>
         <div class="column">
           <div class="title">
