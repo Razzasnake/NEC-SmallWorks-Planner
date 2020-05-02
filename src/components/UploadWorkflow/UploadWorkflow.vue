@@ -50,6 +50,9 @@ import UploadWorkflowLogic from "./UploadWorkflowLogic";
   }
 })
 export default class UploadWorkflow extends Vue {
+  @Prop({ default: null })
+  private passedUploadedFile!: UploadedFile | null;
+
   private step: number = 0;
   private uploadedFile: any[][] = [];
   private columnSelections: { lat: null | number; lng: null | number } = {
@@ -62,6 +65,15 @@ export default class UploadWorkflow extends Vue {
     return (
       this.columnSelections.lat === null || this.columnSelections.lng === null
     );
+  }
+
+  private created() {
+    if (this.passedUploadedFile) {
+      this.uploadedFile = this.passedUploadedFile.rawData;
+      this.columnSelections = this.passedUploadedFile.columnSelections;
+      this.firstRowHeader = this.passedUploadedFile.firstRowHeader;
+      this.next();
+    }
   }
 
   private fileUploaded(data: any[][]) {
@@ -117,6 +129,7 @@ export default class UploadWorkflow extends Vue {
       lng: null
     };
     this.firstRowHeader = true;
+    this.$emit('closeModal')
   }
 }
 </script>
