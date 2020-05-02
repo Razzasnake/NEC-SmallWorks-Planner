@@ -1,22 +1,31 @@
 <template>
-  <div class="card">
+  <div class="card full-height">
     <header class="card-header">
       <b-button class="width-50" v-if="!clickedMarker.isSelected" @click="select">Select</b-button>
       <b-button class="width-50" v-else @click="deselect">Deselect</b-button>
       <b-button class="width-50" @click="close">Close</b-button>
     </header>
-    <b-table striped narrowed hoverable :data="tableData" :columns="tableColumns"></b-table>
+    <AgGridVue
+      class="ag-grid ag-theme-balham full-height"
+      v-model="tableData"
+      :columnDefs="tableColumns"
+      :defaultColDef="defaultColDef"
+      @gridReady="gridReady"
+    ></AgGridVue>
   </div>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
 import UploadedFile, { Row } from "@/entities/UploadedFile";
-
+import { AgGridVue } from "ag-grid-vue";
+import { GridApi, ColDef } from "ag-grid-community";
 /**
  * Display a preview of the marker/row that has been clicked.
  */
 @Component({
-  components: {}
+  components: {
+    AgGridVue
+  }
 })
 export default class PreviewCard extends Vue {
   /**
@@ -29,6 +38,14 @@ export default class PreviewCard extends Vue {
    */
   @Prop({ default: null })
   private uploadedFile!: UploadedFile;
+
+  public defaultColDef: ColDef = {
+    sortable: true,
+    filter: true,
+    resizable: true,
+    enableCellChangeFlash: true,
+    menuTabs: ['filterMenuTab', 'columnsMenuTab', 'generalMenuTab']
+  }
 
   private get tableData() {
     let values: { label: any; value: any }[] = [];
@@ -49,11 +66,11 @@ export default class PreviewCard extends Vue {
     return [
       {
         field: "label",
-        label: "Label"
+        headerName: "Label"
       },
       {
         field: "value",
-        label: "Value"
+        headerName: "Value"
       }
     ];
   }
@@ -84,10 +101,19 @@ export default class PreviewCard extends Vue {
      */
     this.$emit("close");
   }
+
+  private gridReady(config: { api: GridApi }) {
+    config.api.sizeColumnsToFit();
+  }
 }
 </script>
 <style lang='scss' scoped>
+@import "~ag-grid-community/dist/styles/ag-grid.css";
+@import "~ag-grid-community/dist/styles/ag-theme-balham.css";
 .width-50 {
   width: 50%;
+}
+.full-height {
+  height: 100%;
 }
 </style>
