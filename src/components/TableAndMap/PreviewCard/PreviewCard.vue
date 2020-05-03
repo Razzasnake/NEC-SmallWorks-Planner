@@ -6,7 +6,7 @@
       <b-button class="width-50" @click="close">Close</b-button>
     </header>
     <AgGridVue
-      class="ag-grid ag-theme-balham full-height"
+      class="ag-grid ag-theme-balham table-height"
       v-model="tableData"
       :columnDefs="tableColumns"
       :defaultColDef="defaultColDef"
@@ -115,5 +115,8 @@ export default class PreviewCard extends Vue {
 }
 .full-height {
   height: 100%;
+}
+.table-height {
+  height: calc(100% - 36px);
 }
 </style>
