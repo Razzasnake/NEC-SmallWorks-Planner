@@ -3,19 +3,13 @@
     class="ag-grid ag-theme-balham full-height"
     v-model="rowDataAux"
     :columnDefs="tableLogic.columnDefs"
-    :statusBar="tableLogic.statusBar"
     :defaultColDef="tableLogic.defaultColDef"
-    :sideBar="tableLogic.defaultSideBar"
     :isExternalFilterPresent="isExternalFilterPresent"
     :doesExternalFilterPass="doesExternalFilterPass"
     :getRowNodeId="getRowNodeId"
     :fillOperation="fillOperation"
-    :getContextMenuItems="tableLogic.getContextMenuItem"
     suppressColumnVirtualisation
     suppressMenuHide
-    suppressRowClickSelection
-    undoRedoCellEditing
-    rowSelection="multiple"
     @gridReady="gridReady"
     @data-model-changed="dataModelUpdated"
     @sortChanged="sortChanged"
