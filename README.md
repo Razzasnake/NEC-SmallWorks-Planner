@@ -15,6 +15,7 @@ npm run serve
 npm run build
 git add dist && git commit -m "Update live website"
 git subtree push --prefix dist origin gh-pages
+git reset --hard HEAD^
 ```
 
 ### In case you commit dist
