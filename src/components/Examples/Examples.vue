@@ -65,7 +65,7 @@ export default class Examples extends Vue {
   max-width: 1024px;
   margin: auto;
   .example {
-    margin: 20px;
+    padding: 20px;
   }
 }
 </style>
