@@ -5,7 +5,7 @@ import router from './router'
 Vue.config.productionTip = false
 
 import Buefy from 'buefy'
-import 'buefy/dist/buefy.css'
+import '@/sass/buefy.scss'
 import '@mdi/font/css/materialdesignicons.css'
 
 Vue.use(Buefy)
