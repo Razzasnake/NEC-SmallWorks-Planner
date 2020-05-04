@@ -1,7 +1,7 @@
 <template>
   <b-dropdown v-model="viewOptionsAux" multiple>
-    <div slot="trigger" class="option">
-      <span>View</span>
+    <div slot="trigger">
+      <a>View</a>
     </div>
     <b-dropdown-item value="map">Map</b-dropdown-item>
     <b-dropdown-item value="table">Table</b-dropdown-item>
@@ -37,7 +37,4 @@ export default class ViewOption extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-.option {
-  cursor: pointer;
-}
 </style>

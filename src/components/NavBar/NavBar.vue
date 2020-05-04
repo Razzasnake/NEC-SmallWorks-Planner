@@ -2,7 +2,7 @@
   <nav class="navbar is-fixed-top is-light">
     <div class="navbar-brand">
       <div class="navbar-item">
-        <div @click="goHome" class="clickable">Table &amp; Map</div>
+        <a @click="goHome">Table &amp; Map</a>
       </div>
       <a
         role="button"
@@ -29,7 +29,7 @@
       </div>
       <div class="navbar-end">
         <div class="navbar-item">
-          <div @click="goExamples" class="clickable">Examples</div>
+          <a @click="goExamples">Examples</a>
         </div>
       </div>
     </div>
@@ -105,7 +105,4 @@ export default class NavBar extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-.clickable {
-  cursor: pointer;
-}
 </style>

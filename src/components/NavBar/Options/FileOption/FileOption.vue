@@ -1,7 +1,7 @@
 <template>
   <b-dropdown>
-    <div slot="trigger" class="option">
-      <span>File</span>
+    <div slot="trigger">
+      <a>File</a>
     </div>
     <b-dropdown-item @click="updateSettings">Update Settings</b-dropdown-item>
   </b-dropdown>
@@ -25,7 +25,4 @@ export default class FileOption extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-.option {
-  cursor: pointer;
-}
 </style>
