@@ -17,6 +17,11 @@ git add dist && git commit -m "Update live website"
 git subtree push --prefix dist origin gh-pages
 ```
 
+### In case you commit dist
+```
+git filter-branch --tree-filter 'rm -rf dist' --prune-empty HEAD
+```
+
 ### Lints and fixes files
 ```
 npm run lint
