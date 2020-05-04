@@ -3,7 +3,6 @@
     <NavBar
       :inAnalysis="inAnalysis"
       :viewOptions="viewOptions"
-      @finish="finish"
       @goHome="goHome"
       @goExamples="goExamples"
       @updateSettings="updateSettings"

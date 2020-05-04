@@ -13,7 +13,6 @@ const _NavBar = () => ({
     <NavBar
       :inAnalysis="inAnalysis"
       :viewOptions="viewOptions"
-      @finish="finish"
       @goHome="goHome"
       @goExamples="goExamples"
       @updateSettings="updateSettings"
@@ -27,7 +26,6 @@ const _NavBar = () => ({
     }
   },
   methods: {
-    finish: action('finish'),
     goHome: action('goHome'),
     goExamples: action('goExamples'),
     updateSettings: action('updateSettings')

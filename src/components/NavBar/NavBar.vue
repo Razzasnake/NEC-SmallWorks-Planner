@@ -27,12 +27,7 @@
           <ViewOption :viewOptions="viewOptions" @updateViewOptions="updateViewOptions"></ViewOption>
         </div>
       </div>
-      <div class="navbar-end" v-if="inAnalysis">
-        <div class="navbar-item">
-          <UploadWorkflow @finish="finish"></UploadWorkflow>
-        </div>
-      </div>
-      <div class="navbar-end" v-else>
+      <div class="navbar-end">
         <div class="navbar-item">
           <div @click="goExamples" class="clickable">Examples</div>
         </div>
@@ -42,8 +37,6 @@
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
-import UploadedFile from "@/entities/UploadedFile";
-import UploadWorkflow from "@/components/UploadWorkflow/UploadWorkflow.vue";
 import FileOption from "@/components/NavBar/Options/FileOption/FileOption.vue";
 import ViewOption from "@/components/NavBar/Options/ViewOption/ViewOption.vue";
 
@@ -52,7 +45,6 @@ import ViewOption from "@/components/NavBar/Options/ViewOption/ViewOption.vue";
  */
 @Component({
   components: {
-    UploadWorkflow,
     FileOption,
     ViewOption
   }
@@ -78,13 +70,6 @@ export default class NavBar extends Vue {
     navmenu.forEach(nav => {
       nav.classList.toggle("is-active");
     });
-  }
-
-  private finish(uploadedFile: UploadedFile) {
-    /**
-     * Emit the uploaded file
-     */
-    this.$emit("finish", uploadedFile);
   }
 
   private goHome() {
