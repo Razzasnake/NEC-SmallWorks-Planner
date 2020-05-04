@@ -25,19 +25,18 @@ export default class Upload extends Vue {
   private loading: boolean = false;
 
   private fileUploaded(file: File) {
-    /**
-     * Update the parent with the loading state
-     */
     this.loading = true;
     const reader = new FileReader();
     reader.onloadend = e => {
       try {
         if (e.target) {
           const bstr = e.target.result;
+          const json = this.convert(bstr);
           /**
            * File has been uploaded
+           * 
+           * @type {unknown[]}
            */
-          const json = this.convert(bstr);
           this.$emit("fileUploaded", json);
           this.dropFiles = null;
           this.loading = false;

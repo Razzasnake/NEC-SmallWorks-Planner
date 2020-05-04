@@ -27,6 +27,11 @@ export default class ViewOption extends Vue {
     return this.viewOptions;
   }
   private set viewOptionsAux(newValues: string[]) {
+    /**
+     * Update view options
+     * 
+     * @type {string[]}
+     */
     this.$emit("updateViewOptions", newValues);
   }
 }

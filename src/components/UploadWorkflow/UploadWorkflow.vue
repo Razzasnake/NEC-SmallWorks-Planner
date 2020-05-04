@@ -50,6 +50,9 @@ import UploadWorkflowLogic from "./UploadWorkflowLogic";
   }
 })
 export default class UploadWorkflow extends Vue {
+  /**
+   * (Optional) Pass in a already parsed file to let them adjust the selections.
+   */
   @Prop({ default: null })
   private passedUploadedFile!: UploadedFile | null;
 
@@ -116,6 +119,8 @@ export default class UploadWorkflow extends Vue {
     });
     /**
      * Emit the uploaded file
+     * 
+     * @type {UploadedFile}
      */
     this.$emit("finish", uploadedFile);
     this.reset();
@@ -129,6 +134,9 @@ export default class UploadWorkflow extends Vue {
       lng: null
     };
     this.firstRowHeader = true;
+    /**
+     * The modal was closed
+     */
     this.$emit('closeModal')
   }
 }

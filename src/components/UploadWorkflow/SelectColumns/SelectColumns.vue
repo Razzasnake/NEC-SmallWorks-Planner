@@ -61,6 +61,9 @@ export default class SelectColumns extends Vue {
   }
 
   private set firstRowHeaderAux(newVal: boolean) {
+    /**
+     * Update first row header value
+     */
     this.$emit("updateFirstRowHeader", newVal);
   }
 
@@ -119,6 +122,9 @@ export default class SelectColumns extends Vue {
     } else {
       columnSelectionsAux.lat = null;
     }
+    /**
+     * Update the selections
+     */
     this.$emit("updateSelections", columnSelectionsAux);
   }
 
