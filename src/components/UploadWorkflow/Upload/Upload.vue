@@ -52,7 +52,7 @@ export default class Upload extends Vue {
   }
 
   private convert(file: string | ArrayBuffer | null) {
-    const workbook = XLSX.read(file, { type: "buffer" });
+    const workbook = XLSX.read(file, { type: "binary" });    
     const firstWorksheet = workbook.Sheets[workbook.SheetNames[0]];
     return XLSX.utils.sheet_to_json(firstWorksheet, { header: 1 });
   }
