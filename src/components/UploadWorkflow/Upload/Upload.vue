@@ -37,14 +37,15 @@ export default class Upload extends Vue {
           /**
            * File has been uploaded
            */
-          this.$emit("fileUploaded", this.convert(bstr));
+          const json = this.convert(bstr);
+          this.$emit("fileUploaded", json);
           this.dropFiles = null;
           this.loading = false;
         } else {
-          this.handleFailure(file);
+          this.handleFailure();
         }
       } catch (e) {
-        this.handleFailure(file);
+        this.handleFailure();
       }
     };
     reader.readAsBinaryString(file);
@@ -56,8 +57,11 @@ export default class Upload extends Vue {
     return XLSX.utils.sheet_to_json(firstWorksheet, { header: 1 });
   }
 
-  private handleFailure(file: File) {
-    // TODO
+  private handleFailure() {
+    this.$buefy.toast.open({
+      message: "Upload failed. Please try again or upload a different file.",
+      type: "is-danger"
+    });
     this.loading = false;
   }
 }
