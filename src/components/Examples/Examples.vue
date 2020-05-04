@@ -35,7 +35,7 @@ export default class Examples extends Vue {
         url: "https://hifld-geoplatform.opendata.arcgis.com/datasets/hospitals",
         createdOn: new Date(),
         config: {
-          data: (await import("@/assets/examples/hospitals/data")).default,
+          data: require("@/assets/examples/hospitals/data").default,
           columnSelections: {
             lat: 15,
             lng: 16
