@@ -1,5 +1,5 @@
 <template>
-  <div class="all">
+  <div>
     <NavBar
       :inAnalysis="inAnalysis"
       :viewOptions="viewOptions"
@@ -9,35 +9,36 @@
       @updateSettings="updateSettings"
       @updateViewOptions="updateViewOptions"
     ></NavBar>
-    <div v-if="displayExamples">
-      <Examples @finish="finish"></Examples>
-    </div>
-    <div v-else class="content">
-      <UploadWorkflow
-        v-if="uploadedFile && updateSettingsVisible"
-        :passedUploadedFile="uploadedFile"
-        @finish="finish"
-        @closeModal="closeUpdateSettings"
-      ></UploadWorkflow>
-      <div :style="`background: url(${require('@/assets/background.svg')}) center; height: 100%;`">
-        <TableAndMap
-          v-if="uploadedFile"
-          class="content__table-and-map"
-          :viewOptions="viewOptions"
-          :uploadedFile="uploadedFile"
-          :filters="filters"
-          :sorting="sorting"
-          :map="map"
-          :tableLogic="tableLogic"
-          @updateOverlayEventJsons="updateOverlayEventJsons"
-          @rowSelectionsChanged="rowSelectionsChanged"
-          @sortChanged="sortChanged"
-          @filterChanged="filterChanged"
-        ></TableAndMap>
-        <div v-else class="begin">
-          <CallToAction @finish="finish"></CallToAction>
+    <div class="content">
+      <template v-if="displayExamples">
+        <Examples @finish="finish"></Examples>
+      </template>
+      <template v-else>
+        <UploadWorkflow
+          v-if="uploadedFile && updateSettingsVisible"
+          :passedUploadedFile="uploadedFile"
+          @finish="finish"
+          @closeModal="closeUpdateSettings"
+        ></UploadWorkflow>
+        <div :style="`background: url(${require('@/assets/background.svg')}) center; height: 100%;`">
+          <TableAndMap
+            v-if="uploadedFile"
+            :viewOptions="viewOptions"
+            :uploadedFile="uploadedFile"
+            :filters="filters"
+            :sorting="sorting"
+            :map="map"
+            :tableLogic="tableLogic"
+            @updateOverlayEventJsons="updateOverlayEventJsons"
+            @rowSelectionsChanged="rowSelectionsChanged"
+            @sortChanged="sortChanged"
+            @filterChanged="filterChanged"
+          ></TableAndMap>
+          <div v-else class="begin">
+            <CallToAction @finish="finish"></CallToAction>
+          </div>
         </div>
-      </div>
+      </template>
     </div>
   </div>
 </template>
@@ -149,19 +150,14 @@ export default class Home extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-.all {
+.content {
+  margin-top: 52px;
   height: 100%;
-  .content {
-    height: calc(100% - 56px);
-    .begin {
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .content__table-and-map {
-      height: 100%;
-    }
+  .begin {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 }
 </style>

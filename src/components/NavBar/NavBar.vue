@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar is-light">
+  <nav class="navbar is-fixed-top is-light">
     <div class="navbar-brand">
       <div class="navbar-item">
         <div @click="goHome" class="clickable">Table &amp; Map</div>
