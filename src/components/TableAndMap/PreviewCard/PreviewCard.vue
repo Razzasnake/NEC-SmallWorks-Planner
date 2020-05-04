@@ -67,7 +67,11 @@ export default class PreviewCard extends Vue {
         position: {
           lat: this.clickedMarker.lat,
           lng: this.clickedMarker.lng
-        }
+        },
+        panControl: false,
+        zoomControl: false,
+        fullscreenControl: false,
+        addressControl: false
       });
     }
   }
