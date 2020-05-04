@@ -1,24 +1,41 @@
 <template>
   <nav class="navbar is-light">
-    <div class="navbar-start">
+    <div class="navbar-brand">
       <div class="navbar-item">
         <div @click="goHome" class="clickable">Table &amp; Map</div>
       </div>
-      <div class="navbar-item" v-if="inAnalysis">
-        <FileOption class="navbar-item" @updateSettings="updateSettings"></FileOption>
-      </div>
-      <div class="navbar-item" v-if="inAnalysis">
-        <ViewOption :viewOptions="viewOptions" @updateViewOptions="updateViewOptions"></ViewOption>
-      </div>
+      <a
+        role="button"
+        class="navbar-burger burger"
+        aria-label="menu"
+        aria-expanded="false"
+        data-target="navMenu"
+        @click="burgerClicked"
+      >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
     </div>
-    <div class="navbar-end" v-if="inAnalysis">
-      <div class="navbar-item">
-        <UploadWorkflow @finish="finish"></UploadWorkflow>
+
+    <div class="navbar-menu" id="navMenu">
+      <div class="navbar-start">
+        <div class="navbar-item" v-if="inAnalysis">
+          <FileOption @updateSettings="updateSettings"></FileOption>
+        </div>
+        <div class="navbar-item" v-if="inAnalysis">
+          <ViewOption :viewOptions="viewOptions" @updateViewOptions="updateViewOptions"></ViewOption>
+        </div>
       </div>
-    </div>
-    <div class="navbar-end" v-else>
-      <div class="navbar-item">
-        <div @click="goExamples" class="clickable">Examples</div>
+      <div class="navbar-end" v-if="inAnalysis">
+        <div class="navbar-item">
+          <UploadWorkflow @finish="finish"></UploadWorkflow>
+        </div>
+      </div>
+      <div class="navbar-end" v-else>
+        <div class="navbar-item">
+          <div @click="goExamples" class="clickable">Examples</div>
+        </div>
       </div>
     </div>
   </nav>
@@ -52,6 +69,17 @@ export default class NavBar extends Vue {
   @Prop({ default: () => ["table", "map"] })
   private viewOptions!: string[];
 
+  private burgerClicked(): void {
+    const burgers = document.querySelectorAll(".navbar-burger");
+    const navmenu = document.querySelectorAll(".navbar-menu");
+    burgers.forEach(burger => {
+      burger.classList.toggle("is-active");
+    });
+    navmenu.forEach(nav => {
+      nav.classList.toggle("is-active");
+    });
+  }
+
   private finish(uploadedFile: UploadedFile) {
     /**
      * Emit the uploaded file
@@ -77,7 +105,7 @@ export default class NavBar extends Vue {
     /**
      * Update the setttings of this file
      */
-    this.$emit('updateSettings')
+    this.$emit("updateSettings");
   }
 
   private updateViewOptions(viewOptions: string[]) {
