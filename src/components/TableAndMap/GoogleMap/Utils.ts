@@ -1,3 +1,5 @@
+import { Loader } from "google-maps";
+
 class OverlayJson {
   public type!: string
   public geometry!: [number, number] | [[number, number], [number, number]] | [number, number][][]
@@ -5,6 +7,20 @@ class OverlayJson {
 }
 
 export default class Utils {
+
+  public static injectGoogleMapsLibrary(libraries: string[]) {
+    let loader: Promise<any>;
+    if (typeof google !== "object" || typeof google.maps !== "object") {
+      loader = new Loader(process.env.VUE_APP_GOOGLEMAPS_KEY, {
+        libraries
+      }).load();
+    } else {
+      loader = new Promise((resolve, reject) => {
+        resolve(google);
+      });
+    }
+    return loader;
+  } 
 
   public static overlayEventsToJson(arr: google.maps.drawing.OverlayCompleteEvent[]) {
     return arr.map(event => {

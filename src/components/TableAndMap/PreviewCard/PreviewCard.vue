@@ -5,20 +5,24 @@
       <b-button class="width-50" v-else @click="deselect">Deselect</b-button>
       <b-button class="width-50" @click="close">Close</b-button>
     </header>
+    <div id="street-view"></div>
     <AgGridVue
-      class="ag-grid ag-theme-balham table-height"
+      class="ag-grid ag-theme-balham"
       v-model="tableData"
       :columnDefs="tableColumns"
       :defaultColDef="defaultColDef"
+      domLayout="autoHeight"
       @gridReady="gridReady"
     ></AgGridVue>
   </div>
 </template>
 <script lang='ts'>
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import UploadedFile, { Row } from "@/entities/UploadedFile";
 import { AgGridVue } from "ag-grid-vue";
 import { GridApi, ColDef } from "ag-grid-community";
+import Utils from "@/components/TableAndMap/GoogleMap/Utils";
+
 /**
  * Display a preview of the marker/row that has been clicked.
  */
@@ -38,13 +42,34 @@ export default class PreviewCard extends Vue {
    */
   @Prop({ default: null })
   private uploadedFile!: UploadedFile;
+  private panorama: google.maps.StreetViewPanorama | null = null;
 
   public defaultColDef: ColDef = {
     sortable: true,
     filter: true,
     resizable: true,
     enableCellChangeFlash: true,
-    menuTabs: ['filterMenuTab', 'columnsMenuTab', 'generalMenuTab']
+    menuTabs: ["filterMenuTab", "columnsMenuTab", "generalMenuTab"]
+  };
+
+  private mounted() {
+    Utils.injectGoogleMapsLibrary([]).then(google => {
+      this.updatePanorama();
+    });
+  }
+
+  @Watch("clickedMarker")
+  private updatePanorama(): void {
+    this.panorama = null;
+    const el = document.getElementById("street-view");
+    if (el && this.clickedMarker.lat && this.clickedMarker.lng) {
+      this.panorama = new google.maps.StreetViewPanorama(el, {
+        position: {
+          lat: this.clickedMarker.lat,
+          lng: this.clickedMarker.lng
+        }
+      });
+    }
   }
 
   private get tableData() {
@@ -110,13 +135,13 @@ export default class PreviewCard extends Vue {
 <style lang='scss' scoped>
 @import "~ag-grid-community/dist/styles/ag-grid.css";
 @import "~ag-grid-community/dist/styles/ag-theme-balham.css";
+#street-view {
+  height: 300px;
+}
 .width-50 {
   width: 50%;
 }
 .full-height {
   height: 100%;
-}
-.table-height {
-  height: calc(100% - 36px);
 }
 </style>
