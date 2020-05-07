@@ -31,6 +31,9 @@
         <div class="navbar-item">
           <a @click="goExamples">Examples</a>
         </div>
+        <div class="navbar-item">
+          <SignInSignOut />
+        </div>
       </div>
     </div>
   </nav>
@@ -39,6 +42,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import FileOption from "@/components/NavBar/Options/FileOption/FileOption.vue";
 import ViewOption from "@/components/NavBar/Options/ViewOption/ViewOption.vue";
+import SignInSignOut from "@/components/NavBar/Options/SignInSignOut/SignInSignOut.vue";
 
 /**
  * Navigation Bar at the top of the website to navigate between sections
@@ -46,7 +50,8 @@ import ViewOption from "@/components/NavBar/Options/ViewOption/ViewOption.vue";
 @Component({
   components: {
     FileOption,
-    ViewOption
+    ViewOption,
+    SignInSignOut
   }
 })
 export default class NavBar extends Vue {
