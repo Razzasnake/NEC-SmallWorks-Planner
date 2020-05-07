@@ -4,14 +4,16 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
+import { getUser } from "@/store/userStore";
+import User from "@/entities/User";
 
 @Component({
   components: {}
 })
 export default class HomeView extends Vue {
-  private user = null;
+  private user: User | null = null;
   private async created() {
-    this.user = await this.$auth.getUser();
+    this.user = await getUser();
   }
 }
 </script>

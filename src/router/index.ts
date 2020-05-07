@@ -35,6 +35,18 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach(Vue.prototype.$auth.authRedirectGuard())
+router.beforeEach(async (to, _, next) => {
+  /**
+   * If the user is not logged in and they try to navigate to a protected
+   * route, redirect them to the home page.
+   */
+  if (to.meta.requiresAuth) {
+    if (await Vue.prototype.$auth.isAuthenticated()) {
+      return next()
+    }
+    return next({ name: 'HomeView' })
+  }
+  return next()
+})
 
 export default router

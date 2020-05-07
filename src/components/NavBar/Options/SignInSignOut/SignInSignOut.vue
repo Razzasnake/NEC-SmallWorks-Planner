@@ -1,13 +1,24 @@
 <template>
   <div>
-    <div slot="trigger">
-      <b-button v-if="authenticated" @click="logout">Logout</b-button>
-      <b-button v-else @click="login">Login</b-button>
-    </div>
+    <b-button v-if="authenticated" @click="logoutUser">Logout</b-button>
+    <b-dropdown v-else class="is-right">
+      <b-button class="is-primary" slot="trigger">Login</b-button>
+      <div class="sign-in">
+        <div v-if="error" class="help is-danger error">Invalid username or password</div>
+        <b-field label="Email">
+          <b-input type="email" v-model="form.username" expanded></b-input>
+        </b-field>
+        <b-field label="Password">
+          <b-input type="password" v-model="form.password" password-reveal expanded></b-input>
+        </b-field>
+        <b-button class="is-primary" expanded @click="loginUser">Login</b-button>
+      </div>
+    </b-dropdown>
   </div>
 </template>
 <script lang='ts'>
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
+import state, { login, logout } from "@/store/userStore";
 
 /**
  * Sign In/Sign Out button for okta
@@ -16,27 +27,36 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
   components: {}
 })
 export default class SignInSignOut extends Vue {
-  private authenticated: boolean = false;
+  private form = { username: "", password: "" };
+  private error: Error | null = null;
 
-  @Watch("$route")
-  private async isAuthenticated() {
-    this.authenticated = await this.$auth.isAuthenticated();
+  private get authenticated(): boolean {
+    return state.isAuthenticated;
   }
 
-  private created() {
-    this.isAuthenticated();
+  private loginUser() {
+    login(this.form)
+      .then(() => {
+        this.error = null;
+      })
+      .catch((error: Error) => {
+        this.error = error;
+      });
   }
 
-  private async logout() {
-    await this.$auth.logout();
-    await this.isAuthenticated();
-    this.$router.push({ path: "/" });
-  }
-
-  private login() {
-    this.$auth.loginRedirect();
+  private async logoutUser() {
+    await logout();
   }
 }
 </script>
 <style lang='scss' scoped>
+.sign-in {
+  padding: 0.375rem 1rem;
+  min-width: 300px;
+  .error {
+    text-align: center;
+    padding-bottom: 0.375rem;
+    font-weight: bold;
+  }
+}
 </style>
