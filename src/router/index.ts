@@ -15,13 +15,23 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'HomeView',
-    component: () => import(/* webpackChunkName: "HomeView" */ '@/views/Home.vue')
+    name: 'Home',
+    component: () => import(/* webpackChunkName: "Home" */ '@/views/Home.vue')
   },
   {
-    path: '/test',
-    name: 'TestView',
-    component: () => import(/* webpackChunkName: "TestView" */ '@/views/Test.vue'),
+    path: '/explore',
+    name: 'Explore',
+    component: () => import(/* webpackChunkName: "Explore" */ '@/views/Explore.vue')
+  },
+  {
+    path: '/examples',
+    name: 'Examples',
+    component: () => import(/* webpackChunkName: "Examples" */ '@/views/Examples.vue')
+  },
+  {
+    path: '/uploads',
+    name: 'Uploads',
+    component: () => import(/* webpackChunkName: "Uploads" */ '@/views/Uploads.vue'),
     meta: {
       requiresAuth: true
     }
@@ -44,7 +54,7 @@ router.beforeEach(async (to, _, next) => {
     if (await Vue.prototype.$auth.isAuthenticated()) {
       return next()
     }
-    return next({ name: 'HomeView' })
+    return next({ name: 'Home' })
   }
   return next()
 })

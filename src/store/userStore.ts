@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import Vue from "vue"
 import OktaAuth from "@okta/okta-auth-js";
 import User from "@/entities/User";
 
@@ -12,7 +12,7 @@ const state: UserStoreI = Vue.observable({
   isAuthenticated: false
 });
 
-const getUser = async () => {
+export const getUser = async () => {
   if (state.user) {
     return state.user;
   }
@@ -21,7 +21,7 @@ const getUser = async () => {
   return state.user;
 }
 
-const login = (form: { username: string, password: string }) => {
+export const login = (form: { username: string, password: string }) => {
   const authClient = new OktaAuth({
     issuer: process.env.VUE_APP_OKTA_ISSUER,
     clientId: process.env.VUE_APP_OKTA_CLIENT_ID,
@@ -39,15 +39,18 @@ const login = (form: { username: string, password: string }) => {
     });
 }
 
-const logout = async () => {
+export const logout = async () => {
   await Vue.prototype.$auth.logout();
-  state.user = null;
-  state.isAuthenticated = false;
+  reset();
 };
 
-const refreshAuthenticated = async () => {
+export const refreshAuthenticated = async () => {
   state.isAuthenticated = await Vue.prototype.$auth.isAuthenticated();
 };
 
+export const reset = () => {
+  state.user = null;
+  state.isAuthenticated = false;
+}
+
 export default state;
-export { getUser, login, logout, refreshAuthenticated };

@@ -2,7 +2,7 @@
   <nav class="navbar is-fixed-top is-light">
     <div class="navbar-brand">
       <div class="navbar-item">
-        <a @click="goHome">Table &amp; Map</a>
+        <a @click="jumpTo({ name: 'Home' })">Table &amp; Map</a>
       </div>
       <a
         role="button"
@@ -29,7 +29,8 @@
       </div>
       <div class="navbar-end">
         <div class="navbar-item">
-          <a @click="goExamples">Examples</a>
+          <a v-if="authenticated" @click="jumpTo({ name: 'Uploads' })">Uploads</a>
+          <a v-else @click="jumpTo({ name: 'Examples' })">Examples</a>
         </div>
         <div class="navbar-item">
           <SignInSignOut />
@@ -43,6 +44,8 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import FileOption from "@/components/NavBar/Options/FileOption/FileOption.vue";
 import ViewOption from "@/components/NavBar/Options/ViewOption/ViewOption.vue";
 import SignInSignOut from "@/components/NavBar/Options/SignInSignOut/SignInSignOut.vue";
+import { RawLocation } from "vue-router";
+import state from "@/store/userStore";
 
 /**
  * Navigation Bar at the top of the website to navigate between sections
@@ -66,6 +69,10 @@ export default class NavBar extends Vue {
   @Prop({ default: () => ["table", "map"] })
   private viewOptions!: string[];
 
+  private get authenticated(): boolean {
+    return state.isAuthenticated;
+  }
+
   private burgerClicked(): void {
     const burgers = document.querySelectorAll(".navbar-burger");
     const navmenu = document.querySelectorAll(".navbar-menu");
@@ -77,18 +84,11 @@ export default class NavBar extends Vue {
     });
   }
 
-  private goHome() {
+  private jumpTo(location: RawLocation) {
     /**
-     * User wants to go back to the home page
+     * User wants to jump to a different location
      */
-    this.$emit("goHome");
-  }
-
-  private goExamples() {
-    /**
-     * User wants to view the examples section
-     */
-    this.$emit("goExamples");
+    this.$emit("jumpTo", location);
   }
 
   private updateSettings() {

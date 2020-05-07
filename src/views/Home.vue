@@ -1,29 +1,34 @@
 <template>
-  <Home class="home-view"></Home>
+  <div class="coa">
+    <CallToAction @finish="finish"></CallToAction>
+  </div>
 </template>
+<script lang='ts'>
+import { Component, Prop, Vue } from "vue-property-decorator";
+import CallToAction from "@/components/Home/CallToAction/CallToAction.vue";
+import UploadedFile from "@/entities/UploadedFile";
+import { updateUploadedFile } from "@/store/exploreStore";
 
-<script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import Home from "@/components/Home/Home.vue";
-import { refreshAuthenticated } from "@/store/userStore";
-
+/**
+ * Contain workflow to get a file uploaded
+ */
 @Component({
   components: {
-    Home
+    CallToAction
   }
 })
-export default class HomeView extends Vue {
-  @Watch("$route")
-  private async routeChanged() {
-    refreshAuthenticated();
-  }
-  private created() {
-    this.routeChanged();
+export default class Home extends Vue {
+  private finish(uploadedFile: UploadedFile) {
+    updateUploadedFile(uploadedFile);
+    this.$router.push({ name: "Explore" });
   }
 }
 </script>
-<style lang="scss" scoped>
-.home-view {
-  height: calc(100vh - 52px);
+<style lang='scss' scoped>
+.coa {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

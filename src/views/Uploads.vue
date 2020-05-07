@@ -10,7 +10,7 @@ import User from "@/entities/User";
 @Component({
   components: {}
 })
-export default class HomeView extends Vue {
+export default class Uploads extends Vue {
   private user: User | null = null;
   private async created() {
     this.user = await getUser();

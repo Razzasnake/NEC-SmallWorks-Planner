@@ -1,16 +1,19 @@
 <template>
-  <div class="examples">
-    <b-loading :active="loading"></b-loading>
-    <div v-for="example in exampleAnalyses" :key="example.id" class="example">
-      <Tile :exampleAnalysis="example" @preview="preview"></Tile>
+  <div>
+    <div class="examples">
+      <b-loading :active="loading"></b-loading>
+      <div v-for="example in exampleAnalyses" :key="example.id" class="example">
+        <Tile :exampleAnalysis="example" @preview="preview"></Tile>
+      </div>
     </div>
   </div>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
-import Tile from "./Tile/Tile.vue";
+import Tile from "@/components/Examples/Tile/Tile.vue";
 import ExampleAnalysis from "@/entities/ExampleAnalysis";
 import UploadedFile from "@/entities/UploadedFile";
+import { updateUploadedFile } from "@/store/exploreStore";
 
 /**
  * All examples
@@ -44,7 +47,7 @@ export default class Examples extends Vue {
         }
       })
     ];
-    this.loading = false
+    this.loading = false;
   }
 
   private preview(exampleAnalysis: ExampleAnalysis) {
@@ -53,10 +56,8 @@ export default class Examples extends Vue {
       columnSelections: exampleAnalysis.config.columnSelections,
       firstRowHeader: exampleAnalysis.config.firstRowHeader
     });
-    /**
-     * Emit the uploaded file
-     */
-    this.$emit("finish", uploadedFile);
+    updateUploadedFile(uploadedFile);
+    this.$router.push({ name: "Explore" });
   }
 }
 </script>

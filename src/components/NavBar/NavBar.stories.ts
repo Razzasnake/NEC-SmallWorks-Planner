@@ -13,8 +13,7 @@ const _NavBar = () => ({
     <NavBar
       :inAnalysis="inAnalysis"
       :viewOptions="viewOptions"
-      @goHome="goHome"
-      @goExamples="goExamples"
+      @jumpTo="jumpTo"
       @updateSettings="updateSettings"
     ></NavBar>`,
   props: {
@@ -26,8 +25,7 @@ const _NavBar = () => ({
     }
   },
   methods: {
-    goHome: action('goHome'),
-    goExamples: action('goExamples'),
+    goHome: action('jumpTo'),
     updateSettings: action('updateSettings')
   }
 })
