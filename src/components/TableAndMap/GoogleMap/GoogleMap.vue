@@ -76,7 +76,7 @@ export default class GoogleMap extends Vue {
     strokeWeight: 2,
     strokeColor: "#10546A",
     fillColor: "#ECECEC",
-    fillOpacity: 0.50,
+    fillOpacity: 0.5,
     editable: true,
     draggable: false,
     zIndex: 2
