@@ -22,7 +22,6 @@ import state, {
   updateSettingsVisible,
   reset
 } from "@/store/exploreStore";
-import { RawLocation } from "vue-router";
 
 @Component({
   components: {
@@ -51,9 +50,11 @@ export default class App extends Vue {
     this.routeChanged();
   }
 
-  private jumpTo(location: RawLocation) {
+  private jumpTo(location: { name: string }) {
     reset();
-    this.$router.push(location);
+    if (location.name !== this.$route.name) {
+      this.$router.push(location);
+    }
   }
 
   private updateSettings() {

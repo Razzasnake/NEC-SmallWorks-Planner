@@ -31,7 +31,6 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import FileOption from "@/components/NavBar/Options/FileOption/FileOption.vue";
 import ViewOption from "@/components/NavBar/Options/ViewOption/ViewOption.vue";
 import SignInSignOut from "@/components/NavBar/Options/SignInSignOut/SignInSignOut.vue";
-import { RawLocation } from "vue-router";
 import state from "@/store/userStore";
 
 /**
@@ -60,7 +59,7 @@ export default class NavBar extends Vue {
     return state.isAuthenticated;
   }
 
-  private jumpTo(location: RawLocation) {
+  private jumpTo(location: { name: string }) {
     /**
      * User wants to jump to a different location
      */
