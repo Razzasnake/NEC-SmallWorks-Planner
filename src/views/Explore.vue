@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="full-height">
     <UploadWorkflow
       v-if="uploadedFile && updateSettingsVisible"
       :passedUploadedFile="uploadedFile"
@@ -108,4 +108,7 @@ export default class Explore extends Vue {
 }
 </script>
 <style lang='scss' scoped>
+.full-height {
+  height: 100%;
+}
 </style>
