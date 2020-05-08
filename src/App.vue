@@ -8,9 +8,7 @@
       @updateViewOptions="updateViewOptions"
     ></NavBar>
     <template>
-      <router-view
-        :style="backgroundStyle"
-      ></router-view>
+      <router-view></router-view>
     </template>
   </div>
 </template>
@@ -32,14 +30,6 @@ import { RawLocation } from "vue-router";
   }
 })
 export default class App extends Vue {
-  private backgroundStyle = `
-    background-image: url(${require('@/assets/background.svg')});
-    min-height: 100%;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center;
-    background-size: cover;`
-
   private get uploadedFile() {
     return state.uploadedFile;
   }
@@ -77,6 +67,7 @@ export default class App extends Vue {
 </script>
 <style lang="scss" scoped>
 #app {
+  background-color: #fafafa;
   height: calc(100vh - 52px);
 }
 </style>

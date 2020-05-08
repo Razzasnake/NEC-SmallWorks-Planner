@@ -1,5 +1,5 @@
 <template>
-  <b-navbar shadow fixed-top>
+  <b-navbar fixed-top transparent>
     <template slot="brand">
       <div class="navbar-item">
         <a @click="jumpTo({ name: 'Home' })" class="logo">
@@ -86,11 +86,14 @@ export default class NavBar extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-.logo {
-  display: flex;
-  align-items: center;
-  img {
-    margin-right: 10px;
+.navbar {
+  background-color: #FAFAFA;
+  .logo {
+    display: flex;
+    align-items: center;
+    img {
+      margin-right: 10px;
+    }
   }
 }
 </style>
