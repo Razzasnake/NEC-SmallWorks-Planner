@@ -13,9 +13,6 @@ npm run serve
 ### Compiles and minifies for production
 ```
 npm run build -- --mode prod
-git add -f dist && git commit -m "Update live website"
-git subtree push --prefix dist origin gh-pages
-git reset --hard HEAD^
 ```
 
 ### In case you commit dist
