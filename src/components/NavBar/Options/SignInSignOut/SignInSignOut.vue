@@ -3,7 +3,7 @@
     <b-button v-if="authenticated" @click="logoutUser">Logout</b-button>
     <b-dropdown v-else class="is-right">
       <b-button class="is-primary" slot="trigger">Login</b-button>
-      <div class="sign-in">
+      <form class="sign-in" id="sign-in-form">
         <div v-if="error" class="help is-danger error">Invalid username or password</div>
         <b-field label="Email">
           <b-input type="email" v-model="form.username" expanded></b-input>
@@ -12,7 +12,7 @@
           <b-input type="password" v-model="form.password" password-reveal expanded></b-input>
         </b-field>
         <b-button class="is-primary" expanded @click="loginUser">Login</b-button>
-      </div>
+      </form>
     </b-dropdown>
   </div>
 </template>
@@ -34,6 +34,20 @@ export default class SignInSignOut extends Vue {
     return state.isAuthenticated;
   }
 
+  private mounted() {
+    const el = document.getElementById("sign-in-form");
+    if (el) {
+      el.addEventListener("keyup", this.onEnter);
+    }
+  }
+
+  private onEnter(event: KeyboardEvent) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+      this.loginUser();
+    }
+  }
+
   private loginUser() {
     login(this.form)
       .then(() => {
@@ -46,6 +60,13 @@ export default class SignInSignOut extends Vue {
 
   private async logoutUser() {
     await logout();
+  }
+
+  private beforeDestroy() {
+    const el = document.getElementById("sign-in-form");
+    if (el) {
+      el.removeEventListener("keyup", this.onEnter);
+    }
   }
 }
 </script>

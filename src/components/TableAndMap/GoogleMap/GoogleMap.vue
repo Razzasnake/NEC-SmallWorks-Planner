@@ -73,9 +73,9 @@ export default class GoogleMap extends Vue {
 
   private polyOptions = {
     strokeWeight: 2,
-    strokeColor: "#757575",
-    fillColor: "#9E9E9E",
-    fillOpacity: 0.45,
+    strokeColor: "#10546A",
+    fillColor: "#ECECEC",
+    fillOpacity: 0.50,
     editable: true,
     draggable: false,
     zIndex: 2
