@@ -2,7 +2,7 @@
   <div class="container-center">
     <div class="title">Table &amp; Map</div>
     <div class="subtitle">View data in an interactive map. Upload an excel/csv file and see for yourself!</div>
-    <div class="content-center">
+    <div class="body-center">
       <UploadWorkflow @finish="finish"></UploadWorkflow>
     </div>
   </div>
@@ -33,7 +33,7 @@ export default class CallToAction extends Vue {
 .container-center {
   text-align: center;
 }
-.content-center {
+.body-center {
   display: flex;
   justify-content: center;
 }

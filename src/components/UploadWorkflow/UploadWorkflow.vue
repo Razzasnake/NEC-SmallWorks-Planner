@@ -14,7 +14,7 @@
           <p class="card-header-title">Select Columns</p>
         </header>
         <div class="card-content">
-          <div class="content">
+          <div class="body">
             <SelectColumns
               v-if="step === 1"
               :value="uploadedFile"
@@ -142,7 +142,7 @@ export default class UploadWorkflow extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-.content {
+.body {
   height: 300px;
   width: 50%;
   min-width: 750px;
