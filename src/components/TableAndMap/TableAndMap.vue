@@ -306,15 +306,5 @@ export default class TableAndMap extends Vue {
 }
 </style>
 <style lang='scss'>
-.gutter {
-  background-color: #eeeeee;
-  background-repeat: no-repeat;
-  background-position: 50%;
-  &.gutter-vertical {
-    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=");
-  }
-  &:hover {
-    cursor: row-resize;
-  }
-}
+
 </style>
