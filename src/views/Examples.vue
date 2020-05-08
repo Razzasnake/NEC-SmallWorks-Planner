@@ -14,6 +14,7 @@ import Tile from "@/components/Examples/Tile/Tile.vue";
 import ExampleAnalysis from "@/entities/ExampleAnalysis";
 import UploadedFile from "@/entities/UploadedFile";
 import { updateUploadedFile } from "@/store/exploreStore";
+import examplesApi from '@/api/examples'
 
 /**
  * All examples
@@ -28,25 +29,7 @@ export default class Examples extends Vue {
   private loading = true;
 
   private async created() {
-    this.exampleAnalyses = [
-      new ExampleAnalysis({
-        id: 0,
-        title: "Hospitals",
-        description:
-          "This database contains locations of Hospitals for 50 states and Washington D.C. , Puerto Rico and US territories. The dataset only includes hospital facilities and does not include nursing homes. Data for all the states was acquired from respective states departments or their open source websites and then geocoded and converted into a spatial database.",
-        preview: require("@/assets/examples/hospitals/preview.jpg"),
-        url: "https://hifld-geoplatform.opendata.arcgis.com/datasets/hospitals",
-        createdOn: new Date(),
-        config: {
-          data: require("@/assets/examples/hospitals/data").default,
-          columnSelections: {
-            lat: 15,
-            lng: 16
-          },
-          firstRowHeader: true
-        }
-      })
-    ];
+    this.exampleAnalyses = await examplesApi.getAllExamples();
     this.loading = false;
   }
 
@@ -66,7 +49,10 @@ export default class Examples extends Vue {
   max-width: 1024px;
   margin: auto;
   .example {
-    padding: 20px;
+    padding: 12px 12px 0px 12px;
+    &:last-of-type {
+      padding-bottom: 12px;
+    }
   }
 }
 </style>
