@@ -2,7 +2,10 @@
   <b-navbar shadow fixed-top>
     <template slot="brand">
       <div class="navbar-item">
-        <a @click="jumpTo({ name: 'Home' })">Table &amp; Map</a>
+        <a @click="jumpTo({ name: 'Home' })" class="logo">
+          <img :src="require('@/assets/logo.svg')" @click="jumpTo({ name: 'Home' })" />
+          <div>Table &amp; Map</div>
+        </a>
       </div>
     </template>
     <template slot="start">
@@ -84,4 +87,11 @@ export default class NavBar extends Vue {
 }
 </script>
 <style lang='scss' scoped>
+.logo {
+  display: flex;
+  align-items: center;
+  img {
+    margin-right: 10px;
+  }
+}
 </style>
