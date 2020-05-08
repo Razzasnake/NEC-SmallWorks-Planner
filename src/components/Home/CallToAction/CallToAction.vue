@@ -1,10 +1,8 @@
 <template>
-  <div class="container-center">
+  <div>
     <div class="title">Table &amp; Map</div>
-    <div class="subtitle">View data in an interactive map. Upload an excel/csv file and see for yourself!</div>
-    <div class="body-center">
-      <UploadWorkflow @finish="finish"></UploadWorkflow>
-    </div>
+    <div class="subtitle">{{ tagline }}</div>
+    <UploadWorkflow @finish="finish"></UploadWorkflow>
   </div>
 </template>
 <script lang='ts'>
@@ -21,6 +19,8 @@ import UploadedFile from "@/entities/UploadedFile";
   }
 })
 export default class CallToAction extends Vue {
+  private tagline =
+    "View data in an interactive map. Upload an excel or csv file and see for yourself!";
   private finish(uploadedFile: UploadedFile) {
     /**
      * Emit the uploaded file
@@ -30,11 +30,4 @@ export default class CallToAction extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-.container-center {
-  text-align: center;
-}
-.body-center {
-  display: flex;
-  justify-content: center;
-}
 </style>
