@@ -36,7 +36,8 @@ const routes = [
       requiresAuth: true
     }
   },
-  { path: '/implicit/callback', component: Auth.handleCallback() }
+  { path: '/implicit/callback', component: Auth.handleCallback() },
+  { path: '/*', redirect: '/' }
 ]
 
 const router = new VueRouter({
