@@ -32,7 +32,7 @@ export const login = (form: { username: string, password: string }) => {
   return authClient
     .signIn(form)
     .then((res: { sessionToken: string }) => {
-      authClient.token.getWithRedirect({
+      return authClient.token.getWithRedirect({
         sessionToken: res.sessionToken,
         responseType: "id_token"
       });
