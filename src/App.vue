@@ -35,6 +35,7 @@ export default class App extends Vue {
   private backgroundStyle = `
     background-image: url(${require('@/assets/background.svg')});
     min-height: 100%;
+    margin-top: 52px;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
