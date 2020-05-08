@@ -7,11 +7,11 @@
       @updateSettings="updateSettings"
       @updateViewOptions="updateViewOptions"
     ></NavBar>
-    <div class="root">
+    <template>
       <router-view
         :style="backgroundStyle"
       ></router-view>
-    </div>
+    </template>
   </div>
 </template>
 
@@ -35,7 +35,6 @@ export default class App extends Vue {
   private backgroundStyle = `
     background-image: url(${require('@/assets/background.svg')});
     min-height: 100%;
-    margin-top: 52px;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
@@ -77,7 +76,7 @@ export default class App extends Vue {
 }
 </script>
 <style lang="scss" scoped>
-.root {
+#app {
   height: calc(100vh - 52px);
 }
 </style>
