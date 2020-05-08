@@ -3,7 +3,7 @@
     <template slot="brand">
       <div class="navbar-item">
         <a @click="jumpTo({ name: 'Home' })" class="logo">
-          <img :src="require('@/assets/logo.svg')" @click="jumpTo({ name: 'Home' })" />
+          <img :src="require('@/assets/logo.svg')" />
           <div>Table &amp; Map</div>
         </a>
       </div>
