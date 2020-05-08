@@ -77,7 +77,6 @@ export default class App extends Vue {
 </script>
 <style lang="scss" scoped>
 .root {
-  margin-top: 52px;
   height: calc(100vh - 52px);
 }
 </style>

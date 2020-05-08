@@ -1,43 +1,28 @@
 <template>
-  <nav class="navbar is-fixed-top is-light">
-    <div class="navbar-brand">
+  <b-navbar shadow fixed-top>
+    <template slot="brand">
       <div class="navbar-item">
         <a @click="jumpTo({ name: 'Home' })">Table &amp; Map</a>
       </div>
-      <a
-        role="button"
-        class="navbar-burger burger"
-        aria-label="menu"
-        aria-expanded="false"
-        data-target="navMenu"
-        @click="burgerClicked"
-      >
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-      </a>
-    </div>
-
-    <div class="navbar-menu" id="navMenu">
-      <div class="navbar-start">
-        <div class="navbar-item" v-if="inAnalysis">
-          <FileOption @updateSettings="updateSettings"></FileOption>
-        </div>
-        <div class="navbar-item" v-if="inAnalysis">
-          <ViewOption :viewOptions="viewOptions" @updateViewOptions="updateViewOptions"></ViewOption>
-        </div>
+    </template>
+    <template slot="start">
+      <div class="navbar-item" v-if="inAnalysis">
+        <FileOption @updateSettings="updateSettings"></FileOption>
       </div>
-      <div class="navbar-end">
-        <div class="navbar-item">
-          <a v-if="authenticated" @click="jumpTo({ name: 'Uploads' })">Uploads</a>
-          <a v-else @click="jumpTo({ name: 'Examples' })">Examples</a>
-        </div>
-        <div class="navbar-item">
-          <SignInSignOut />
-        </div>
+      <div class="navbar-item" v-if="inAnalysis">
+        <ViewOption :viewOptions="viewOptions" @updateViewOptions="updateViewOptions"></ViewOption>
       </div>
-    </div>
-  </nav>
+    </template>
+    <template slot="end">
+      <div class="navbar-item">
+        <a v-if="authenticated" @click="jumpTo({ name: 'Uploads' })">Uploads</a>
+        <a v-else @click="jumpTo({ name: 'Examples' })">Examples</a>
+      </div>
+      <div class="navbar-item">
+        <SignInSignOut />
+      </div>
+    </template>
+  </b-navbar>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
@@ -71,17 +56,6 @@ export default class NavBar extends Vue {
 
   private get authenticated(): boolean {
     return state.isAuthenticated;
-  }
-
-  private burgerClicked(): void {
-    const burgers = document.querySelectorAll(".navbar-burger");
-    const navmenu = document.querySelectorAll(".navbar-menu");
-    burgers.forEach(burger => {
-      burger.classList.toggle("is-active");
-    });
-    navmenu.forEach(nav => {
-      nav.classList.toggle("is-active");
-    });
   }
 
   private jumpTo(location: RawLocation) {
