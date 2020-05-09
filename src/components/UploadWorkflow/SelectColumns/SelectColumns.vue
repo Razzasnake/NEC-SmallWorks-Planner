@@ -8,7 +8,7 @@
         v-model="latSearch"
         placeholder="Search for a column"
         :data="filterOptions(latSearch)"
-        @input="latSelect"
+        @select="latSelect"
         open-on-focus
         keep-first
         clearable
@@ -19,7 +19,7 @@
         v-model="lngSearch"
         placeholder="Search for a column"
         :data="filterOptions(lngSearch)"
-        @input="lngSelect"
+        @select="lngSelect"
         open-on-focus
         keep-first
         clearable
@@ -71,7 +71,10 @@ export default class SelectColumns extends Vue {
     if (this.firstRowHeader) {
       return this.value[0].map(_ => _.toString());
     } else {
-      return this.value[0].map((_, index) => `Column ${index.toString()}`);
+      return this.value[0].map(
+        (_, index) =>
+          `Column ${index.toString()} (Example: ${this.value[0][index]})`
+      );
     }
   }
 
