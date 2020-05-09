@@ -1,28 +1,29 @@
 <template>
   <b-navbar fixed-top transparent>
     <template slot="brand">
-      <div class="navbar-item">
-        <a @click="jumpTo({ name: 'Home' })" class="logo">
-          <div>Table &amp; Map</div>
-        </a>
-      </div>
+      <b-navbar-item>
+        <a @click="jumpTo({ name: 'Home' })">Table &amp; Map</a>
+      </b-navbar-item>
     </template>
     <template slot="start">
-      <div class="navbar-item" v-if="inAnalysis">
-        <FileOption @updateSettings="updateSettings"></FileOption>
-      </div>
-      <div class="navbar-item" v-if="inAnalysis">
-        <ViewOption :viewOptions="viewOptions" @updateViewOptions="updateViewOptions"></ViewOption>
-      </div>
+      <FileOption v-if="inAnalysis" @updateSettings="updateSettings"></FileOption>
+      <ViewOption
+        v-if="inAnalysis"
+        :viewOptions="viewOptions"
+        @updateViewOptions="updateViewOptions"
+      ></ViewOption>
     </template>
     <template slot="end">
-      <div class="navbar-item">
+      <b-navbar-item>
         <a v-if="authenticated" @click="jumpTo({ name: 'Uploads' })">Uploads</a>
         <a v-else @click="jumpTo({ name: 'Examples' })">Examples</a>
-      </div>
-      <div class="navbar-item">
-        <SignInSignOut />
-      </div>
+      </b-navbar-item>
+      <b-navbar-item>
+        <div class="buttons">
+          <SignInSignOut class="margin-right-8" />
+          <SignUp />
+        </div>
+      </b-navbar-item>
     </template>
   </b-navbar>
 </template>
@@ -31,6 +32,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import FileOption from "@/components/NavBar/Options/FileOption/FileOption.vue";
 import ViewOption from "@/components/NavBar/Options/ViewOption/ViewOption.vue";
 import SignInSignOut from "@/components/NavBar/Options/SignInSignOut/SignInSignOut.vue";
+import SignUp from "@/components/NavBar/Options/SignUp/SignUp.vue";
 import state from "@/store/userStore";
 
 /**
@@ -40,7 +42,8 @@ import state from "@/store/userStore";
   components: {
     FileOption,
     ViewOption,
-    SignInSignOut
+    SignInSignOut,
+    SignUp
   }
 })
 export default class NavBar extends Vue {
@@ -74,7 +77,6 @@ export default class NavBar extends Vue {
   }
 
   private updateViewOptions(viewOptions: string[]) {
-    this.viewOptions = viewOptions;
     /**
      * Notify the parent to modify what is in view
      *
@@ -86,13 +88,9 @@ export default class NavBar extends Vue {
 </script>
 <style lang='scss' scoped>
 .navbar {
-  background-color: #FAFAFA;
-  .logo {
-    display: flex;
-    align-items: center;
-    img {
-      margin-right: 10px;
-    }
+  background-color: #fafafa;
+  .margin-right-8 {
+    margin-right: 8px;
   }
 }
 </style>

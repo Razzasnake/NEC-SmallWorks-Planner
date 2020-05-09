@@ -1,9 +1,9 @@
 <template>
   <div>
     <b-button v-if="authenticated" @click="logoutUser">Logout</b-button>
-    <b-button v-else slot="trigger" class="is-primary" @click="modalVisible = true">Sign in</b-button>
+    <b-button v-else slot="trigger" @click="modalVisible = true">Sign in</b-button>
     <b-modal :active.sync="modalVisible" has-modal-card trap-focus>
-      <form class="sign-in card" id="sign-in-form">
+      <form class="sign-in card" id="sign-in-form" action="#">
         <div v-if="error" class="help is-danger error">Invalid username or password</div>
         <b-field label="Email">
           <b-input type="email" v-model="form.username" expanded></b-input>
@@ -11,7 +11,7 @@
         <b-field label="Password">
           <b-input type="password" v-model="form.password" password-reveal expanded></b-input>
         </b-field>
-        <b-button class="is-primary" expanded @click="loginUser">Login</b-button>
+        <b-button class="is-primary" expanded @click="loginUser">Sign In</b-button>
       </form>
     </b-modal>
   </div>
