@@ -23,6 +23,9 @@ import state, {
   reset
 } from "@/store/exploreStore";
 
+/**
+ * Root of project
+ */
 @Component({
   components: {
     NavBar

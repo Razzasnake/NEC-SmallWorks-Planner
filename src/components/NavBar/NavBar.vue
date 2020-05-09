@@ -65,6 +65,8 @@ export default class NavBar extends Vue {
   private jumpTo(location: { name: string }) {
     /**
      * User wants to jump to a different location
+     * 
+     * @type {{location: {name: string}}}
      */
     this.$emit("jumpTo", location);
   }
