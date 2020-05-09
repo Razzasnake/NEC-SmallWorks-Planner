@@ -183,22 +183,24 @@ export default class TableAndMap extends Vue {
     row: Row
   ): google.maps.InfoWindow | null {
     if (this.uploadedFile.firstRowHeader) {
-      const keys = ['Name', 'Address']
-      let content = ''
-      this.uploadedFile.data[0].data.forEach((header: string, index: number) => {
-        keys.forEach(key => {
-          if (header.toLowerCase().indexOf(key.toLowerCase()) > -1) {
-            content = content + `<div><b>${header}:</b> ${row[index]}</div>`
-          }
-        })
-      })
+      const keys = ["Name", "Address"];
+      let content = "";
+      this.uploadedFile.data[0].data.forEach(
+        (header: string, index: number) => {
+          keys.forEach(key => {
+            if (header.toLowerCase().indexOf(key.toLowerCase()) > -1) {
+              content = content + `<div><b>${header}:</b> ${row[index]}</div>`;
+            }
+          });
+        }
+      );
       if (content.length) {
         return new google.maps.InfoWindow({
-          content,
+          content
         });
       }
     }
-    return null
+    return null;
   }
 
   private markerSelected(id: string): void {
@@ -306,15 +308,4 @@ export default class TableAndMap extends Vue {
 }
 </style>
 <style lang='scss'>
-.gutter {
-  background-color: #eeeeee;
-  background-repeat: no-repeat;
-  background-position: 50%;
-  &.gutter-vertical {
-    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=");
-  }
-  &:hover {
-    cursor: row-resize;
-  }
-}
 </style>

@@ -1,19 +1,21 @@
 <template>
   <div>
     <b-button v-if="authenticated" @click="logoutUser">Logout</b-button>
-    <b-dropdown v-else class="is-right">
-      <b-button class="is-primary" slot="trigger">Login</b-button>
-      <div class="sign-in">
-        <div v-if="error" class="help is-danger error">Invalid username or password</div>
-        <b-field label="Email">
-          <b-input type="email" v-model="form.username" expanded></b-input>
-        </b-field>
-        <b-field label="Password">
-          <b-input type="password" v-model="form.password" password-reveal expanded></b-input>
-        </b-field>
-        <b-button class="is-primary" expanded @click="loginUser">Login</b-button>
-      </div>
-    </b-dropdown>
+    <template v-else>
+      <b-dropdown class="is-right">
+        <b-button slot="trigger" class="is-primary">Sign in</b-button>
+        <form class="sign-in" id="sign-in-form">
+          <div v-if="error" class="help is-danger error">Invalid username or password</div>
+          <b-field label="Email">
+            <b-input type="email" v-model="form.username" expanded></b-input>
+          </b-field>
+          <b-field label="Password">
+            <b-input type="password" v-model="form.password" password-reveal expanded></b-input>
+          </b-field>
+          <b-button class="is-primary" expanded @click="loginUser">Login</b-button>
+        </form>
+      </b-dropdown>
+    </template>
   </div>
 </template>
 <script lang='ts'>
@@ -34,6 +36,20 @@ export default class SignInSignOut extends Vue {
     return state.isAuthenticated;
   }
 
+  private mounted() {
+    const el = document.getElementById("sign-in-form");
+    if (el) {
+      el.addEventListener("keyup", this.onEnter);
+    }
+  }
+
+  private onEnter(event: KeyboardEvent) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+      this.loginUser();
+    }
+  }
+
   private loginUser() {
     login(this.form)
       .then(() => {
@@ -46,6 +62,13 @@ export default class SignInSignOut extends Vue {
 
   private async logoutUser() {
     await logout();
+  }
+
+  private beforeDestroy() {
+    const el = document.getElementById("sign-in-form");
+    if (el) {
+      el.removeEventListener("keyup", this.onEnter);
+    }
   }
 }
 </script>

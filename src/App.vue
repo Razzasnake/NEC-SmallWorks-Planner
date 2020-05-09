@@ -7,11 +7,9 @@
       @updateSettings="updateSettings"
       @updateViewOptions="updateViewOptions"
     ></NavBar>
-    <div class="root">
-      <router-view
-        :style="backgroundStyle"
-      ></router-view>
-    </div>
+    <template>
+      <router-view></router-view>
+    </template>
   </div>
 </template>
 
@@ -24,7 +22,6 @@ import state, {
   updateSettingsVisible,
   reset
 } from "@/store/exploreStore";
-import { RawLocation } from "vue-router";
 
 @Component({
   components: {
@@ -32,14 +29,6 @@ import { RawLocation } from "vue-router";
   }
 })
 export default class App extends Vue {
-  private backgroundStyle = `
-    background-image: url(${require('@/assets/background.svg')});
-    min-height: 100%;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center;
-    background-size: cover;`
-
   private get uploadedFile() {
     return state.uploadedFile;
   }
@@ -61,9 +50,11 @@ export default class App extends Vue {
     this.routeChanged();
   }
 
-  private jumpTo(location: RawLocation) {
+  private jumpTo(location: { name: string }) {
     reset();
-    this.$router.push(location);
+    if (location.name !== this.$route.name) {
+      this.$router.push(location);
+    }
   }
 
   private updateSettings() {
@@ -76,8 +67,8 @@ export default class App extends Vue {
 }
 </script>
 <style lang="scss" scoped>
-.root {
-  margin-top: 52px;
+#app {
+  background-color: #fafafa;
   height: calc(100vh - 52px);
 }
 </style>

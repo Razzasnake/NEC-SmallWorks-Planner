@@ -91,6 +91,8 @@ export default class PreviewCard extends Vue {
     return values;
   }
 
+  private set tableData(_: { label: any; value: any }[]) {}
+
   private get tableColumns() {
     return [
       {

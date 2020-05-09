@@ -34,7 +34,6 @@ import ExampleAnalysis from "@/entities/ExampleAnalysis";
 import UploadedFile from "@/entities/UploadedFile";
 import { updateUploadedFile } from "@/store/exploreStore";
 import uploadedFilesApi from "@/api/uploadedFiles";
-import { RawLocation } from "vue-router";
 import UploadWorkflow from "@/components/UploadWorkflow/UploadWorkflow.vue";
 
 @Component({
@@ -62,7 +61,7 @@ export default class Uploads extends Vue {
     this.$router.push({ name: "Explore" });
   }
 
-  private jumpTo(location: RawLocation) {
+  private jumpTo(location: { name: string }) {
     this.$router.push(location);
   }
 

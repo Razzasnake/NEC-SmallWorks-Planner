@@ -1,50 +1,36 @@
 <template>
-  <nav class="navbar is-fixed-top is-light">
-    <div class="navbar-brand">
+  <b-navbar fixed-top transparent>
+    <template slot="brand">
       <div class="navbar-item">
-        <a @click="jumpTo({ name: 'Home' })">Table &amp; Map</a>
+        <a @click="jumpTo({ name: 'Home' })" class="logo">
+          <div>Table &amp; Map</div>
+        </a>
       </div>
-      <a
-        role="button"
-        class="navbar-burger burger"
-        aria-label="menu"
-        aria-expanded="false"
-        data-target="navMenu"
-        @click="burgerClicked"
-      >
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-        <span aria-hidden="true"></span>
-      </a>
-    </div>
-
-    <div class="navbar-menu" id="navMenu">
-      <div class="navbar-start">
-        <div class="navbar-item" v-if="inAnalysis">
-          <FileOption @updateSettings="updateSettings"></FileOption>
-        </div>
-        <div class="navbar-item" v-if="inAnalysis">
-          <ViewOption :viewOptions="viewOptions" @updateViewOptions="updateViewOptions"></ViewOption>
-        </div>
+    </template>
+    <template slot="start">
+      <div class="navbar-item" v-if="inAnalysis">
+        <FileOption @updateSettings="updateSettings"></FileOption>
       </div>
-      <div class="navbar-end">
-        <div class="navbar-item">
-          <a v-if="authenticated" @click="jumpTo({ name: 'Uploads' })">Uploads</a>
-          <a v-else @click="jumpTo({ name: 'Examples' })">Examples</a>
-        </div>
-        <div class="navbar-item">
-          <SignInSignOut />
-        </div>
+      <div class="navbar-item" v-if="inAnalysis">
+        <ViewOption :viewOptions="viewOptions" @updateViewOptions="updateViewOptions"></ViewOption>
       </div>
-    </div>
-  </nav>
+    </template>
+    <template slot="end">
+      <div class="navbar-item">
+        <a v-if="authenticated" @click="jumpTo({ name: 'Uploads' })">Uploads</a>
+        <a v-else @click="jumpTo({ name: 'Examples' })">Examples</a>
+      </div>
+      <div class="navbar-item">
+        <SignInSignOut />
+      </div>
+    </template>
+  </b-navbar>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
 import FileOption from "@/components/NavBar/Options/FileOption/FileOption.vue";
 import ViewOption from "@/components/NavBar/Options/ViewOption/ViewOption.vue";
 import SignInSignOut from "@/components/NavBar/Options/SignInSignOut/SignInSignOut.vue";
-import { RawLocation } from "vue-router";
 import state from "@/store/userStore";
 
 /**
@@ -73,18 +59,7 @@ export default class NavBar extends Vue {
     return state.isAuthenticated;
   }
 
-  private burgerClicked(): void {
-    const burgers = document.querySelectorAll(".navbar-burger");
-    const navmenu = document.querySelectorAll(".navbar-menu");
-    burgers.forEach(burger => {
-      burger.classList.toggle("is-active");
-    });
-    navmenu.forEach(nav => {
-      nav.classList.toggle("is-active");
-    });
-  }
-
-  private jumpTo(location: RawLocation) {
+  private jumpTo(location: { name: string }) {
     /**
      * User wants to jump to a different location
      */
@@ -110,4 +85,14 @@ export default class NavBar extends Vue {
 }
 </script>
 <style lang='scss' scoped>
+.navbar {
+  background-color: #FAFAFA;
+  .logo {
+    display: flex;
+    align-items: center;
+    img {
+      margin-right: 10px;
+    }
+  }
+}
 </style>
