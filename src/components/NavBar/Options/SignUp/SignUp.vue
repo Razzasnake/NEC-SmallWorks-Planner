@@ -1,5 +1,5 @@
 <template>
-  <b-modal :active.sync="modalVisible" has-modal-card trap-focus>
+  <b-modal :active="modalVisible" :on-cancel="close" has-modal-card trap-focus>
     <div class="sign-up card">
       <div class="title">Coming Soon</div>
       <div class="subtitle">User accounts are currently in development.</div>
@@ -47,7 +47,7 @@ export default class SignUp extends Vue {
 
   private get isValid() {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(this.email.toLowerCase());;
+    return re.test(this.email.toLowerCase());
   }
 
   private get modalVisible(): boolean {
@@ -84,20 +84,23 @@ export default class SignUp extends Vue {
         });
       })
       .finally(() => {
-        this.email = "";
-        updateSignUpModalVisible(false);
+        this.close();
       });
   }
 
-  private beforeDestroy() {
+  private close() {
+    this.email = "";
     updateSignUpModalVisible(false);
+  }
+
+  private beforeDestroy() {
+    this.close();
   }
 }
 </script>
 <style lang='scss' scoped>
 .sign-up {
   padding: 1rem;
-  max-width: 550px;
   .coming-soon {
     margin: 1rem;
   }

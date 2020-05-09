@@ -1,5 +1,5 @@
 <template>
-  <b-modal :active.sync="modalVisible" has-modal-card trap-focus>
+  <b-modal :active="modalVisible" :on-cancel="close" has-modal-card trap-focus>
     <form class="sign-in card" id="sign-in-form" action="#">
       <div v-if="error" class="help is-danger error">Invalid username or password</div>
       <b-field label="Email">
@@ -14,10 +14,7 @@
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import state, {
-  login,
-  updateSignInModalVisible
-} from "@/store/userStore";
+import state, { login, updateSignInModalVisible } from "@/store/userStore";
 
 /**
  * Sign In/Sign Out button for okta
@@ -56,22 +53,26 @@ export default class SignInSignOut extends Vue {
   private loginUser() {
     login(this.form)
       .then(() => {
-        this.error = null;
+        this.close();
       })
       .catch((error: Error) => {
         this.error = error;
       });
   }
 
-  private beforeDestroy() {
+  private close() {
+    this.error = null;
     updateSignInModalVisible(false);
+  }
+
+  private beforeDestroy() {
+    this.close();
   }
 }
 </script>
 <style lang='scss' scoped>
 .sign-in {
   padding: 1rem;
-  min-width: 400px;
   .error {
     text-align: center;
     padding-bottom: 1rem;
