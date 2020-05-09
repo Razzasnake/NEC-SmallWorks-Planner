@@ -6,24 +6,20 @@
       :on-cancel="reset"
       has-modal-card
       trap-focus
-      aria-role="dialog"
-      aria-modal
     >
-      <div class="card">
+      <div class="card wrapper">
         <header class="card-header">
           <p class="card-header-title">Select Columns</p>
         </header>
         <div class="card-content">
-          <div class="body">
-            <SelectColumns
-              v-if="step === 1"
-              :value="uploadedFile"
-              :columnSelections="columnSelections"
-              :firstRowHeader="firstRowHeader"
-              @updateSelections="updateSelections"
-              @updateFirstRowHeader="updateFirstRowHeader"
-            ></SelectColumns>
-          </div>
+          <SelectColumns
+            v-if="step === 1"
+            :value="uploadedFile"
+            :columnSelections="columnSelections"
+            :firstRowHeader="firstRowHeader"
+            @updateSelections="updateSelections"
+            @updateFirstRowHeader="updateFirstRowHeader"
+          ></SelectColumns>
         </div>
         <div class="upload-footer">
           <b-button @click="reset" class="margin-right">Back</b-button>
@@ -142,19 +138,14 @@ export default class UploadWorkflow extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-.body {
-  height: 300px;
-  width: 50%;
-  min-width: 750px;
-}
-.card__footer {
-  margin: 10px;
+.wrapper {
+  width: 750px;
 }
 .upload-footer {
   padding: 1.5rem;
   text-align: right;
   .margin-right {
-    margin-right: 10px;
+    margin-right: 8px;
   }
 }
 </style>
