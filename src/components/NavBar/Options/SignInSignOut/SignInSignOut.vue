@@ -1,25 +1,23 @@
 <template>
   <div>
     <b-button v-if="authenticated" @click="logoutUser">Logout</b-button>
-    <template v-else>
-      <b-dropdown class="is-right">
-        <b-button slot="trigger" class="is-primary">Sign in</b-button>
-        <form class="sign-in" id="sign-in-form">
-          <div v-if="error" class="help is-danger error">Invalid username or password</div>
-          <b-field label="Email">
-            <b-input type="email" v-model="form.username" expanded></b-input>
-          </b-field>
-          <b-field label="Password">
-            <b-input type="password" v-model="form.password" password-reveal expanded></b-input>
-          </b-field>
-          <b-button class="is-primary" expanded @click="loginUser">Login</b-button>
-        </form>
-      </b-dropdown>
-    </template>
+    <b-button v-else slot="trigger" class="is-primary" @click="modalVisible = true">Sign in</b-button>
+    <b-modal :active.sync="modalVisible" has-modal-card trap-focus>
+      <form class="sign-in card" id="sign-in-form">
+        <div v-if="error" class="help is-danger error">Invalid username or password</div>
+        <b-field label="Email">
+          <b-input type="email" v-model="form.username" expanded></b-input>
+        </b-field>
+        <b-field label="Password">
+          <b-input type="password" v-model="form.password" password-reveal expanded></b-input>
+        </b-field>
+        <b-button class="is-primary" expanded @click="loginUser">Login</b-button>
+      </form>
+    </b-modal>
   </div>
 </template>
 <script lang='ts'>
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import state, { login, logout } from "@/store/userStore";
 
 /**
@@ -31,15 +29,22 @@ import state, { login, logout } from "@/store/userStore";
 export default class SignInSignOut extends Vue {
   private form = { username: "", password: "" };
   private error: Error | null = null;
+  private modalVisible: boolean = false;
 
   private get authenticated(): boolean {
     return state.isAuthenticated;
   }
 
-  private mounted() {
+  @Watch("modalVisible")
+  private async modalVisibleChanged() {
+    await this.$nextTick();
     const el = document.getElementById("sign-in-form");
     if (el) {
-      el.addEventListener("keyup", this.onEnter);
+      if (this.modalVisible) {
+        el.addEventListener("keyup", this.onEnter);
+      } else {
+        el.removeEventListener("keyup", this.onEnter);
+      }
     }
   }
 
@@ -65,20 +70,17 @@ export default class SignInSignOut extends Vue {
   }
 
   private beforeDestroy() {
-    const el = document.getElementById("sign-in-form");
-    if (el) {
-      el.removeEventListener("keyup", this.onEnter);
-    }
+    this.modalVisible = false;
   }
 }
 </script>
 <style lang='scss' scoped>
 .sign-in {
-  padding: 0.375rem 1rem;
-  min-width: 300px;
+  padding: 1rem;
+  min-width: 400px;
   .error {
     text-align: center;
-    padding-bottom: 0.375rem;
+    padding-bottom: 1rem;
     font-weight: bold;
   }
 }
