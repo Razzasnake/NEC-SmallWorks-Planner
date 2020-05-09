@@ -21,7 +21,7 @@
       <b-navbar-item>
         <div class="buttons">
           <SignInSignOut class="margin-right-8" />
-          <SignUp />
+          <SignUp v-if="!authenticated" />
         </div>
       </b-navbar-item>
     </template>
