@@ -1,10 +1,7 @@
 <template>
-  <b-dropdown>
-    <div slot="trigger">
-      <a>File</a>
-    </div>
-    <b-dropdown-item @click="updateSettings">Update Settings</b-dropdown-item>
-  </b-dropdown>
+  <b-navbar-dropdown label="File">
+    <b-navbar-item @click="updateSettings">Update Settings</b-navbar-item>
+  </b-navbar-dropdown>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
