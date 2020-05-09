@@ -7,6 +7,8 @@
       @updateSettings="updateSettings"
       @updateViewOptions="updateViewOptions"
     ></NavBar>
+    <SignInSignOut />
+    <SignUp />
     <template>
       <router-view></router-view>
     </template>
@@ -17,6 +19,8 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { refreshAuthenticated } from "@/store/userStore";
 import NavBar from "@/components/NavBar/NavBar.vue";
+import SignInSignOut from "@/components/NavBar/Options/SignInSignOut/SignInSignOut.vue";
+import SignUp from "@/components/NavBar/Options/SignUp/SignUp.vue";
 import state, {
   updateViewOptions,
   updateSettingsVisible,
@@ -28,7 +32,9 @@ import state, {
  */
 @Component({
   components: {
-    NavBar
+    NavBar,
+    SignInSignOut,
+    SignUp
   }
 })
 export default class App extends Vue {

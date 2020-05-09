@@ -1,39 +1,46 @@
 <template>
-  <b-navbar fixed-top transparent>
-    <template slot="brand">
-      <b-navbar-item>
-        <a @click="jumpTo({ name: 'Home' })">Table &amp; Map</a>
-      </b-navbar-item>
-    </template>
-    <template slot="start">
-      <FileOption v-if="inAnalysis" @updateSettings="updateSettings"></FileOption>
-      <ViewOption
-        v-if="inAnalysis"
-        :viewOptions="viewOptions"
-        @updateViewOptions="updateViewOptions"
-      ></ViewOption>
-    </template>
-    <template slot="end">
-      <b-navbar-item>
-        <a v-if="authenticated" @click="jumpTo({ name: 'Uploads' })">Uploads</a>
-        <a v-else @click="jumpTo({ name: 'Examples' })">Examples</a>
-      </b-navbar-item>
-      <b-navbar-item>
-        <div class="buttons">
-          <SignInSignOut class="margin-right-8" />
-          <SignUp v-if="!authenticated" />
-        </div>
-      </b-navbar-item>
-    </template>
-  </b-navbar>
+  <div>
+    <b-navbar fixed-top transparent>
+      <template slot="brand">
+        <b-navbar-item>
+          <a @click="jumpTo({ name: 'Home' })">Table &amp; Map</a>
+        </b-navbar-item>
+      </template>
+      <template slot="start">
+        <FileOption v-if="inAnalysis" @updateSettings="updateSettings"></FileOption>
+        <ViewOption
+          v-if="inAnalysis"
+          :viewOptions="viewOptions"
+          @updateViewOptions="updateViewOptions"
+        ></ViewOption>
+      </template>
+      <template slot="end">
+        <b-navbar-item>
+          <a v-if="authenticated" @click="jumpTo({ name: 'Uploads' })">Uploads</a>
+          <a v-else @click="jumpTo({ name: 'Examples' })">Examples</a>
+        </b-navbar-item>
+        <b-navbar-item>
+          <div class="buttons">
+            <div class="margin-right-8">
+              <b-button v-if="authenticated" @click="logoutUser">Logout</b-button>
+              <b-button v-else @click="signIn">Sign in</b-button>
+            </div>
+            <b-button v-if="!authenticated" class="is-primary" @click="signUp">Sign up</b-button>
+          </div>
+        </b-navbar-item>
+      </template>
+    </b-navbar>
+  </div>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
 import FileOption from "@/components/NavBar/Options/FileOption/FileOption.vue";
 import ViewOption from "@/components/NavBar/Options/ViewOption/ViewOption.vue";
-import SignInSignOut from "@/components/NavBar/Options/SignInSignOut/SignInSignOut.vue";
-import SignUp from "@/components/NavBar/Options/SignUp/SignUp.vue";
-import state from "@/store/userStore";
+import state, {
+  logout,
+  updateSignInModalVisible,
+  updateSignUpModalVisible
+} from "@/store/userStore";
 
 /**
  * Navigation Bar at the top of the website to navigate between sections
@@ -41,9 +48,7 @@ import state from "@/store/userStore";
 @Component({
   components: {
     FileOption,
-    ViewOption,
-    SignInSignOut,
-    SignUp
+    ViewOption
   }
 })
 export default class NavBar extends Vue {
@@ -65,7 +70,7 @@ export default class NavBar extends Vue {
   private jumpTo(location: { name: string }) {
     /**
      * User wants to jump to a different location
-     * 
+     *
      * @type {{location: {name: string}}}
      */
     this.$emit("jumpTo", location);
@@ -85,6 +90,18 @@ export default class NavBar extends Vue {
      * @type {string[]}
      */
     this.$emit("updateViewOptions", viewOptions);
+  }
+
+  private signIn() {
+    updateSignInModalVisible(true);
+  }
+
+  private async logoutUser() {
+    await logout();
+  }
+
+  private signUp() {
+    updateSignUpModalVisible(true);
   }
 }
 </script>

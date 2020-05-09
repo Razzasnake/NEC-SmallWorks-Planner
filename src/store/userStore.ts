@@ -4,12 +4,16 @@ import User from "@/entities/User";
 
 interface UserStoreI {
   user: User | null,
-  isAuthenticated: boolean
+  isAuthenticated: boolean,
+  signInModalVisible: boolean,
+  signUpModalVisible: boolean
 };
 
 const state: UserStoreI = Vue.observable({
   user: null,
-  isAuthenticated: false
+  isAuthenticated: false,
+  signInModalVisible: false,
+  signUpModalVisible: false
 });
 
 export const getUser = async () => {
@@ -51,6 +55,14 @@ export const refreshAuthenticated = async () => {
 export const reset = () => {
   state.user = null;
   state.isAuthenticated = false;
+}
+
+export const updateSignInModalVisible = (visible: boolean) => {
+  state.signInModalVisible = visible
+}
+
+export const updateSignUpModalVisible = (visible: boolean) => {
+  state.signUpModalVisible = visible
 }
 
 export default state;
