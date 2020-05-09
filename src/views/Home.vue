@@ -19,7 +19,7 @@ import { updateUploadedFile } from "@/store/exploreStore";
 import Preview from "@/components/Home/Preview/Preview.vue";
 
 /**
- * Contain workflow to get a file uploaded
+ * Home page to display to first visitors
  */
 @Component({
   components: {

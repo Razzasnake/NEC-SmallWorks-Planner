@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Upload @fileUploaded="fileUploaded"></Upload>
+    <Upload @fileUploaded="fileUploaded" v-if="!passedUploadedFile"></Upload>
     <b-modal
       :active="step > 0"
       :on-cancel="reset"
@@ -119,7 +119,7 @@ export default class UploadWorkflow extends Vue {
     });
     /**
      * Emit the uploaded file
-     * 
+     *
      * @type {UploadedFile}
      */
     this.$emit("finish", uploadedFile);
@@ -137,7 +137,7 @@ export default class UploadWorkflow extends Vue {
     /**
      * The modal was closed
      */
-    this.$emit('closeModal')
+    this.$emit("closeModal");
   }
 }
 </script>

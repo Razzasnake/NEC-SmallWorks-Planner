@@ -29,6 +29,7 @@
     "@types/okta__okta-vue": "^1.2.0",
     "ag-grid-community": "^23.1.0",
     "ag-grid-vue": "^23.1.0",
+    "axios": "^0.19.2",
     "buefy": "^0.8.17",
     "google-maps": "^4.2.3",
     "lodash": "^4.17.15",

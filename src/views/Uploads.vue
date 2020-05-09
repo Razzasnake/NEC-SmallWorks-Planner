@@ -36,6 +36,9 @@ import { updateUploadedFile } from "@/store/exploreStore";
 import uploadedFilesApi from "@/api/uploadedFiles";
 import UploadWorkflow from "@/components/UploadWorkflow/UploadWorkflow.vue";
 
+/**
+ * Section to show user uploads
+ */
 @Component({
   components: {
     UploadWorkflow,
