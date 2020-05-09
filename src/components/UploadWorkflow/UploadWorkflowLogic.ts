@@ -1,6 +1,6 @@
 export default class UploadWorkflowLogic {
   public static guessColumnTypes(data: any[][]) {
-    const columnSelections: {lat: null | number, lng: null | number} = {
+    const columnSelections: { lat: null | number, lng: null | number } = {
       lat: null,
       lng: null
     }
@@ -8,7 +8,7 @@ export default class UploadWorkflowLogic {
     const lngTerms = new Set(["longitude", "lng", "lon"]);
     if (data.length) {
       data[0].forEach((h, index) => {
-        const cleanH = h.toLowerCase();
+        const cleanH = h.toString().toLowerCase();
         if (latTerms.has(cleanH)) {
           columnSelections.lat = index;
         } else if (lngTerms.has(cleanH)) {
