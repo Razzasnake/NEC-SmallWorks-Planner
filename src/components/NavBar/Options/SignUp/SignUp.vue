@@ -1,36 +1,34 @@
 <template>
-  <div>
-    <b-button slot="trigger" class="is-primary" @click="modalVisible = true">Sign up</b-button>
-    <b-modal :active.sync="modalVisible" has-modal-card trap-focus>
-      <div class="sign-up card">
-        <div class="title">Coming Soon</div>
-        <div class="subtitle">User accounts are currently in development.</div>
-        <div class="coming-soon">
-          <b>Other features in development:</b>
-          <div v-for="(s, index) in comingSoon" :key="index">
-            <div>&bull; {{ s }}</div>
-          </div>
+  <b-modal :active.sync="modalVisible" has-modal-card trap-focus>
+    <div class="sign-up card">
+      <div class="title">Coming Soon</div>
+      <div class="subtitle">User accounts are currently in development.</div>
+      <div class="coming-soon">
+        <b>Other features in development:</b>
+        <div v-for="(s, index) in comingSoon" :key="index">
+          <div>&bull; {{ s }}</div>
         </div>
-        <div
-          class="mailing-list"
-        >Subscribe to our mailing list and receive emails when new features are available.</div>
-        <b-field label="Email">
-          <b-input
-            type="email"
-            v-model="email"
-            expanded
-            placeholder="Enter email address"
-            id="email-input"
-          ></b-input>
-        </b-field>
-        <b-button class="is-primary" expanded @click="submitEmail" :disabled="!isValid">Subscribe</b-button>
       </div>
-    </b-modal>
-  </div>
+      <div
+        class="mailing-list"
+      >Subscribe to our mailing list and receive emails when new features are available.</div>
+      <b-field label="Email">
+        <b-input
+          type="email"
+          v-model="email"
+          expanded
+          placeholder="Enter email address"
+          id="email-input"
+        ></b-input>
+      </b-field>
+      <b-button class="is-primary" expanded @click="submitEmail" :disabled="!isValid">Subscribe</b-button>
+    </div>
+  </b-modal>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import mailingListApi from "@/api/mailingList";
+import state, { updateSignUpModalVisible } from "@/store/userStore";
 
 /**
  * Sign In/Sign Out button for okta
@@ -40,7 +38,6 @@ import mailingListApi from "@/api/mailingList";
 })
 export default class SignUp extends Vue {
   private email: string = "";
-  private modalVisible: boolean = false;
   private comingSoon = [
     "User accounts",
     "Shareable public links to your datasets",
@@ -50,8 +47,11 @@ export default class SignUp extends Vue {
 
   private get isValid() {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    const isEmail = re.test(this.email.toLowerCase());
-    return isEmail;
+    return re.test(this.email.toLowerCase());;
+  }
+
+  private get modalVisible(): boolean {
+    return state.signUpModalVisible;
   }
 
   @Watch("modalVisible")
@@ -85,12 +85,12 @@ export default class SignUp extends Vue {
       })
       .finally(() => {
         this.email = "";
-        this.modalVisible = false;
+        updateSignUpModalVisible(false);
       });
   }
 
   private beforeDestroy() {
-    this.modalVisible = false;
+    updateSignUpModalVisible(false);
   }
 }
 </script>

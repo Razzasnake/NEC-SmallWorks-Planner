@@ -1,24 +1,23 @@
 <template>
-  <div>
-    <b-button v-if="authenticated" @click="logoutUser">Logout</b-button>
-    <b-button v-else slot="trigger" @click="modalVisible = true">Sign in</b-button>
-    <b-modal :active.sync="modalVisible" has-modal-card trap-focus>
-      <form class="sign-in card" id="sign-in-form" action="#">
-        <div v-if="error" class="help is-danger error">Invalid username or password</div>
-        <b-field label="Email">
-          <b-input type="email" v-model="form.username" expanded></b-input>
-        </b-field>
-        <b-field label="Password">
-          <b-input type="password" v-model="form.password" password-reveal expanded></b-input>
-        </b-field>
-        <b-button class="is-primary" expanded @click="loginUser">Sign In</b-button>
-      </form>
-    </b-modal>
-  </div>
+  <b-modal :active.sync="modalVisible" has-modal-card trap-focus>
+    <form class="sign-in card" id="sign-in-form" action="#">
+      <div v-if="error" class="help is-danger error">Invalid username or password</div>
+      <b-field label="Email">
+        <b-input type="email" v-model="form.username" expanded></b-input>
+      </b-field>
+      <b-field label="Password">
+        <b-input type="password" v-model="form.password" password-reveal expanded></b-input>
+      </b-field>
+      <b-button class="is-primary" expanded @click="loginUser">Sign In</b-button>
+    </form>
+  </b-modal>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import state, { login, logout } from "@/store/userStore";
+import state, {
+  login,
+  updateSignInModalVisible
+} from "@/store/userStore";
 
 /**
  * Sign In/Sign Out button for okta
@@ -29,10 +28,9 @@ import state, { login, logout } from "@/store/userStore";
 export default class SignInSignOut extends Vue {
   private form = { username: "", password: "" };
   private error: Error | null = null;
-  private modalVisible: boolean = false;
 
-  private get authenticated(): boolean {
-    return state.isAuthenticated;
+  private get modalVisible(): boolean {
+    return state.signInModalVisible;
   }
 
   @Watch("modalVisible")
@@ -65,12 +63,8 @@ export default class SignInSignOut extends Vue {
       });
   }
 
-  private async logoutUser() {
-    await logout();
-  }
-
   private beforeDestroy() {
-    this.modalVisible = false;
+    updateSignInModalVisible(false);
   }
 }
 </script>
