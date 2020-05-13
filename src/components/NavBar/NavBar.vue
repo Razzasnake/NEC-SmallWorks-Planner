@@ -21,11 +21,11 @@
         </b-navbar-item>
         <b-navbar-item>
           <div class="buttons">
-            <div class="margin-right-8">
+            <!-- <div class="margin-right-8">
               <b-button v-if="authenticated" @click="logoutUser">Logout</b-button>
               <b-button v-else @click="signIn">Sign in</b-button>
-            </div>
-            <b-button v-if="!authenticated" class="is-primary" @click="signUp">Sign up</b-button>
+            </div> -->
+            <b-button v-if="!authenticated" @click="signUp">Coming soon</b-button>
           </div>
         </b-navbar-item>
       </template>
