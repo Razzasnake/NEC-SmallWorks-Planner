@@ -8,8 +8,8 @@
         <div class="column">
           <div class="title">
             <span>{{ exampleAnalysis.title }} </span>
-            <a :href="exampleAnalysis.url" target="_blank"><b-icon icon="link"></b-icon></a>
             <span class="float-right">
+              <a :href="exampleAnalysis.url" target="_blank" class="source">Source</a>
               <b-tag type="is-light">{{ exampleAnalysis.formattedCreatedOn }}</b-tag>
             </span>
           </div>
@@ -55,6 +55,12 @@ export default class Tile extends Vue {
 }
 .float-right {
   float: right;
+  display: flex;
+  .source {
+    margin: auto;
+    padding-right: 8px;
+    font-size: 15px;
+  }
 }
 .padding-top {
   margin-top: 24px;
