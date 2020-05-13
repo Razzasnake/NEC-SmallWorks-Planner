@@ -57,11 +57,6 @@ export default class GoogleMap extends Vue {
    */
   @Prop({ default: () => new Set() })
   private hiddenMarkerIndices!: Set<number>;
-  /**
-   * A Set of indices of objects to show as displayed
-   */
-  @Prop({ default: () => new Set() })
-  private selectedMarkerIndices!: Set<number>;
 
   private map!: google.maps.Map;
   private drawingManager!: google.maps.drawing.DrawingManager;
@@ -99,29 +94,6 @@ export default class GoogleMap extends Vue {
     });
   }
 
-  @Watch("selectedMarkerIndices")
-  private selectedMarkerIndicesUpdated(
-    newVals: Set<number>,
-    oldVals: Set<number>
-  ) {
-    oldVals.forEach(index => {
-      if (!newVals.has(index) && this.markers[index]) {
-        this.markers[index].setIcon({
-          url: require("@/assets/markers/point.png"),
-          scaledSize: new google.maps.Size(16, 16)
-        });
-      }
-    });
-    newVals.forEach(index => {
-      if (!oldVals.has(index) && this.markers[index]) {
-        this.markers[index].setIcon({
-          url: require("@/assets/markers/selected-point.png"),
-          scaledSize: new google.maps.Size(16, 16)
-        });
-      }
-    });
-  }
-
   @Watch("overlayEvents", { deep: true })
   private initOverlayEvents(): void {
     this.clearOverlays();
@@ -145,7 +117,7 @@ export default class GoogleMap extends Vue {
           return;
         }
         const position = { lat: row.lat!, lng: row.lng! };
-        const newMarker = this.createMarker(position, row.isSelected);
+        const newMarker = this.createMarker(position);
         newMarker.addListener("click", () => {
           if (this.map) {
             this.map.panTo(position);
@@ -166,18 +138,13 @@ export default class GoogleMap extends Vue {
     this.markers = drawnMarkers;
   }
 
-  private createMarker(
-    position: { lat: number; lng: number },
-    isSelected: boolean
-  ) {
+  private createMarker(position: { lat: number; lng: number }) {
     return new google.maps.Marker({
       position,
       zIndex: 1,
       map: this.map,
       icon: {
-        url: isSelected
-          ? require("@/assets/markers/selected-point.png")
-          : require("@/assets/markers/point.png"),
+        url: require("@/assets/markers/point.png"),
         scaledSize: new google.maps.Size(16, 16)
       }
     });

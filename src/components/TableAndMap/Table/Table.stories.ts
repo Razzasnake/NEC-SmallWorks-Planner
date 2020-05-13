@@ -20,7 +20,6 @@ const _Table = () => ({
         :sorting="sorting"
         :tableLogic="tableLogic"
         :overlayEvents="overlayEvents"
-        @rowSelectionsChanged="rowSelectionsChanged"
         @sortChanged="sortChanged"
         @filterChanged="filterChanged"
         @hiddenMarkerIndicesChanged="hiddenMarkerIndicesChanged"
@@ -44,7 +43,6 @@ const _Table = () => ({
     }
   },
   methods: {
-    rowSelectionsChanged: action('rowSelectionsChanged'),
     sortChanged: action('sortChanged'),
     filterChanged: action('filterChanged'),
     hiddenMarkerIndicesChanged: action('hiddenMarkerIndicesChanged')

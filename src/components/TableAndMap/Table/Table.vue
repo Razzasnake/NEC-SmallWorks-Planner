@@ -1,25 +1,21 @@
 <template>
   <AgGridVue
     class="ag-grid ag-theme-balham full-height"
-    v-model="rowDataAux"
+    v-model="rowData"
     :columnDefs="tableLogic.columnDefs"
-    :defaultColDef="tableLogic.defaultColDef"
+    :defaultColDef="colDef"
     :isExternalFilterPresent="isExternalFilterPresent"
     :doesExternalFilterPass="doesExternalFilterPass"
     :getRowNodeId="getRowNodeId"
-    :fillOperation="fillOperation"
     suppressColumnVirtualisation
     suppressMenuHide
     @gridReady="gridReady"
-    @data-model-changed="dataModelUpdated"
     @sortChanged="sortChanged"
     @filterChanged="filterChanged"
-    @cellKeyPress="onCellKeyPress"
   ></AgGridVue>
 </template>
 <script lang='ts'>
-import { Component, Prop, Watch, Vue } from "vue-property-decorator";
-import { cloneDeep } from "lodash";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import { AgGridVue } from "ag-grid-vue";
 import {
   GridApi,
@@ -27,7 +23,7 @@ import {
   RowNode,
   CellKeyPressEvent
 } from "ag-grid-community";
-import TableLogic from "./TableLogic";
+import TableLogic, { defaultColDef } from "./TableLogic";
 import { Row } from "@/entities/UploadedFile";
 
 /**
@@ -65,17 +61,8 @@ export default class Table extends Vue {
   @Prop({ default: () => [] })
   private overlayEvents!: google.maps.drawing.OverlayCompleteEvent[];
 
-  private rowDataAux: Row[] = [];
+  private colDef = defaultColDef;
   private gridApi!: GridApi;
-
-  @Watch("rowData")
-  private rowDataChanged(): void {
-    this.rowDataAux = cloneDeep(this.rowData);
-  }
-
-  private created() {
-    this.rowDataChanged();
-  }
 
   private isExternalFilterPresent(): boolean {
     return this.overlayEvents.length > 0;
@@ -123,26 +110,6 @@ export default class Table extends Vue {
     this.updateVisibleRows();
   }
 
-  private dataModelUpdated(rowDataAux: Row[]) {
-    const selectedMarkerIndices: Set<number> = new Set();
-    const selectedMarkerIds: string[] = [];
-    rowDataAux.forEach((row, index) => {
-      if (row.isSelected) {
-        selectedMarkerIndices.add(index);
-        selectedMarkerIds.push(row.id);
-      }
-    });
-    /**
-     * Update the selected rows
-     *
-     * @type {{selectedMarkerIds: string[], selectedMarkerIndices: Set<number>}}
-     */
-    this.$emit("rowSelectionsChanged", {
-      selectedMarkerIds,
-      selectedMarkerIndices
-    });
-  }
-
   private sortChanged() {
     /**
      * Update the sorting config
@@ -168,7 +135,7 @@ export default class Table extends Vue {
       visibleRowIds.add(node.data.id);
     });
     const hiddenMarkerIndices: Set<number> = new Set();
-    this.rowDataAux.forEach((marker, index) => {
+    this.rowData.forEach((marker, index) => {
       if (!visibleRowIds.has(marker.id)) {
         hiddenMarkerIndices.add(index);
       }
@@ -183,47 +150,6 @@ export default class Table extends Vue {
 
   private getRowNodeId(data: Row): string {
     return data.id;
-  }
-
-  private fillOperation(options: any) {
-    if (options.column && options.column.colId === "isSelected") {
-      const toUse = options.initialValues[0];
-      /* We have to use nextTick here. Cell ranges isn't updated until after next tick. */
-      this.$nextTick(() => {
-        const cellRanges = this.gridApi.getCellRanges();
-        cellRanges.forEach(range => {
-          if (range.startRow !== undefined && range.endRow !== undefined) {
-            for (
-              let i = range.startRow.rowIndex;
-              i < range.endRow.rowIndex + 1;
-              i++
-            ) {
-              this.gridApi
-                .getDisplayedRowAtIndex(i)
-                .setDataValue("isSelected", toUse);
-            }
-          }
-        });
-      });
-    }
-  }
-
-  private onCellKeyPress(e: CellKeyPressEvent): void {
-    if (e.event && (e.event as KeyboardEvent).keyCode === 32) {
-      e.node.setDataValue("isSelected", e.node.isSelected());
-    }
-  }
-
-  public select(ids: string[]): void {
-    ids.forEach(id => {
-      this.gridApi.getRowNode(id).setDataValue("isSelected", true);
-    });
-  }
-
-  public deselect(ids: string[]): void {
-    ids.forEach(id => {
-      this.gridApi.getRowNode(id).setDataValue("isSelected", false);
-    });
   }
 
   public onFilterChanged(): void {

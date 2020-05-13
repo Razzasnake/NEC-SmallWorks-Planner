@@ -3,7 +3,6 @@ class Row {
   public index!: number;
   public data!: any[];
   public tableData!: { [key: string]: any };
-  public isSelected: boolean = false;
   public lat: number | null = null;
   public lng: number | null = null;
   [key: string]: any;
@@ -22,7 +21,6 @@ class Row {
     this.index = index;
     this.id = index.toString();
     this.data = row;
-    this.isSelected = false;
     this.lat = parseFloat(row[columnSelections.lat]);
     this.lng = parseFloat(row[columnSelections.lng]);
     row.forEach((col, index) => {

@@ -16,8 +16,6 @@ const _PreviewCard = () => ({
       <PreviewCard
         :uploadedFile="uploadedFile"
         :clickedMarker="clickedMarker"
-        @select="select"
-        @deselect="deselect"
         @close="close"
       ></PreviewCard>
     </div>`,
@@ -30,8 +28,6 @@ const _PreviewCard = () => ({
     }
   },
   methods: {
-    select: action('select'),
-    deselect: action('deselect'),
     close: action('close')
   }
 })
