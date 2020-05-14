@@ -173,7 +173,9 @@ export default class TableAndMap extends Vue {
         (header: string, index: number) => {
           keys.forEach(key => {
             if (header.toLowerCase().indexOf(key.toLowerCase()) > -1) {
-              content = content + `<div><b>${header}:</b> ${row[index]}</div>`;
+              if (row[index]) {
+                content = content + `<div><b>${header}:</b> ${row[index]}</div>`;
+              }
             }
           });
         }
