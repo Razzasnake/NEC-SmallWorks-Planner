@@ -37,15 +37,6 @@ export const updateOverlayEventJsons = (overlayEventJsons: OverlayJson[]) => {
   state.map.overlayEventJsons = overlayEventJsons;
 }
 
-export const updateRowSelections = (rowIds: string[]) => {
-  if (state.uploadedFile) {
-    const rowIdsSet = new Set(rowIds);
-    state.uploadedFile.data.forEach(row => {
-      row.isSelected = rowIdsSet.has(row.id);
-    });
-  };
-}
-
 export const updateSorting = (sorting: { colId: string; sort: string }[]) => {
   state.sorting = sorting;
 }

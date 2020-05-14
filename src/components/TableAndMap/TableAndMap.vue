@@ -5,7 +5,6 @@
         v-if="map"
         :uploadedFile="uploadedFile"
         :hiddenMarkerIndices="hiddenMarkerIndices"
-        :selectedMarkerIndices="selectedMarkerIndices"
         :overlayEvents="overlayEvents"
         :createInfoWindow="createInfoWindow"
         :allowDraw="map.allowDraw"
@@ -21,7 +20,6 @@
         :sorting="sorting"
         :tableLogic="tableLogic"
         :overlayEvents="overlayEvents"
-        @rowSelectionsChanged="rowSelectionsChanged"
         @sortChanged="sortChanged"
         @filterChanged="filterChanged"
         @hiddenMarkerIndicesChanged="hiddenMarkerIndicesChanged"
@@ -32,8 +30,6 @@
       v-if="clickedMarker"
       :clickedMarker="clickedMarker"
       :uploadedFile="uploadedFile"
-      @select="$refs.Table.select"
-      @deselect="$refs.Table.deselect"
       @close="close"
     ></PreviewCard>
   </div>
@@ -44,7 +40,6 @@ import Table from "./Table/Table.vue";
 import PreviewCard from "./PreviewCard/PreviewCard.vue";
 import GoogleMap from "./GoogleMap/GoogleMap.vue";
 import Split from "split.js";
-import { cloneDeep } from "lodash";
 import { TableAndMapMap } from "./Types";
 import Utils from "./GoogleMap/Utils";
 import TableLogic from "./Table/TableLogic";
@@ -107,7 +102,6 @@ export default class TableAndMap extends Vue {
       .substring(7);
   private rowData: Row[] = [];
   private hiddenMarkerIndices: Set<number> = new Set();
-  private selectedMarkerIndices: Set<number> = new Set();
   private clickedMarker: Row | null = null;
   private splitInstance: Split | null = null;
 
@@ -135,20 +129,10 @@ export default class TableAndMap extends Vue {
 
   @Watch("uploadedFile")
   private uploadedFileUpdated(): void {
-    this.rowData = cloneDeep(
-      this.uploadedFile.data.slice(this.uploadedFile.firstRowHeader ? 1 : 0)
+    this.rowData = this.uploadedFile.data.slice(
+      this.uploadedFile.firstRowHeader ? 1 : 0
     );
     this.hiddenMarkerIndices = new Set();
-    this.selectedMarkerIndices = new Set(
-      this.uploadedFile.data
-        .map((row, index) => {
-          if (row.isSelected) {
-            return index;
-          }
-          return -1;
-        })
-        .filter(_ => _ > -1)
-    );
     this.clickedMarker = null;
   }
 
@@ -225,29 +209,6 @@ export default class TableAndMap extends Vue {
     });
   }
 
-  private rowSelectionsChanged(payload: {
-    selectedMarkerIds: string[];
-    selectedMarkerIndices: Set<number>;
-  }) {
-    this.selectedMarkerIndices.forEach(index => {
-      if (!payload.selectedMarkerIndices.has(index)) {
-        this.rowData[index].isSelected = false;
-      }
-    });
-    payload.selectedMarkerIndices.forEach(index => {
-      if (!this.selectedMarkerIndices.has(index)) {
-        this.rowData[index].isSelected = true;
-      }
-    });
-    this.selectedMarkerIndices = payload.selectedMarkerIndices;
-    /**
-     * Update the selected rows
-     *
-     * @type {string[]}
-     */
-    this.$emit("rowSelectionsChanged", payload.selectedMarkerIds);
-  }
-
   private sortChanged(sorting: { colId: string; sort: string }[]) {
     /**
      * Update the sorting config
@@ -272,18 +233,6 @@ export default class TableAndMap extends Vue {
 
   private close(): void {
     this.clickedMarker = null;
-  }
-
-  private mapOnlySelectDeselect(ids: Set<string>) {
-    const selectedMarkerIndices: Set<number> = new Set();
-    const selectedMarkerIds: string[] = [];
-    this.rowData.forEach((row, index) => {
-      if (ids.has(row.id)) {
-        selectedMarkerIndices.add(index);
-        selectedMarkerIds.push(row.id);
-      }
-    });
-    this.rowSelectionsChanged({ selectedMarkerIndices, selectedMarkerIds });
   }
 }
 </script>

@@ -2,9 +2,8 @@
   <b-modal :active="modalVisible" :on-cancel="close" has-modal-card trap-focus>
     <div class="sign-up card">
       <div class="title">Coming Soon</div>
-      <div class="subtitle">User accounts are currently in development.</div>
       <div class="coming-soon">
-        <b>Other features in development:</b>
+        <b>Features in development:</b>
         <div v-for="(s, index) in comingSoon" :key="index">
           <div>&bull; {{ s }}</div>
         </div>

@@ -15,7 +15,6 @@
       :tableLogic="tableLogic"
       :viewOptions="viewOptions"
       @updateOverlayEventJsons="updateOverlayEventJsons"
-      @rowSelectionsChanged="updateRowSelections"
       @sortChanged="updateSorting"
       @filterChanged="updateFilters"
     ></TableAndMap>
@@ -31,7 +30,6 @@ import { OverlayJson } from "@/components/TableAndMap/GoogleMap/Utils";
 import { TableAndMapMap } from "@/components/TableAndMap/Types";
 import state, {
   updateOverlayEventJsons,
-  updateRowSelections,
   updateFilters,
   updateSorting,
   updateSettingsVisible,
@@ -88,10 +86,6 @@ export default class Explore extends Vue {
 
   private updateOverlayEventJsons(overlayEventJsons: OverlayJson[]) {
     updateOverlayEventJsons(overlayEventJsons);
-  }
-
-  private updateRowSelections(rowIds: string[]) {
-    updateRowSelections(rowIds);
   }
 
   private updateSorting(sorting: { colId: string; sort: string }[]) {

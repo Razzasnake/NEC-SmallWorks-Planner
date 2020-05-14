@@ -21,7 +21,6 @@ const _TableAndMap = () => ({
         :map="map"
         :tableLogic="tableLogic"
         @updateOverlayEventJsons="updateOverlayEventJsons"
-        @rowSelectionsChanged="rowSelectionsChanged"
         @sortChanged="sortChanged"
         @filterChanged="filterChanged"
       ></TableAndMap>
@@ -53,7 +52,6 @@ const _TableAndMap = () => ({
     updateOverlayEventJsons(newJsons) {
       (this as any).$data.map.overlayEventJsons = newJsons
     },
-    rowSelectionsChanged: action('rowSelectionsChanged'),
     sortChanged: action('sortChanged'),
     filterChanged: action('filterChanged')
   }

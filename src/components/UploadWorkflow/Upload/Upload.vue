@@ -4,7 +4,7 @@
     <b-upload v-model="dropFiles" @input="fileUploaded" :accept="accept">
       <a class="button is-primary">
         <b-icon icon="upload"></b-icon>
-        <span>Click to upload</span>
+        <span>Upload a dataset</span>
       </a>
     </b-upload>
   </b-field>

@@ -14,7 +14,6 @@ const _GoogleMap = () => ({
       <GoogleMap
         :uploadedFile="uploadedFile"
         :hiddenMarkerIndices="hiddenMarkerIndices"
-        :selectedMarkerIndices="selectedMarkerIndices"
         :overlayEvents="overlayEvents"
         :createInfoWindow="createInfoWindow"
         :allowDraw="allowDraw"
@@ -27,9 +26,6 @@ const _GoogleMap = () => ({
       default: uploadedFileGenerator(100)
     },
     hiddenMarkerIndices: {
-      default: new Set()
-    },
-    selectedMarkerIndices: {
       default: new Set()
     },
     createInfoWindow: {
