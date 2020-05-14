@@ -49,6 +49,6 @@ export default class Home extends Vue {
   margin-top: 8px;
 }
 .preview {
-  max-height: 768px;
+  max-height: 60vh;
 }
 </style>
