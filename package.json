@@ -65,6 +65,7 @@
     "sass-loader": "^8.0.2",
     "storybook": "^5.3.18",
     "typescript": "^3.8.3",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.11",
+    "webpack-bundle-analyzer": "^3.7.0"
   }
 }
