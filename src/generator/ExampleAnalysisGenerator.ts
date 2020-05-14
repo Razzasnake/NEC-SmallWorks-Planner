@@ -1,5 +1,4 @@
 import ExampleAnalysis from "@/entities/ExampleAnalysis"
-// import ExampleData from '@/assets/examples/hospitals/data'
 
 const exampleAnalysisGenerator = (index: number = 0) => {
   return new ExampleAnalysis({
