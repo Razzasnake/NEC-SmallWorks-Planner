@@ -2,11 +2,11 @@
   <b-navbar-dropdown label="View">
     <b-navbar-item value="map" @click="mapClicked">
       Map
-      <b-icon :icon="mapIcon" class="displaying-icon"></b-icon>
+      <font-awesome-icon :icon="mapIcon" class="displaying-icon" />
     </b-navbar-item>
     <b-navbar-item value="table" @click="tableClicked">
       Table
-      <b-icon :icon="tableIcon" class="displaying-icon"></b-icon>
+      <font-awesome-icon :icon="tableIcon" class="displaying-icon" />
     </b-navbar-item>
   </b-navbar-dropdown>
 </template>
@@ -27,11 +27,11 @@ export default class ViewOption extends Vue {
   private viewOptions!: string[];
 
   private get mapIcon() {
-    return this.viewOptionsAux.indexOf("map") > -1 ? "eye" : "eye-off";
+    return this.viewOptionsAux.indexOf("map") > -1 ? "eye" : "eye-slash";
   }
 
   private get tableIcon() {
-    return this.viewOptionsAux.indexOf("table") > -1 ? "eye" : "eye-off";
+    return this.viewOptionsAux.indexOf("table") > -1 ? "eye" : "eye-slash";
   }
 
   private get viewOptionsAux(): string[] {

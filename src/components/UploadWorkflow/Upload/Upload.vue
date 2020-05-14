@@ -3,8 +3,8 @@
     <b-loading :active="loading"></b-loading>
     <b-upload v-model="dropFiles" @input="fileUploaded" :accept="accept">
       <a class="button is-primary">
-        <b-icon icon="upload"></b-icon>
-        <span>Upload a dataset</span>
+        <font-awesome-icon icon="upload" class="margin-right-8" />
+        <span class="margin-left-8">Upload a dataset</span>
       </a>
     </b-upload>
   </b-field>
@@ -66,4 +66,7 @@ export default class Upload extends Vue {
 }
 </script>
 <style lang='scss' scoped>
+.margin-right-8 {
+  margin-right: 8px;
+}
 </style>
