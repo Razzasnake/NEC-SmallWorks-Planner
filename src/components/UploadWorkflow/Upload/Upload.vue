@@ -11,7 +11,7 @@
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
-import XLSX from "xlsx";
+import { read, utils } from "xlsx";
 
 /**
  * Accept a csv or excel file
@@ -51,9 +51,9 @@ export default class Upload extends Vue {
   }
 
   private convert(file: string | ArrayBuffer | null) {
-    const workbook = XLSX.read(file, { type: "binary" });    
+    const workbook = read(file, { type: "binary" });
     const firstWorksheet = workbook.Sheets[workbook.SheetNames[0]];
-    return XLSX.utils.sheet_to_json(firstWorksheet, { header: 1 });
+    return utils.sheet_to_json(firstWorksheet, { header: 1 });
   }
 
   private handleFailure() {
