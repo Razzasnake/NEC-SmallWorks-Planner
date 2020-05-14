@@ -6,7 +6,7 @@ interface ExampleAnalysisI {
   url: string
   createdOn: Date
   config: {
-    data: any[][],
+    data: () => Promise<{ default: any[][]}>,
     columnSelections: { lat: number, lng: number },
     firstRowHeader: boolean
   }
@@ -20,7 +20,7 @@ export default class ExampleAnalysis implements ExampleAnalysisI {
   public url!: string;
   public createdOn!: Date;
   public config!: {
-    data: any[][],
+    data: () => Promise<{ default: any[][]}>,
     columnSelections: { lat: number, lng: number },
     firstRowHeader: boolean
   };

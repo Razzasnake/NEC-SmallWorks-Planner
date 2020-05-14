@@ -54,9 +54,9 @@ export default class Uploads extends Vue {
     this.loading = false;
   }
 
-  private preview(exampleAnalysis: ExampleAnalysis) {
+  private async preview(exampleAnalysis: ExampleAnalysis) {
     const uploadedFile = new UploadedFile({
-      data: exampleAnalysis.config.data,
+      data: (await exampleAnalysis.config.data()).default,
       columnSelections: exampleAnalysis.config.columnSelections,
       firstRowHeader: exampleAnalysis.config.firstRowHeader
     });
