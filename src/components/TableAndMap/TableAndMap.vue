@@ -174,7 +174,8 @@ export default class TableAndMap extends Vue {
           keys.forEach(key => {
             if (header.toLowerCase().indexOf(key.toLowerCase()) > -1) {
               if (row[index]) {
-                content = content + `<div><b>${header}:</b> ${row[index]}</div>`;
+                content =
+                  content + `<div><b>${header}:</b> ${row[index]}</div>`;
               }
             }
           });
@@ -259,4 +260,5 @@ export default class TableAndMap extends Vue {
 }
 </style>
 <style lang='scss'>
+@import "@/sass/gutter.scss";
 </style>
