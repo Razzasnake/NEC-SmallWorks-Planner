@@ -1,12 +1,12 @@
 <template>
   <div class="columns home">
-    <div class="column actions">
+    <div class="column actions is-two-fifths">
       <CallToAction @finish="finish"></CallToAction>
       <div class="view-examples">
         <a @click="viewExamples">View Examples</a>
       </div>
     </div>
-    <div class="column is-three-quarters">
+    <div class="column">
       <Preview class="preview" />
     </div>
   </div>
@@ -39,7 +39,7 @@ export default class Home extends Vue {
 </script>
 <style lang='scss' scoped>
 .home {
-  width: 100%;
+  width: 80%;
   max-width: 1536px;
   margin: auto;
   height: 100%;

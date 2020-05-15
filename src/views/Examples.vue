@@ -46,7 +46,7 @@ export default class Examples extends Vue {
 </script>
 <style lang='scss' scoped>
 .examples {
-  max-width: 1024px;
+  max-width: 80%;
   margin: auto;
   .example {
     padding: 12px 12px 0px 12px;
