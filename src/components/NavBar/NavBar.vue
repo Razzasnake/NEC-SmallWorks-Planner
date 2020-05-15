@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-navbar fixed-top transparent>
+    <b-navbar fixed-top transparent class="is-light">
       <template slot="brand">
         <b-navbar-item>
           <a @click="jumpTo({ name: 'Home' })">Table &amp; Map</a>
@@ -106,10 +106,7 @@ export default class NavBar extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-.navbar {
-  background-color: #fafafa;
-  .margin-right-8 {
-    margin-right: 8px;
-  }
+.margin-right-8 {
+  margin-right: 8px;
 }
 </style>

@@ -76,8 +76,9 @@ export default class App extends Vue {
 }
 </script>
 <style lang="scss" scoped>
+@import '@/sass/buefy.scss';
 #app {
-  background-color: #fafafa;
+  background-color: $light;
   height: calc(100vh - 52px);
 }
 </style>
