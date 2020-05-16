@@ -1,28 +1,39 @@
 <template>
-  <b-modal :active="modalVisible" :on-cancel="close" has-modal-card trap-focus>
-    <div class="sign-up card">
-      <div class="title">Coming Soon</div>
-      <div class="coming-soon">
-        <b>Features in development:</b>
-        <div v-for="(s, index) in comingSoon" :key="index">
-          <div>&bull; {{ s }}</div>
+  <div class="modal is-active" v-if="modalVisible">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Coming Soon</p>
+        <button class="delete" @click="close"></button>
+      </header>
+      <section class="modal-card-body">
+        <div class="coming-soon">
+          <b>Features in development:</b>
+          <div v-for="(s, index) in comingSoon" :key="index">
+            <div>&bull; {{ s }}</div>
+          </div>
         </div>
-      </div>
-      <div
-        class="mailing-list"
-      >Subscribe to our mailing list and receive emails when new features are available.</div>
-      <b-field label="Email">
-        <b-input
-          type="email"
-          v-model="email"
-          expanded
-          placeholder="Enter email address"
-          id="email-input"
-        ></b-input>
-      </b-field>
-      <b-button class="is-primary" expanded @click="submitEmail" :disabled="!isValid">Subscribe</b-button>
+        <div
+          class="mailing-list"
+        >Subscribe to our mailing list and receive emails when new features are available.</div>
+        <div class="field">
+          <label class="label">Email</label>
+          <input
+            class="input"
+            type="email"
+            placeholder="Enter email address"
+            id="email-input"
+            v-model="email"
+          />
+        </div>
+        <button
+          class="button is-primary is-fullwidth"
+          @click="submitEmail"
+          :disabled="!isValid"
+        >Subscribe</button>
+      </section>
     </div>
-  </b-modal>
+  </div>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
@@ -98,13 +109,10 @@ export default class SignUp extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-.sign-up {
-  padding: 1rem;
-  .coming-soon {
-    margin: 1rem;
-  }
-  .mailing-list {
-    margin-bottom: 1rem;
-  }
+.coming-soon {
+  margin: 1rem;
+}
+.mailing-list {
+  margin-bottom: 1rem;
 }
 </style>
