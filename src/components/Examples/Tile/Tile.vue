@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card tile">
     <div class="card-content">
       <div class="content columns">
         <div class="column is-one-half">
@@ -50,6 +50,10 @@ export default class Tile extends Vue {
 }
 </script>
 <style lang='scss' scoped>
+.tile {
+  max-width: 1024px;
+  margin: auto;
+}
 .align-right {
   text-align: right;
 }
