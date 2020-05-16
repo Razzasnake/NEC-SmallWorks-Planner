@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card tile">
     <div class="card-content">
       <div class="content columns">
         <div class="column is-one-half">
@@ -10,12 +10,12 @@
             <span>{{ exampleAnalysis.title }} </span>
             <span class="float-right">
               <a :href="exampleAnalysis.url" target="_blank" class="source">Source</a>
-              <b-tag type="is-light">{{ exampleAnalysis.formattedCreatedOn }}</b-tag>
+              <span class="tag is-light">{{ exampleAnalysis.formattedCreatedOn }}</span>
             </span>
           </div>
           <div class="description">{{ exampleAnalysis.description }}</div>
           <div class="align-right padding-top">
-            <div class="button is-primary" @click="preview">Preview</div>
+            <button class="button is-primary" @click="preview">Preview</button>
           </div>
         </div>
       </div>
@@ -50,6 +50,10 @@ export default class Tile extends Vue {
 }
 </script>
 <style lang='scss' scoped>
+.tile {
+  max-width: 1024px;
+  margin: auto;
+}
 .align-right {
   text-align: right;
 }

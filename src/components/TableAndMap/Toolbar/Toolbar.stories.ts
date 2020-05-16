@@ -1,18 +1,18 @@
-import ViewOption from './ViewOption.vue'
+import Toolbar from './Toolbar.vue'
 import { action } from '@storybook/addon-actions'
 
 export default {
-  component: ViewOption,
-  title: 'NavBar|Options/ViewOption'
+  component: Toolbar,
+  title: 'TableAndMap|Toolbar'
 }
 
-const _ViewOption = () => ({
-  components: { ViewOption },
+const _Toolbar = () => ({
+  components: { Toolbar },
   template: `
-    <ViewOption
+    <Toolbar
       :viewOptions="viewOptions"
       @updateViewOptions="updateViewOptions"
-    ></ViewOption>`,
+    ></Toolbar>`,
   props: {
     viewOptions: {
       default: ['map', 'table']
@@ -23,4 +23,4 @@ const _ViewOption = () => ({
   }
 })
 
-export { _ViewOption }
+export { _Toolbar }
