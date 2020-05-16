@@ -34,3 +34,8 @@ $link-focus-border: $primary;
 @import "~buefy/src/scss/components/_upload.scss";
 @import "~buefy/src/scss/components/_checkbox.scss";
 @import "~buefy/src/scss/components/_loading.scss";
+@import "~buefy/src/scss/components/_autocomplete.scss";
+
+.autocomplete .dropdown-content {
+  max-height: 100px;
+}

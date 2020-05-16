@@ -7,6 +7,7 @@
       <b-autocomplete
         v-model="latSearch"
         placeholder="Search for a column"
+        dropdown-position="top"
         :data="filterOptions(latSearch)"
         @select="latSelect"
         open-on-focus
@@ -18,6 +19,7 @@
       <b-autocomplete
         v-model="lngSearch"
         placeholder="Search for a column"
+        dropdown-position="top"
         :data="filterOptions(lngSearch)"
         @select="lngSelect"
         open-on-focus
