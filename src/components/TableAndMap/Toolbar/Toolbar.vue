@@ -1,7 +1,6 @@
 <template>
   <div class="toolbar">
     <TableOption
-      class="option"
       :tableOptions="viewOptions"
       @updateTableOptions="updateTableOptions"
     ></TableOption>
@@ -50,9 +49,12 @@ export default class Toolbar extends Vue {
 }
 </script>
 <style lang='scss' scoped>
+@import '@/sass/buefy.scss';
 .toolbar {
+  border-bottom: 1px solid $grey-lighter;
+  padding: 8px;
   .option {
-    margin: 4px 0px 4px 12px;
+    margin-left: 16px;
   }
 }
 </style>

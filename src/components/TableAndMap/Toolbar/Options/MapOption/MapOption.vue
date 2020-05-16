@@ -1,6 +1,9 @@
 <template>
   <b-dropdown>
-    <span slot="trigger">Map</span>
+    <a slot="trigger" slot-scope="{ active }">
+      <span>Map </span>
+      <font-awesome-icon :icon="active ? 'chevron-up' : 'chevron-down'"></font-awesome-icon>
+    </a>
     <b-dropdown-item @click="toggleMap">
       Map
       <font-awesome-icon :icon="mapIcon" class="displaying-icon" />
