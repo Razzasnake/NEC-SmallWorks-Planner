@@ -41,9 +41,13 @@ export default class TableOption extends Vue {
        *
        * @type {string[]}
        */
-      this.$emit("updateTableOptions", []);
+      this.$emit(
+        "updateTableOptions",
+        this.tableOptions.filter(_ => _ !== "table")
+      );
     } else {
-      this.$emit("updateTableOptions", ["table"]);
+      const viewOptions = this.tableOptions.concat("table");
+      this.$emit("updateTableOptions", viewOptions);
     }
   }
 }
