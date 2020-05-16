@@ -15,7 +15,7 @@
           </div>
           <div class="description">{{ exampleAnalysis.description }}</div>
           <div class="align-right padding-top">
-            <div class="button is-primary" @click="preview">Preview</div>
+            <button class="button is-primary" @click="preview">Preview</button>
           </div>
         </div>
       </div>

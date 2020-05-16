@@ -1,10 +1,8 @@
 <template>
-  <div>
-    <div class="examples">
-      <b-loading :active="loading"></b-loading>
-      <div v-for="example in exampleAnalyses" :key="example.id" class="example">
-        <Tile :exampleAnalysis="example" @preview="preview"></Tile>
-      </div>
+  <div class="examples">
+    <b-loading :active="loading"></b-loading>
+    <div v-for="example in exampleAnalyses" :key="example.id" class="example">
+      <Tile :exampleAnalysis="example" @preview="preview"></Tile>
     </div>
   </div>
 </template>
@@ -14,7 +12,7 @@ import Tile from "@/components/Examples/Tile/Tile.vue";
 import ExampleAnalysis from "@/entities/ExampleAnalysis";
 import UploadedFile from "@/entities/UploadedFile";
 import { updateUploadedFile } from "@/store/exploreStore";
-import examplesApi from '@/api/examples'
+import examplesApi from "@/api/examples";
 
 /**
  * All examples

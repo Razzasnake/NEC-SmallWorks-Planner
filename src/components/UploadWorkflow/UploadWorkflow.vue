@@ -1,17 +1,14 @@
 <template>
   <div>
     <Upload @fileUploaded="fileUploaded" v-if="!passedUploadedFile"></Upload>
-    <b-modal
-      :active="step > 0"
-      :on-cancel="reset"
-      has-modal-card
-      trap-focus
-    >
-      <div class="card wrapper">
-        <header class="card-header">
-          <p class="card-header-title">Select Columns</p>
+    <div class="modal is-active" v-if="step > 0">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="modal-card-title">Select Columns</p>
+          <button class="delete" @click="reset"></button>
         </header>
-        <div class="card-content">
+        <section class="modal-card-body">
           <SelectColumns
             v-if="step === 1"
             :value="uploadedFile"
@@ -20,13 +17,19 @@
             @updateSelections="updateSelections"
             @updateFirstRowHeader="updateFirstRowHeader"
           ></SelectColumns>
-        </div>
-        <div class="upload-footer">
-          <b-button @click="reset" class="margin-right">Back</b-button>
-          <b-button class="is-primary" @click="finish" :disabled="finishIsDisabled">Finish</b-button>
-        </div>
+        </section>
+        <footer class="modal-card-foot">
+          <div class="field is-grouped">
+            <div class="control">
+              <b-button @click="reset">Back</b-button>
+            </div>
+            <div class="control">
+              <b-button class="is-primary" @click="finish" :disabled="finishIsDisabled">Finish</b-button>
+            </div>
+          </div>
+        </footer>
       </div>
-    </b-modal>
+    </div>
   </div>
 </template>
 <script lang='ts'>
