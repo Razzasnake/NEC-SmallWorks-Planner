@@ -57,10 +57,21 @@ export default class GoogleMap extends Vue {
    */
   @Prop({ default: () => new Set() })
   private hiddenMarkerIndices!: Set<number>;
+  /**
+   * Whether or not to display a heatmap
+   */
+  @Prop({ default: false })
+  private displayHeatmap!: boolean;
+  /**
+   * Whether or not to display the markers
+   */
+  @Prop({ default: false })
+  private displayMarkers!: boolean;
 
   private map!: google.maps.Map;
   private drawingManager!: google.maps.drawing.DrawingManager;
   private markers: google.maps.Marker[] = [];
+  private heatmap: google.maps.visualization.HeatmapLayer | null = null;
   private activeOverlays: AvailableOverlays[] = [];
   private selectedOverlayEvent: google.maps.drawing.OverlayCompleteEvent | null = null;
   private mapId = Math.random()
@@ -92,6 +103,7 @@ export default class GoogleMap extends Vue {
         this.markers[index].setVisible(false);
       }
     });
+    this.displayHeatmapChanged();
   }
 
   @Watch("overlayEvents", { deep: true })
@@ -138,6 +150,38 @@ export default class GoogleMap extends Vue {
     this.markers = drawnMarkers;
   }
 
+  @Watch("displayHeatmap")
+  private displayHeatmapChanged() {
+    if (this.heatmap) {
+      this.heatmap.setMap(null);
+    }
+    this.heatmap = new google.maps.visualization.HeatmapLayer({
+      data: this.markers
+        .filter((_, index) => {
+          return !this.hiddenMarkerIndices.has(index);
+        })
+        .map(_ => {
+          return { location: _.getPosition() };
+        })
+    });
+    if (this.displayHeatmap && this.heatmap) {
+      this.heatmap.setMap(this.map);
+    }
+  }
+
+  @Watch("displayMarkers")
+  private displayMarkersChanged() {
+    if (this.displayMarkers) {
+      this.markers.forEach(marker => {
+        marker.setMap(this.map);
+      });
+    } else {
+      this.markers.forEach(marker => {
+        marker.setMap(null);
+      });
+    }
+  }
+
   private createMarker(position: { lat: number; lng: number }) {
     return new google.maps.Marker({
       position,
@@ -169,29 +213,31 @@ export default class GoogleMap extends Vue {
   }
 
   private created(): void {
-    Utils.injectGoogleMapsLibrary(this.allowDraw ? ["drawing"] : []).then(
-      google => {
-        const mapEl = document.getElementById(this.mapId);
-        if (!mapEl) {
-          return;
-        }
-        this.map = new google.maps.Map(mapEl, {
-          center: new google.maps.LatLng(39.8283, -98.5795),
-          zoom: 5,
-          disableDefaultUI: true,
-          clickableIcons: false,
-          zoomControl: true,
-          gestureHandling: "greedy",
-          styles: Theme
-        });
-        this.initMarkers();
-        if (this.allowDraw) {
-          this.initDrawingManager();
-          this.initDrawListeners();
-          this.initOverlayEvents();
-        }
+    Utils.injectGoogleMapsLibrary(
+      this.allowDraw ? ["drawing", "visualization"] : []
+    ).then(google => {
+      const mapEl = document.getElementById(this.mapId);
+      if (!mapEl) {
+        return;
       }
-    );
+      this.map = new google.maps.Map(mapEl, {
+        center: new google.maps.LatLng(39.8283, -98.5795),
+        zoom: 5,
+        disableDefaultUI: true,
+        clickableIcons: false,
+        zoomControl: true,
+        gestureHandling: "greedy",
+        styles: Theme
+      });
+      this.initMarkers();
+      this.displayHeatmapChanged();
+      this.displayMarkersChanged();
+      if (this.allowDraw) {
+        this.initDrawingManager();
+        this.initDrawListeners();
+        this.initOverlayEvents();
+      }
+    });
   }
 
   private initDrawingManager(): void {

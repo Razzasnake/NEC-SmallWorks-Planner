@@ -1,7 +1,7 @@
 <template>
   <b-dropdown>
     <a slot="trigger" slot-scope="{ active }">
-      <span>Table </span>
+      <span>Table&nbsp;</span>
       <font-awesome-icon :icon="active ? 'chevron-up' : 'chevron-down'"></font-awesome-icon>
     </a>
     <b-dropdown-item @click="toggleTable">
@@ -14,7 +14,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 /**
- * The table specific options
+ * The table specific options. Includes only the ability to toggle the table
  */
 @Component({
   components: {}
@@ -51,6 +51,7 @@ export default class TableOption extends Vue {
 <style lang='scss' scoped>
 .displaying-icon {
   position: absolute;
-  right: 1rem;
+  right: 18px;
+  top: 10px;
 }
 </style>

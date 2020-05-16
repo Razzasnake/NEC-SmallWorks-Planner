@@ -25,7 +25,7 @@ const _NavBar = () => ({
     }
   },
   methods: {
-    goHome: action('jumpTo'),
+    jumpTo: action('jumpTo'),
     updateSettings: action('updateSettings')
   }
 })

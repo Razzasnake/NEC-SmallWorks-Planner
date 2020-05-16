@@ -1,9 +1,6 @@
 <template>
   <div class="toolbar">
-    <TableOption
-      :tableOptions="viewOptions"
-      @updateTableOptions="updateTableOptions"
-    ></TableOption>
+    <TableOption :tableOptions="viewOptions" @updateTableOptions="updateTableOptions"></TableOption>
     <MapOption class="option" :mapOptions="viewOptions" @updateMapOptions="updateMapOptions"></MapOption>
   </div>
 </template>
@@ -13,7 +10,7 @@ import MapOption from "./Options/MapOption/MapOption.vue";
 import TableOption from "./Options/TableOption/TableOption.vue";
 
 /**
- * Contain general functionality for table and map component
+ * Contain general functionality for table and map component. More explanation of what is available is in the docs for the children
  */
 @Component({
   components: {
@@ -25,34 +22,34 @@ export default class Toolbar extends Vue {
   /**
    * Options to use
    */
-  @Prop({ default: () => ["map", "table"] })
+  @Prop({ default: () => ["table", "map", "map:markers"] })
   private viewOptions!: string[];
 
   private updateMapOptions(mapOptions: string[]) {
-    const tableOptions = this.viewOptions.filter(_ => _.startsWith("table"));
-    if (tableOptions.indexOf("table") < 0 && mapOptions.indexOf("map") < 0) {
-      tableOptions.push("table");
+    if (mapOptions.indexOf("table") < 0 && mapOptions.indexOf("map") < 0) {
+      mapOptions.push("table");
     }
     /**
      * Update view options
+     * 
+     * @type {string[]}
      */
-    this.$emit("updateViewOptions", tableOptions.concat(mapOptions));
+    this.$emit("updateViewOptions", mapOptions);
   }
 
   private updateTableOptions(tableOptions: string[]) {
-    const mapOptions = this.viewOptions.filter(_ => _.startsWith("map"));
-    if (mapOptions.indexOf("map") < 0 && tableOptions.indexOf("table") < 0) {
-      mapOptions.push("map");
+    if (tableOptions.indexOf("map") < 0 && tableOptions.indexOf("table") < 0) {
+      tableOptions.push("map");
     }
-    this.$emit("updateViewOptions", mapOptions.concat(tableOptions));
+    this.$emit("updateViewOptions", tableOptions);
   }
 }
 </script>
 <style lang='scss' scoped>
-@import '@/sass/buefy.scss';
+@import "@/sass/buefy.scss";
 .toolbar {
-  border-bottom: 1px solid $grey-lighter;
-  padding: 8px;
+  border-top: 4px solid $grey-lighter;
+  padding: 6px 12px;
   .option {
     margin-left: 16px;
   }
