@@ -10,7 +10,7 @@
             <span>{{ exampleAnalysis.title }} </span>
             <span class="float-right">
               <a :href="exampleAnalysis.url" target="_blank" class="source">Source</a>
-              <b-tag type="is-light">{{ exampleAnalysis.formattedCreatedOn }}</b-tag>
+              <span class="tag is-light">{{ exampleAnalysis.formattedCreatedOn }}</span>
             </span>
           </div>
           <div class="description">{{ exampleAnalysis.description }}</div>
