@@ -7,7 +7,8 @@
         <button class="delete" @click="closeModal"></button>
       </header>
       <section class="modal-card-body">
-        <b-input type="textarea" v-model="text"></b-input>
+        <div class="margin-bottom-20">{{ description }}</div>
+        <b-input type="textarea" :placeholder="placeholder" v-model="text"></b-input>
       </section>
       <footer class="modal-card-foot">
         <div class="field is-grouped">
@@ -30,6 +31,10 @@ import { Component, Vue } from "vue-property-decorator";
 })
 export default class PasteModal extends Vue {
   private text: string = "";
+  private description: string =
+    "Copy a dataset from an excel or csv file (including the header) and paste it into the text box below.";
+  private placeholder: string =
+    "Street Address,City,State,Zip Code,Latitude,Longitude\n1600 Amphitheatre Pkwy,Mountain View,CA,94043,37.423432,-122.078865";
 
   private get finishIsDisabled() {
     return this.text === "";
@@ -58,4 +63,7 @@ export default class PasteModal extends Vue {
 }
 </script>
 <style lang='scss' scoped>
+.margin-bottom-20 {
+  margin-bottom: 20px;
+}
 </style>
