@@ -4,18 +4,13 @@
       <span>Map&nbsp;</span>
       <font-awesome-icon :icon="active ? 'chevron-up' : 'chevron-down'"></font-awesome-icon>
     </a>
-    <b-dropdown-item @click="toggleMap">
-      Map
-      <font-awesome-icon :icon="mapIcon" class="displaying-icon" />
-    </b-dropdown-item>
-    <b-dropdown-item @click="toggle('map:heat')">
-      Heat Map
-      <font-awesome-icon :icon="keyIcon('map:heat')" class="displaying-icon" />
-    </b-dropdown-item>
-    <b-dropdown-item @click="toggle('map:markers')">
-      Markers
-      <font-awesome-icon :icon="keyIcon('map:markers')" class="displaying-icon" />
-    </b-dropdown-item>
+    <b-dropdown-item @click="toggleMap">{{ mapVisible ? "Hide Map" : "Show Map" }}</b-dropdown-item>
+    <b-dropdown-item
+      @click="toggle('map:heat')"
+    >{{ keyVisible("map:heat") ? "Hide Heat Map" : "Show Heat Map" }}</b-dropdown-item>
+    <b-dropdown-item
+      @click="toggle('map:markers')"
+    >{{ keyVisible("map:markers") ? "Hide Markers" : "Show Markers" }}</b-dropdown-item>
   </b-dropdown>
 </template>
 <script lang='ts'>
@@ -40,14 +35,6 @@ export default class MapOption extends Vue {
 
   private keyVisible(key: string) {
     return this.mapVisible && this.mapOptions.indexOf(key) > -1;
-  }
-
-  private get mapIcon() {
-    return this.mapVisible ? "eye" : "eye-slash";
-  }
-
-  private keyIcon(key: string) {
-    return this.keyVisible(key) ? "eye" : "eye-slash";
   }
 
   private toggleMap() {

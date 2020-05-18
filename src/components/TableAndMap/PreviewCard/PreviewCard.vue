@@ -79,16 +79,38 @@ export default class PreviewCard extends Vue {
     this.panorama = null;
     const el = document.getElementById("street-view");
     if (el && this.clickedMarker.lat && this.clickedMarker.lng) {
-      this.panorama = new google.maps.StreetViewPanorama(el, {
-        position: {
-          lat: this.clickedMarker.lat,
-          lng: this.clickedMarker.lng
-        },
-        panControl: false,
-        zoomControl: false,
-        fullscreenControl: false,
-        addressControl: false
-      });
+      var svService = new google.maps.StreetViewService();
+      var panoRequest = {
+        location: { lat: this.clickedMarker.lat, lng: this.clickedMarker.lng },
+        preference: google.maps.StreetViewPreference.NEAREST,
+        radius: 50,
+        source: google.maps.StreetViewSource.OUTDOOR
+      };
+      const findPanorama = (radius: number) => {
+        panoRequest.radius = radius;
+        svService.getPanorama(panoRequest, (panoData, status) => {
+          if (
+            status === google.maps.StreetViewStatus.OK &&
+            panoData &&
+            panoData.location
+          ) {
+            this.panorama = new google.maps.StreetViewPanorama(el, {
+              pano: panoData.location.pano,
+              panControl: false,
+              zoomControl: false,
+              fullscreenControl: false,
+              addressControl: false
+            });
+          } else {
+            if (radius > 200) {
+              this.panorama = null;
+            } else {
+              findPanorama(radius + 5);
+            }
+          }
+        });
+      };
+      findPanorama(50);
     }
   }
 
