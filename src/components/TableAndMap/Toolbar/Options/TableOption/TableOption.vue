@@ -5,8 +5,7 @@
       <font-awesome-icon :icon="active ? 'chevron-up' : 'chevron-down'"></font-awesome-icon>
     </a>
     <b-dropdown-item @click="toggleTable">
-      Table
-      <font-awesome-icon :icon="tableIcon" class="displaying-icon" />
+      {{ tableVisible ? "Hide Table" : "Show Table" }}
     </b-dropdown-item>
   </b-dropdown>
 </template>
@@ -28,10 +27,6 @@ export default class TableOption extends Vue {
 
   private get tableVisible() {
     return this.tableOptions.indexOf("table") > -1;
-  }
-
-  private get tableIcon() {
-    return this.tableVisible ? "eye" : "eye-slash";
   }
 
   private toggleTable() {
