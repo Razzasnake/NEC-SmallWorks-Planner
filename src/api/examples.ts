@@ -31,7 +31,16 @@ const generate = (x: { index: number, title: string, description: string, github
         return axios.get(url).then(response => {
           const workbook = read(response.data, { type: 'buffer' });
           const firstWorksheet = workbook.Sheets[workbook.SheetNames[0]];
-          return { default: utils.sheet_to_json(firstWorksheet, { header: 1, raw: false }) };
+          const arr: any[][] = utils.sheet_to_json(firstWorksheet, { header: 1, raw: false })
+          const cleanArr = arr.map(x => {
+            return x.map(y => {
+              if (!isNaN(y)) {
+                return parseFloat(y)
+              }
+              return y
+            })
+          })
+          return { default: cleanArr };
         })
       },
       columnSelections: { lat: 8, lng: 9 },
