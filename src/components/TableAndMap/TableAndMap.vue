@@ -184,7 +184,7 @@ export default class TableAndMap extends Vue {
       this.uploadedFile.data[0].data.forEach(
         (header: string, index: number) => {
           keys.forEach(key => {
-            if (header.toLowerCase().indexOf(key.toLowerCase()) > -1) {
+            if (header && header.toLowerCase().indexOf(key.toLowerCase()) > -1) {
               if (row[index]) {
                 content =
                   content + `<div><b>${header}:</b> ${row[index]}</div>`;

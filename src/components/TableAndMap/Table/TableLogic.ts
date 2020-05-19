@@ -13,7 +13,8 @@ export default class TableLogic {
 
   private computeColumnTypes(uploadedFile: UploadedFile) {
     const columnTypes: { number: number, string: number }[] = []
-    for (let i = 0; i < uploadedFile.data[0].data.length; i++) {
+    const maxCols = Math.max(...uploadedFile.data.map(_ => _.data.length));
+    for (let i = 0; i < maxCols; i++) {
       columnTypes.push({ number: 0, string: 0 })
     }
     uploadedFile.data.slice(uploadedFile.firstRowHeader ? 1 : 0).forEach(row => {

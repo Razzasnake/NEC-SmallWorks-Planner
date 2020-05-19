@@ -6,11 +6,11 @@
           <img :src="exampleAnalysis.preview" />
         </div>
         <div class="column">
-          <div class="title">
+          <div class="subtitle">
             <span>{{ exampleAnalysis.title }} </span>
             <span class="float-right">
               <a :href="exampleAnalysis.url" target="_blank" class="source">Source</a>
-              <span class="tag is-light">{{ exampleAnalysis.formattedCreatedOn }}</span>
+              <span class="tag is-light">Live</span>
             </span>
           </div>
           <div class="description">{{ exampleAnalysis.description }}</div>
