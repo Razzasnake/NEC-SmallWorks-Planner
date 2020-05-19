@@ -12,7 +12,7 @@ const input = [
   {
     index: 1,
     title: 'Covid-19 Confirmed Deaths US',
-    description: 'Daily time series data for confirmed Covid-19 cases in the United States.',
+    description: 'Daily time series data for confirmed Covid-19 deaths in the United States.',
     githubFileName: 'time_series_covid19_deaths_US.csv'
   }
 ]
