@@ -4,13 +4,11 @@
       <span>Map&nbsp;</span>
       <font-awesome-icon :icon="active ? 'chevron-up' : 'chevron-down'"></font-awesome-icon>
     </a>
-    <b-dropdown-item @click="toggle('map')">{{ mapVisible ? "Hide Map" : "Show Map" }}</b-dropdown-item>
     <b-dropdown-item
-      @click="toggle('map:heat')"
-    >{{ keyVisible("map:heat") ? "Hide Heat Map" : "Show Heat Map" }}</b-dropdown-item>
-    <b-dropdown-item
-      @click="toggle('map:markers')"
-    >{{ keyVisible("map:markers") ? "Hide Markers" : "Show Markers" }}</b-dropdown-item>
+      v-for="o in options"
+      :key="o.key"
+      @click="toggle(o.key)"
+    >{{ keyVisible(o.key) ? `Hide ${o.label}` :`Show ${o.label}` }}</b-dropdown-item>
   </b-dropdown>
 </template>
 <script lang='ts'>
@@ -29,12 +27,23 @@ export default class MapOption extends Vue {
   @Prop({ default: () => ["map", "map:markers"] })
   private mapOptions!: string[];
 
-  private get mapVisible() {
-    return this.mapOptions.indexOf("map") > -1;
-  }
+  private options = [
+    {
+      label: "Map",
+      key: "map"
+    },
+    {
+      label: "Heat Map",
+      key: "map:heat"
+    },
+    {
+      label: "Markers",
+      key: "map:markers"
+    }
+  ];
 
   private keyVisible(key: string) {
-    return this.mapVisible && this.mapOptions.indexOf(key) > -1;
+    return this.mapOptions.indexOf(key) > -1;
   }
 
   private toggle(key: string) {
@@ -50,9 +59,6 @@ export default class MapOption extends Vue {
       );
     } else {
       const viewOptions = this.mapOptions.concat(key);
-      if (!this.mapVisible) {
-        viewOptions.push("map");
-      }
       this.$emit("updateMapOptions", viewOptions);
     }
   }

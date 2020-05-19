@@ -20,7 +20,7 @@ const _Table = () => ({
         :sorting="sorting"
         :tableLogic="tableLogic"
         :overlayEvents="overlayEvents"
-        :pinnedFooterKeys="pinnedFooterKeys"
+        :viewOptions="viewOptions"
         @sortChanged="sortChanged"
         @filterChanged="filterChanged"
         @hiddenMarkerIndicesChanged="hiddenMarkerIndicesChanged"
@@ -42,8 +42,8 @@ const _Table = () => ({
     overlayEvents: {
       default: []
     },
-    pinnedFooterKeys: {
-      default: ['min', 'max', 'avg', 'total']
+    viewOptions: {
+      default: ['table:footer:min', 'table:footer:max', 'table:footer:avg', 'table:footer:total']
     }
   },
   methods: {

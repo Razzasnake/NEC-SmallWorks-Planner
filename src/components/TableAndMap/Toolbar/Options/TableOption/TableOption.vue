@@ -4,9 +4,11 @@
       <span>Table&nbsp;</span>
       <font-awesome-icon :icon="active ? 'chevron-up' : 'chevron-down'"></font-awesome-icon>
     </a>
-    <b-dropdown-item @click="toggleTable">
-      {{ tableVisible ? "Hide Table" : "Show Table" }}
-    </b-dropdown-item>
+    <b-dropdown-item
+      v-for="o in options"
+      :key="o.key"
+      @click="toggle(o.key)"
+    >{{ keyVisible(o.key) ? `Hide ${o.label}` :`Show ${o.label}` }}</b-dropdown-item>
   </b-dropdown>
 </template>
 <script lang='ts'>
@@ -25,12 +27,35 @@ export default class TableOption extends Vue {
   @Prop({ default: () => ["table"] })
   private tableOptions!: string[];
 
-  private get tableVisible() {
-    return this.tableOptions.indexOf("table") > -1;
+  private options = [
+    {
+      label: "Table",
+      key: "table"
+    },
+    {
+      label: "Footer Min",
+      key: "table:footer:min"
+    },
+    {
+      label: "Footer Max",
+      key: "table:footer:max"
+    },
+    {
+      label: "Footer Avg",
+      key: "table:footer:avg"
+    },
+    {
+      label: "Footer Total",
+      key: "table:footer:total"
+    }
+  ];
+
+  private keyVisible(key: string) {
+    return this.tableOptions.indexOf(key) > -1;
   }
 
-  private toggleTable() {
-    if (this.tableVisible) {
+  private toggle(key: string) {
+    if (this.keyVisible(key)) {
       /**
        * Update parent with new array of table options
        *
@@ -38,10 +63,10 @@ export default class TableOption extends Vue {
        */
       this.$emit(
         "updateTableOptions",
-        this.tableOptions.filter(_ => _ !== "table")
+        this.tableOptions.filter(_ => _ !== key)
       );
     } else {
-      const viewOptions = this.tableOptions.concat("table");
+      const viewOptions = this.tableOptions.concat(key);
       this.$emit("updateTableOptions", viewOptions);
     }
   }

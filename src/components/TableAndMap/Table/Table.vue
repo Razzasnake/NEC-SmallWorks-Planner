@@ -15,7 +15,7 @@
   ></AgGridVue>
 </template>
 <script lang='ts'>
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { AgGridVue } from "ag-grid-vue";
 import {
   GridApi,
@@ -63,12 +63,24 @@ export default class Table extends Vue {
   /**
    * Whether or not to show the footer rows
    */
-  @Prop({ default: ["min", "max", "avg", "total"] })
-  private pinnedFooterKeys!: string[];
+  @Prop({
+    default: [
+      "table:footer:min",
+      "table:footer:max",
+      "table:footer:avg",
+      "table:footer:total"
+    ]
+  })
+  private viewOptions!: string[];
 
   private colDef = defaultColDef;
   private gridApi!: GridApi;
   private columnApi!: ColumnApi;
+
+  @Watch("viewOptions")
+  private viewOptionsUpdated() {
+    this.updatePinnedFooter();
+  }
 
   private isExternalFilterPresent(): boolean {
     return this.overlayEvents.length > 0;
@@ -119,8 +131,9 @@ export default class Table extends Vue {
   }
 
   private updatePinnedFooter() {
-    if (!this.pinnedFooterKeys.length) {
-      return [];
+    if (!this.viewOptions.length) {
+      this.gridApi.setPinnedBottomRowData([]);
+      return;
     }
     const visibleRows: Row[] = [];
     this.gridApi.forEachNodeAfterFilter((node, index) => {
@@ -132,16 +145,16 @@ export default class Table extends Vue {
       .map(col => col.getColId());
     const pinnedData = this.tableLogic.calculateFooter(columnKeys, visibleRows);
     const pinnedFooter = [];
-    if (this.pinnedFooterKeys.includes("min")) {
+    if (this.viewOptions.includes("table:footer:min")) {
       pinnedFooter.push({ ...pinnedData.min, "0": "Min" });
     }
-    if (this.pinnedFooterKeys.includes("max")) {
+    if (this.viewOptions.includes("table:footer:max")) {
       pinnedFooter.push({ ...pinnedData.max, "0": "Max" });
     }
-    if (this.pinnedFooterKeys.includes("avg")) {
+    if (this.viewOptions.includes("table:footer:avg")) {
       pinnedFooter.push({ ...pinnedData.avg, "0": "Avg" });
     }
-    if (this.pinnedFooterKeys.includes("total")) {
+    if (this.viewOptions.includes("table:footer:total")) {
       pinnedFooter.push({ ...pinnedData.total, "0": "Total" });
     }
     this.gridApi.setPinnedBottomRowData(pinnedFooter);
