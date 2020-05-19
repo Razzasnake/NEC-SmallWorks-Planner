@@ -4,7 +4,7 @@
       <span>Map&nbsp;</span>
       <font-awesome-icon :icon="active ? 'chevron-up' : 'chevron-down'"></font-awesome-icon>
     </a>
-    <b-dropdown-item @click="toggleMap">{{ mapVisible ? "Hide Map" : "Show Map" }}</b-dropdown-item>
+    <b-dropdown-item @click="toggle('map')">{{ mapVisible ? "Hide Map" : "Show Map" }}</b-dropdown-item>
     <b-dropdown-item
       @click="toggle('map:heat')"
     >{{ keyVisible("map:heat") ? "Hide Heat Map" : "Show Heat Map" }}</b-dropdown-item>
@@ -37,21 +37,13 @@ export default class MapOption extends Vue {
     return this.mapVisible && this.mapOptions.indexOf(key) > -1;
   }
 
-  private toggleMap() {
-    if (this.mapVisible) {
+  private toggle(key: string) {
+    if (this.keyVisible(key)) {
       /**
        * Update parent with new array of map options
        *
        * @type {string[]}
        */
-      this.$emit("updateMapOptions", []);
-    } else {
-      this.$emit("updateMapOptions", ["map"]);
-    }
-  }
-
-  private toggle(key: string) {
-    if (this.keyVisible(key)) {
       this.$emit(
         "updateMapOptions",
         this.mapOptions.filter(_ => _ !== key)
