@@ -1,14 +1,14 @@
 <template>
   <b-navbar fixed-top transparent class="is-primary">
     <template slot="brand">
-      <b-navbar-item>
-        <span @click="jumpTo({ name: 'Home' })">Table &amp; Map</span>
+      <b-navbar-item @click="jumpTo({ name: 'Home' })">
+        <span>Table &amp; Map</span>
       </b-navbar-item>
     </template>
     <template slot="end">
-      <b-navbar-item>
-        <span v-if="authenticated" @click="jumpTo({ name: 'Uploads' })">Uploads</span>
-        <span v-else @click="jumpTo({ name: 'Examples' })">Examples</span>
+      <b-navbar-item @click="jumpTo({ name: 'Examples' })">
+        <span v-if="authenticated">Uploads</span>
+        <span v-else>Examples</span>
       </b-navbar-item>
       <b-navbar-item>
         <b-button v-if="!authenticated" @click="signUp">Coming soon</b-button>
