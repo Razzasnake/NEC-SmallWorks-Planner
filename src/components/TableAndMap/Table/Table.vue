@@ -60,9 +60,15 @@ export default class Table extends Vue {
    */
   @Prop({ default: () => [] })
   private overlayEvents!: google.maps.drawing.OverlayCompleteEvent[];
+  /**
+   * Whether or not to show the footer rows
+   */
+  @Prop({ default: ["min", "max", "avg", "total"] })
+  private pinnedFooterKeys!: string[];
 
   private colDef = defaultColDef;
   private gridApi!: GridApi;
+  private columnApi!: ColumnApi;
 
   private isExternalFilterPresent(): boolean {
     return this.overlayEvents.length > 0;
@@ -100,6 +106,8 @@ export default class Table extends Vue {
 
   private gridReady(config: { api: GridApi; columnApi: ColumnApi }) {
     this.gridApi = config.api;
+    this.columnApi = config.columnApi;
+    this.updatePinnedFooter();
     if (Object.keys(this.filters).length) {
       this.gridApi.setFilterModel(this.filters);
     }
@@ -108,6 +116,35 @@ export default class Table extends Vue {
     }
     config.columnApi.autoSizeAllColumns();
     this.updateVisibleRows();
+  }
+
+  private updatePinnedFooter() {
+    if (!this.pinnedFooterKeys.length) {
+      return [];
+    }
+    const visibleRows: Row[] = [];
+    this.gridApi.forEachNodeAfterFilter((node, index) => {
+      visibleRows.push(node.data);
+    });
+    const columnKeys = this.columnApi
+      .getAllColumns()
+      .filter(column => column.getColDef().filter === "number")
+      .map(col => col.getColId());
+    const pinnedData = this.tableLogic.calculateFooter(columnKeys, visibleRows);
+    const pinnedFooter = [];
+    if (this.pinnedFooterKeys.includes("min")) {
+      pinnedFooter.push({ ...pinnedData.min, "0": "Min" });
+    }
+    if (this.pinnedFooterKeys.includes("max")) {
+      pinnedFooter.push({ ...pinnedData.max, "0": "Max" });
+    }
+    if (this.pinnedFooterKeys.includes("avg")) {
+      pinnedFooter.push({ ...pinnedData.avg, "0": "Avg" });
+    }
+    if (this.pinnedFooterKeys.includes("total")) {
+      pinnedFooter.push({ ...pinnedData.total, "0": "Total" });
+    }
+    this.gridApi.setPinnedBottomRowData(pinnedFooter);
   }
 
   private sortChanged() {
