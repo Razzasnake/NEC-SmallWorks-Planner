@@ -1,7 +1,7 @@
 <template>
   <svg viewBox="0 0 500 390.3" xmlns="http://www.w3.org/2000/svg">
-    <g transform="matrix(0.825, 0, 0, 0.835, 6, 7)">
-      <image :href="require('@/assets/app.jpg')" height="100%" />
+    <g transform="matrix(0.973, 0, 0, 0.986, 7, -22)">
+      <image :href="require('@/assets/app.jpg')" height="100%" width="100%" />
     </g>
     <g transform="matrix(0.726111, 0, 0, 0.726111, -204.882904, -3.269498)">
       <path
