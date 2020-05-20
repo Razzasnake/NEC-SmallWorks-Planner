@@ -279,7 +279,7 @@ export default class TableAndMap extends Vue {
     overflow: auto;
     z-index: 160;
     position: absolute;
-    top: -2px;
+    top: 0px;
     right: 0px;
     width: 500px;
   }
