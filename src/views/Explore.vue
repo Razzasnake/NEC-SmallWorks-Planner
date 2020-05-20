@@ -13,7 +13,6 @@
       :sorting="sorting"
       :map="map"
       :tableLogic="tableLogic"
-      :viewOptions="viewOptions"
       @updateOverlayEventJsons="updateOverlayEventJsons"
       @sortChanged="updateSorting"
       @filterChanged="updateFilters"
@@ -68,10 +67,6 @@ export default class Explore extends Vue {
 
   private get tableLogic() {
     return state.tableLogic;
-  }
-
-  private get viewOptions() {
-    return state.viewOptions;
   }
 
   private created() {

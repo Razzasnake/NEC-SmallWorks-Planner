@@ -20,6 +20,7 @@ const _TableAndMap = () => ({
         :sorting="sorting"
         :map="map"
         :tableLogic="tableLogic"
+        :viewOptions="viewOptions"
         @updateOverlayEventJsons="updateOverlayEventJsons"
         @sortChanged="sortChanged"
         @filterChanged="filterChanged"
@@ -37,6 +38,9 @@ const _TableAndMap = () => ({
     },
     tableLogic: {
       default: new TableLogic(uploadedFile)
+    },
+    viewOptions: {
+      default: ['table:footer:min', 'table:footer:max', 'table:footer:avg', 'table:footer:total']
     }
   },
   data() {
