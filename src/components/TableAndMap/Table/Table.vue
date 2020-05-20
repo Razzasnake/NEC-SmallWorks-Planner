@@ -190,6 +190,7 @@ export default class Table extends Vue {
         hiddenMarkerIndices.add(index);
       }
     });
+    this.updatePinnedFooter();
     /**
      * Notify the parent what rows are no longer visible
      *
