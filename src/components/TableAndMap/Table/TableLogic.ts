@@ -42,10 +42,10 @@ export default class TableLogic {
         }
         return 0
       }))
-      acc.min[key] = Math.min(...vals).toFixed(roundTo)
-      acc.max[key] = Math.max(...vals).toFixed(roundTo)
-      acc.total[key] = total.toFixed(roundTo)
-      acc.avg[key] = (total / vals.length).toFixed(roundTo)
+      acc.min[key] = Math.min(...vals).toFixed(roundTo > 0 ? roundTo : 0)
+      acc.max[key] = Math.max(...vals).toFixed(roundTo > 0 ? roundTo : 0)
+      acc.total[key] = total.toFixed(roundTo > 0 ? roundTo : 0)
+      acc.avg[key] = (total / vals.length).toFixed(roundTo > 0 ? roundTo : 0)
       return acc
     }, { min: {}, max: {}, total: {}, avg: {} })
   }
