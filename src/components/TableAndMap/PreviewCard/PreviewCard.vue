@@ -60,13 +60,10 @@ export default class PreviewCard extends Vue {
   ];
 
   private created() {
-    this.updateTableData();
-  }
-
-  private mounted() {
     Utils.injectGoogleMapsLibrary([]).then(google => {
       this.updatePanorama();
     });
+    this.updateTableData();
   }
 
   @Watch("clickedMarker")
