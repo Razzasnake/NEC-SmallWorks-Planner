@@ -46,7 +46,7 @@ export default class Home extends Vue {
   align-items: center;
 }
 .view-examples {
-  margin-top: 8px;
+  margin-top: 20px;
 }
 .preview {
   max-height: 60vh;

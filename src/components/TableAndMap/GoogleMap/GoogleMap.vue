@@ -67,6 +67,11 @@ export default class GoogleMap extends Vue {
    */
   @Prop({ default: false })
   private displayMarkers!: boolean;
+  /**
+   * The row that has been clicked if there is one
+   */
+  @Prop({ default: null })
+  private clickedMarker!: Row | null;
 
   private map!: google.maps.Map;
   private drawingManager!: google.maps.drawing.DrawingManager;
@@ -74,6 +79,7 @@ export default class GoogleMap extends Vue {
   private heatmap: google.maps.visualization.HeatmapLayer | null = null;
   private activeOverlays: AvailableOverlays[] = [];
   private selectedOverlayEvent: google.maps.drawing.OverlayCompleteEvent | null = null;
+  private clickedInfoWindow: google.maps.InfoWindow | null = null;
   private mapId = Math.random()
     .toString(36)
     .substring(7);
@@ -179,6 +185,25 @@ export default class GoogleMap extends Vue {
       this.markers.forEach(marker => {
         marker.setMap(null);
       });
+    }
+  }
+
+  @Watch("clickedMarker")
+  private clickedMarkerChanged() {
+    if (this.clickedInfoWindow) {
+      this.clickedInfoWindow.close();
+      this.clickedInfoWindow = null;
+    }
+    if (this.clickedMarker) {
+      const selectedMarker = this.markers[parseInt(this.clickedMarker.id) - 1];
+      if (selectedMarker) {
+        this.map.panTo(selectedMarker.getPosition()!);
+        this.clickedInfoWindow = this.createInfoWindow(
+          selectedMarker,
+          this.clickedMarker
+        );
+        this.clickedInfoWindow.open(this.map, selectedMarker);
+      }
     }
   }
 

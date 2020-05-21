@@ -12,6 +12,7 @@
           :allowDraw="map.allowDraw"
           :displayHeatmap="displayHeatmap"
           :displayMarkers="displayMarkers"
+          :clickedMarker="clickedMarker"
           @markerSelected="markerSelected"
           @updateOverlayEvents="updateOverlayEvents"
         ></GoogleMap>
@@ -25,9 +26,11 @@
           :tableLogic="tableLogic"
           :overlayEvents="overlayEvents"
           :viewOptions="viewOptions"
+          :clickedMarker="clickedMarker"
           @sortChanged="sortChanged"
           @filterChanged="filterChanged"
           @hiddenMarkerIndicesChanged="hiddenMarkerIndicesChanged"
+          @markerSelected="markerSelected"
         ></Table>
       </div>
       <PreviewCard
