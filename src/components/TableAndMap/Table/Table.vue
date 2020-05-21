@@ -90,7 +90,7 @@ export default class Table extends Vue {
   @Watch("clickedMarker")
   private clickedMarkerUpdated(newValue: Row | null, oldValue: Row | null) {
     if (oldValue) {
-      this.gridApi.getRowNode(oldValue.id).setSelected(true);
+      this.gridApi.getRowNode(oldValue.id).setSelected(false);
     }
     if (this.clickedMarker) {
       this.gridApi.getRowNode(this.clickedMarker.id).setSelected(true);
