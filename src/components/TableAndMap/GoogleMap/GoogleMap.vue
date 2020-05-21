@@ -202,7 +202,9 @@ export default class GoogleMap extends Vue {
           selectedMarker,
           this.clickedMarker
         );
-        this.clickedInfoWindow.open(this.map, selectedMarker);
+        if (this.clickedInfoWindow) {
+          this.clickedInfoWindow.open(this.map, selectedMarker);
+        }
       }
     }
   }
