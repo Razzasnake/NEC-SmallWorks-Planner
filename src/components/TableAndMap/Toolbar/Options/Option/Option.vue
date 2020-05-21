@@ -1,5 +1,5 @@
 <template>
-  <b-dropdown>
+  <b-dropdown :close-on-click="false">
     <a slot="trigger" slot-scope="{ active }">
       <span>{{ name }}&nbsp;</span>
       <font-awesome-icon :icon="active ? 'chevron-up' : 'chevron-down'"></font-awesome-icon>

@@ -32,13 +32,17 @@ export default class Examples extends Vue {
   }
 
   private async preview(exampleAnalysis: ExampleAnalysis) {
-    const uploadedFile = new UploadedFile({
-      data: (await exampleAnalysis.config.data()).default,
-      columnSelections: exampleAnalysis.config.columnSelections,
-      firstRowHeader: exampleAnalysis.config.firstRowHeader
-    });
-    updateUploadedFile(uploadedFile);
-    this.$router.push({ name: "Explore" });
+    this.loading = true;
+    this.$nextTick(async () => {
+      const uploadedFile = new UploadedFile({
+        data: (await exampleAnalysis.config.data()).default,
+        columnSelections: exampleAnalysis.config.columnSelections,
+        firstRowHeader: exampleAnalysis.config.firstRowHeader
+      });
+      updateUploadedFile(uploadedFile);
+      this.$router.push({ name: "Explore" });
+      this.loading = false;
+    })
   }
 }
 </script>

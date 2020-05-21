@@ -72,6 +72,11 @@ export default class Table extends Vue {
     ]
   })
   private viewOptions!: string[];
+  /**
+   * Row being shown in the preview card, scroll to it and highlight it
+   */
+  @Prop({ default: null })
+  private clickedMarker!: Row | null;
 
   private colDef = defaultColDef;
   private gridApi!: GridApi;
@@ -80,6 +85,17 @@ export default class Table extends Vue {
   @Watch("viewOptions")
   private viewOptionsUpdated() {
     this.updatePinnedFooter();
+  }
+
+  @Watch("clickedMarker")
+  private clickedMarkerUpdated(newValue: Row | null, oldValue: Row | null) {
+    if (oldValue) {
+      this.gridApi.getRowNode(oldValue.id).setSelected(true);
+    }
+    if (this.clickedMarker) {
+      this.gridApi.getRowNode(this.clickedMarker.id).setSelected(true);
+      this.gridApi.ensureIndexVisible(parseInt(this.clickedMarker.id) - 1);
+    }
   }
 
   private isExternalFilterPresent(): boolean {
@@ -146,16 +162,16 @@ export default class Table extends Vue {
     const pinnedData = this.tableLogic.calculateFooter(columnKeys, visibleRows);
     const pinnedFooter = [];
     if (this.viewOptions.includes("table:footer:min")) {
-      pinnedFooter.push({ ...pinnedData.min, "0": "Min" });
+      pinnedFooter.push({ ...pinnedData.min, preview: "Min" });
     }
     if (this.viewOptions.includes("table:footer:max")) {
-      pinnedFooter.push({ ...pinnedData.max, "0": "Max" });
+      pinnedFooter.push({ ...pinnedData.max, preview: "Max" });
     }
     if (this.viewOptions.includes("table:footer:avg")) {
-      pinnedFooter.push({ ...pinnedData.avg, "0": "Avg" });
+      pinnedFooter.push({ ...pinnedData.avg, preview: "Avg" });
     }
     if (this.viewOptions.includes("table:footer:total")) {
-      pinnedFooter.push({ ...pinnedData.total, "0": "Total" });
+      pinnedFooter.push({ ...pinnedData.total, preview: "Total" });
     }
     this.gridApi.setPinnedBottomRowData(pinnedFooter);
   }
