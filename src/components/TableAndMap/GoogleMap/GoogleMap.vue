@@ -109,7 +109,9 @@ export default class GoogleMap extends Vue {
         this.markers[index].setVisible(false);
       }
     });
-    this.displayHeatmapChanged();
+    if (newVals.size || oldVals.size) {
+      this.displayHeatmapChanged();
+    }
   }
 
   @Watch("overlayEvents", { deep: true })

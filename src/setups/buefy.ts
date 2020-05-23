@@ -1,5 +1,6 @@
 import Vue from 'vue'
-import { Tag, Navbar, Button, Modal, Field, Input, Checkbox, Loading, Upload, Autocomplete, Dropdown } from 'buefy'
+import { Dialog, Tag, Navbar, Button, Modal, Field, Input, Checkbox, Loading, Upload, Autocomplete, Dropdown } from 'buefy'
+Vue.use(Dialog)
 Vue.use(Tag)
 Vue.use(Navbar)
 Vue.use(Button)
