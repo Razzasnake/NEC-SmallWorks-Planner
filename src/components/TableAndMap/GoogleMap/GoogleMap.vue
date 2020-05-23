@@ -195,7 +195,8 @@ export default class GoogleMap extends Vue {
       this.clickedInfoWindow = null;
     }
     if (this.clickedMarker) {
-      const selectedMarker = this.markers[parseInt(this.clickedMarker.id) - 1];
+      const offset = this.uploadedFile.firstRowHeader ? 1 : 0
+      const selectedMarker = this.markers[this.clickedMarker.index - offset];
       if (selectedMarker) {
         this.map.panTo(selectedMarker.getPosition()!);
         this.clickedInfoWindow = this.createInfoWindow(
