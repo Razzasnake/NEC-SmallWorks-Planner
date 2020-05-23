@@ -15,7 +15,7 @@
   ></AgGridVue>
 </template>
 <script lang='ts'>
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { AgGridVue } from "ag-grid-vue";
 import {
   GridApi,
@@ -60,9 +60,44 @@ export default class Table extends Vue {
    */
   @Prop({ default: () => [] })
   private overlayEvents!: google.maps.drawing.OverlayCompleteEvent[];
+  /**
+   * Whether or not to show the footer rows
+   */
+  @Prop({
+    default: [
+      "table:footer:min",
+      "table:footer:max",
+      "table:footer:avg",
+      "table:footer:total"
+    ]
+  })
+  private viewOptions!: string[];
+  /**
+   * Row being shown in the preview card, scroll to it and highlight it
+   */
+  @Prop({ default: null })
+  private clickedMarker!: Row | null;
 
   private colDef = defaultColDef;
   private gridApi!: GridApi;
+  private columnApi!: ColumnApi;
+
+  @Watch("viewOptions")
+  private viewOptionsUpdated() {
+    this.updatePinnedFooter();
+  }
+
+  @Watch("clickedMarker")
+  private clickedMarkerUpdated(newValue: Row | null, oldValue: Row | null) {
+    if (oldValue) {
+      this.gridApi.getRowNode(oldValue.id).setSelected(false);
+    }
+    if (this.clickedMarker) {
+      const node = this.gridApi.getRowNode(this.clickedMarker.id)
+      node.setSelected(true);
+      this.gridApi.ensureIndexVisible(node.rowIndex);
+    }
+  }
 
   private isExternalFilterPresent(): boolean {
     return this.overlayEvents.length > 0;
@@ -100,6 +135,8 @@ export default class Table extends Vue {
 
   private gridReady(config: { api: GridApi; columnApi: ColumnApi }) {
     this.gridApi = config.api;
+    this.columnApi = config.columnApi;
+    this.updatePinnedFooter();
     if (Object.keys(this.filters).length) {
       this.gridApi.setFilterModel(this.filters);
     }
@@ -108,6 +145,36 @@ export default class Table extends Vue {
     }
     config.columnApi.autoSizeAllColumns();
     this.updateVisibleRows();
+  }
+
+  private updatePinnedFooter() {
+    if (!this.viewOptions.length) {
+      this.gridApi.setPinnedBottomRowData([]);
+      return;
+    }
+    const visibleRows: Row[] = [];
+    this.gridApi.forEachNodeAfterFilter((node, index) => {
+      visibleRows.push(node.data);
+    });
+    const columnKeys = this.columnApi
+      .getAllColumns()
+      .filter(column => column.getColDef().filter === "number")
+      .map(col => col.getColId());
+    const pinnedData = this.tableLogic.calculateFooter(columnKeys, visibleRows);
+    const pinnedFooter = [];
+    if (this.viewOptions.includes("table:footer:min")) {
+      pinnedFooter.push({ ...pinnedData.min, preview: "Min" });
+    }
+    if (this.viewOptions.includes("table:footer:max")) {
+      pinnedFooter.push({ ...pinnedData.max, preview: "Max" });
+    }
+    if (this.viewOptions.includes("table:footer:avg")) {
+      pinnedFooter.push({ ...pinnedData.avg, preview: "Avg" });
+    }
+    if (this.viewOptions.includes("table:footer:total")) {
+      pinnedFooter.push({ ...pinnedData.total, preview: "Total" });
+    }
+    this.gridApi.setPinnedBottomRowData(pinnedFooter);
   }
 
   private sortChanged() {
@@ -140,6 +207,7 @@ export default class Table extends Vue {
         hiddenMarkerIndices.add(index);
       }
     });
+    this.updatePinnedFooter();
     /**
      * Notify the parent what rows are no longer visible
      *

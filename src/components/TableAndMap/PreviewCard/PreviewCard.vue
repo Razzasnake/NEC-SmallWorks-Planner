@@ -1,7 +1,7 @@
 <template>
-  <div class="card full-height">
+  <div class="card">
     <header class="card-header">
-      <b-button @click="close" expanded>Close</b-button>
+      <b-button @click="close" expanded class="close-button">Close</b-button>
     </header>
     <div id="street-view"></div>
     <AgGridVue
@@ -19,7 +19,7 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import UploadedFile, { Row } from "@/entities/UploadedFile";
 import { AgGridVue } from "ag-grid-vue";
-import { GridApi, ColDef } from "ag-grid-community";
+import { GridApi, ColDef, ColumnApi } from "ag-grid-community";
 import Utils from "@/components/TableAndMap/GoogleMap/Utils";
 import { defaultColDef } from "../Table/TableLogic";
 
@@ -60,13 +60,10 @@ export default class PreviewCard extends Vue {
   ];
 
   private created() {
-    this.updateTableData();
-  }
-
-  private mounted() {
     Utils.injectGoogleMapsLibrary([]).then(google => {
       this.updatePanorama();
     });
+    this.updateTableData();
   }
 
   @Watch("clickedMarker")
@@ -79,16 +76,40 @@ export default class PreviewCard extends Vue {
     this.panorama = null;
     const el = document.getElementById("street-view");
     if (el && this.clickedMarker.lat && this.clickedMarker.lng) {
-      this.panorama = new google.maps.StreetViewPanorama(el, {
-        position: {
-          lat: this.clickedMarker.lat,
-          lng: this.clickedMarker.lng
-        },
-        panControl: false,
-        zoomControl: false,
-        fullscreenControl: false,
-        addressControl: false
-      });
+      el.innerHTML = "";
+      var svService = new google.maps.StreetViewService();
+      var panoRequest = {
+        location: { lat: this.clickedMarker.lat, lng: this.clickedMarker.lng },
+        preference: google.maps.StreetViewPreference.NEAREST,
+        radius: 50,
+        source: google.maps.StreetViewSource.OUTDOOR
+      };
+      const findPanorama = (radius: number) => {
+        panoRequest.radius = radius;
+        svService.getPanorama(panoRequest, (panoData, status) => {
+          if (
+            status === google.maps.StreetViewStatus.OK &&
+            panoData &&
+            panoData.location
+          ) {
+            this.panorama = new google.maps.StreetViewPanorama(el, {
+              pano: panoData.location.pano,
+              panControl: false,
+              zoomControl: false,
+              fullscreenControl: false,
+              addressControl: false
+            });
+          } else {
+            if (radius > 200) {
+              el.innerHTML = "No Street View Available";
+              this.panorama = null;
+            } else {
+              findPanorama(radius * 2);
+            }
+          }
+        });
+      };
+      findPanorama(50);
     }
   }
 
@@ -122,7 +143,8 @@ export default class PreviewCard extends Vue {
     this.$emit("close");
   }
 
-  private gridReady(config: { api: GridApi }) {
+  private gridReady(config: { api: GridApi; columnApi: ColumnApi }) {
+    config.columnApi.autoSizeColumns(["label"]);
     config.api.sizeColumnsToFit();
   }
 }
@@ -132,5 +154,14 @@ export default class PreviewCard extends Vue {
 @import "~ag-grid-community/dist/styles/ag-theme-balham.css";
 #street-view {
   height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background-color: rgb(229, 227, 223);
+  overflow: hidden;
+}
+.close-button {
+  border-radius: 0px;
 }
 </style>

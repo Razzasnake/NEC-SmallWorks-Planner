@@ -12,6 +12,7 @@
           :allowDraw="map.allowDraw"
           :displayHeatmap="displayHeatmap"
           :displayMarkers="displayMarkers"
+          :clickedMarker="clickedMarker"
           @markerSelected="markerSelected"
           @updateOverlayEvents="updateOverlayEvents"
         ></GoogleMap>
@@ -24,9 +25,12 @@
           :sorting="sorting"
           :tableLogic="tableLogic"
           :overlayEvents="overlayEvents"
+          :viewOptions="viewOptions"
+          :clickedMarker="clickedMarker"
           @sortChanged="sortChanged"
           @filterChanged="filterChanged"
           @hiddenMarkerIndicesChanged="hiddenMarkerIndicesChanged"
+          @markerSelected="markerSelected"
         ></Table>
       </div>
       <PreviewCard
@@ -106,7 +110,13 @@ export default class TableAndMap extends Vue {
   private hiddenMarkerIndices: Set<number> = new Set();
   private clickedMarker: Row | null = null;
   private splitInstance: Split | null = null;
-  private viewOptions: string[] = ["table", "map", "map:markers"];
+  private viewOptions: string[] = [
+    "table",
+    "table:footer:total",
+    "table:footer:avg",
+    "map",
+    "map:markers"
+  ];
 
   private get hasMap(): boolean {
     return this.viewOptions.indexOf("map") > -1;
@@ -184,7 +194,10 @@ export default class TableAndMap extends Vue {
       this.uploadedFile.data[0].data.forEach(
         (header: string, index: number) => {
           keys.forEach(key => {
-            if (header.toLowerCase().indexOf(key.toLowerCase()) > -1) {
+            if (
+              header &&
+              header.toLowerCase().indexOf(key.toLowerCase()) > -1
+            ) {
               if (row[index]) {
                 content =
                   content + `<div><b>${header}:</b> ${row[index]}</div>`;
@@ -269,12 +282,12 @@ export default class TableAndMap extends Vue {
     overflow: auto;
     z-index: 160;
     position: absolute;
-    top: -2px;
+    top: 0px;
     right: 0px;
     width: 500px;
   }
   .table-and-map__main {
-    height: calc(100% - 40px);
+    height: calc(100% - 33px);
   }
 }
 </style>

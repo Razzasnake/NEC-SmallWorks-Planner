@@ -20,7 +20,7 @@ import UploadedFile from "@/entities/UploadedFile";
 })
 export default class CallToAction extends Vue {
   private tagline =
-    "View data in an interactive map. Upload an excel or csv file and see for yourself!";
+    "View geographical data in an interactive map. Upload an excel or csv file and see for yourself!";
   private finish(uploadedFile: UploadedFile) {
     /**
      * Emit the uploaded file

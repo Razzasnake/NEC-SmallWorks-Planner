@@ -60,9 +60,19 @@ export default class App extends Vue {
   }
 
   private jumpTo(location: { name: string }) {
-    reset();
     if (location.name !== this.$route.name) {
-      this.$router.push(location);
+      if (this.$route.name === "Explore") {
+        this.$buefy.dialog.confirm({
+          message: "Are you sure you want to leave?",
+          confirmText: "Yes",
+          onConfirm: () => {
+            this.$router.push(location);
+            reset();
+          }
+        });
+      } else {
+        this.$router.push(location);
+      }
     }
   }
 
@@ -76,9 +86,8 @@ export default class App extends Vue {
 }
 </script>
 <style lang="scss" scoped>
-@import '@/sass/buefy.scss';
 #app {
-  background-color: $light;
+  background-color: #fafafa;
   height: calc(100vh - 52px);
 }
 </style>

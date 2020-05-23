@@ -141,14 +141,4 @@ export default class UploadWorkflow extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-.wrapper {
-  width: 750px;
-}
-.upload-footer {
-  padding: 1.5rem;
-  text-align: right;
-  .margin-right {
-    margin-right: 8px;
-  }
-}
 </style>

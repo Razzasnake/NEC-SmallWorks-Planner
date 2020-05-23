@@ -48,8 +48,8 @@ export default class Toolbar extends Vue {
 <style lang='scss' scoped>
 @import "@/sass/buefy.scss";
 .toolbar {
-  border-top: 4px solid $grey-lighter;
-  padding: 6px 12px;
+  font-size: 14px;
+  padding: 7.5px 12px;
   .option {
     margin-left: 16px;
   }
