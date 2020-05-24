@@ -10,23 +10,11 @@ export default {
 const _NavBar = () => ({
   components: { NavBar },
   template: `
-    <NavBar
-      :inAnalysis="inAnalysis"
-      :viewOptions="viewOptions"
-      @jumpTo="jumpTo"
-      @updateSettings="updateSettings"
-    ></NavBar>`,
+    <NavBar @jumpTo="jumpTo"></NavBar>`,
   props: {
-    inAnalysis: {
-      default: boolean('inAnalysis', true)
-    },
-    viewOptions: {
-      default: ['table', 'map']
-    }
   },
   methods: {
-    jumpTo: action('jumpTo'),
-    updateSettings: action('updateSettings')
+    jumpTo: action('jumpTo')
   }
 })
 
