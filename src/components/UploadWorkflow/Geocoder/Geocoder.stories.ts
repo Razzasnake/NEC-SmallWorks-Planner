@@ -12,6 +12,7 @@ const _Geocoder = () => ({
     <Geocoder
       :addresses="addresses"
       @updateLocation="updateLocation"
+      @finish="finish"
     ></Geocoder>`,
   props: {
     addresses: {
@@ -19,7 +20,8 @@ const _Geocoder = () => ({
     }
   },
   methods: {
-    updateLocation: action('updateLocation')
+    updateLocation: action('updateLocation'),
+    finish: action('finish')
   }
 })
 

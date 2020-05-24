@@ -18,24 +18,32 @@ export default class Geocoder extends Vue {
    */
   @Prop({ default: () => [] })
   private addresses!: string[];
+  private completed: number = 0;
 
-  @Watch("addresses")
-  private addressesUpdated() {
-    this.run();
-  }
-
-  public completed: number = 0;
   private get completedAux() {
     return this.completed;
   }
+
   private set completedAux(newValue: number) {
     this.completed = newValue;
     if (this.completed === this.addresses.length) {
+      /**
+       * All geocodes are done, notify parent that we can finish.
+       */
       this.$emit("finish");
     }
   }
 
-  private run() {
+  @Watch("addresses")
+  private addressesUpdated() {
+    this.geocode();
+  }
+
+  private mounted() {
+    this.geocode();
+  }
+
+  private geocode() {
     const map = new Microsoft.Maps.Map("#hiddenMap", {
       credentials: process.env.VUE_APP_GEOCODE_KEY
     });

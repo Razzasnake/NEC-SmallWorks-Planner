@@ -117,10 +117,9 @@ export default class UploadWorkflow extends Vue {
     longitude: number;
   }) {
     const offset = this.firstRowHeader ? 1 : 0;
-    this.uploadedFile[payload.index + offset][this.uploadedFile[0].length - 2] =
-      payload.latitude;
-    this.uploadedFile[payload.index + offset][this.uploadedFile[0].length - 1] =
-      payload.longitude;
+    const row = this.uploadedFile[payload.index + offset];
+    row[this.columnSelections.lat!] = payload.latitude;
+    row[this.columnSelections.lng!] = payload.longitude;
   }
 
   private finish() {
@@ -128,25 +127,7 @@ export default class UploadWorkflow extends Vue {
       this.columnSelections.lat === null ||
       this.columnSelections.lng === null
     ) {
-      const selections = [
-        this.columnSelections.address,
-        this.columnSelections.city,
-        this.columnSelections.state,
-        this.columnSelections.zip
-      ].filter(_ => _) as number[];
-      const offset = this.firstRowHeader ? 1 : 0;
-      this.uploadedFile.forEach((row, index) => {
-        this.uploadedFile[index] = row.concat(["", ""]);
-      });
-      if (this.firstRowHeader) {
-        this.uploadedFile[0][this.uploadedFile[0].length - 2] = "Latitude";
-        this.uploadedFile[0][this.uploadedFile[0].length - 1] = "Longitude";
-      }
-      this.addresses = this.uploadedFile.slice(offset).map(row => {
-        return selections.map(i => row[i]).join(" ");
-      });
-      this.columnSelections.lat = this.uploadedFile[0].length - 2;
-      this.columnSelections.lng = this.uploadedFile[0].length - 1;
+      this.handleNoLatLng();
     } else {
       const uploadedFile = new UploadedFile({
         data: this.uploadedFile,
@@ -166,6 +147,29 @@ export default class UploadWorkflow extends Vue {
     }
   }
 
+  private handleNoLatLng() {
+    const selections = [
+      this.columnSelections.address,
+      this.columnSelections.city,
+      this.columnSelections.state,
+      this.columnSelections.zip
+    ].filter(_ => _) as number[];
+    this.uploadedFile.forEach((row, index) => {
+      this.uploadedFile[index] = row.concat(["", ""]);
+    });
+    if (this.firstRowHeader) {
+      this.uploadedFile[0][this.uploadedFile[0].length - 2] = "Latitude";
+      this.uploadedFile[0][this.uploadedFile[0].length - 1] = "Longitude";
+    }
+    const offset = this.firstRowHeader ? 1 : 0;
+    this.columnSelections.lat = this.uploadedFile[0].length - 2;
+    this.columnSelections.lng = this.uploadedFile[0].length - 1;
+    /* When addresses is updated, the geocoder is going to start. */
+    this.addresses = this.uploadedFile.slice(offset).map(row => {
+      return selections.map(i => row[i]).join(" ");
+    });
+  }
+
   private reset() {
     this.step = 0;
     this.uploadedFile = [];
@@ -178,6 +182,7 @@ export default class UploadWorkflow extends Vue {
       zip: null
     };
     this.firstRowHeader = true;
+    this.addresses = [];
     /**
      * The modal was closed
      */
