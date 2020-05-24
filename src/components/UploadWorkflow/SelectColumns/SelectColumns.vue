@@ -14,9 +14,11 @@
         keep-first
       ></b-autocomplete>
     </b-field>
-    <a v-if="!showAddressFields" a @click="toggleAddressFields">
-      Don't have a latitude and longitude? Click to use an address.
-    </a>
+    <a
+      v-if="!showAddressFields"
+      a
+      @click="toggleAddressFields"
+    >Don't have a latitude and longitude? Click to use an address.</a>
     <a
       v-else
       @click="toggleAddressFields"
@@ -25,6 +27,13 @@
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+
+interface Column {
+  label: string;
+  key: string;
+  search: string;
+  selection: number | null;
+}
 
 /**
  * Confirm our predictions or select columns for lat/lon or address component
@@ -57,12 +66,7 @@ export default class SelectColumns extends Vue {
   };
 
   private showAddressFields: boolean = false;
-  private locationColumns: {
-    label: string;
-    key: string;
-    search: string;
-    selection: number | null;
-  }[] = [
+  private locationColumns: Column[] = [
     {
       label: "Latitude",
       key: "lat",
@@ -77,12 +81,7 @@ export default class SelectColumns extends Vue {
     }
   ];
 
-  private addressColmns: {
-    label: string;
-    key: string;
-    search: string;
-    selection: number | null;
-  }[] = [
+  private addressColmns: Column[] = [
     {
       label: "Address",
       key: "address",
