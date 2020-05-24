@@ -15,6 +15,7 @@ const _SelectColumns = () => ({
       :firstRowHeader="firstRowHeader"
       @updateSelections="updateSelections"
       @updateFirstRowHeader="updateFirstRowHeader"
+      @updateIsComplete="updateIsComplete"
     ></SelectColumns>`,
   props: {
     value: {
@@ -35,7 +36,8 @@ const _SelectColumns = () => ({
   },
   methods: {
     updateSelections: action('updateSelections'),
-    updateFirstRowHeader: action('updateFirstRowHeader')
+    updateFirstRowHeader: action('updateFirstRowHeader'),
+    updateIsComplete: action('updateIsComplete')
   }
 })
 

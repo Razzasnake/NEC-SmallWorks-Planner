@@ -3,37 +3,40 @@
     <b-field label="First Row Header">
       <b-checkbox v-model="firstRowHeaderAux"></b-checkbox>
     </b-field>
-    <b-field label="Latitude">
+    <b-field v-for="c in visibleColumns" :key="c.key" :label="c.label">
       <b-autocomplete
-        v-model="latSearch"
+        v-model="c.search"
         placeholder="Search for a column"
         dropdown-position="top"
-        :data="filterOptions(latSearch)"
-        @select="latSelect"
+        :data="filterOptions(c.search)"
+        @input="inputFnc($event, c.key)"
         open-on-focus
         keep-first
-        clearable
       ></b-autocomplete>
     </b-field>
-    <b-field label="Longitude">
-      <b-autocomplete
-        v-model="lngSearch"
-        placeholder="Search for a column"
-        dropdown-position="top"
-        :data="filterOptions(lngSearch)"
-        @select="lngSelect"
-        open-on-focus
-        keep-first
-        clearable
-      ></b-autocomplete>
-    </b-field>
+    <a
+      v-if="!showAddressFields"
+      a
+      @click="toggleAddressFields"
+    >Don't have a latitude and longitude? Click to use an address.</a>
+    <a
+      v-else
+      @click="toggleAddressFields"
+    >Have a latitude and longitude? Click to use a latitude and longitude.</a>
   </div>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
+interface Column {
+  label: string;
+  key: string;
+  search: string;
+  selection: number | null;
+}
+
 /**
- * Confirm our predictions for lat/lon or select them
+ * Confirm our predictions or select columns for lat/lon or address component
  */
 @Component({
   components: {}
@@ -45,18 +48,76 @@ export default class SelectColumns extends Vue {
   @Prop({ default: () => [] })
   private value!: any[][];
   /**
-   * Initial column selections.
-   */
-  @Prop()
-  private columnSelections!: { lat: null | number; lng: null | number };
-  /**
    * The row that contains the headers for this file.
    */
   @Prop()
   private firstRowHeader!: boolean;
+  /**
+   * Column selections
+   */
+  @Prop()
+  private columnSelections!: {
+    lat: null | number;
+    lng: null | number;
+    address: null | number;
+    city: null | number;
+    state: null | number;
+    zip: null | number;
+  };
 
-  private latSearch: string = "";
-  private lngSearch: string = "";
+  private showAddressFields: boolean = false;
+  private locationColumns: Column[] = [
+    {
+      label: "Latitude",
+      key: "lat",
+      search: "",
+      selection: null
+    },
+    {
+      label: "Longitude",
+      key: "lng",
+      search: "",
+      selection: null
+    }
+  ];
+
+  private addressColmns: Column[] = [
+    {
+      label: "Address",
+      key: "address",
+      search: "",
+      selection: null
+    },
+    {
+      label: "City",
+      key: "city",
+      search: "",
+      selection: null
+    },
+    {
+      label: "State",
+      key: "state",
+      search: "",
+      selection: null
+    },
+    {
+      label: "Zip",
+      key: "zip",
+      search: "",
+      selection: null
+    }
+  ];
+
+  private get visibleColumns() {
+    if (this.showAddressFields) {
+      return this.addressColmns;
+    }
+    return this.locationColumns;
+  }
+
+  private get allColumns() {
+    return this.locationColumns.concat(this.addressColmns);
+  }
 
   private get firstRowHeaderAux() {
     return this.firstRowHeader;
@@ -69,37 +130,54 @@ export default class SelectColumns extends Vue {
     this.$emit("updateFirstRowHeader", newVal);
   }
 
-  private get allOptions(): string[] {
+  private get allOptions(): {
+    index: number;
+    value: string;
+  }[] {
     if (this.firstRowHeader) {
-      return this.value[0].map(_ => _.toString());
+      return this.value[0].map((_, index) => {
+        return {
+          index,
+          value: _.toString()
+        };
+      });
     } else {
-      return this.value[0].map(
-        (_, index) =>
-          `Column ${index.toString()} (Example: ${this.value[0][index]})`
+      return this.value[0].map((_, index) => {
+        return {
+          index,
+          value: `Column ${index.toString()} (Example: ${this.value[0][index]})`
+        };
+      });
+    }
+  }
+
+  private get isComplete() {
+    if (this.showAddressFields) {
+      // Only need at least one field selected for us to be able to geocode.
+      return this.addressColmns.filter(_ => _.selection !== null).length > 0;
+    } else {
+      return (
+        this.locationColumns.filter(_ => _.selection !== null).length === 2
       );
     }
   }
 
-  @Watch("columnSelections")
-  private columnSelectionsUpdated() {
-    this.updateSearchs();
+  @Watch("firstRowHeader")
+  private firstRowHeaderUpdated() {
+    this.allColumns.forEach(col => {
+      if (col.selection !== null) {
+        col.search = this.allOptions[col.selection].value;
+      }
+    });
   }
 
   private created() {
-    this.updateSearchs();
-  }
-
-  private updateSearchs() {
-    if (this.columnSelections.lat !== null) {
-      this.latSearch = this.allOptions[this.columnSelections.lat];
-    } else {
-      this.latSearch = "";
-    }
-    if (this.columnSelections.lng !== null) {
-      this.lngSearch = this.allOptions[this.columnSelections.lng];
-    } else {
-      this.lngSearch = "";
-    }
+    this.allColumns.forEach(col => {
+      col.selection = (this.columnSelections as any)[col.key];
+      if (col.selection !== null) {
+        col.search = this.allOptions[col.selection].value;
+      }
+    });
   }
 
   private filterOptions(search: string | undefined) {
@@ -108,7 +186,7 @@ export default class SelectColumns extends Vue {
     }
     return this.allOptions.filter(option => {
       return (
-        option
+        option.value
           .toString()
           .toLowerCase()
           .indexOf(search.toLowerCase()) >= 0
@@ -116,35 +194,47 @@ export default class SelectColumns extends Vue {
     });
   }
 
-  private latSelect(latSearch: string) {
-    const columnSelectionsAux = Object.assign({}, this.columnSelections);
-    const index = this.allOptions.indexOf(latSearch);
-    if (index >= 0) {
-      columnSelectionsAux.lat = index;
-      if (columnSelectionsAux.lng === index) {
-        columnSelectionsAux.lng = null;
+  private inputFnc(text: string, key: string) {
+    const field = this.visibleColumns.find(_ => _.key === key)!;
+    if (text.length) {
+      const option = this.allOptions.find(_ => _.value === text);
+      if (option) {
+        field.selection = option.index;
+        field.search = option.value;
+      } else {
+        field.selection = null;
+        field.search = "";
       }
     } else {
-      columnSelectionsAux.lat = null;
+      field.selection = null;
+      field.search = "";
     }
+    const toReturn: { [key: string]: number | null } = {};
+    this.allColumns.forEach(col => {
+      toReturn[col.key] = col.selection;
+    });
     /**
-     * Update the selections
+     * Update the selections in the correct format
+     *
+     * @type {{
+        lat: null | number;
+        lng: null | number;
+        address: null | number;
+        city: null | number;
+        state: null | number;
+        zip: null | number;
+      }}
      */
-    this.$emit("updateSelections", columnSelectionsAux);
+    this.$emit("updateSelections", toReturn);
+    /**
+     * Notify parent is the selections needed are done
+     */
+    this.$emit("updateIsComplete", this.isComplete);
   }
 
-  private lngSelect(lngSearch: string) {
-    const columnSelectionsAux = Object.assign({}, this.columnSelections);
-    const index = this.allOptions.indexOf(lngSearch);
-    if (index >= 0) {
-      columnSelectionsAux.lng = index;
-      if (columnSelectionsAux.lat === index) {
-        columnSelectionsAux.lat = null;
-      }
-    } else {
-      columnSelectionsAux.lng = null;
-    }
-    this.$emit("updateSelections", columnSelectionsAux);
+  private toggleAddressFields() {
+    this.showAddressFields = !this.showAddressFields;
+    this.$emit("updateIsComplete", this.isComplete);
   }
 }
 </script>
