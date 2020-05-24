@@ -18,6 +18,7 @@
             @updateFirstRowHeader="updateFirstRowHeader"
             @updateIsComplete="updateIsComplete"
           ></SelectColumns>
+          <Geocoder :addresses="addresses" @updateLocation="updateLocation" @finish="finish" />
         </section>
         <footer class="modal-card-foot">
           <div class="field is-grouped">
@@ -39,6 +40,7 @@ import Upload from "./Upload/Upload.vue";
 import SelectColumns from "./SelectColumns/SelectColumns.vue";
 import UploadedFile from "@/entities/UploadedFile";
 import UploadWorkflowLogic from "./UploadWorkflowLogic";
+import Geocoder from "./Geocoder/Geocoder.vue";
 
 /**
  * Add all of the parts of the workflow together
@@ -46,7 +48,8 @@ import UploadWorkflowLogic from "./UploadWorkflowLogic";
 @Component({
   components: {
     Upload,
-    SelectColumns
+    SelectColumns,
+    Geocoder
   }
 })
 export default class UploadWorkflow extends Vue {
@@ -69,6 +72,7 @@ export default class UploadWorkflow extends Vue {
   };
   private firstRowHeader: boolean = true;
   private finishIsDisabled: boolean = true;
+  private addresses: string[] = [];
 
   private fileUploaded(data: any[][]) {
     this.uploadedFile = data;
@@ -107,23 +111,59 @@ export default class UploadWorkflow extends Vue {
     this.step = this.step + 1;
   }
 
+  private updateLocation(payload: {
+    index: number;
+    latitude: number;
+    longitude: number;
+  }) {
+    const offset = this.firstRowHeader ? 1 : 0;
+    this.uploadedFile[payload.index + offset][this.uploadedFile[0].length - 2] =
+      payload.latitude;
+    this.uploadedFile[payload.index + offset][this.uploadedFile[0].length - 1] =
+      payload.longitude;
+  }
+
   private finish() {
-    console.log(this.columnSelections)
-    // const uploadedFile = new UploadedFile({
-    //   data: this.uploadedFile,
-    //   columnSelections: {
-    //     lat: this.columnSelections.lat!,
-    //     lng: this.columnSelections.lng!
-    //   },
-    //   firstRowHeader: this.firstRowHeader
-    // });
-    // /**
-    //  * Emit the uploaded file
-    //  *
-    //  * @type {UploadedFile}
-    //  */
-    // this.$emit("finish", uploadedFile);
-    this.reset();
+    if (
+      this.columnSelections.lat === null ||
+      this.columnSelections.lng === null
+    ) {
+      const selections = [
+        this.columnSelections.address,
+        this.columnSelections.city,
+        this.columnSelections.state,
+        this.columnSelections.zip
+      ].filter(_ => _) as number[];
+      const offset = this.firstRowHeader ? 1 : 0;
+      this.uploadedFile.forEach((row, index) => {
+        this.uploadedFile[index] = row.concat(["", ""]);
+      });
+      if (this.firstRowHeader) {
+        this.uploadedFile[0][this.uploadedFile[0].length - 2] = "Latitude";
+        this.uploadedFile[0][this.uploadedFile[0].length - 1] = "Longitude";
+      }
+      this.addresses = this.uploadedFile.slice(offset).map(row => {
+        return selections.map(i => row[i]).join(" ");
+      });
+      this.columnSelections.lat = this.uploadedFile[0].length - 2;
+      this.columnSelections.lng = this.uploadedFile[0].length - 1;
+    } else {
+      const uploadedFile = new UploadedFile({
+        data: this.uploadedFile,
+        columnSelections: {
+          lat: this.columnSelections.lat!,
+          lng: this.columnSelections.lng!
+        },
+        firstRowHeader: this.firstRowHeader
+      });
+      /**
+       * Emit the uploaded file
+       *
+       * @type {UploadedFile}
+       */
+      this.$emit("finish", uploadedFile);
+      this.reset();
+    }
   }
 
   private reset() {

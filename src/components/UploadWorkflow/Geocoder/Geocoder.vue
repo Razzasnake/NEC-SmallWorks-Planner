@@ -2,7 +2,7 @@
   <div id="hiddenMap"></div>
 </template>
 <script lang='ts'>
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 declare const Microsoft: any;
 
@@ -19,7 +19,23 @@ export default class Geocoder extends Vue {
   @Prop({ default: () => [] })
   private addresses!: string[];
 
-  private mounted() {
+  @Watch("addresses")
+  private addressesUpdated() {
+    this.run();
+  }
+
+  public completed: number = 0;
+  private get completedAux() {
+    return this.completed;
+  }
+  private set completedAux(newValue: number) {
+    this.completed = newValue;
+    if (this.completed === this.addresses.length) {
+      this.$emit("finish");
+    }
+  }
+
+  private run() {
     const map = new Microsoft.Maps.Map("#hiddenMap", {
       credentials: process.env.VUE_APP_GEOCODE_KEY
     });
@@ -40,12 +56,14 @@ export default class Geocoder extends Vue {
                * @type {{index: number, latitude: number | null, longitude: number | null}}
                */
               this.$emit("updateLocation", { index, latitude, longitude });
+              this.completedAux += 1;
             } else {
               this.$emit("updateLocation", {
                 index,
                 latitude: null,
                 longitude: null
               });
+              this.completedAux += 1;
             }
           },
           errorCallback: () => {
@@ -54,6 +72,7 @@ export default class Geocoder extends Vue {
               latitude: null,
               longitude: null
             });
+            this.completedAux += 1;
           }
         };
         searchManager.geocode(searchRequest);
