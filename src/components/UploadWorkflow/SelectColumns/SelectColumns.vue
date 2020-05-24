@@ -15,13 +15,12 @@
       ></b-autocomplete>
     </b-field>
     <a v-if="!showAddressFields" a @click="toggleAddressFields">
-      Don't have a latitude and longitude? Click to use our
-      <b>free</b> geocoding service.
+      Don't have a latitude and longitude? Click to use an address.
     </a>
     <a
       v-else
       @click="toggleAddressFields"
-    >Have a latitude and longitude? Click to select your latitude and longitude.</a>
+    >Have a latitude and longitude? Click to use a latitude and longitude.</a>
   </div>
 </template>
 <script lang='ts'>
@@ -167,7 +166,7 @@ export default class SelectColumns extends Vue {
   @Watch("firstRowHeader")
   private firstRowHeaderUpdated() {
     this.allColumns.forEach(col => {
-      if (col.selection) {
+      if (col.selection !== null) {
         col.search = this.allOptions[col.selection].value;
       }
     });
@@ -176,7 +175,7 @@ export default class SelectColumns extends Vue {
   private created() {
     this.allColumns.forEach(col => {
       col.selection = (this.columnSelections as any)[col.key];
-      if (col.selection) {
+      if (col.selection !== null) {
         col.search = this.allOptions[col.selection].value;
       }
     });
@@ -236,6 +235,7 @@ export default class SelectColumns extends Vue {
 
   private toggleAddressFields() {
     this.showAddressFields = !this.showAddressFields;
+    this.$emit("updateIsComplete", this.isComplete);
   }
 }
 </script>

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <b-loading :active="loading"></b-loading>
     <Upload @fileUploaded="fileUploaded"></Upload>
     <div class="modal is-active" v-if="step > 0">
       <div class="modal-background"></div>
@@ -73,6 +74,7 @@ export default class UploadWorkflow extends Vue {
   private firstRowHeader: boolean = true;
   private finishIsDisabled: boolean = true;
   private addresses: string[] = [];
+  private loading: boolean = false;
 
   private fileUploaded(data: any[][]) {
     this.uploadedFile = data;
@@ -153,7 +155,7 @@ export default class UploadWorkflow extends Vue {
       this.columnSelections.city,
       this.columnSelections.state,
       this.columnSelections.zip
-    ].filter(_ => _) as number[];
+    ].filter(_ => _ !== null) as number[];
     this.uploadedFile.forEach((row, index) => {
       this.uploadedFile[index] = row.concat(["", ""]);
     });
@@ -168,6 +170,7 @@ export default class UploadWorkflow extends Vue {
     this.addresses = this.uploadedFile.slice(offset).map(row => {
       return selections.map(i => row[i]).join(" ");
     });
+    this.loading = true;
   }
 
   private reset() {
@@ -183,6 +186,7 @@ export default class UploadWorkflow extends Vue {
     };
     this.firstRowHeader = true;
     this.addresses = [];
+    this.loading = false;
     /**
      * The modal was closed
      */
