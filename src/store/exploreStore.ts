@@ -10,8 +10,7 @@ interface ExploreStoreI {
   sorting: { colId: string; sort: string }[],
   map: TableAndMapMap,
   tableLogic: TableLogic | null,
-  viewOptions: string[],
-  settingsVisible: boolean
+  viewOptions: string[]
 };
 
 const state: ExploreStoreI = Vue.observable({
@@ -24,8 +23,7 @@ const state: ExploreStoreI = Vue.observable({
     allowDraw: true
   },
   tableLogic: null,
-  viewOptions: ["map", "table"],
-  settingsVisible: false
+  viewOptions: ["map", "table"]
 });
 
 export const updateUploadedFile = (uploadedFile: UploadedFile) => {
@@ -49,10 +47,6 @@ export const updateViewOptions = (viewOptions: string[]) => {
   state.viewOptions = viewOptions;
 }
 
-export const updateSettingsVisible = (settingsVisible: boolean) => {
-  state.settingsVisible = settingsVisible;
-}
-
 export const reset = () => {
   state.uploadedFile = null;
   state.filters = {};
@@ -64,7 +58,6 @@ export const reset = () => {
   };
   state.tableLogic = null;
   state.viewOptions = ["map", "table"];
-  state.settingsVisible = false;
 }
 
 export default state;

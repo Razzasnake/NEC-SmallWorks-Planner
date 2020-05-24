@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Upload @fileUploaded="fileUploaded" v-if="!passedUploadedFile"></Upload>
+    <Upload @fileUploaded="fileUploaded"></Upload>
     <div class="modal is-active" v-if="step > 0">
       <div class="modal-background"></div>
       <div class="modal-card">
@@ -16,6 +16,7 @@
             :firstRowHeader="firstRowHeader"
             @updateSelections="updateSelections"
             @updateFirstRowHeader="updateFirstRowHeader"
+            @updateIsComplete="updateIsComplete"
           ></SelectColumns>
         </section>
         <footer class="modal-card-foot">
@@ -49,34 +50,25 @@ import UploadWorkflowLogic from "./UploadWorkflowLogic";
   }
 })
 export default class UploadWorkflow extends Vue {
-  /**
-   * (Optional) Pass in a already parsed file to let them adjust the selections.
-   */
-  @Prop({ default: null })
-  private passedUploadedFile!: UploadedFile | null;
-
   private step: number = 0;
   private uploadedFile: any[][] = [];
-  private columnSelections: { lat: null | number; lng: null | number } = {
+  private columnSelections: {
+    lat: null | number;
+    lng: null | number;
+    address: null | number;
+    city: null | number;
+    state: null | number;
+    zip: null | number;
+  } = {
     lat: null,
-    lng: null
+    lng: null,
+    address: null,
+    city: null,
+    state: null,
+    zip: null
   };
   private firstRowHeader: boolean = true;
-
-  private get finishIsDisabled() {
-    return (
-      this.columnSelections.lat === null || this.columnSelections.lng === null
-    );
-  }
-
-  private created() {
-    if (this.passedUploadedFile) {
-      this.uploadedFile = this.passedUploadedFile.rawData;
-      this.columnSelections = this.passedUploadedFile.columnSelections;
-      this.firstRowHeader = this.passedUploadedFile.firstRowHeader;
-      this.next();
-    }
-  }
+  private finishIsDisabled: boolean = true;
 
   private fileUploaded(data: any[][]) {
     this.uploadedFile = data;
@@ -99,8 +91,16 @@ export default class UploadWorkflow extends Vue {
   private updateSelections(selections: {
     lat: null | number;
     lng: null | number;
+    address: null | number;
+    city: null | number;
+    state: null | number;
+    zip: null | number;
   }) {
     this.columnSelections = selections;
+  }
+
+  private updateIsComplete(complete: boolean) {
+    this.finishIsDisabled = !complete;
   }
 
   private next() {
@@ -108,20 +108,21 @@ export default class UploadWorkflow extends Vue {
   }
 
   private finish() {
-    const uploadedFile = new UploadedFile({
-      data: this.uploadedFile,
-      columnSelections: {
-        lat: this.columnSelections.lat!,
-        lng: this.columnSelections.lng!
-      },
-      firstRowHeader: this.firstRowHeader
-    });
-    /**
-     * Emit the uploaded file
-     *
-     * @type {UploadedFile}
-     */
-    this.$emit("finish", uploadedFile);
+    console.log(this.columnSelections)
+    // const uploadedFile = new UploadedFile({
+    //   data: this.uploadedFile,
+    //   columnSelections: {
+    //     lat: this.columnSelections.lat!,
+    //     lng: this.columnSelections.lng!
+    //   },
+    //   firstRowHeader: this.firstRowHeader
+    // });
+    // /**
+    //  * Emit the uploaded file
+    //  *
+    //  * @type {UploadedFile}
+    //  */
+    // this.$emit("finish", uploadedFile);
     this.reset();
   }
 
@@ -130,7 +131,11 @@ export default class UploadWorkflow extends Vue {
     this.uploadedFile = [];
     this.columnSelections = {
       lat: null,
-      lng: null
+      lng: null,
+      address: null,
+      city: null,
+      state: null,
+      zip: null
     };
     this.firstRowHeader = true;
     /**
