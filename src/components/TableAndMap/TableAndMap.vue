@@ -1,6 +1,10 @@
 <template>
   <div class="table-and-map full-height">
-    <Toolbar :viewOptions="viewOptions" @updateViewOptions="updateViewOptions"></Toolbar>
+    <Toolbar
+      :viewOptions="viewOptions"
+      @updateViewOptions="updateViewOptions"
+      @updateExportOptions="updateExportOptions"
+    ></Toolbar>
     <div class="table-and-map__main">
       <div :id="mapId" :class="sectionClass" v-show="hasMap">
         <GoogleMap
@@ -259,6 +263,12 @@ export default class TableAndMap extends Vue {
     this.viewOptions = viewOptions;
   }
 
+  private updateExportOptions(exportOptions: string[]) {
+    if (exportOptions.indexOf("export:csv") > -1) {
+      (this.$refs.Table as Table).exportCsv();
+    }
+  }
+
   private hiddenMarkerIndicesChanged(hiddenMarkerIndices: Set<number>) {
     this.hiddenMarkerIndices = hiddenMarkerIndices;
   }
@@ -269,9 +279,6 @@ export default class TableAndMap extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-.full-height {
-  height: 100%;
-}
 .half-height {
   height: 50%;
 }

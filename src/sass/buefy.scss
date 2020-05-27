@@ -40,3 +40,5 @@ $link-focus-border: $primary;
 .autocomplete .dropdown-content {
   max-height: 100px;
 }
+
+@import "@/sass/helpers/_utility.scss";

@@ -134,6 +134,9 @@ export default class SelectColumns extends Vue {
     index: number;
     value: string;
   }[] {
+    if (this.value.length === 0) {
+      return [];
+    }
     if (this.firstRowHeader) {
       return this.value[0].map((_, index) => {
         return {

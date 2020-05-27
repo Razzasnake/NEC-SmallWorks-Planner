@@ -53,7 +53,7 @@ export default class Utils {
           return {
             type: google.maps.drawing.OverlayType.RECTANGLE,
             overlay: new google.maps.Rectangle({
-              bounds: this.bb_.apply(this, json.geometry as [[number, number], [number, number]])
+              bounds: this.bb_(...json.geometry as [[number, number], [number, number]])
             })
           }
         case 'POLYGON':
@@ -68,7 +68,7 @@ export default class Utils {
             type: google.maps.drawing.OverlayType.CIRCLE,
             overlay: new google.maps.Circle({
               radius: json.radius,
-              center: this.pp_.apply(this, json.geometry as [number, number])
+              center: this.pp_(...json.geometry as [number, number])
             })
           }
       }
@@ -117,8 +117,8 @@ export default class Utils {
 
   private static bb_(sw: [number, number], ne: [number, number]) {
     return new google.maps.LatLngBounds(
-      this.pp_.apply(this, sw),
-      this.pp_.apply(this, ne)
+      this.pp_(...sw),
+      this.pp_(...ne)
     )
   }
 
@@ -133,7 +133,7 @@ export default class Utils {
   private static ll_(path: [number, number][]) {
     const r: google.maps.LatLng[] = []
     for (let i = 0; i < path.length; ++i) {
-      r.push(this.pp_.apply(this, path[i]))
+      r.push(this.pp_(...path[i]))
     }
     return r
   }

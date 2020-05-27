@@ -27,7 +27,11 @@ const _SelectColumns = () => ({
     columnSelections: {
       default: {
         lat: 0,
-        lng: 1
+        lng: 1,
+        address: null,
+        city: null,
+        state: null,
+        zip: null
       }
     },
     firstRowHeader: {

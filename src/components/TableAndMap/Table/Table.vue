@@ -9,6 +9,7 @@
     :getRowNodeId="getRowNodeId"
     suppressColumnVirtualisation
     suppressMenuHide
+    enableCellTextSelection
     @gridReady="gridReady"
     @sortChanged="sortChanged"
     @filterChanged="filterChanged"
@@ -93,7 +94,7 @@ export default class Table extends Vue {
       this.gridApi.getRowNode(oldValue.id).setSelected(false);
     }
     if (this.clickedMarker) {
-      const node = this.gridApi.getRowNode(this.clickedMarker.id)
+      const node = this.gridApi.getRowNode(this.clickedMarker.id);
       node.setSelected(true);
       this.gridApi.ensureIndexVisible(node.rowIndex);
     }
@@ -220,15 +221,16 @@ export default class Table extends Vue {
     return data.id;
   }
 
-  public onFilterChanged(): void {
+  public onFilterChanged() {
     this.gridApi.onFilterChanged();
+  }
+
+  public exportCsv() {
+    this.gridApi.exportDataAsCsv();
   }
 }
 </script>
 <style lang='scss' scoped>
 @import "~ag-grid-community/dist/styles/ag-grid.css";
 @import "~ag-grid-community/dist/styles/ag-theme-balham.css";
-.full-height {
-  height: 100%;
-}
 </style>

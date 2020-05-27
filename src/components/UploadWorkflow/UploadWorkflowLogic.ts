@@ -44,6 +44,9 @@ export default class UploadWorkflowLogic {
   }
 
   public static guessFirstRowHeader(data: any[][]) {
+    if (data.length === 0) {
+      return false;
+    }
     const notStrings = data[0].filter(_ => typeof _ !== 'string')
     return notStrings.length === 0
   }
