@@ -134,6 +134,9 @@ export default class SelectColumns extends Vue {
     index: number;
     value: string;
   }[] {
+    if (this.value.length === 0) {
+      return [];
+    }
     if (this.firstRowHeader) {
       return this.value[0].map((_, index) => {
         return {
@@ -174,7 +177,6 @@ export default class SelectColumns extends Vue {
   private created() {
     this.allColumns.forEach(col => {
       col.selection = (this.columnSelections as any)[col.key];
-      console.log(col)
       if (col.selection !== null) {
         col.search = this.allOptions[col.selection].value;
       }
