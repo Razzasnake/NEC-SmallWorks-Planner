@@ -1,14 +1,12 @@
 <template>
   <div class="upload-container">
-    <b-field>
-      <b-loading :active="loading"></b-loading>
-      <b-upload v-model="dropFiles" @input="fileUploaded" :accept="accept">
-        <a class="button is-primary">
-          <font-awesome-icon icon="upload" class="margin-right-small" />
-          <span class="margin-left-8">Upload a dataset</span>
-        </a>
-      </b-upload>
-    </b-field>
+    <b-loading :active="loading"></b-loading>
+    <b-upload v-model="dropFiles" @input="fileUploaded" :accept="accept">
+      <a class="button is-primary">
+        <font-awesome-icon icon="upload" class="margin-right-small" />
+        <span class="margin-left-small">Upload a dataset</span>
+      </a>
+    </b-upload>
     <span class="margin-right-small margin-left-small">
       <b>or</b>
     </span>

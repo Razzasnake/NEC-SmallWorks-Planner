@@ -21,9 +21,11 @@ const _Table = () => ({
         :tableLogic="tableLogic"
         :overlayEvents="overlayEvents"
         :viewOptions="viewOptions"
+        :clickedMarker="clickedMarker"
         @sortChanged="sortChanged"
         @filterChanged="filterChanged"
         @hiddenMarkerIndicesChanged="hiddenMarkerIndicesChanged"
+        @markerSelected="markerSelected"
       ></Table>
     </div>`,
   props: {
@@ -44,12 +46,16 @@ const _Table = () => ({
     },
     viewOptions: {
       default: ['table:footer:min', 'table:footer:max', 'table:footer:avg', 'table:footer:total']
+    },
+    clickedMarker: {
+      default: null
     }
   },
   methods: {
     sortChanged: action('sortChanged'),
     filterChanged: action('filterChanged'),
-    hiddenMarkerIndicesChanged: action('hiddenMarkerIndicesChanged')
+    hiddenMarkerIndicesChanged: action('hiddenMarkerIndicesChanged'),
+    markerSelected: action('markerSelected')
   }
 })
 

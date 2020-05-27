@@ -49,6 +49,6 @@ export default class Toolbar extends Vue {
 @import "@/sass/buefy.scss";
 .toolbar {
   font-size: 14px;
-  padding: 6px 12px;
+  padding: 7.5px 12px;
 }
 </style>
