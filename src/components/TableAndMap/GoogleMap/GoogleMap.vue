@@ -111,6 +111,7 @@ export default class GoogleMap extends Vue {
     });
     if (newVals.size || oldVals.size) {
       this.displayHeatmapChanged();
+      this.updateBounds();
     }
   }
 
@@ -197,7 +198,7 @@ export default class GoogleMap extends Vue {
       this.clickedInfoWindow = null;
     }
     if (this.clickedMarker) {
-      const offset = this.uploadedFile.firstRowHeader ? 1 : 0
+      const offset = this.uploadedFile.firstRowHeader ? 1 : 0;
       const selectedMarker = this.markers[this.clickedMarker.index - offset];
       if (selectedMarker) {
         this.map.panTo(selectedMarker.getPosition()!);
@@ -260,6 +261,7 @@ export default class GoogleMap extends Vue {
         styles: Theme
       });
       this.initMarkers();
+      this.updateBounds();
       this.displayHeatmapChanged();
       this.displayMarkersChanged();
       if (this.allowDraw) {
@@ -268,6 +270,19 @@ export default class GoogleMap extends Vue {
         this.initOverlayEvents();
       }
     });
+  }
+
+  private updateBounds() {
+    const bounds = new google.maps.LatLngBounds();
+    this.markers
+      .filter((_, index) => !this.hiddenMarkerIndices.has(index))
+      .forEach(marker => {
+        const pos = marker.getPosition();
+        if (pos) {
+          bounds.extend(pos);
+        }
+      });
+    this.map.fitBounds(bounds);
   }
 
   private initDrawingManager(): void {
