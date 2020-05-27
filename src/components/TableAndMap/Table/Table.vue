@@ -9,6 +9,7 @@
     :getRowNodeId="getRowNodeId"
     suppressColumnVirtualisation
     suppressMenuHide
+    enableCellTextSelection
     @gridReady="gridReady"
     @sortChanged="sortChanged"
     @filterChanged="filterChanged"
