@@ -1,0 +1,46 @@
+
+.full-height {
+  height: 100%;
+}
+
+.float-right {
+  float: right;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.margin-none {
+  margin: 0 !important;
+}
+
+.margin-small {
+  margin: 8px !important;
+}
+
+.margin-medium {
+  margin: 16px !important;
+}
+
+.margin-large {
+  margin: 24px !important;
+}
+
+@each $dir in top, right, bottom, left {
+  .margin-#{$dir}-none {
+    margin-#{$dir}: 0 !important;
+  }
+
+  .margin-#{$dir}-small {
+    margin-#{$dir}: 8px !important;
+  }
+
+  .margin-#{$dir}-medium {
+    margin-#{$dir}: 16px !important;
+  }
+
+  .margin-#{$dir}-large {
+    margin-#{$dir}: 24px !important;
+  }
+}

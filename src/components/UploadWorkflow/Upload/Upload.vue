@@ -4,12 +4,12 @@
       <b-loading :active="loading"></b-loading>
       <b-upload v-model="dropFiles" @input="fileUploaded" :accept="accept">
         <a class="button is-primary">
-          <font-awesome-icon icon="upload" class="margin-right-8" />
+          <font-awesome-icon icon="upload" class="margin-right-small" />
           <span class="margin-left-8">Upload a dataset</span>
         </a>
       </b-upload>
     </b-field>
-    <span class="margin-right-8 margin-left-8">
+    <span class="margin-right-small margin-left-small">
       <b>or</b>
     </span>
     <a @click="displayPasteModal = true">Paste</a>
@@ -93,12 +93,6 @@ export default class Upload extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-.margin-right-8 {
-  margin-right: 8px;
-}
-.margin-left-8 {
-  margin-left: 8px;
-}
 .upload-container {
   display: flex;
   align-items: center;

@@ -266,9 +266,6 @@ export default class TableAndMap extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-.full-height {
-  height: 100%;
-}
 .half-height {
   height: 50%;
 }

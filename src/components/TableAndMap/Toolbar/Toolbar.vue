@@ -1,7 +1,7 @@
 <template>
   <div class="toolbar">
     <TableOption :tableOptions="viewOptions" @updateTableOptions="updateTableOptions"></TableOption>
-    <MapOption class="option" :mapOptions="viewOptions" @updateMapOptions="updateMapOptions"></MapOption>
+    <MapOption class="margin-left-medium" :mapOptions="viewOptions" @updateMapOptions="updateMapOptions"></MapOption>
   </div>
 </template>
 <script lang='ts'>
@@ -50,8 +50,5 @@ export default class Toolbar extends Vue {
 .toolbar {
   font-size: 14px;
   padding: 6px 12px;
-  .option {
-    margin-left: 16px;
-  }
 }
 </style>

@@ -211,7 +211,4 @@ export default class Table extends Vue {
 <style lang='scss' scoped>
 @import "~ag-grid-community/dist/styles/ag-grid.css";
 @import "~ag-grid-community/dist/styles/ag-theme-balham.css";
-.full-height {
-  height: 100%;
-}
 </style>

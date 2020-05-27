@@ -8,13 +8,13 @@
         <div class="column">
           <div class="subtitle">
             <span>{{ exampleAnalysis.title }} </span>
-            <span class="float-right">
+            <span class="example-tags float-right">
               <a :href="exampleAnalysis.url" target="_blank" class="source">Source</a>
               <span class="tag is-light">Live</span>
             </span>
           </div>
           <div class="description">{{ exampleAnalysis.description }}</div>
-          <div class="align-right padding-top">
+          <div class="align-right padding-top-large">
             <button class="button is-primary" @click="preview">Preview</button>
           </div>
         </div>
@@ -53,20 +53,13 @@ export default class Tile extends Vue {
 .tile {
   max-width: 1024px;
   margin: auto;
-}
-.align-right {
-  text-align: right;
-}
-.float-right {
-  float: right;
-  display: flex;
-  .source {
-    margin: auto;
-    padding-right: 8px;
-    font-size: 15px;
+  .example-tags {
+    display: flex;
+    .source {
+      margin: auto;
+      padding-right: 8px;
+      font-size: 14px;
+    }
   }
-}
-.padding-top {
-  margin-top: 24px;
 }
 </style>
