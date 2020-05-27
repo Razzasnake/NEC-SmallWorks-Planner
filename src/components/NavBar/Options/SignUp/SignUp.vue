@@ -51,7 +51,6 @@ export default class SignUp extends Vue {
   private comingSoon = [
     "User accounts",
     "Shareable public links to your datasets",
-    "Geocoding services for files missing latitudes and longitudes",
     "Additional examples"
   ];
 
