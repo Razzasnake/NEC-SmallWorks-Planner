@@ -174,6 +174,7 @@ export default class SelectColumns extends Vue {
   private created() {
     this.allColumns.forEach(col => {
       col.selection = (this.columnSelections as any)[col.key];
+      console.log(col)
       if (col.selection !== null) {
         col.search = this.allOptions[col.selection].value;
       }

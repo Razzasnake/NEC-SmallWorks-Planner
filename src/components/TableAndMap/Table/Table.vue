@@ -93,7 +93,7 @@ export default class Table extends Vue {
       this.gridApi.getRowNode(oldValue.id).setSelected(false);
     }
     if (this.clickedMarker) {
-      const node = this.gridApi.getRowNode(this.clickedMarker.id)
+      const node = this.gridApi.getRowNode(this.clickedMarker.id);
       node.setSelected(true);
       this.gridApi.ensureIndexVisible(node.rowIndex);
     }
@@ -220,8 +220,12 @@ export default class Table extends Vue {
     return data.id;
   }
 
-  public onFilterChanged(): void {
+  public onFilterChanged() {
     this.gridApi.onFilterChanged();
+  }
+
+  public exportCsv() {
+    this.gridApi.exportDataAsCsv();
   }
 }
 </script>

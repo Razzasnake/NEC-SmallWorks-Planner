@@ -1,13 +1,22 @@
 <template>
   <div class="toolbar">
     <TableOption :tableOptions="viewOptions" @updateTableOptions="updateTableOptions"></TableOption>
-    <MapOption class="margin-left-medium" :mapOptions="viewOptions" @updateMapOptions="updateMapOptions"></MapOption>
+    <MapOption
+      class="margin-left-medium"
+      :mapOptions="viewOptions"
+      @updateMapOptions="updateMapOptions"
+    ></MapOption>
+    <ExportOption
+      class="margin-left-medium"
+      @updateExportOptions="$emit('updateExportOptions', $event)"
+    ></ExportOption>
   </div>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
 import MapOption from "./Options/MapOption/MapOption.vue";
 import TableOption from "./Options/TableOption/TableOption.vue";
+import ExportOption from "./Options/ExportOption/ExportOption.vue";
 
 /**
  * Contain general functionality for table and map component. More explanation of what is available is in the docs for the children
@@ -15,7 +24,8 @@ import TableOption from "./Options/TableOption/TableOption.vue";
 @Component({
   components: {
     MapOption,
-    TableOption
+    TableOption,
+    ExportOption
   }
 })
 export default class Toolbar extends Vue {
@@ -31,7 +41,7 @@ export default class Toolbar extends Vue {
     }
     /**
      * Update view options
-     * 
+     *
      * @type {string[]}
      */
     this.$emit("updateViewOptions", mapOptions);
