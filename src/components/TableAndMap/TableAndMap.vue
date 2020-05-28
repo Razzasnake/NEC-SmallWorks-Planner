@@ -287,7 +287,7 @@ export default class TableAndMap extends Vue {
     width: 500px;
   }
   .table-and-map__main {
-    height: calc(100% - 33px);
+    height: calc(100% - 36px);
   }
 }
 </style>
