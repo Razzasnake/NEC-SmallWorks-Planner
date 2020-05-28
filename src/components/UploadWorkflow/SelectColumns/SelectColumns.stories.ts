@@ -15,6 +15,7 @@ const _SelectColumns = () => ({
       :firstRowHeader="firstRowHeader"
       @updateSelections="updateSelections"
       @updateFirstRowHeader="updateFirstRowHeader"
+      @updateIsComplete="updateIsComplete"
     ></SelectColumns>`,
   props: {
     value: {
@@ -26,7 +27,11 @@ const _SelectColumns = () => ({
     columnSelections: {
       default: {
         lat: 0,
-        lng: 1
+        lng: 1,
+        address: null,
+        city: null,
+        state: null,
+        zip: null
       }
     },
     firstRowHeader: {
@@ -35,7 +40,8 @@ const _SelectColumns = () => ({
   },
   methods: {
     updateSelections: action('updateSelections'),
-    updateFirstRowHeader: action('updateFirstRowHeader')
+    updateFirstRowHeader: action('updateFirstRowHeader'),
+    updateIsComplete: action('updateIsComplete')
   }
 })
 

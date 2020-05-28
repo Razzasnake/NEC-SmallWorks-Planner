@@ -8,7 +8,7 @@
       v-for="d in dropdowns"
       :key="d.key"
       @click="toggle(d.key)"
-    >{{ keyVisible(d.key) ? `Hide ${d.label}` :`Show ${d.label}` }}</b-dropdown-item>
+    >{{ keyVisible(d.key) ? `${activeText}${d.label}` :`${inactiveText}${d.label}` }}</b-dropdown-item>
   </b-dropdown>
 </template>
 <script lang='ts'>
@@ -39,6 +39,16 @@ export default class Option extends Vue {
    */
   @Prop({ default: () => [] })
   private options!: string[];
+  /**
+   * Text to show before the label if option is active
+   */
+  @Prop({ default: 'Hide ' })
+  private activeText!: string
+  /**
+   * Text to show before the label if option is inactive
+   */
+  @Prop({ default: 'Show ' })
+  private inactiveText!: string
 
   private keyVisible(key: string) {
     return this.options.indexOf(key) > -1;

@@ -1,8 +1,8 @@
 <template>
-  <div class="columns home">
+  <div class="columns home full-height">
     <div class="column actions is-two-fifths">
       <CallToAction @finish="finish"></CallToAction>
-      <div class="view-examples">
+      <div class="margin-top-medium">
         <a @click="viewExamples">View Examples</a>
       </div>
     </div>
@@ -42,11 +42,7 @@ export default class Home extends Vue {
   width: 80%;
   max-width: 1536px;
   margin: auto;
-  height: 100%;
   align-items: center;
-}
-.view-examples {
-  margin-top: 20px;
 }
 .preview {
   max-height: 60vh;

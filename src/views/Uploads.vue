@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="uploads">
+    <div class="padding-large">
       <div class="body card">
-        <div class="columns header">
+        <div class="columns margin-none">
           <div class="column">
             <div class="subtitle">Uploads ({{ userUploads.length }})</div>
           </div>
@@ -16,8 +16,8 @@
             <Tile :exampleAnalysis="upload" @preview="preview"></Tile>
           </div>
         </div>
-        <div v-else class="empty-state">
-          <div class="description">You haven't uploaded anything</div>
+        <div v-else class="empty-state padding-medium">
+          <div class="padding-medium">You haven't uploaded anything</div>
           <div class="body-center">
             <UploadWorkflow @finish="finish"></UploadWorkflow>
           </div>
@@ -74,34 +74,21 @@ export default class Uploads extends Vue {
   }
 }
 </script>
-<style lang="scss" scoped>
-.uploads {
-  padding: 20px;
-  .body {
-    max-width: 1024px;
-    margin: auto;
-    .header {
-      margin: 0;
-      .align-right {
-        text-align: right;
-      }
+<style lang='scss' scoped>
+.body {
+  max-width: 1024px;
+  margin: auto;
+  .upload {
+    padding: 12px 12px 0px 12px;
+    &:last-of-type {
+      padding-bottom: 12px;
     }
-    .upload {
-      padding: 12px 12px 0px 12px;
-      &:last-of-type {
-        padding-bottom: 12px;
-      }
-    }
-    .empty-state {
-      text-align: center;
-      padding: 12px;
-      .description {
-        padding: 12px;
-      }
-      .body-center {
-        display: flex;
-        justify-content: center;
-      }
+  }
+  .empty-state {
+    text-align: center;
+    .body-center {
+      display: flex;
+      justify-content: center;
     }
   }
 }

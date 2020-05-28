@@ -7,7 +7,7 @@
         <button class="delete" @click="closeModal"></button>
       </header>
       <section class="modal-card-body">
-        <div class="margin-bottom-20">{{ description }}</div>
+        <div class="margin-bottom-large">{{ description }}</div>
         <b-input type="textarea" :placeholder="placeholder" v-model="text"></b-input>
       </section>
       <footer class="modal-card-foot">
@@ -63,7 +63,4 @@ export default class PasteModal extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-.margin-bottom-20 {
-  margin-bottom: 20px;
-}
 </style>

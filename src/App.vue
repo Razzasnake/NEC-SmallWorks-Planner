@@ -1,12 +1,6 @@
 <template>
   <div id="app">
-    <NavBar
-      :inAnalysis="inAnalysis"
-      :viewOptions="viewOptions"
-      @jumpTo="jumpTo"
-      @updateSettings="updateSettings"
-      @updateViewOptions="updateViewOptions"
-    ></NavBar>
+    <NavBar @jumpTo="jumpTo"></NavBar>
     <SignInSignOut />
     <SignUp />
     <template>
@@ -21,11 +15,7 @@ import { refreshAuthenticated } from "@/store/userStore";
 import NavBar from "@/components/NavBar/NavBar.vue";
 import SignInSignOut from "@/components/NavBar/Options/SignInSignOut/SignInSignOut.vue";
 import SignUp from "@/components/NavBar/Options/SignUp/SignUp.vue";
-import state, {
-  updateViewOptions,
-  updateSettingsVisible,
-  reset
-} from "@/store/exploreStore";
+import { reset } from "@/store/exploreStore";
 
 /**
  * Root of project
@@ -38,18 +28,6 @@ import state, {
   }
 })
 export default class App extends Vue {
-  private get uploadedFile() {
-    return state.uploadedFile;
-  }
-
-  private get viewOptions() {
-    return state.viewOptions;
-  }
-
-  private get inAnalysis(): boolean {
-    return this.uploadedFile !== null;
-  }
-
   @Watch("$route")
   private async routeChanged() {
     refreshAuthenticated();
@@ -75,17 +53,9 @@ export default class App extends Vue {
       }
     }
   }
-
-  private updateSettings() {
-    updateSettingsVisible(true);
-  }
-
-  private updateViewOptions(viewOptions: string[]) {
-    updateViewOptions(viewOptions);
-  }
 }
 </script>
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 #app {
   background-color: #fafafa;
   height: calc(100vh - 52px);

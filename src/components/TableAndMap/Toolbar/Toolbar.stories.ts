@@ -12,6 +12,7 @@ const _Toolbar = () => ({
     <Toolbar
       :viewOptions="viewOptions"
       @updateViewOptions="updateViewOptions"
+      @updateExportOptions="updateExportOptions"
     ></Toolbar>`,
   props: {
     viewOptions: {
@@ -19,7 +20,8 @@ const _Toolbar = () => ({
     }
   },
   methods: {
-    updateViewOptions: action('updateViewOptions')
+    updateViewOptions: action('updateViewOptions'),
+    updateExportOptions: action('updateExportOptions')
   }
 })
 

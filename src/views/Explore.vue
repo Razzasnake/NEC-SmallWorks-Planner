@@ -1,11 +1,5 @@
 <template>
   <div class="full-height">
-    <UploadWorkflow
-      v-if="uploadedFile && updateSettingsVisible"
-      :passedUploadedFile="uploadedFile"
-      @finish="finish"
-      @closeModal="closeUpdateSettings"
-    ></UploadWorkflow>
     <TableAndMap
       v-if="uploadedFile"
       :uploadedFile="uploadedFile"
@@ -22,7 +16,6 @@
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
 import TableAndMap from "@/components/TableAndMap/TableAndMap.vue";
-import UploadWorkflow from "@/components/UploadWorkflow/UploadWorkflow.vue";
 import UploadedFile from "@/entities/UploadedFile";
 import TableLogic from "@/components/TableAndMap/Table/TableLogic";
 import { OverlayJson } from "@/components/TableAndMap/GoogleMap/Utils";
@@ -31,7 +24,6 @@ import state, {
   updateOverlayEventJsons,
   updateFilters,
   updateSorting,
-  updateSettingsVisible,
   updateUploadedFile
 } from "@/store/exploreStore";
 
@@ -40,17 +32,12 @@ import state, {
  */
 @Component({
   components: {
-    TableAndMap,
-    UploadWorkflow
+    TableAndMap
   }
 })
 export default class Explore extends Vue {
   private get uploadedFile() {
     return state.uploadedFile;
-  }
-
-  private get updateSettingsVisible() {
-    return state.settingsVisible;
   }
 
   private get filters() {
@@ -90,14 +77,7 @@ export default class Explore extends Vue {
   private updateFilters(filters: { [colId: string]: any }) {
     updateFilters(filters);
   }
-
-  private closeUpdateSettings() {
-    updateSettingsVisible(false);
-  }
 }
 </script>
 <style lang='scss' scoped>
-.full-height {
-  height: 100%;
-}
 </style>

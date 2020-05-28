@@ -7,14 +7,14 @@
         <button class="delete" @click="close"></button>
       </header>
       <section class="modal-card-body">
-        <div class="coming-soon">
+        <div class="margin-medium">
           <b>Features in development:</b>
           <div v-for="(s, index) in comingSoon" :key="index">
             <div>&bull; {{ s }}</div>
           </div>
         </div>
         <div
-          class="mailing-list"
+          class="margin-bottom-medium"
         >Subscribe to our mailing list and receive emails when new features are available.</div>
         <div class="field">
           <label class="label">Email</label>
@@ -51,7 +51,6 @@ export default class SignUp extends Vue {
   private comingSoon = [
     "User accounts",
     "Shareable public links to your datasets",
-    "Geocoding services for files missing latitudes and longitudes",
     "Additional examples"
   ];
 
@@ -109,10 +108,4 @@ export default class SignUp extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-.coming-soon {
-  margin: 1rem;
-}
-.mailing-list {
-  margin-bottom: 1rem;
-}
 </style>
