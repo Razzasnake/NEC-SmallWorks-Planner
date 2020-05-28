@@ -3,12 +3,16 @@
   height: 100%;
 }
 
-.float-right {
-  float: right;
+@each $dir in right, left, center {
+  .float-#{$dir} {
+    float: #{$dir};
+  }
 }
 
-.align-right {
-  text-align: right;
+@each $dir in right, left, center {
+  .align-#{$dir} {
+    text-align: #{$dir};
+  }
 }
 
 .margin-none {
