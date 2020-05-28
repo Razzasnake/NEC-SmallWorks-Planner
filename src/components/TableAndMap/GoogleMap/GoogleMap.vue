@@ -111,7 +111,6 @@ export default class GoogleMap extends Vue {
     });
     if (newVals.size || oldVals.size) {
       this.displayHeatmapChanged();
-      this.updateBounds();
     }
   }
 
