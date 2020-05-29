@@ -34,4 +34,7 @@ export default class NavBar extends Vue {
 }
 </script>
 <style lang='scss' scoped>
+.navbar-item {
+  font-weight: bold;
+}
 </style>
