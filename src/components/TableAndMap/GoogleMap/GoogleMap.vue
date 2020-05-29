@@ -277,7 +277,7 @@ export default class GoogleMap extends Vue {
       .filter((_, index) => !this.hiddenMarkerIndices.has(index))
       .forEach(marker => {
         const pos = marker.getPosition();
-        if (pos) {
+        if (pos && pos.lat() && pos.lng()) {
           bounds.extend(pos);
         }
       });
