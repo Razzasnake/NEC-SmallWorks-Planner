@@ -137,21 +137,32 @@ export default class SelectColumns extends Vue {
     if (this.value.length === 0) {
       return [];
     }
+    const data: { index: number; value: string }[] = [];
     if (this.firstRowHeader) {
-      return this.value[0].map((_, index) => {
-        return {
-          index,
-          value: _.toString()
-        };
-      });
+      for (let index = 0; index < this.value[0].length; index++) {
+        if (this.value[0][index]) {
+          data.push({
+            index,
+            value: this.value[0][index].toString()
+          });
+        } else {
+          data.push({
+            index,
+            value: `Column ${index.toString()} (Example: ${
+              this.value[0][index]
+            })`
+          });
+        }
+      }
     } else {
-      return this.value[0].map((_, index) => {
-        return {
+      for (let index = 0; index < this.value[0].length; index++) {
+        data.push({
           index,
           value: `Column ${index.toString()} (Example: ${this.value[0][index]})`
-        };
-      });
+        });
+      }
     }
+    return data;
   }
 
   private get isComplete() {

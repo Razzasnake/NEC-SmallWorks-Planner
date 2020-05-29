@@ -1,5 +1,5 @@
 <template>
-  <div class="upload-container">
+  <div>
     <b-loading :active="loading"></b-loading>
     <b-upload v-model="dropFiles" @input="fileUploaded" :accept="accept">
       <a class="button is-primary">
@@ -91,9 +91,4 @@ export default class Upload extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-.upload-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 </style>

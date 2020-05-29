@@ -1,7 +1,7 @@
 <template>
-  <div class="call-to-action align-center">
-    <div class="title">Table &amp; Map</div>
-    <div class="subtitle">{{ tagline }}</div>
+  <div class="call-to-action">
+    <div class="title align-center">Table &amp; Map</div>
+    <div class="subtitle align-center">{{ tagline }}</div>
     <UploadWorkflow @finish="finish"></UploadWorkflow>
   </div>
 </template>
