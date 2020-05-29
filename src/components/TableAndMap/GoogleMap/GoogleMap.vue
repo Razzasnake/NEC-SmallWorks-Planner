@@ -111,7 +111,6 @@ export default class GoogleMap extends Vue {
     });
     if (newVals.size || oldVals.size) {
       this.displayHeatmapChanged();
-      this.updateBounds();
     }
   }
 
@@ -252,7 +251,6 @@ export default class GoogleMap extends Vue {
         return;
       }
       this.map = new google.maps.Map(mapEl, {
-        center: new google.maps.LatLng(39.8283, -98.5795),
         zoom: 5,
         disableDefaultUI: true,
         clickableIcons: false,
@@ -274,11 +272,12 @@ export default class GoogleMap extends Vue {
 
   private updateBounds() {
     const bounds = new google.maps.LatLngBounds();
+    bounds.extend(new google.maps.LatLng(39.8283, -98.5795))
     this.markers
       .filter((_, index) => !this.hiddenMarkerIndices.has(index))
       .forEach(marker => {
         const pos = marker.getPosition();
-        if (pos) {
+        if (pos && pos.lat() && pos.lng()) {
           bounds.extend(pos);
         }
       });

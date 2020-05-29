@@ -36,9 +36,14 @@ $link-focus-border: $primary;
 @import "~buefy/src/scss/components/_loading.scss";
 @import "~buefy/src/scss/components/_autocomplete.scss";
 @import "~buefy/src/scss/components/_dialog.scss";
+@import "~buefy/src/scss/components/_notices.scss";
 
 .autocomplete .dropdown-content {
   max-height: 100px;
+}
+
+body {
+  font-family: 'Arimo', sans-serif;
 }
 
 @import "@/sass/helpers/_utility.scss";

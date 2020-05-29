@@ -196,11 +196,11 @@ export default class TableAndMap extends Vue {
       const keys = ["Name", "Address"];
       let content = "";
       this.uploadedFile.data[0].data.forEach(
-        (header: string, index: number) => {
+        (header: string | number | null, index: number) => {
           keys.forEach(key => {
             if (
               header &&
-              header.toLowerCase().indexOf(key.toLowerCase()) > -1
+              header.toString().toLowerCase().indexOf(key.toLowerCase()) > -1
             ) {
               if (row[index]) {
                 content =
@@ -294,7 +294,7 @@ export default class TableAndMap extends Vue {
     width: 500px;
   }
   .table-and-map__main {
-    height: calc(100% - 33px);
+    height: calc(100% - 36px);
   }
 }
 </style>

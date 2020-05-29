@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-loading :active="loading"></b-loading>
-    <Upload @fileUploaded="fileUploaded"></Upload>
+    <Upload @fileUploaded="fileUploaded" class="align-center"></Upload>
     <div class="modal is-active" v-if="step > 0">
       <div class="modal-background"></div>
       <div class="modal-card">
