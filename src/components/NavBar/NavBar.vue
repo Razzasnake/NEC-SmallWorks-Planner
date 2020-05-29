@@ -6,6 +6,9 @@
       </b-navbar-item>
     </template>
     <template slot="end">
+      <b-navbar-item @click="jumpTo({ name: 'Features' })">
+        <span>Features</span>
+      </b-navbar-item>
       <b-navbar-item @click="jumpTo({ name: 'Examples' })">
         <span>Examples</span>
       </b-navbar-item>
