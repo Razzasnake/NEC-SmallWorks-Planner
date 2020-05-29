@@ -42,6 +42,5 @@ export default class App extends Vue {
 <style lang='scss' scoped>
 #app {
   background-color: #fafafa;
-  height: calc(100vh - 52px);
 }
 </style>
