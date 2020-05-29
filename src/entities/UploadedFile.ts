@@ -7,16 +7,6 @@ class Row {
   public lng: number | null = null;
   [key: string]: any;
 
-  public get streetViewUrl(): string | null {
-    if (this.lat !== null && this.lng !== null) {
-      const size = '640x320'
-      return (`https://maps.googleapis.com/maps/api/streetview?size=` +
-        `${size}&pitch=10&fov=180&location=${this.lat},${this.lng}` +
-        `&key=${process.env.VUE_APP_GOOGLEMAPS_KEY}`)
-    }
-    return null
-  }
-
   constructor(index: number, row: any[], columnSelections: { lat: number, lng: number }) {
     this.index = index;
     this.id = index.toString();
