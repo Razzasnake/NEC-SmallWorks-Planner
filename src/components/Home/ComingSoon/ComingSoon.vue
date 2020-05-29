@@ -47,7 +47,7 @@ export default class ComingSoon extends Vue {
       description: "Share your dataset with friends and coworkers."
     },
     {
-      title: "Embedable",
+      title: "Embeddable",
       description: "Embed our tool on your website for your users to enjoy."
     }
   ];
