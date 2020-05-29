@@ -15,7 +15,7 @@
   </div>
 </template>
 <script lang='ts'>
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import UploadedFile from "@/entities/UploadedFile";
 import CallToAction from "@/components/Home/CallToAction/CallToAction.vue";
 import Features from "@/components/Home/Features/Features.vue";

@@ -1,5 +1,5 @@
 <template>
-  <div class="foot">© {{ currentYear }} Table & Map. All Rights Reserved</div>
+  <div class="foot">© {{ currentYear }} Table &amp; Map. All Rights Reserved</div>
 </template>
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
