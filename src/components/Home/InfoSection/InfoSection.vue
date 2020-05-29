@@ -1,7 +1,7 @@
 <template>
   <div class="info-section">
     <div class="title align-center">{{ title }}</div>
-    <div class="margin-top-large align-center">{{ description }}</div>
+    <div class="margin-top-large align-center subtitle">{{ description }}</div>
     <div class="margin-top-large columns">
       <div v-for="(c, index) in cards" :key="index" class="column">
         <div class="label">{{ c.title }}</div>
