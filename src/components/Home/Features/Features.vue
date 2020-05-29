@@ -30,7 +30,7 @@ export default class Features extends Vue {
         "Analyze your data without a latitude or longitude. Just select the location columns and we take care of the rest."
     },
     {
-      title: "Public Links",
+      title: "Automation",
       description:
         "We automate everything to give you a quick glimpse of your data without any tedious setup."
     },
