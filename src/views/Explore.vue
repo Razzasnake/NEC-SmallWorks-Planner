@@ -1,5 +1,5 @@
 <template>
-  <div class="full-height">
+  <div class="explore">
     <TableAndMap
       v-if="uploadedFile"
       :uploadedFile="uploadedFile"
@@ -80,4 +80,7 @@ export default class Explore extends Vue {
 }
 </script>
 <style lang='scss' scoped>
+.explore {
+  height: calc(100vh - 52px);
+}
 </style>
