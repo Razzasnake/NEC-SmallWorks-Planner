@@ -226,7 +226,9 @@ export default class Table extends Vue {
   }
 
   public exportCsv() {
-    this.gridApi.exportDataAsCsv();
+    this.gridApi.exportDataAsCsv({
+      skipPinnedBottom: true
+    });
   }
 }
 </script>
