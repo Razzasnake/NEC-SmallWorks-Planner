@@ -1,8 +1,6 @@
 <template>
   <div id="app">
     <NavBar @jumpTo="jumpTo"></NavBar>
-    <SignInSignOut />
-    <SignUp />
     <template>
       <router-view></router-view>
     </template>
@@ -11,10 +9,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import { refreshAuthenticated } from "@/store/userStore";
 import NavBar from "@/components/NavBar/NavBar.vue";
-import SignInSignOut from "@/components/NavBar/Options/SignInSignOut/SignInSignOut.vue";
-import SignUp from "@/components/NavBar/Options/SignUp/SignUp.vue";
 import { reset } from "@/store/exploreStore";
 
 /**
@@ -22,21 +17,10 @@ import { reset } from "@/store/exploreStore";
  */
 @Component({
   components: {
-    NavBar,
-    SignInSignOut,
-    SignUp
+    NavBar
   }
 })
 export default class App extends Vue {
-  @Watch("$route")
-  private async routeChanged() {
-    refreshAuthenticated();
-  }
-
-  private created() {
-    this.routeChanged();
-  }
-
   private jumpTo(location: { name: string }) {
     if (location.name !== this.$route.name) {
       if (this.$route.name === "Explore") {

@@ -7,18 +7,14 @@
     </template>
     <template slot="end">
       <b-navbar-item @click="jumpTo({ name: 'Examples' })">
-        <span v-if="authenticated">Uploads</span>
-        <span v-else>Examples</span>
-      </b-navbar-item>
-      <b-navbar-item>
-        <b-button v-if="!authenticated" @click="signUp">Coming soon</b-button>
+        <span>Examples</span>
       </b-navbar-item>
     </template>
   </b-navbar>
 </template>
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
-import state, { updateSignUpModalVisible } from "@/store/userStore";
+import state from "@/store/userStore";
 
 /**
  * Navigation Bar at the top of the website to navigate between sections
@@ -27,10 +23,6 @@ import state, { updateSignUpModalVisible } from "@/store/userStore";
   components: {}
 })
 export default class NavBar extends Vue {
-  private get authenticated(): boolean {
-    return state.isAuthenticated;
-  }
-
   private jumpTo(location: { name: string }) {
     /**
      * User wants to jump to a different location
@@ -38,10 +30,6 @@ export default class NavBar extends Vue {
      * @type {{location: {name: string}}}
      */
     this.$emit("jumpTo", location);
-  }
-
-  private signUp() {
-    updateSignUpModalVisible(true);
   }
 }
 </script>

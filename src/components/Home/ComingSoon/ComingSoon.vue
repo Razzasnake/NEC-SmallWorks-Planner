@@ -20,7 +20,7 @@
   </InfoSection>
 </template>
 <script lang='ts'>
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import mailingListApi from "@/api/mailingList";
 import InfoSection from "../InfoSection/InfoSection.vue";
 

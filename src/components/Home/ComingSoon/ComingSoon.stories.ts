@@ -1,5 +1,4 @@
 import ComingSoon from './ComingSoon.vue'
-import { action } from '@storybook/addon-actions'
 
 export default {
   component: ComingSoon,
@@ -12,7 +11,6 @@ const _ComingSoon = () => ({
     <ComingSoon
     ></ComingSoon>`,
   methods: {
-    finish: action('finish')
   }
 })
 

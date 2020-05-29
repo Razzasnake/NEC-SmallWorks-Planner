@@ -5,15 +5,13 @@ import User from "@/entities/User";
 interface UserStoreI {
   user: User | null,
   isAuthenticated: boolean,
-  signInModalVisible: boolean,
-  signUpModalVisible: boolean
+  signInModalVisible: boolean
 };
 
 const state: UserStoreI = Vue.observable({
   user: null,
   isAuthenticated: false,
-  signInModalVisible: false,
-  signUpModalVisible: false
+  signInModalVisible: false
 });
 
 export const getUser = async () => {
@@ -48,10 +46,6 @@ export const logout = async () => {
   reset();
 };
 
-export const refreshAuthenticated = async () => {
-  state.isAuthenticated = await Vue.prototype.$auth.isAuthenticated();
-};
-
 export const reset = () => {
   state.user = null;
   state.isAuthenticated = false;
@@ -59,10 +53,6 @@ export const reset = () => {
 
 export const updateSignInModalVisible = (visible: boolean) => {
   state.signInModalVisible = visible
-}
-
-export const updateSignUpModalVisible = (visible: boolean) => {
-  state.signUpModalVisible = visible
 }
 
 export default state;

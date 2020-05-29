@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="call-to-action align-center">
     <div class="title">Table &amp; Map</div>
     <div class="subtitle">{{ tagline }}</div>
     <UploadWorkflow @finish="finish"></UploadWorkflow>
@@ -20,7 +20,7 @@ import UploadedFile from "@/entities/UploadedFile";
 })
 export default class CallToAction extends Vue {
   private tagline =
-    "View geographical data in an interactive map. Upload an excel or csv file and see for yourself!";
+    "View locational data in an interactive map. Upload an excel or csv file and see for yourself!";
   private finish(uploadedFile: UploadedFile) {
     /**
      * Emit the uploaded file
@@ -30,4 +30,10 @@ export default class CallToAction extends Vue {
 }
 </script>
 <style lang='scss' scoped>
+.call-to-action {
+  height: 25vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 </style>

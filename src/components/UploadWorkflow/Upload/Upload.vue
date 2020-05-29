@@ -94,5 +94,6 @@ export default class Upload extends Vue {
 .upload-container {
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 </style>
