@@ -11,21 +11,9 @@ module.exports = {
     config.plugins.delete('prefetch')
   },
   configureWebpack: {
-    devtool: '',
     plugins: [
       // new BundleAnalyzerPlugin(),
       new SitemapPlugin(process.env.VUE_APP_BASE_URL, paths)
-    ],
-    optimization: {
-      splitChunks: {
-        cacheGroups: {
-          commons: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            chunks: 'all'
-          }
-        }
-      }
-    }
+    ]
   }
 }
