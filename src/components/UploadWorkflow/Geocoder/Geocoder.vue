@@ -54,6 +54,7 @@ export default class Geocoder extends Vue {
       });
       Microsoft.Maps.loadModule("Microsoft.Maps.Search", () => {
         this.searchManager = new Microsoft.Maps.Search.SearchManager(map);
+        this.geocode();
       });
     };
   }
