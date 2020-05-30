@@ -41,13 +41,21 @@ export default class Geocoder extends Vue {
   }
 
   private mounted() {
-    const map = new Microsoft.Maps.Map("#hiddenMap", {
-      credentials: process.env.VUE_APP_GEOCODE_KEY
-    });
-    Microsoft.Maps.loadModule("Microsoft.Maps.Search", () => {
-      this.searchManager = new Microsoft.Maps.Search.SearchManager(map);
-      this.geocode();
-    });
+    const bingMapsScript = document.createElement("script");
+    bingMapsScript.setAttribute(
+      "src",
+      "https://www.bing.com/api/maps/mapcontrol?q&key=***REMOVED***"
+    );
+    bingMapsScript.async = true;
+    document.head.appendChild(bingMapsScript);
+    bingMapsScript.onloadeddata = () => {
+      const map = new Microsoft.Maps.Map("#hiddenMap", {
+        credentials: process.env.VUE_APP_GEOCODE_KEY
+      });
+      Microsoft.Maps.loadModule("Microsoft.Maps.Search", () => {
+        this.searchManager = new Microsoft.Maps.Search.SearchManager(map);
+      });
+    };
   }
 
   private geocode() {
