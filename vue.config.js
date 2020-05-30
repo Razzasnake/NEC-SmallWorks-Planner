@@ -2,6 +2,7 @@
 const SitemapPlugin = require('sitemap-webpack-plugin').default
 
 const paths = [
+  '/',
   '/examples',
   '/features'
 ]
