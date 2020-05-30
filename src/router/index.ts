@@ -66,7 +66,7 @@ router.beforeEach(async (to, _, next) => {
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.name) {
+  if (to.name && to.name !== 'Home') {
     document.title = to.name + ' | Table & Map';
   } else {
     document.title = 'Table & Map'
