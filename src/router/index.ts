@@ -65,4 +65,13 @@ router.beforeEach(async (to, _, next) => {
   return next()
 })
 
+router.beforeEach((to, from, next) => {
+  if (to.name) {
+    document.title = to.name + ' | Table & Map';
+  } else {
+    document.title = 'Table & Map'
+  }
+  next();
+});
+
 export default router
