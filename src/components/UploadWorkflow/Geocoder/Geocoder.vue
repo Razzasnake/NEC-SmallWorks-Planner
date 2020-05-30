@@ -47,8 +47,12 @@ export default class Geocoder extends Vue {
       "https://www.bing.com/api/maps/mapcontrol?q&key=***REMOVED***"
     );
     bingMapsScript.async = true;
+    bingMapsScript.defer = true;
     document.head.appendChild(bingMapsScript);
-    bingMapsScript.onloadeddata = () => {
+  }
+
+  private geocode() {
+    if (!this.searchManager) {
       const map = new Microsoft.Maps.Map("#hiddenMap", {
         credentials: process.env.VUE_APP_GEOCODE_KEY
       });
@@ -56,10 +60,8 @@ export default class Geocoder extends Vue {
         this.searchManager = new Microsoft.Maps.Search.SearchManager(map);
         this.geocode();
       });
-    };
-  }
-
-  private geocode() {
+      return
+    }
     this.addresses.forEach((address: string, index: number) => {
       const searchRequest = {
         where: address,
