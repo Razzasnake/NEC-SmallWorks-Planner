@@ -120,7 +120,8 @@ export default class TableAndMap extends Vue {
     "table:footer:total",
     "table:footer:avg",
     "map",
-    "map:markers"
+    "map:markers",
+    "map:clusters"
   ];
 
   private get hasMap(): boolean {

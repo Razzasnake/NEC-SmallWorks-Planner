@@ -202,9 +202,7 @@ export default class GoogleMap extends Vue {
         }
       );
     } else {
-      this.markers.forEach(marker => {
-        marker.setMap(this.map);
-      });
+      this.displayMarkersChanged();
     }
   }
 
@@ -229,7 +227,7 @@ export default class GoogleMap extends Vue {
 
   @Watch("displayMarkers")
   private displayMarkersChanged() {
-    if (this.displayMarkers) {
+    if (this.displayMarkers && !this.displayClusters) {
       this.markers.forEach(marker => {
         marker.setMap(this.map);
       });
