@@ -291,7 +291,10 @@ export default class GoogleMap extends Vue {
         styles: Theme
       });
       google.maps.event.addListener(this.map, "idle", () => {
-        this.markers.forEach(marker => {
+        this.markers.forEach((marker, index) => {
+          if (this.hiddenMarkerIndices.has(index)) {
+            return;
+          }
           const newValue = this.map
             .getBounds()!
             .contains(marker.getPosition()!);
