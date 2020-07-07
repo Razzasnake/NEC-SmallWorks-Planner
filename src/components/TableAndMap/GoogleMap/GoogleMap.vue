@@ -180,9 +180,25 @@ export default class GoogleMap extends Vue {
         this.map,
         this.markers.filter(_ => _.getVisible()),
         {
-          imagePath:
-            "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
-          maxZoom: 12
+          maxZoom: 12,
+          clusterClass: "custom-clustericon",
+          styles: [
+            {
+              width: 30,
+              height: 30,
+              className: "custom-clustericon-1"
+            },
+            {
+              width: 40,
+              height: 40,
+              className: "custom-clustericon-2"
+            },
+            {
+              width: 50,
+              height: 50,
+              className: "custom-clustericon-3"
+            }
+          ]
         }
       );
     } else {
@@ -540,6 +556,43 @@ export default class GoogleMap extends Vue {
         margin: 2px;
       }
     }
+  }
+  .custom-clustericon {
+    background: var(--cluster-color);
+    color: #fff;
+    border-radius: 100%;
+    font-weight: bold;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+  }
+  .custom-clustericon::before,
+  .custom-clustericon::after {
+    content: "";
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    background: var(--cluster-color);
+    opacity: 0.2;
+    border-radius: 100%;
+  }
+  .custom-clustericon::before {
+    width: calc(100% + 14px);
+    height: calc(100% + 14px);
+  }
+  .custom-clustericon::after {
+    width: calc(100% + 28px);
+    height: calc(100% + 28px);
+  }
+  .custom-clustericon-1 {
+    --cluster-color: #00a2d3;
+  }
+  .custom-clustericon-2 {
+    --cluster-color: #ff9b00;
+  }
+  .custom-clustericon-3 {
+    --cluster-color: #ff6969;
   }
 }
 </style>
