@@ -32,6 +32,10 @@ export default class MapOption extends Vue {
     {
       label: "Markers",
       key: "map:markers"
+    },
+    {
+      label: "Clusters",
+      key: "map:clusters"
     }
   ];
 

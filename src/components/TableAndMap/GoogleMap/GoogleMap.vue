@@ -16,6 +16,7 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import UploadedFile, { Row } from "@/entities/UploadedFile";
 import Utils from "./Utils";
 import Theme from "./Theme";
+import MarkerClusterer from "@google/markerclustererplus";
 
 type AvailableOverlays =
   | google.maps.Polygon
@@ -50,7 +51,7 @@ export default class GoogleMap extends Vue {
   /**
    * Whether or not to allow the user to draw polygons on the map
    */
-  @Prop({ default: true })
+  @Prop({ type: Boolean, default: true })
   private allowDraw!: boolean;
   /**
    * A Set of indices of objects to hide
@@ -60,13 +61,18 @@ export default class GoogleMap extends Vue {
   /**
    * Whether or not to display a heatmap
    */
-  @Prop({ default: false })
+  @Prop({ type: Boolean, default: false })
   private displayHeatmap!: boolean;
   /**
    * Whether or not to display the markers
    */
-  @Prop({ default: false })
+  @Prop({ type: Boolean, default: false })
   private displayMarkers!: boolean;
+  /**
+   * Whether or not to display markers using clusters. Nice when there are a lot of markers.
+   */
+  @Prop({ type: Boolean, default: false })
+  private displayClusters!: boolean;
   /**
    * The row that has been clicked if there is one
    */
@@ -76,6 +82,7 @@ export default class GoogleMap extends Vue {
   private map!: google.maps.Map;
   private drawingManager!: google.maps.drawing.DrawingManager;
   private markers: google.maps.Marker[] = [];
+  private markerCluster: MarkerClusterer | null = null;
   private heatmap: google.maps.visualization.HeatmapLayer | null = null;
   private activeOverlays: AvailableOverlays[] = [];
   private selectedOverlayEvent: google.maps.drawing.OverlayCompleteEvent | null = null;
@@ -111,6 +118,7 @@ export default class GoogleMap extends Vue {
     });
     if (newVals.size || oldVals.size) {
       this.displayHeatmapChanged();
+      this.displayClustersChanged();
     }
   }
 
@@ -156,6 +164,28 @@ export default class GoogleMap extends Vue {
         drawnMarkers.push(newMarker);
       });
     this.markers = drawnMarkers;
+  }
+
+  @Watch("displayClusters")
+  private displayClustersChanged() {
+    if (this.markerCluster) {
+      this.markerCluster.clearMarkers();
+      this.markerCluster = null;
+    }
+    if (this.displayClusters) {
+      this.markers.forEach(marker => {
+        marker.setMap(null);
+      })
+      this.markerCluster = new MarkerClusterer(this.map, this.markers.filter(_ => _.getVisible()), {
+        imagePath:
+          "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+        maxZoom: 12
+      });
+    } else {
+      this.markers.forEach(marker => {
+        marker.setMap(this.map);
+      })
+    }
   }
 
   @Watch("displayHeatmap")
@@ -216,11 +246,8 @@ export default class GoogleMap extends Vue {
     return new google.maps.Marker({
       position,
       zIndex: 1,
-      map: this.map,
-      icon: {
-        url: require("@/assets/markers/point.png"),
-        scaledSize: new google.maps.Size(16, 16)
-      }
+      map: this.displayClusters ? undefined : this.map,
+      icon: require("@/assets/markers/point.png")
     });
   }
 
@@ -262,6 +289,7 @@ export default class GoogleMap extends Vue {
       this.initMarkers();
       this.updateBounds();
       this.displayHeatmapChanged();
+      this.displayClustersChanged();
       this.displayMarkersChanged();
       if (this.allowDraw) {
         this.initDrawingManager();
@@ -450,6 +478,10 @@ export default class GoogleMap extends Vue {
       marker.setMap(null);
     });
     this.markers = [];
+    if (this.markerCluster) {
+      this.markerCluster.clearMarkers();
+      this.markerCluster = null;
+    }
   }
 
   private clearOverlays(): void {
