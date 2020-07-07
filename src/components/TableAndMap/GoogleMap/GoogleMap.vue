@@ -175,16 +175,20 @@ export default class GoogleMap extends Vue {
     if (this.displayClusters) {
       this.markers.forEach(marker => {
         marker.setMap(null);
-      })
-      this.markerCluster = new MarkerClusterer(this.map, this.markers.filter(_ => _.getVisible()), {
-        imagePath:
-          "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
-        maxZoom: 12
       });
+      this.markerCluster = new MarkerClusterer(
+        this.map,
+        this.markers.filter(_ => _.getVisible()),
+        {
+          imagePath:
+            "https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m",
+          maxZoom: 12
+        }
+      );
     } else {
       this.markers.forEach(marker => {
         marker.setMap(this.map);
-      })
+      });
     }
   }
 
@@ -285,6 +289,16 @@ export default class GoogleMap extends Vue {
         zoomControl: true,
         gestureHandling: "greedy",
         styles: Theme
+      });
+      google.maps.event.addListener(this.map, "idle", () => {
+        this.markers.forEach(marker => {
+          const newValue = this.map
+            .getBounds()!
+            .contains(marker.getPosition()!);
+          if (marker.getVisible() !== newValue) {
+            marker.setVisible(newValue);
+          }
+        });
       });
       this.initMarkers();
       this.updateBounds();
