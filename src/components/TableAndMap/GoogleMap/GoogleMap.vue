@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100%; position: relative;">
+  <div class="google-map-container">
     <b-button
       v-if="allowDraw"
       v-show="selectedOverlayEvent"
@@ -516,6 +516,10 @@ export default class GoogleMap extends Vue {
 }
 </script>
 <style lang='scss' scoped>
+.google-map-container {
+  height: 100%;
+  position: relative;
+}
 .delete-button {
   position: absolute;
   margin: 5px;
