@@ -72,6 +72,9 @@ export default class TableLogic {
       headerName: '',
       field: 'preview',
       pinned: 'left',
+      width: 40,
+      suppressMenu: true,
+      suppressSorting: true,
       cellRendererFramework: AgPreview
     }
     this.columnDefs = [previewCol].concat(generatedCols)

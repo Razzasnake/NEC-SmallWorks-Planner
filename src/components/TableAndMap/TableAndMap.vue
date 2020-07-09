@@ -117,8 +117,6 @@ export default class TableAndMap extends Vue {
   private splitInstance: Split | null = null;
   private viewOptions: string[] = [
     "table",
-    "table:footer:total",
-    "table:footer:avg",
     "map",
     "map:markers",
     "map:clusters"

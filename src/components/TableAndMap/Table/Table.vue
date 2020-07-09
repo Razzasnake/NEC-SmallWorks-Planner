@@ -7,7 +7,6 @@
     :isExternalFilterPresent="isExternalFilterPresent"
     :doesExternalFilterPass="doesExternalFilterPass"
     :getRowNodeId="getRowNodeId"
-    suppressColumnVirtualisation
     suppressMenuHide
     enableCellTextSelection
     @gridReady="gridReady"
@@ -137,14 +136,12 @@ export default class Table extends Vue {
   private gridReady(config: { api: GridApi; columnApi: ColumnApi }) {
     this.gridApi = config.api;
     this.columnApi = config.columnApi;
-    this.updatePinnedFooter();
     if (Object.keys(this.filters).length) {
       this.gridApi.setFilterModel(this.filters);
     }
     if (this.sorting.length) {
       this.gridApi.setSortModel(this.sorting);
     }
-    config.columnApi.autoSizeAllColumns();
     this.updateVisibleRows();
   }
 

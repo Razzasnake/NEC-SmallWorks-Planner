@@ -32,7 +32,7 @@ export default class Toolbar extends Vue {
   /**
    * Options to use
    */
-  @Prop({ default: () => ["table", "table:footer:total", "table:footer:avg", "map", "map:markers"] })
+  @Prop({ default: () => ["table", "map", "map:markers"] })
   private viewOptions!: string[];
 
   private updateMapOptions(mapOptions: string[]) {
