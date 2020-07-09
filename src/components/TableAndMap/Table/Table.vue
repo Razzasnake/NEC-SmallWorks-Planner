@@ -26,6 +26,13 @@ import {
 import TableLogic, { defaultColDef } from "./TableLogic";
 import { Row } from "@/entities/UploadedFile";
 
+type PinnedData = {
+  min: number[];
+  max: number[];
+  avg: number[];
+  total: number[];
+};
+
 /**
  * Display the uploaded file in a table and on a map.
  */
@@ -158,21 +165,24 @@ export default class Table extends Vue {
       .getAllColumns()
       .filter(column => column.getColDef().filter === "number")
       .map(col => col.getColId());
-    const pinnedData = this.tableLogic.calculateFooter(columnKeys, visibleRows);
-    const pinnedFooter = [];
-    if (this.viewOptions.includes("table:footer:min")) {
-      pinnedFooter.push({ ...pinnedData.min, preview: "Min" });
-    }
-    if (this.viewOptions.includes("table:footer:max")) {
-      pinnedFooter.push({ ...pinnedData.max, preview: "Max" });
-    }
-    if (this.viewOptions.includes("table:footer:avg")) {
-      pinnedFooter.push({ ...pinnedData.avg, preview: "Avg" });
-    }
-    if (this.viewOptions.includes("table:footer:total")) {
-      pinnedFooter.push({ ...pinnedData.total, preview: "Total" });
-    }
-    this.gridApi.setPinnedBottomRowData(pinnedFooter);
+    this.tableLogic
+      .calculateFooter(columnKeys, visibleRows)
+      .then((pinnedData: PinnedData) => {
+        const pinnedFooter = [];
+        if (this.viewOptions.includes("table:footer:min")) {
+          pinnedFooter.push({ ...pinnedData.min, preview: "Min" });
+        }
+        if (this.viewOptions.includes("table:footer:max")) {
+          pinnedFooter.push({ ...pinnedData.max, preview: "Max" });
+        }
+        if (this.viewOptions.includes("table:footer:avg")) {
+          pinnedFooter.push({ ...pinnedData.avg, preview: "Avg" });
+        }
+        if (this.viewOptions.includes("table:footer:total")) {
+          pinnedFooter.push({ ...pinnedData.total, preview: "Total" });
+        }
+        this.gridApi.setPinnedBottomRowData(pinnedFooter);
+      });
   }
 
   private sortChanged() {

@@ -6,6 +6,7 @@ Vue.config.productionTip = false
 
 import '@/setups/buefy'
 import '@/setups/fontawesome'
+import '@/setups/vue-worker'
 
 new Vue({
   router,
