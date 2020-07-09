@@ -20,8 +20,8 @@
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { read, utils } from "xlsx";
 import PasteModal from "./PasteModal/PasteModal.vue";
+import ParserWorker from "worker-loader!./Parser";
 
 /**
  * Accept a csv or excel file
@@ -38,21 +38,12 @@ export default class Upload extends Vue {
   private displayPasteModal: boolean = false;
 
   private fileUploaded(file: File) {
-    this.loading = true;
     const reader = new FileReader();
     reader.onloadend = e => {
       try {
         if (e.target) {
           const bstr = e.target.result;
-          const json = this.convert(bstr, "binary");
-          /**
-           * File has been uploaded
-           *
-           * @type {unknown[]}
-           */
-          this.$emit("fileUploaded", json);
-          this.dropFiles = null;
-          this.loading = false;
+          this.convert(bstr, "binary");
         } else {
           this.handleFailure();
         }
@@ -67,9 +58,19 @@ export default class Upload extends Vue {
     file: string | ArrayBuffer | null,
     type: "binary" | "buffer"
   ) {
-    const workbook = read(file, { type });
-    const firstWorksheet = workbook.Sheets[workbook.SheetNames[0]];
-    return utils.sheet_to_json(firstWorksheet, { header: 1 });
+    this.loading = true;
+    const worker = new ParserWorker();
+    worker.postMessage({ file, type });
+    worker.onmessage = event => {
+      /**
+       * File has been uploaded
+       *
+       * @type {unknown[]}
+       */
+      this.$emit("fileUploaded", event.data);
+      this.dropFiles = null;
+      this.loading = false;
+    };
   }
 
   private handleFailure() {
@@ -81,12 +82,7 @@ export default class Upload extends Vue {
   }
 
   private uploadText(text: string) {
-    this.loading = true;
-    setTimeout(() => {
-      const json = this.convert(text, "buffer");
-      this.$emit("fileUploaded", json);
-      this.loading = false;
-    });
+    this.convert(text, "buffer");
   }
 }
 </script>
