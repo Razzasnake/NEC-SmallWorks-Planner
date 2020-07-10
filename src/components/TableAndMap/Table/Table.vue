@@ -7,6 +7,7 @@
     :isExternalFilterPresent="isExternalFilterPresent"
     :doesExternalFilterPass="doesExternalFilterPass"
     :getRowNodeId="getRowNodeId"
+    :modules="modules"
     suppressMenuHide
     enableCellTextSelection
     @gridReady="gridReady"
@@ -26,6 +27,8 @@ import {
 import TableLogic, { defaultColDef } from "./TableLogic";
 import { Row } from "@/entities/UploadedFile";
 import CalculateFooterWorker from "worker-loader!./CalculateFooter";
+import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
+import { CsvExportModule } from "@ag-grid-community/csv-export";
 
 type PinnedData = {
   min: number[];
@@ -89,6 +92,7 @@ export default class Table extends Vue {
   private colDef = defaultColDef;
   private gridApi!: GridApi;
   private columnApi!: ColumnApi;
+  private modules = [ClientSideRowModelModule, CsvExportModule];
 
   @Watch("viewOptions")
   private viewOptionsUpdated() {
