@@ -9,7 +9,7 @@
 
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
-import { ICellRendererParams } from "ag-grid-community";
+import { ICellRendererParams } from "@ag-grid-community/core";
 
 @Component({
   components: {}

@@ -1,4 +1,4 @@
-import { ColDef, ColGroupDef } from "ag-grid-community"
+import { ColDef, ColGroupDef } from "@ag-grid-community/core"
 import UploadedFile, { Row } from "@/entities/UploadedFile"
 import AgPreview from './AgPreview.vue'
 import Vue from 'vue'

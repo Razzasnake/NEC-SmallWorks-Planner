@@ -16,13 +16,13 @@
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import { AgGridVue } from "ag-grid-vue";
+import { AgGridVue } from "@ag-grid-community/vue";
 import {
   GridApi,
   ColumnApi,
   RowNode,
   CellKeyPressEvent
-} from "ag-grid-community";
+} from "@ag-grid-community/core";
 import TableLogic, { defaultColDef } from "./TableLogic";
 import { Row } from "@/entities/UploadedFile";
 import CalculateFooterWorker from "worker-loader!./CalculateFooter";
@@ -243,6 +243,6 @@ export default class Table extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-@import "~ag-grid-community/dist/styles/ag-grid.css";
-@import "~ag-grid-community/dist/styles/ag-theme-balham.css";
+@import "~@ag-grid-community/core/dist/styles/ag-grid.css";
+@import "~@ag-grid-community/core/dist/styles/ag-theme-balham.css";
 </style>
