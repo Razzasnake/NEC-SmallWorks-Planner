@@ -33,7 +33,7 @@ const generate = (x: { index: number, title: string, description: string, github
           axios.get(url).then(response => {
             worker.postMessage({ file: response.data, type: 'buffer', options: { header: 1, raw: false } });
             worker.onmessage = event => {
-              const cleanArr = event.data.map((x: any[]) => {
+              const cleanArr = event.data.data.map((x: any[]) => {
                 return x.map(y => {
                   if (!isNaN(y)) {
                     return parseFloat(y);
