@@ -16,6 +16,7 @@
           :allowDraw="map.allowDraw"
           :displayHeatmap="displayHeatmap"
           :displayMarkers="displayMarkers"
+          :displayClusters="displayClusters"
           :clickedMarker="clickedMarker"
           @markerSelected="markerSelected"
           @updateOverlayEvents="updateOverlayEvents"
@@ -116,10 +117,9 @@ export default class TableAndMap extends Vue {
   private splitInstance: Split | null = null;
   private viewOptions: string[] = [
     "table",
-    "table:footer:total",
-    "table:footer:avg",
     "map",
-    "map:markers"
+    "map:markers",
+    "map:clusters"
   ];
 
   private get hasMap(): boolean {
@@ -136,6 +136,10 @@ export default class TableAndMap extends Vue {
 
   private get displayMarkers(): boolean {
     return this.viewOptions.indexOf("map:markers") > -1;
+  }
+
+  private get displayClusters(): boolean {
+    return this.viewOptions.indexOf("map:clusters") > -1;
   }
 
   private get sectionClass(): string {

@@ -1,18 +1,20 @@
 <template>
-  <div class="card">
+  <div class="card full-height">
     <header class="card-header">
       <b-button @click="close" expanded class="close-button">Close</b-button>
     </header>
-    <div id="street-view"></div>
-    <AgGridVue
-      class="ag-grid ag-theme-balham"
-      v-model="tableData"
-      :columnDefs="tableColumns"
-      :defaultColDef="colDef"
-      suppressMenuHide
-      domLayout="autoHeight"
-      @gridReady="gridReady"
-    ></AgGridVue>
+    <div class="preview-card-content">
+      <div id="street-view"></div>
+      <AgGridVue
+        class="ag-grid ag-theme-balham"
+        v-model="tableData"
+        :columnDefs="tableColumns"
+        :defaultColDef="colDef"
+        suppressMenuHide
+        domLayout="autoHeight"
+        @gridReady="gridReady"
+      ></AgGridVue>
+    </div>
   </div>
 </template>
 <script lang='ts'>
@@ -152,14 +154,18 @@ export default class PreviewCard extends Vue {
 <style lang='scss' scoped>
 @import "~ag-grid-community/dist/styles/ag-grid.css";
 @import "~ag-grid-community/dist/styles/ag-theme-balham.css";
-#street-view {
-  height: 300px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  background-color: rgb(229, 227, 223);
-  overflow: hidden;
+.preview-card-content {
+  height: calc(100% - 36px);
+  overflow: auto;
+  #street-view {
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background-color: rgb(229, 227, 223);
+    overflow: hidden;
+  }
 }
 .close-button {
   border-radius: 0px;

@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100%; position: relative;">
+  <div class="google-map-container">
     <b-button
       v-if="allowDraw"
       v-show="selectedOverlayEvent"
@@ -16,6 +16,7 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import UploadedFile, { Row } from "@/entities/UploadedFile";
 import Utils from "./Utils";
 import Theme from "./Theme";
+import MarkerClusterer from "@google/markerclustererplus";
 
 type AvailableOverlays =
   | google.maps.Polygon
@@ -50,7 +51,7 @@ export default class GoogleMap extends Vue {
   /**
    * Whether or not to allow the user to draw polygons on the map
    */
-  @Prop({ default: true })
+  @Prop({ type: Boolean, default: true })
   private allowDraw!: boolean;
   /**
    * A Set of indices of objects to hide
@@ -60,13 +61,18 @@ export default class GoogleMap extends Vue {
   /**
    * Whether or not to display a heatmap
    */
-  @Prop({ default: false })
+  @Prop({ type: Boolean, default: false })
   private displayHeatmap!: boolean;
   /**
    * Whether or not to display the markers
    */
-  @Prop({ default: false })
+  @Prop({ type: Boolean, default: false })
   private displayMarkers!: boolean;
+  /**
+   * Whether or not to display markers using clusters. Nice when there are a lot of markers.
+   */
+  @Prop({ type: Boolean, default: false })
+  private displayClusters!: boolean;
   /**
    * The row that has been clicked if there is one
    */
@@ -76,6 +82,7 @@ export default class GoogleMap extends Vue {
   private map!: google.maps.Map;
   private drawingManager!: google.maps.drawing.DrawingManager;
   private markers: google.maps.Marker[] = [];
+  private markerCluster: MarkerClusterer | null = null;
   private heatmap: google.maps.visualization.HeatmapLayer | null = null;
   private activeOverlays: AvailableOverlays[] = [];
   private selectedOverlayEvent: google.maps.drawing.OverlayCompleteEvent | null = null;
@@ -111,6 +118,7 @@ export default class GoogleMap extends Vue {
     });
     if (newVals.size || oldVals.size) {
       this.displayHeatmapChanged();
+      this.displayClustersChanged();
     }
   }
 
@@ -158,6 +166,46 @@ export default class GoogleMap extends Vue {
     this.markers = drawnMarkers;
   }
 
+  @Watch("displayClusters")
+  private displayClustersChanged() {
+    if (this.markerCluster) {
+      this.markerCluster.clearMarkers();
+      this.markerCluster = null;
+    }
+    if (this.displayClusters) {
+      this.markers.forEach(marker => {
+        marker.setMap(null);
+      });
+      this.markerCluster = new MarkerClusterer(
+        this.map,
+        this.markers.filter(_ => _.getVisible()),
+        {
+          maxZoom: 12,
+          clusterClass: "custom-clustericon",
+          styles: [
+            {
+              width: 30,
+              height: 30,
+              className: "custom-clustericon-1"
+            },
+            {
+              width: 40,
+              height: 40,
+              className: "custom-clustericon-2"
+            },
+            {
+              width: 50,
+              height: 50,
+              className: "custom-clustericon-3"
+            }
+          ]
+        }
+      );
+    } else {
+      this.displayMarkersChanged();
+    }
+  }
+
   @Watch("displayHeatmap")
   private displayHeatmapChanged() {
     if (this.heatmap) {
@@ -179,7 +227,7 @@ export default class GoogleMap extends Vue {
 
   @Watch("displayMarkers")
   private displayMarkersChanged() {
-    if (this.displayMarkers) {
+    if (this.displayMarkers && !this.displayClusters) {
       this.markers.forEach(marker => {
         marker.setMap(this.map);
       });
@@ -216,11 +264,8 @@ export default class GoogleMap extends Vue {
     return new google.maps.Marker({
       position,
       zIndex: 1,
-      map: this.map,
-      icon: {
-        url: require("@/assets/markers/point.png"),
-        scaledSize: new google.maps.Size(16, 16)
-      }
+      map: this.displayClusters ? undefined : this.map,
+      icon: require("@/assets/markers/point.png")
     });
   }
 
@@ -259,9 +304,23 @@ export default class GoogleMap extends Vue {
         gestureHandling: "greedy",
         styles: Theme
       });
+      google.maps.event.addListener(this.map, "idle", () => {
+        this.markers.forEach((marker, index) => {
+          if (this.hiddenMarkerIndices.has(index)) {
+            return;
+          }
+          const newValue = this.map
+            .getBounds()!
+            .contains(marker.getPosition()!);
+          if (marker.getVisible() !== newValue) {
+            marker.setVisible(newValue);
+          }
+        });
+      });
       this.initMarkers();
       this.updateBounds();
       this.displayHeatmapChanged();
+      this.displayClustersChanged();
       this.displayMarkersChanged();
       if (this.allowDraw) {
         this.initDrawingManager();
@@ -450,6 +509,10 @@ export default class GoogleMap extends Vue {
       marker.setMap(null);
     });
     this.markers = [];
+    if (this.markerCluster) {
+      this.markerCluster.clearMarkers();
+      this.markerCluster = null;
+    }
   }
 
   private clearOverlays(): void {
@@ -467,6 +530,10 @@ export default class GoogleMap extends Vue {
 }
 </script>
 <style lang='scss' scoped>
+.google-map-container {
+  height: 100%;
+  position: relative;
+}
 .delete-button {
   position: absolute;
   margin: 5px;
@@ -487,6 +554,43 @@ export default class GoogleMap extends Vue {
         margin: 2px;
       }
     }
+  }
+  .custom-clustericon {
+    background: var(--cluster-color);
+    color: #fff;
+    border-radius: 100%;
+    font-weight: bold;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+  }
+  .custom-clustericon::before,
+  .custom-clustericon::after {
+    content: "";
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    background: var(--cluster-color);
+    opacity: 0.2;
+    border-radius: 100%;
+  }
+  .custom-clustericon::before {
+    width: calc(100% + 14px);
+    height: calc(100% + 14px);
+  }
+  .custom-clustericon::after {
+    width: calc(100% + 28px);
+    height: calc(100% + 28px);
+  }
+  .custom-clustericon-1 {
+    --cluster-color: #00a2d3;
+  }
+  .custom-clustericon-2 {
+    --cluster-color: #ff9b00;
+  }
+  .custom-clustericon-3 {
+    --cluster-color: #ff6969;
   }
 }
 </style>

@@ -2,14 +2,16 @@
   <InfoSection :title="title" :description="description" :cards="cards">
     <template slot="extra">
       <div class="field">
-        <label class="label">Subscribe to our mailing list and become a beta tester.</label>
-        <input
-          class="input"
-          type="email"
-          placeholder="Enter email address"
-          id="email-input"
-          v-model="email"
-        />
+        <label class="label">
+          Subscribe to our mailing list and become a beta tester.
+          <input
+            class="input"
+            type="email"
+            placeholder="Enter email address"
+            id="email-input"
+            v-model="email"
+          />
+        </label>
       </div>
       <button
         class="button is-primary is-fullwidth"

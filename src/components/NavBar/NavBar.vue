@@ -17,7 +17,6 @@
 </template>
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
-import state from "@/store/userStore";
 
 /**
  * Navigation Bar at the top of the website to navigate between sections

@@ -7,7 +7,6 @@
     :isExternalFilterPresent="isExternalFilterPresent"
     :doesExternalFilterPass="doesExternalFilterPass"
     :getRowNodeId="getRowNodeId"
-    suppressColumnVirtualisation
     suppressMenuHide
     enableCellTextSelection
     @gridReady="gridReady"
@@ -26,6 +25,14 @@ import {
 } from "ag-grid-community";
 import TableLogic, { defaultColDef } from "./TableLogic";
 import { Row } from "@/entities/UploadedFile";
+import CalculateFooterWorker from "worker-loader!./CalculateFooter";
+
+type PinnedData = {
+  min: number[];
+  max: number[];
+  avg: number[];
+  total: number[];
+};
 
 /**
  * Display the uploaded file in a table and on a map.
@@ -137,14 +144,12 @@ export default class Table extends Vue {
   private gridReady(config: { api: GridApi; columnApi: ColumnApi }) {
     this.gridApi = config.api;
     this.columnApi = config.columnApi;
-    this.updatePinnedFooter();
     if (Object.keys(this.filters).length) {
       this.gridApi.setFilterModel(this.filters);
     }
     if (this.sorting.length) {
       this.gridApi.setSortModel(this.sorting);
     }
-    config.columnApi.autoSizeAllColumns();
     this.updateVisibleRows();
   }
 
@@ -153,29 +158,34 @@ export default class Table extends Vue {
       this.gridApi.setPinnedBottomRowData([]);
       return;
     }
-    const visibleRows: Row[] = [];
+    const rowData: Row[] = [];
     this.gridApi.forEachNodeAfterFilter((node, index) => {
-      visibleRows.push(node.data);
+      rowData.push(node.data);
     });
-    const columnKeys = this.columnApi
+    const columnIds = this.columnApi
       .getAllColumns()
       .filter(column => column.getColDef().filter === "number")
       .map(col => col.getColId());
-    const pinnedData = this.tableLogic.calculateFooter(columnKeys, visibleRows);
-    const pinnedFooter = [];
-    if (this.viewOptions.includes("table:footer:min")) {
-      pinnedFooter.push({ ...pinnedData.min, preview: "Min" });
-    }
-    if (this.viewOptions.includes("table:footer:max")) {
-      pinnedFooter.push({ ...pinnedData.max, preview: "Max" });
-    }
-    if (this.viewOptions.includes("table:footer:avg")) {
-      pinnedFooter.push({ ...pinnedData.avg, preview: "Avg" });
-    }
-    if (this.viewOptions.includes("table:footer:total")) {
-      pinnedFooter.push({ ...pinnedData.total, preview: "Total" });
-    }
-    this.gridApi.setPinnedBottomRowData(pinnedFooter);
+
+    const worker = new CalculateFooterWorker();
+    worker.postMessage({ columnIds, rowData });
+    worker.onmessage = event => {
+      const pinnedData: PinnedData = event.data;
+      const pinnedFooter = [];
+      if (this.viewOptions.includes("table:footer:min")) {
+        pinnedFooter.push({ ...pinnedData.min, preview: "Min" });
+      }
+      if (this.viewOptions.includes("table:footer:max")) {
+        pinnedFooter.push({ ...pinnedData.max, preview: "Max" });
+      }
+      if (this.viewOptions.includes("table:footer:avg")) {
+        pinnedFooter.push({ ...pinnedData.avg, preview: "Avg" });
+      }
+      if (this.viewOptions.includes("table:footer:total")) {
+        pinnedFooter.push({ ...pinnedData.total, preview: "Total" });
+      }
+      this.gridApi.setPinnedBottomRowData(pinnedFooter);
+    };
   }
 
   private sortChanged() {
