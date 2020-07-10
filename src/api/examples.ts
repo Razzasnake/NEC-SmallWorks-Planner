@@ -1,6 +1,6 @@
 import ExampleAnalysis from "@/entities/ExampleAnalysis";
 import axios from 'axios';
-import { read, utils } from "xlsx";
+import ParserWorker from "worker-loader!@/components/UploadWorkflow/Upload/Parser";
 
 const input = [
   {
@@ -27,21 +27,24 @@ const generate = (x: { index: number, title: string, description: string, github
     createdOn: new Date(),
     config: {
       data: async () => {
-        const url = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/' + x.githubFileName
-        return axios.get(url).then(response => {
-          const workbook = read(response.data, { type: 'buffer' });
-          const firstWorksheet = workbook.Sheets[workbook.SheetNames[0]];
-          const arr: any[][] = utils.sheet_to_json(firstWorksheet, { header: 1, raw: false })
-          const cleanArr = arr.map(x => {
-            return x.map(y => {
-              if (!isNaN(y)) {
-                return parseFloat(y)
-              }
-              return y
-            })
-          })
-          return { default: cleanArr };
-        })
+        const url = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/' + x.githubFileName;
+        return new Promise((resolve) => {
+          const worker = new ParserWorker();
+          axios.get(url).then(response => {
+            worker.postMessage({ file: response.data, type: 'buffer', options: { header: 1, raw: false } });
+            worker.onmessage = event => {
+              const cleanArr = event.data.data.map((x: any[]) => {
+                return x.map(y => {
+                  if (!isNaN(y)) {
+                    return parseFloat(y);
+                  }
+                  return y;
+                });
+              });
+              resolve({ default: cleanArr });
+            }
+          });
+        });
       },
       columnSelections: { lat: 8, lng: 9 },
       firstRowHeader: true

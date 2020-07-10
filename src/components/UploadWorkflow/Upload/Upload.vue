@@ -37,18 +37,68 @@ export default class Upload extends Vue {
   private loading: boolean = false;
   private displayPasteModal: boolean = false;
 
+  private mounted() {
+    this.initDropZone();
+  }
+
+  private initDropZone() {
+    /* This element is in the CallToAction class. */
+    const dropArea = document.getElementById("upload-drop-area");
+    if (dropArea) {
+      ["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
+        dropArea.addEventListener(
+          eventName,
+          e => {
+            e.preventDefault();
+            e.stopPropagation();
+          },
+          false
+        );
+      });
+
+      ["dragenter", "dragover"].forEach(eventName => {
+        dropArea.addEventListener(
+          eventName,
+          e => {
+            dropArea.classList.add("highlight");
+          },
+          false
+        );
+      });
+
+      ["dragleave", "drop"].forEach(eventName => {
+        dropArea.addEventListener(
+          eventName,
+          e => {
+            dropArea.classList.remove("highlight");
+          },
+          false
+        );
+      });
+
+      dropArea.addEventListener(
+        "drop",
+        e => {
+          let dt = e.dataTransfer;
+          if (dt) {
+            const file = dt.files[0];
+            if (this.accept.split(',').filter(_ => file.name.endsWith(_)).length > 0) {
+              /* If a supported file. */
+              this.fileUploaded(file);
+            }
+          }
+        },
+        false
+      );
+    }
+  }
+
   private fileUploaded(file: File) {
     const reader = new FileReader();
     reader.onloadend = e => {
-      try {
-        if (e.target) {
-          const bstr = e.target.result;
-          this.convert(bstr, "binary");
-        } else {
-          this.handleFailure();
-        }
-      } catch (e) {
-        this.handleFailure();
+      if (e.target) {
+        const bstr = e.target.result;
+        this.convert(bstr, "binary");
       }
     };
     reader.readAsBinaryString(file);
@@ -62,23 +112,23 @@ export default class Upload extends Vue {
     const worker = new ParserWorker();
     worker.postMessage({ file, type });
     worker.onmessage = event => {
-      /**
-       * File has been uploaded
-       *
-       * @type {unknown[]}
-       */
-      this.$emit("fileUploaded", event.data);
+      if (event.data.error) {
+        this.$buefy.toast.open({
+          message:
+            "Upload failed. Please try again or upload a different file.",
+          type: "is-danger"
+        });
+      } else {
+        /**
+         * File has been uploaded
+         *
+         * @type {unknown[]}
+         */
+        this.$emit("fileUploaded", event.data.data);
+      }
       this.dropFiles = null;
       this.loading = false;
     };
-  }
-
-  private handleFailure() {
-    this.$buefy.toast.open({
-      message: "Upload failed. Please try again or upload a different file.",
-      type: "is-danger"
-    });
-    this.loading = false;
   }
 
   private uploadText(text: string) {

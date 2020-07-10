@@ -9,6 +9,7 @@
         class="ag-grid ag-theme-balham"
         v-model="tableData"
         :columnDefs="tableColumns"
+        :modules="modules"
         :defaultColDef="colDef"
         suppressMenuHide
         domLayout="autoHeight"
@@ -20,10 +21,11 @@
 <script lang='ts'>
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import UploadedFile, { Row } from "@/entities/UploadedFile";
-import { AgGridVue } from "ag-grid-vue";
-import { GridApi, ColDef, ColumnApi } from "ag-grid-community";
+import { AgGridVue } from "@ag-grid-community/vue";
+import { GridApi, ColDef, ColumnApi } from "@ag-grid-community/core";
 import Utils from "@/components/TableAndMap/GoogleMap/Utils";
 import { defaultColDef } from "../Table/TableLogic";
+import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
 
 /**
  * Display a preview of the marker/row that has been clicked.
@@ -60,6 +62,7 @@ export default class PreviewCard extends Vue {
       headerName: "Value"
     }
   ];
+  private modules = [ClientSideRowModelModule];
 
   private created() {
     Utils.injectGoogleMapsLibrary([]).then(google => {
@@ -152,8 +155,8 @@ export default class PreviewCard extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-@import "~ag-grid-community/dist/styles/ag-grid.css";
-@import "~ag-grid-community/dist/styles/ag-theme-balham.css";
+@import "~@ag-grid-community/core/dist/styles/ag-grid.css";
+@import "~@ag-grid-community/core/dist/styles/ag-theme-balham.css";
 .preview-card-content {
   height: calc(100% - 36px);
   overflow: auto;

@@ -7,6 +7,7 @@
     :isExternalFilterPresent="isExternalFilterPresent"
     :doesExternalFilterPass="doesExternalFilterPass"
     :getRowNodeId="getRowNodeId"
+    :modules="modules"
     suppressMenuHide
     enableCellTextSelection
     @gridReady="gridReady"
@@ -16,16 +17,18 @@
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import { AgGridVue } from "ag-grid-vue";
+import { AgGridVue } from "@ag-grid-community/vue";
 import {
   GridApi,
   ColumnApi,
   RowNode,
   CellKeyPressEvent
-} from "ag-grid-community";
+} from "@ag-grid-community/core";
 import TableLogic, { defaultColDef } from "./TableLogic";
 import { Row } from "@/entities/UploadedFile";
 import CalculateFooterWorker from "worker-loader!./CalculateFooter";
+import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
+import { CsvExportModule } from "@ag-grid-community/csv-export";
 
 type PinnedData = {
   min: number[];
@@ -89,6 +92,7 @@ export default class Table extends Vue {
   private colDef = defaultColDef;
   private gridApi!: GridApi;
   private columnApi!: ColumnApi;
+  private modules = [ClientSideRowModelModule, CsvExportModule];
 
   @Watch("viewOptions")
   private viewOptionsUpdated() {
@@ -243,6 +247,6 @@ export default class Table extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-@import "~ag-grid-community/dist/styles/ag-grid.css";
-@import "~ag-grid-community/dist/styles/ag-theme-balham.css";
+@import "~@ag-grid-community/core/dist/styles/ag-grid.css";
+@import "~@ag-grid-community/core/dist/styles/ag-theme-balham.css";
 </style>
