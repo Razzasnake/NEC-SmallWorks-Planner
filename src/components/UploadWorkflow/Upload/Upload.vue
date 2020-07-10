@@ -37,6 +37,58 @@ export default class Upload extends Vue {
   private loading: boolean = false;
   private displayPasteModal: boolean = false;
 
+  private mounted() {
+    this.initDropZone();
+  }
+
+  private initDropZone() {
+    /* This element is in the CallToAction class. */
+    const dropArea = document.getElementById("upload-drop-area");
+    if (dropArea) {
+      ["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
+        dropArea.addEventListener(
+          eventName,
+          e => {
+            e.preventDefault();
+            e.stopPropagation();
+          },
+          false
+        );
+      });
+
+      ["dragenter", "dragover"].forEach(eventName => {
+        dropArea.addEventListener(
+          eventName,
+          e => {
+            dropArea.classList.add("highlight");
+          },
+          false
+        );
+      });
+
+      ["dragleave", "drop"].forEach(eventName => {
+        dropArea.addEventListener(
+          eventName,
+          e => {
+            dropArea.classList.remove("highlight");
+          },
+          false
+        );
+      });
+
+      dropArea.addEventListener(
+        "drop",
+        e => {
+          let dt = e.dataTransfer;
+          if (dt) {
+            this.fileUploaded(dt.files[0]);
+          }
+        },
+        false
+      );
+    }
+  }
+
   private fileUploaded(file: File) {
     const reader = new FileReader();
     reader.onloadend = e => {

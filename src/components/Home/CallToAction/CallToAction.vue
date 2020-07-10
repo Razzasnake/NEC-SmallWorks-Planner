@@ -1,5 +1,5 @@
 <template>
-  <div class="call-to-action">
+  <div class="call-to-action" id="upload-drop-area">
     <div class="title align-center">Table &amp; Map</div>
     <div class="subtitle align-center">{{ tagline }}</div>
     <UploadWorkflow @finish="finish"></UploadWorkflow>
@@ -30,10 +30,19 @@ export default class CallToAction extends Vue {
 }
 </script>
 <style lang='scss' scoped>
+@import "@/sass/buefy";
 .call-to-action {
   height: 25vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+#upload-drop-area {
+  border: 1px solid transparent;
+  &.highlight {
+    background-color: mix(white, $primary, 95%);
+    border: 1px dashed $primary;
+    border-radius: 4px;
+  }
 }
 </style>
