@@ -24,5 +24,4 @@ const calculateFooter = (columnIds: string[], rowData: Row[]) => {
 ctx.onmessage = (event) => {
   const result = calculateFooter(event.data.columnIds, event.data.rowData);
   ctx.postMessage(result);
-  ctx.terminate();
 };
