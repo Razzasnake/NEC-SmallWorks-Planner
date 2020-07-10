@@ -7,22 +7,22 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: () => import(/* webpackChunkName: "Home", webpackPreload: true */ '@/views/Home.vue')
+    component: () => import(/* webpackPreload: true */ '@/views/Home.vue')
   },
   {
     path: '/explore',
     name: 'Explore',
-    component: () => import(/* webpackChunkName: "Explore" */ '@/views/Explore.vue')
+    component: () => import('@/views/Explore.vue')
   },
   {
     path: '/examples',
     name: 'Examples',
-    component: () => import(/* webpackChunkName: "Examples" */ '@/views/Examples.vue')
+    component: () => import('@/views/Examples.vue')
   },
   {
     path: '/features',
     name: 'Features',
-    component: () => import(/* webpackChunkName: "Features" */ '@/views/Features.vue')
+    component: () => import('@/views/Features.vue')
   },
   { path: '/*', redirect: '/' }
 ]
