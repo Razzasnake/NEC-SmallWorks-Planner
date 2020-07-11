@@ -54,7 +54,7 @@ export default class TableLogic {
       headerName: '',
       field: 'preview',
       pinned: 'left',
-      width: 40,
+      width: 50,
       suppressMenu: true,
       suppressSorting: true,
       cellRendererFramework: AgPreview
