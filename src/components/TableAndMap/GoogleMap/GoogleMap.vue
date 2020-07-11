@@ -9,6 +9,11 @@
       icon="el-icon-delete"
     >Delete Boundary</b-button>
     <div class="google-map" :id="mapId" />
+    <div class="upload-layer">
+      <b-upload @input="shapefileUploaded" accept=".json, .geojson">
+        <font-awesome-icon icon="layer-group" title="Upload a shapefile" />
+      </b-upload>
+    </div>
   </div>
 </template>
 <script lang='ts'>
@@ -17,6 +22,7 @@ import UploadedFile, { Row } from "@/entities/UploadedFile";
 import Utils from "./Utils";
 import Theme from "./Theme";
 import MarkerClusterer from "@google/markerclustererplus";
+import LayerParser from "worker-loader!./LayerParsers/Parser";
 
 type AvailableOverlays =
   | google.maps.Polygon
@@ -330,6 +336,20 @@ export default class GoogleMap extends Vue {
     });
   }
 
+  private shapefileUploaded(file: File) {
+    const worker = new LayerParser();
+    worker.postMessage(file);
+    worker.onmessage = event => {
+      this.map.data.addGeoJson(event.data);
+      this.map.data.setStyle({
+        strokeWeight: 2,
+        strokeColor: "#00a2d3",
+        fillColor: "#00a2d3",
+        zIndex: 2
+      });
+    };
+  }
+
   private updateBounds() {
     const bounds = new google.maps.LatLngBounds();
     this.markers
@@ -541,6 +561,24 @@ export default class GoogleMap extends Vue {
   top: -1px;
   left: 120px;
   font-size: 13px;
+}
+.upload-layer {
+  position: absolute;
+  top: 5px;
+  right: 6px;
+  z-index: 10;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
+  border-radius: 2px;
+  color: grey;
+  * {
+    cursor: pointer;
+  }
 }
 </style>
 <style lang='scss'>
