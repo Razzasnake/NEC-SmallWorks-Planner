@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-loading :active="loading"></b-loading>
-    <b-upload v-model="dropFiles" @input="fileUploaded" :accept="accept">
+    <b-upload @input="fileUploaded" :accept="accept">
       <a class="button is-primary">
         <font-awesome-icon icon="upload" class="margin-right-small" />
         <span class="margin-left-small">Upload a dataset</span>
@@ -32,7 +32,6 @@ import ParserWorker from "worker-loader!./Parser";
   }
 })
 export default class Upload extends Vue {
-  private dropFiles: File | null = null;
   private accept: string = ".xls,.xlr,.xlt,.xlsx,.xlsm,.xlsb,.csv";
   private loading: boolean = false;
   private displayPasteModal: boolean = false;
@@ -126,7 +125,6 @@ export default class Upload extends Vue {
          */
         this.$emit("fileUploaded", event.data.data);
       }
-      this.dropFiles = null;
       this.loading = false;
     };
   }

@@ -1,7 +1,6 @@
 import { ColDef, ColGroupDef } from "@ag-grid-community/core"
 import UploadedFile, { Row } from "@/entities/UploadedFile"
-import AgPreview from './AgPreview.vue'
-import Vue from 'vue'
+import AgPreview from "./AgPreview.vue"
 
 export const defaultColDef: ColDef = {
   sortable: true,
@@ -54,9 +53,9 @@ export default class TableLogic {
       headerName: '',
       field: 'preview',
       pinned: 'left',
-      width: 40,
+      width: 50,
       suppressMenu: true,
-      suppressSorting: true,
+      sortable: true,
       cellRendererFramework: AgPreview
     }
     this.columnDefs = [previewCol].concat(generatedCols)
