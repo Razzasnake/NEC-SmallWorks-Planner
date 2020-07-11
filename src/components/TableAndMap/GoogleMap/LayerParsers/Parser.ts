@@ -1,8 +1,5 @@
+import shp from 'shpjs';
 const ctx: Worker = self as any;
-
-const geojsonParser = (bstr: string | ArrayBuffer) => {
-  return JSON.parse(bstr.toString())
-}
 
 ctx.onmessage = (event: { data: File }) => {
   const reader = new FileReader();
@@ -11,7 +8,11 @@ ctx.onmessage = (event: { data: File }) => {
       const bstr = e.target.result;
       if (bstr) {
         if (event.data.name.endsWith('.json') || event.data.name.endsWith('.geojson')) {
-          ctx.postMessage(geojsonParser(bstr));
+          ctx.postMessage(JSON.parse(new TextDecoder().decode(bstr as ArrayBuffer)));
+        } else if (event.data.name.endsWith('.zip')) {
+          shp(bstr).then((geojson: object) => {
+            ctx.postMessage(geojson)
+          })
         } else {
           // Expand on shape file type support here.
           ctx.postMessage({});
@@ -23,5 +24,5 @@ ctx.onmessage = (event: { data: File }) => {
       ctx.postMessage({});
     }
   };
-  reader.readAsBinaryString(event.data);
+  reader.readAsArrayBuffer(event.data);
 };

@@ -10,7 +10,7 @@
     >Delete Boundary</b-button>
     <div class="google-map" :id="mapId" />
     <div class="upload-layer">
-      <b-upload @input="shapefileUploaded" accept=".json, .geojson">
+      <b-upload @input="shapefileUploaded" accept=".json,.geojson,.zip">
         <font-awesome-icon icon="layer-group" title="Upload a shapefile" />
       </b-upload>
     </div>

@@ -55,7 +55,7 @@ export default class TableLogic {
       pinned: 'left',
       width: 50,
       suppressMenu: true,
-      suppressSorting: true,
+      sortable: true,
       cellRendererFramework: AgPreview
     }
     this.columnDefs = [previewCol].concat(generatedCols)
