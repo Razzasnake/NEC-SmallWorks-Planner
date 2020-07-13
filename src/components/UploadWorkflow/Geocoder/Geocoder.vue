@@ -62,9 +62,10 @@ export default class Geocoder extends Vue {
       });
       return;
     }
-    this.addresses.forEach((address: string, index: number) => {
+
+    const geocode = (index: number) => {
       const searchRequest = {
-        where: address,
+        where: this.addresses[index],
         callback: (r: {
           results: { location: { latitude: number; longitude: number } }[];
         }) => {
@@ -86,18 +87,15 @@ export default class Geocoder extends Vue {
             });
             this.completedAux += 1;
           }
+          return geocode(index + 1);
         },
         errorCallback: () => {
-          this.$emit("updateLocation", {
-            index,
-            latitude: null,
-            longitude: null
-          });
-          this.completedAux += 1;
+          return geocode(index);
         }
       };
       this.searchManager.geocode(searchRequest);
-    });
+    };
+    geocode(0);
   }
 }
 </script>
