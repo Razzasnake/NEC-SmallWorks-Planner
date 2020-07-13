@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-loading :active="loading"></b-loading>
+    <Loading :loading="loading" :text="geocodeProgress" />
     <Upload @fileUploaded="fileUploaded" class="align-center"></Upload>
     <div class="modal is-active" v-if="step > 0">
       <div class="modal-background"></div>
@@ -42,6 +42,7 @@ import SelectColumns from "./SelectColumns/SelectColumns.vue";
 import UploadedFile from "@/entities/UploadedFile";
 import UploadWorkflowLogic from "./UploadWorkflowLogic";
 import Geocoder from "./Geocoder/Geocoder.vue";
+import Loading from "@/components/Shared/Loading/Loading.vue";
 
 /**
  * Add all of the parts of the workflow together
@@ -50,7 +51,8 @@ import Geocoder from "./Geocoder/Geocoder.vue";
   components: {
     Upload,
     SelectColumns,
-    Geocoder
+    Geocoder,
+    Loading
   }
 })
 export default class UploadWorkflow extends Vue {
@@ -75,6 +77,11 @@ export default class UploadWorkflow extends Vue {
   private finishIsDisabled: boolean = true;
   private addresses: string[] = [];
   private loading: boolean = false;
+  private numberGeocoded: number = 0;
+
+  private get geocodeProgress() {
+    return `${this.numberGeocoded.toLocaleString()} / ${this.addresses.length.toLocaleString()}`;
+  }
 
   private fileUploaded(data: any[][]) {
     this.uploadedFile = data;
@@ -122,6 +129,7 @@ export default class UploadWorkflow extends Vue {
     const row = this.uploadedFile[payload.index + offset];
     row[this.columnSelections.lat!] = payload.latitude;
     row[this.columnSelections.lng!] = payload.longitude;
+    this.numberGeocoded = this.numberGeocoded + 1;
   }
 
   private finish() {
@@ -195,4 +203,10 @@ export default class UploadWorkflow extends Vue {
 }
 </script>
 <style lang='scss' scoped>
+.loading {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+}
 </style>

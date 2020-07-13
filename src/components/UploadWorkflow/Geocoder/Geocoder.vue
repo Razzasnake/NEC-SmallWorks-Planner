@@ -60,7 +60,7 @@ export default class Geocoder extends Vue {
         this.searchManager = new Microsoft.Maps.Search.SearchManager(map);
         this.geocode();
       });
-      return
+      return;
     }
     this.addresses.forEach((address: string, index: number) => {
       const searchRequest = {
