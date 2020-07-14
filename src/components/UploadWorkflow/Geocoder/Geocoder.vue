@@ -20,6 +20,7 @@ export default class Geocoder extends Vue {
   private addresses!: string[];
   private completed: number = 0;
   private searchManager: any;
+  private numWorkers: number = 6; /* Max number allowed by browsers. */
 
   private get completedAux() {
     return this.completed;
@@ -63,7 +64,7 @@ export default class Geocoder extends Vue {
       return;
     }
 
-    const geocode = (index: number) => {
+    const geocode = (index: number, stop: number) => {
       const searchRequest = {
         where: this.addresses[index],
         callback: (r: {
@@ -87,15 +88,25 @@ export default class Geocoder extends Vue {
             });
             this.completedAux += 1;
           }
-          return geocode(index + 1);
+          if (index + 1 < stop) {
+            return geocode(index + 1, stop);
+          }
         },
         errorCallback: () => {
-          return geocode(index);
+          return geocode(index, stop);
         }
       };
       this.searchManager.geocode(searchRequest);
     };
-    geocode(0);
+
+    const numPerWorker = Math.round(this.addresses.length / this.numWorkers);
+    for (let i = 0; i < this.addresses.length; i += numPerWorker) {
+      if (i + numPerWorker > this.addresses.length - 1) {
+        geocode(i, this.addresses.length - 1);
+      } else {
+        geocode(i, i + numPerWorker);
+      }
+    }
   }
 }
 </script>
