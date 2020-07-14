@@ -11,7 +11,7 @@
     <div class="google-map" :id="mapId" />
     <div class="upload-layer">
       <b-upload @input="shapefileUploaded" accept=".json,.geojson,.zip">
-        <font-awesome-icon icon="layer-group" title="Upload a shapefile" />
+        <font-awesome-icon icon="layer-group" title="Upload geojson or zipped shapefile" />
       </b-upload>
     </div>
   </div>
@@ -22,7 +22,7 @@ import UploadedFile, { Row } from "@/entities/UploadedFile";
 import Utils from "./Utils";
 import Theme from "./Theme";
 import MarkerClusterer from "@google/markerclustererplus";
-import LayerParser from "worker-loader!./LayerParsers/Parser";
+import LayerParser from "worker-loader!./LayerConfig/Parser";
 
 type AvailableOverlays =
   | google.maps.Polygon
