@@ -1,6 +1,6 @@
 <template>
   <div class="examples">
-    <b-loading :active="loading"></b-loading>
+    <Loading :loading="loading" />
     <div v-for="example in exampleAnalyses" :key="example.id" class="example">
       <Tile :exampleAnalysis="example" @preview="preview"></Tile>
     </div>
@@ -13,13 +13,15 @@ import ExampleAnalysis from "@/entities/ExampleAnalysis";
 import UploadedFile from "@/entities/UploadedFile";
 import { updateUploadedFile } from "@/store/exploreStore";
 import examplesApi from "@/api/examples";
+import Loading from "@/components/Shared/Loading/Loading.vue";
 
 /**
  * All examples
  */
 @Component({
   components: {
-    Tile
+    Tile,
+    Loading
   }
 })
 export default class Examples extends Vue {
@@ -42,7 +44,7 @@ export default class Examples extends Vue {
       updateUploadedFile(uploadedFile);
       this.$router.push({ name: "Explore" });
       this.loading = false;
-    })
+    });
   }
 }
 </script>

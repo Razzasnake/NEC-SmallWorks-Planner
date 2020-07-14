@@ -20,6 +20,7 @@ export default class Geocoder extends Vue {
   private addresses!: string[];
   private completed: number = 0;
   private searchManager: any;
+  private numWorkers: number = 5; /* Best number after time trials. Don't change. */
 
   private get completedAux() {
     return this.completed;
@@ -60,11 +61,12 @@ export default class Geocoder extends Vue {
         this.searchManager = new Microsoft.Maps.Search.SearchManager(map);
         this.geocode();
       });
-      return
+      return;
     }
-    this.addresses.forEach((address: string, index: number) => {
+
+    const geocode = (index: number, stop: number) => {
       const searchRequest = {
-        where: address,
+        where: this.addresses[index],
         callback: (r: {
           results: { location: { latitude: number; longitude: number } }[];
         }) => {
@@ -86,18 +88,25 @@ export default class Geocoder extends Vue {
             });
             this.completedAux += 1;
           }
+          if (index < stop) {
+            return geocode(index + 1, stop);
+          }
         },
         errorCallback: () => {
-          this.$emit("updateLocation", {
-            index,
-            latitude: null,
-            longitude: null
-          });
-          this.completedAux += 1;
+          return geocode(index, stop);
         }
       };
       this.searchManager.geocode(searchRequest);
-    });
+    };
+
+    const numPerWorker = Math.round(this.addresses.length / this.numWorkers);
+    for (let i = 0; i < this.addresses.length; i += numPerWorker) {
+      if (i + numPerWorker > this.addresses.length - 1) {
+        geocode(i, this.addresses.length - 1);
+      } else {
+        geocode(i, i + numPerWorker);
+      }
+    }
   }
 }
 </script>

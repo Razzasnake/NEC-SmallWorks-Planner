@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-loading :active="loading"></b-loading>
+    <Loading :loading="loading" />
     <b-upload @input="fileUploaded" :accept="accept">
       <a class="button is-primary">
         <font-awesome-icon icon="upload" class="margin-right-small" />
@@ -22,13 +22,15 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import PasteModal from "./PasteModal/PasteModal.vue";
 import ParserWorker from "worker-loader!./Parser";
+import Loading from "@/components/Shared/Loading/Loading.vue";
 
 /**
  * Accept a csv or excel file
  */
 @Component({
   components: {
-    PasteModal
+    PasteModal,
+    Loading
   }
 })
 export default class Upload extends Vue {
@@ -81,7 +83,10 @@ export default class Upload extends Vue {
           let dt = e.dataTransfer;
           if (dt) {
             const file = dt.files[0];
-            if (this.accept.split(',').filter(_ => file.name.endsWith(_)).length > 0) {
+            if (
+              this.accept.split(",").filter(_ => file.name.endsWith(_)).length >
+              0
+            ) {
               /* If a supported file. */
               this.fileUploaded(file);
             }

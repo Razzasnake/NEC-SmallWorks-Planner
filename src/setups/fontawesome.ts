@@ -5,8 +5,9 @@ import { faUpload } from '@fortawesome/free-solid-svg-icons/faUpload'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown'
 import { faChevronUp } from '@fortawesome/free-solid-svg-icons/faChevronUp'
 import { faLayerGroup } from '@fortawesome/free-solid-svg-icons/faLayerGroup'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons/faSpinner'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faEye, faUpload, faChevronDown, faChevronUp, faLayerGroup)
+library.add(faEye, faUpload, faChevronDown, faChevronUp, faLayerGroup, faSpinner)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
