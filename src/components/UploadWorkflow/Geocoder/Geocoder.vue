@@ -20,7 +20,7 @@ export default class Geocoder extends Vue {
   private addresses!: string[];
   private completed: number = 0;
   private searchManager: any;
-  private numWorkers: number = 6; /* Max number allowed by browsers. */
+  private numWorkers: number = 5; /* Best number after time trials. Don't change. */
 
   private get completedAux() {
     return this.completed;
@@ -88,7 +88,7 @@ export default class Geocoder extends Vue {
             });
             this.completedAux += 1;
           }
-          if (index + 1 < stop) {
+          if (index < stop) {
             return geocode(index + 1, stop);
           }
         },
