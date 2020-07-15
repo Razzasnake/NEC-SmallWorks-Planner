@@ -10,7 +10,8 @@ interface ExploreStoreI {
   sorting: { colId: string; sort: string }[],
   map: TableAndMapMap,
   tableLogic: TableLogic | null,
-  viewOptions: string[]
+  viewOptions: string[],
+  polygonForeignKeys: { [polygonHash: string]: { [index: string]: google.maps.Data.Feature[] } }
 };
 
 const state: ExploreStoreI = Vue.observable({
@@ -23,7 +24,8 @@ const state: ExploreStoreI = Vue.observable({
     allowDraw: true
   },
   tableLogic: null,
-  viewOptions: ["map", "table"]
+  viewOptions: ["map", "table"],
+  polygonForeignKeys: {}
 });
 
 export const updateUploadedFile = (uploadedFile: UploadedFile) => {
@@ -47,6 +49,13 @@ export const updateViewOptions = (viewOptions: string[]) => {
   state.viewOptions = viewOptions;
 }
 
+export const updatePolygonForeignKeys = (fk: { polygonHash: string, index: number, polygons: google.maps.Data.Feature[] }) => {
+  if (state.polygonForeignKeys[fk.polygonHash] === undefined) {
+    state.polygonForeignKeys[fk.polygonHash] = {}
+  }
+  state.polygonForeignKeys[fk.polygonHash][fk.index.toString()] = fk.polygons;
+}
+
 export const reset = () => {
   state.uploadedFile = null;
   state.filters = {};
@@ -58,6 +67,7 @@ export const reset = () => {
   };
   state.tableLogic = null;
   state.viewOptions = ["map", "table"];
+  state.polygonForeignKeys = {};
 }
 
 export default state;
