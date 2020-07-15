@@ -62,7 +62,7 @@ export default class TableLogic {
     const polygonFk: ColDef[] = Object.keys(uploadedFile.data[0]).filter(_ => _.startsWith('polygon_')).map((polygonKey, index) => {
       return {
         headerName: `Layer ${index}`,
-        width: 50,
+        width: 104,
         field: polygonKey,
         cellRendererFramework: AgLayer
       }
