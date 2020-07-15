@@ -51,10 +51,12 @@ export const createPolygonForeignKey = () => {
   const polygonHash = `polygon_${Math.random()
     .toString(36)
     .substring(2, 15)}`
-  state.uploadedFile!.data.forEach(d => {
-    d[polygonHash] = null
-  })
-  state.tableLogic = new TableLogic(state.uploadedFile!);
+  if (state.uploadedFile) {
+    state.uploadedFile.data.forEach(d => {
+      d[polygonHash] = null
+    })
+    state.tableLogic = new TableLogic(state.uploadedFile!);
+  }
   return polygonHash;
 }
 
