@@ -1,6 +1,7 @@
 import { ColDef, ColGroupDef } from "@ag-grid-community/core"
 import UploadedFile, { Row } from "@/entities/UploadedFile"
 import AgPreview from "./AgPreview.vue"
+import AgLayer from "./AgLayer.vue";
 
 export const defaultColDef: ColDef = {
   sortable: true,
@@ -58,6 +59,14 @@ export default class TableLogic {
       sortable: true,
       cellRendererFramework: AgPreview
     }
-    this.columnDefs = [previewCol].concat(generatedCols)
+    const polygonFk: ColDef[] = Object.keys(uploadedFile.data[0]).filter(_ => _.startsWith('polygon_')).map((polygonKey, index) => {
+      return {
+        headerName: `Layer ${index}`,
+        width: 50,
+        field: polygonKey,
+        cellRendererFramework: AgLayer
+      }
+    })
+    this.columnDefs = [previewCol].concat(polygonFk).concat(generatedCols)
   }
 }

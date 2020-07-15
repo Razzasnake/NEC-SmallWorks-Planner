@@ -10,8 +10,7 @@ interface ExploreStoreI {
   sorting: { colId: string; sort: string }[],
   map: TableAndMapMap,
   tableLogic: TableLogic | null,
-  viewOptions: string[],
-  polygonForeignKeys: { [polygonHash: string]: { [index: string]: google.maps.Data.Feature[] } }
+  viewOptions: string[]
 };
 
 const state: ExploreStoreI = Vue.observable({
@@ -24,8 +23,7 @@ const state: ExploreStoreI = Vue.observable({
     allowDraw: true
   },
   tableLogic: null,
-  viewOptions: ["map", "table"],
-  polygonForeignKeys: {}
+  viewOptions: ["map", "table"]
 });
 
 export const updateUploadedFile = (uploadedFile: UploadedFile) => {
@@ -49,11 +47,21 @@ export const updateViewOptions = (viewOptions: string[]) => {
   state.viewOptions = viewOptions;
 }
 
+export const createPolygonForeignKey = () => {
+  const polygonHash = `polygon_${Math.random()
+    .toString(36)
+    .substring(2, 15)}`
+  state.uploadedFile!.data.forEach(d => {
+    d[polygonHash] = null
+  })
+  state.tableLogic = new TableLogic(state.uploadedFile!);
+  return polygonHash;
+}
+
 export const updatePolygonForeignKeys = (fk: { polygonHash: string, index: number, polygons: google.maps.Data.Feature[] }) => {
-  if (state.polygonForeignKeys[fk.polygonHash] === undefined) {
-    state.polygonForeignKeys[fk.polygonHash] = {}
+  if (state.uploadedFile) {
+    state.uploadedFile.data[fk.index][fk.polygonHash] = fk.polygons
   }
-  state.polygonForeignKeys[fk.polygonHash][fk.index.toString()] = fk.polygons;
 }
 
 export const reset = () => {
@@ -67,7 +75,6 @@ export const reset = () => {
   };
   state.tableLogic = null;
   state.viewOptions = ["map", "table"];
-  state.polygonForeignKeys = {};
 }
 
 export default state;

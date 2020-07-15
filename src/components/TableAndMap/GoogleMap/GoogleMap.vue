@@ -24,7 +24,7 @@ import Theme from "./Theme";
 import MarkerClusterer from "@google/markerclustererplus";
 import LayerParser from "worker-loader!./LayerConfig/Parser";
 import ForeignKeyWorker from "worker-loader!./LayerConfig/ForeignKeyWorker";
-import state, { updatePolygonForeignKeys } from "@/store/exploreStore";
+import state, { updatePolygonForeignKeys, createPolygonForeignKey } from "@/store/exploreStore";
 
 type AvailableOverlays =
   | google.maps.Polygon
@@ -360,9 +360,7 @@ export default class GoogleMap extends Vue {
       this.map.data.forEach(p => {
         polygons.push(p);
       });
-      const polygonHash = Math.random()
-        .toString(36)
-        .substring(2, 15);
+      const polygonHash = createPolygonForeignKey();
       fkWorker.onmessage = event => {
         const index: number = event.data.index;
         const polygonIndices: number[] = event.data.polygonIndices;
