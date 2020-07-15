@@ -362,7 +362,6 @@ export default class GoogleMap extends Vue {
       });
       const polygonHash = createPolygonForeignKey();
       fkWorker.onmessage = event => {
-        const index: number = event.data.index;
         const polygonIndices: number[] = event.data.polygonIndices;
         updatePolygonForeignKeys({
           polygonHash,
