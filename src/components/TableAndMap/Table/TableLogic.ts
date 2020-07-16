@@ -66,13 +66,7 @@ export default class TableLogic {
         field: polygonKey,
         cellRendererFramework: AgLayer,
         suppressMenu: true,
-        sortable: false,
-        equals: (polygon1: google.maps.Data.Feature[] | null, polygon2: google.maps.Data.Feature[] | null) => {
-          if (polygon1 && polygon2) {
-            return polygon1.length !== polygon2.length
-          }
-          return !(polygon1 || polygon2)
-        }
+        sortable: false
       }
     })
     this.columnDefs = [previewCol].concat(polygonFk).concat(generatedCols)
