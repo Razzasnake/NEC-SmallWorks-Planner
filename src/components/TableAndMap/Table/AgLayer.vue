@@ -22,6 +22,8 @@ export default class AgLayer extends Vue {
         component: AgLayerModal,
         hasModalCard: true,
         trapFocus: true,
+        canCancel: false,
+        width: '50vw',
         props: {
           headerName: this.params.colDef.headerName,
           features: this.params.value
