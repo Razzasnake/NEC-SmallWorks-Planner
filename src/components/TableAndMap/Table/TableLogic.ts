@@ -56,15 +56,17 @@ export default class TableLogic {
       pinned: 'left',
       width: 50,
       suppressMenu: true,
-      sortable: true,
+      sortable: false,
       cellRendererFramework: AgPreview
     }
     const polygonFk: ColDef[] = Object.keys(uploadedFile.data[0]).filter(_ => _.startsWith('polygon_')).map((polygonKey, index) => {
       return {
-        headerName: `Layer ${index}`,
-        width: 104,
+        headerName: uploadedFile.polygonFileName[polygonKey],
+        width: 100,
         field: polygonKey,
-        cellRendererFramework: AgLayer
+        cellRendererFramework: AgLayer,
+        suppressMenu: true,
+        sortable: false
       }
     })
     this.columnDefs = [previewCol].concat(polygonFk).concat(generatedCols)

@@ -47,7 +47,7 @@ export const updateViewOptions = (viewOptions: string[]) => {
   state.viewOptions = viewOptions;
 }
 
-export const createPolygonForeignKey = () => {
+export const createPolygonForeignKey = (fileName: string) => {
   const polygonHash = `polygon_${Math.random()
     .toString(36)
     .substring(2, 15)}`
@@ -55,6 +55,7 @@ export const createPolygonForeignKey = () => {
     state.uploadedFile.data.forEach(d => {
       d[polygonHash] = null
     })
+    state.uploadedFile.polygonFileName[polygonHash] = fileName.split(".").slice(0, -1).join(".");
     state.tableLogic = new TableLogic(state.uploadedFile!);
   }
   return polygonHash;

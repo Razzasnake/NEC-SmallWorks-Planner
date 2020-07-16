@@ -23,6 +23,7 @@ export default class UploadedFile {
   public data: Row[];
   public columnSelections: { lat: number, lng: number };
   public firstRowHeader: boolean;
+  public polygonFileName: { [polygonHash: string]: string } = {};
 
   public get rawData(): any[][] {
     return this.data.map(row => row.data)

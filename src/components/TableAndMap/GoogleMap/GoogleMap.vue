@@ -360,7 +360,7 @@ export default class GoogleMap extends Vue {
       this.map.data.forEach(p => {
         polygons.push(p);
       });
-      const polygonHash = createPolygonForeignKey();
+      const polygonHash = createPolygonForeignKey(file.name);
       fkWorker.onmessage = event => {
         const polygonIndices: number[] = event.data.polygonIndices;
         updatePolygonForeignKeys({
