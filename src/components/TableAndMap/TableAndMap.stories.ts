@@ -1,14 +1,14 @@
-import TableLogic from './Table/TableLogic'
 import TableAndMap from './TableAndMap.vue'
 import { action } from '@storybook/addon-actions'
 import { uploadedFileGenerator } from '@/generator/UploadedFileGenerator'
+import state, { updateUploadedFile } from '@/store/exploreStore'
 
 export default {
   title: 'TableAndMap|TableAndMap',
   component: TableAndMap
 }
 
-const uploadedFile = uploadedFileGenerator()
+updateUploadedFile(uploadedFileGenerator())
 
 const _TableAndMap = () => ({
   components: { TableAndMap },
@@ -28,7 +28,7 @@ const _TableAndMap = () => ({
     </div>`,
   props: {
     uploadedFile: {
-      default: uploadedFile
+      default: state.uploadedFile
     },
     filters: {
       default: []
@@ -37,7 +37,7 @@ const _TableAndMap = () => ({
       default: []
     },
     tableLogic: {
-      default: new TableLogic(uploadedFile)
+      default: state.tableLogic
     },
     viewOptions: {
       default: ['table:footer:min', 'table:footer:max', 'table:footer:avg', 'table:footer:total']

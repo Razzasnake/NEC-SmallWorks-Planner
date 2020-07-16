@@ -111,6 +111,11 @@ export default class Table extends Vue {
     }
   }
 
+  @Watch("tableLogic")
+  private tableLogicUpdated() {
+    this.gridApi.setColumnDefs(this.tableLogic.columnDefs);
+  }
+
   private isExternalFilterPresent(): boolean {
     return this.overlayEvents.length > 0;
   }

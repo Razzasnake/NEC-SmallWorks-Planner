@@ -10,7 +10,7 @@
     >Delete Boundary</b-button>
     <div class="google-map" :id="mapId" />
     <div class="upload-layer">
-      <b-upload @input="shapefileUploaded" accept=".json,.geojson,.zip">
+      <b-upload @input="shapefileUploaded" accept=".json, .geojson, .zip">
         <font-awesome-icon icon="layer-group" title="Upload geojson or zipped shapefile" />
       </b-upload>
     </div>
@@ -23,6 +23,8 @@ import Utils from "./Utils";
 import Theme from "./Theme";
 import MarkerClusterer from "@google/markerclustererplus";
 import LayerParser from "worker-loader!./LayerConfig/Parser";
+import ForeignKeyWorker from "worker-loader!./LayerConfig/ForeignKeyWorker";
+import state, { updatePolygonForeignKeys, createPolygonForeignKey } from "@/store/exploreStore";
 
 type AvailableOverlays =
   | google.maps.Polygon
@@ -347,6 +349,26 @@ export default class GoogleMap extends Vue {
         fillColor: "#00a2d3",
         zIndex: 2
       });
+      const fkWorker = new ForeignKeyWorker();
+      fkWorker.postMessage({
+        markers: this.markers.map(_ => {
+          return [_.getPosition()!.lng(), _.getPosition()!.lat()];
+        }),
+        features: event.data.features
+      });
+      const polygons: google.maps.Data.Feature[] = [];
+      this.map.data.forEach(p => {
+        polygons.push(p);
+      });
+      const polygonHash = createPolygonForeignKey(file.name);
+      fkWorker.onmessage = event => {
+        const polygonIndices: number[] = event.data.polygonIndices;
+        updatePolygonForeignKeys({
+          polygonHash,
+          index: event.data.index,
+          polygons: polygonIndices.map(index => polygons[index])
+        });
+      };
     };
   }
 
