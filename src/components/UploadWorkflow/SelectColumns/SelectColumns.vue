@@ -1,19 +1,17 @@
 <template>
   <div>
-    <b-field label="First Row Header">
-      <b-checkbox v-model="firstRowHeaderAux"></b-checkbox>
-    </b-field>
-    <b-field v-for="c in visibleColumns" :key="c.key" :label="c.label">
-      <b-autocomplete
-        v-model="c.search"
-        placeholder="Search for a column"
-        dropdown-position="top"
-        :data="filterOptions(c.search)"
+    <v-checkbox v-model="firstRowHeaderAux" label="First Row Header"></v-checkbox>
+    <div v-for="(c, index) in visibleColumns" :key="index">
+      <v-autocomplete
+        v-model="c.key"
+        :search-input.sync="c.search"
+        :items="allOptions"
+        item-text="value"
+        :label="c.label"
+        auto-select-first
         @input="inputFnc($event, c.key)"
-        open-on-focus
-        keep-first
-      ></b-autocomplete>
-    </b-field>
+      ></v-autocomplete>
+    </div>
     <a
       v-if="!showAddressFields"
       a
@@ -191,20 +189,6 @@ export default class SelectColumns extends Vue {
       if (col.selection !== null) {
         col.search = this.allOptions[col.selection].value;
       }
-    });
-  }
-
-  private filterOptions(search: string | undefined) {
-    if (!search) {
-      return this.allOptions;
-    }
-    return this.allOptions.filter(option => {
-      return (
-        option.value
-          .toString()
-          .toLowerCase()
-          .indexOf(search.toLowerCase()) >= 0
-      );
     });
   }
 
