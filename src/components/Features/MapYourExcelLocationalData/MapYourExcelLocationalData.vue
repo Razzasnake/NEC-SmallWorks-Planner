@@ -2,8 +2,8 @@
   <div class="map-your-excel-locational-data">
     <div class="header">
       <div class="section">
-        <div class="title">Map Your Excel Locational Data</div>
-        <div class="subtitle">
+        <div class="text-h4">Map Your Excel Locational Data</div>
+        <div class="text-subtitle-1">
           Locational data stored in excel and csv files is more insightful when displayed on a map. Thanks to
           <b>Table & Map</b>, interacting with your data has never been easier. Follow the guide to see your locational data on a map and start interacting with your data like you have always wanted.
         </div>
@@ -69,7 +69,7 @@
 </template>
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
-import Preview from '@/components/Home/Preview/Preview.vue';
+import Preview from "@/components/Home/Preview/Preview.vue";
 
 /**
  * Map Your Excel Locational Data
@@ -84,6 +84,7 @@ export default class MapYourExcelLocationalData extends Vue {}
 <style lang='scss' scoped>
 .map-your-excel-locational-data {
   .section {
+    padding: 3rem 1.5rem;
     max-width: 1024px;
     margin: auto;
   }
