@@ -1,12 +1,17 @@
 <template>
   <div>
     <Loading :loading="loading" />
-    <b-upload @input="fileUploaded" :accept="accept">
-      <a class="button is-primary">
-        <font-awesome-icon icon="upload" class="margin-right-small" />
-        <span class="margin-left-small">Upload a dataset</span>
-      </a>
-    </b-upload>
+    <v-btn :accept="accept" color="primary" @click="openUpload">
+      <v-icon>mdi-upload</v-icon>
+      <span class="margin-left-small">Upload a dataset</span>
+      <input
+        :accept="accept"
+        ref="input"
+        type="file"
+        style="display: none"
+        @change="fileUploaded($event.target.files[0])"
+      />
+    </v-btn>
     <span class="margin-right-small margin-left-small">
       <b>or</b>
     </span>
@@ -97,6 +102,10 @@ export default class Upload extends Vue {
     }
   }
 
+  private openUpload() {
+    (this.$refs.input as HTMLInputElement).click();
+  }
+
   private fileUploaded(file: File) {
     const reader = new FileReader();
     reader.onloadend = e => {
@@ -106,6 +115,7 @@ export default class Upload extends Vue {
       }
     };
     reader.readAsBinaryString(file);
+    (this.$refs.input as HTMLInputElement).value = "";
   }
 
   private convert(
