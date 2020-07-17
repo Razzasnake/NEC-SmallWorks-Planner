@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a href="#" @click="onClick">View</a>
+    <a href="#" @click="onClick" v-if="!params.node.isRowPinned()">View</a>
     <AgLayerModal
       v-if="visible"
       :headerName="params.colDef.headerName"
