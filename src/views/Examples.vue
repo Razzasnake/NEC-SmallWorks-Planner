@@ -1,9 +1,11 @@
 <template>
   <div class="examples">
     <Loading :loading="loading" />
-    <div v-for="example in exampleAnalyses" :key="example.id" class="example">
-      <Tile :exampleAnalysis="example" @preview="preview"></Tile>
-    </div>
+    <v-row>
+      <v-col v-for="example in exampleAnalyses" :key="example.id">
+        <Tile :exampleAnalysis="example" @preview="preview"></Tile>
+      </v-col>
+    </v-row>
   </div>
 </template>
 <script lang='ts'>

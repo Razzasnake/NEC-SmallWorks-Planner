@@ -1,12 +1,8 @@
 <template>
-  <b-loading :active="loading">
-    <div class="loading">
-      <div>
-        <font-awesome-icon class="icon" icon="spinner" spin pulse />
-      </div>
-      <div v-if="text">{{ text }}</div>
-    </div>
-  </b-loading>
+  <v-overlay class="loading" v-if="loading" :z-index="41">
+    <font-awesome-icon icon="spinner" spin pulse />
+    <div v-if="text">{{ text }}</div>
+  </v-overlay>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
@@ -32,11 +28,8 @@ export default class UploadWorkflow extends Vue {
 </script>
 <style lang='scss' scoped>
 .loading {
-  color: grey;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  .icon {
+  text-align: center;
+  svg {
     font-size: 24px;
   }
 }
