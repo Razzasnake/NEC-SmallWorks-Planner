@@ -60,7 +60,8 @@
     "typescript": "^3.9.7",
     "vue-template-compiler": "^2.6.11",
     "webpack-bundle-analyzer": "^3.8.0",
-    "worker-loader": "^2.0.0"
+    "worker-loader": "^2.0.0",
+    "vuetify-loader": "^1.6.0"
   },
   "lint-staged": {
     "*.ts": [
