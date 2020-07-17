@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <NavBar @jumpTo="jumpTo"></NavBar>
-    <template>
-      <v-app>
+    <v-app>
+      <NavBar @jumpTo="jumpTo"></NavBar>
+      <v-main>
         <router-view></router-view>
-      </v-app>
-    </template>
+      </v-main>
+    </v-app>
   </div>
 </template>
 

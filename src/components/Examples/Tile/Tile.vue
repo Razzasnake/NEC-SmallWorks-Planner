@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto" max-width="400">
+  <v-card>
     <v-img class="align-end" height="200px" :src="exampleAnalysis.preview">
       <a :href="exampleAnalysis.url" target="_blank" class="white--text">
         <v-card-title>{{ exampleAnalysis.title }}</v-card-title>

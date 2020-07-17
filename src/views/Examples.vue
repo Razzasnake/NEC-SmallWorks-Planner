@@ -1,8 +1,8 @@
 <template>
-  <div class="examples">
+  <div>
     <Loading :loading="loading" />
-    <v-row>
-      <v-col v-for="example in exampleAnalyses" :key="example.id">
+    <v-row justify="center">
+      <v-col v-for="example in exampleAnalyses" :key="example.id" md="2">
         <Tile :exampleAnalysis="example" @preview="preview"></Tile>
       </v-col>
     </v-row>
@@ -50,16 +50,3 @@ export default class Examples extends Vue {
   }
 }
 </script>
-<style lang='scss' scoped>
-.examples {
-  height: calc(100vh - 52px);
-  max-width: 80%;
-  margin: auto;
-  .example {
-    padding-top: 24px;
-    &:last-of-type {
-      padding-bottom: 12px;
-    }
-  }
-}
-</style>
