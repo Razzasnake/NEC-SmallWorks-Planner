@@ -4,13 +4,10 @@
     <div v-for="(c, index) in visibleColumns" :key="index">
       <v-autocomplete
         v-model="c.search"
-        :search-input.sync="c.search"
         :items="allOptions"
         item-text="value"
         :label="c.label"
-        auto-select-first
         @input="inputFnc($event, c.key)"
-        @blur="inputFnc($event, c.key)"
         clearable
       ></v-autocomplete>
     </div>
