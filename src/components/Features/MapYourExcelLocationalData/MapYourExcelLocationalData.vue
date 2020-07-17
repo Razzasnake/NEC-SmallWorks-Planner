@@ -29,7 +29,7 @@
               <div>a. The system will attempt to automatically detect the columns and if successful, you will enter the tool automatically.</div>
               <div>
                 b. If the system needs some help, it will prompt you to select the correct latitude and longitude columns. After selecting the columns, press
-                <b>Finish</b> and you will enter the tool.
+                <b>Confirm</b> and you will enter the tool.
               </div>
             </div>
             <div>
@@ -40,7 +40,7 @@
               <div>a. The system will ask you to select the location columns. You must fill at least one of the requested fields: Address, City, State or Zip.</div>
               <div>
                 b. Press
-                <b>Finish</b> and the system will compute the latitude and longitude for each record and add them as new columns to your dataset.
+                <b>Confirm</b> and the system will compute the latitude and longitude for each record and add them as new columns to your dataset.
               </div>
               <div>c. You will enter the tool automatically when the geocoding process is complete. The duration of this step depends on the number of records in the dataset.</div>
             </div>
@@ -57,7 +57,7 @@
             <div>2. Copy the dataset and paste it into the text box.</div>
             <div>
               3. Press
-              <b>Finish</b> and continue with Step 3 of the
+              <b>Confirm</b> and continue with Step 3 of the
               <i>I have an excel or csv file</i> instructions above.
             </div>
           </div>

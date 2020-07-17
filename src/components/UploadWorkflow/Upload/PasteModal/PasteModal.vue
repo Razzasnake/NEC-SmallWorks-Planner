@@ -9,7 +9,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="primary" text @click="closeModal">Cancel</v-btn>
-        <v-btn color="primary" text @click="uploadText" :disabled="finishIsDisabled">Finish</v-btn>
+        <v-btn color="primary" text @click="uploadText" :disabled="finishIsDisabled">Confirm</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
