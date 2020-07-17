@@ -99,7 +99,7 @@ export default class Geocoder extends Vue {
       this.searchManager.geocode(searchRequest);
     };
 
-    const numPerWorker = Math.round(this.addresses.length / this.numWorkers);
+    const numPerWorker = Math.ceil(this.addresses.length / this.numWorkers);
     for (let i = 0; i < this.addresses.length; i += numPerWorker) {
       if (i + numPerWorker > this.addresses.length - 1) {
         geocode(i, this.addresses.length - 1);
