@@ -3,7 +3,7 @@
     <v-checkbox v-model="firstRowHeaderAux" label="First Row Header"></v-checkbox>
     <div v-for="(c, index) in visibleColumns" :key="index">
       <v-autocomplete
-        v-model="c.key"
+        v-model="c.search"
         :search-input.sync="c.search"
         :items="allOptions"
         item-text="value"
