@@ -49,5 +49,3 @@ export default class MapOption extends Vue {
   }
 }
 </script>
-<style lang='scss' scoped>
-</style>

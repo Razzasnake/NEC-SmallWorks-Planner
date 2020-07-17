@@ -149,5 +149,3 @@ export default class Upload extends Vue {
   }
 }
 </script>
-<style lang='scss' scoped>
-</style>

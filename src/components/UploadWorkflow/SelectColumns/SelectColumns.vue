@@ -235,5 +235,3 @@ export default class SelectColumns extends Vue {
   }
 }
 </script>
-<style lang='scss' scoped>
-</style>

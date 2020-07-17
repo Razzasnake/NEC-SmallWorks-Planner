@@ -74,10 +74,3 @@ export default class Option extends Vue {
   }
 }
 </script>
-<style lang='scss' scoped>
-.displaying-icon {
-  position: absolute;
-  right: 18px;
-  top: 10px;
-}
-</style>

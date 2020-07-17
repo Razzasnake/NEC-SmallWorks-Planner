@@ -37,5 +37,3 @@ export default class ExportOption extends Vue {
   }
 }
 </script>
-<style lang='scss' scoped>
-</style>

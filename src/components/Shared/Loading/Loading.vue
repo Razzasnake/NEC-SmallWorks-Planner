@@ -1,5 +1,5 @@
 <template>
-  <v-overlay class="loading" v-if="loading" :z-index="203">
+  <v-overlay v-if="loading" :z-index="203">
     <span v-if="max !== null && value !== null">
       <v-progress-circular
         :size="105"
@@ -37,8 +37,3 @@ export default class UploadWorkflow extends Vue {
   private loading!: boolean;
 }
 </script>
-<style lang='scss' scoped>
-.loading {
-  text-align: center;
-}
-</style>
