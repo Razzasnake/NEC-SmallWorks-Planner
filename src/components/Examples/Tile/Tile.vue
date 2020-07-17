@@ -7,7 +7,7 @@
         </div>
         <div class="column">
           <div class="subtitle">
-            <span>{{ exampleAnalysis.title }} </span>
+            <span>{{ exampleAnalysis.title }}</span>
             <span class="example-tags float-right">
               <a :href="exampleAnalysis.url" target="_blank" class="source">Source</a>
               <span class="tag is-light">Live</span>
@@ -42,7 +42,7 @@ export default class Tile extends Vue {
   private preview() {
     /**
      * Preview this example
-     * 
+     *
      * @type {ExampleAnalysis}
      */
     this.$emit("preview", this.exampleAnalysis);
