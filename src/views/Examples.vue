@@ -1,12 +1,16 @@
 <template>
-  <div>
+  <v-container>
     <Loading :loading="loading" />
     <v-row justify="center">
-      <v-col v-for="example in exampleAnalyses" :key="example.id" md="2">
-        <Tile :exampleAnalysis="example" @preview="preview"></Tile>
-      </v-col>
+      <Tile
+        v-for="example in exampleAnalyses"
+        :key="example.id"
+        :exampleAnalysis="example"
+        @preview="preview"
+        class="ma-2"
+      ></Tile>
     </v-row>
-  </div>
+  </v-container>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";

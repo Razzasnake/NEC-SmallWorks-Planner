@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Loading :loading="loading" :text="geocodeProgress" />
+    <Loading :loading="loading" :value="numberGeocoded" :max="addresses.length" />
     <Upload @fileUploaded="fileUploaded" class="align-center"></Upload>
     <div class="modal is-active" v-if="step > 0">
       <div class="modal-background"></div>
@@ -78,10 +78,6 @@ export default class UploadWorkflow extends Vue {
   private addresses: string[] = [];
   private loading: boolean = false;
   private numberGeocoded: number = 0;
-
-  private get geocodeProgress() {
-    return `${this.numberGeocoded.toLocaleString()} / ${this.addresses.length.toLocaleString()}`;
-  }
 
   private fileUploaded(data: any[][]) {
     this.uploadedFile = data;
