@@ -2,14 +2,10 @@
   <div>
     <Loading :loading="loading" :value="numberGeocoded" :max="addresses.length" />
     <Upload @fileUploaded="fileUploaded" class="align-center"></Upload>
-    <div class="modal is-active" v-if="step > 0">
-      <div class="modal-background"></div>
-      <div class="modal-card">
-        <header class="modal-card-head">
-          <p class="modal-card-title">Select Columns</p>
-          <button class="delete" @click="reset"></button>
-        </header>
-        <section class="modal-card-body">
+    <v-dialog v-model="visible" @click:outside="reset" max-width="700">
+      <v-card>
+        <v-card-title class="headline">Select Columns</v-card-title>
+        <v-card-text>
           <SelectColumns
             v-if="step === 1"
             :value="uploadedFile"
@@ -20,19 +16,14 @@
             @updateIsComplete="updateIsComplete"
           ></SelectColumns>
           <Geocoder :addresses="addresses" @updateLocation="updateLocation" @finish="finish" />
-        </section>
-        <footer class="modal-card-foot">
-          <div class="field is-grouped">
-            <div class="control">
-              <b-button @click="reset">Back</b-button>
-            </div>
-            <div class="control">
-              <b-button class="is-primary" @click="finish" :disabled="finishIsDisabled">Finish</b-button>
-            </div>
-          </div>
-        </footer>
-      </div>
-    </div>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn text @click="reset">Cancel</v-btn>
+          <v-btn text color="primary" @click="finish" :disabled="finishIsDisabled">Confirm</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script lang='ts'>
@@ -78,6 +69,11 @@ export default class UploadWorkflow extends Vue {
   private addresses: string[] = [];
   private loading: boolean = false;
   private numberGeocoded: number = 0;
+
+  private get visible() {
+    return this.step > 0;
+  }
+  private set visible(newValue: boolean) {}
 
   private fileUploaded(data: any[][]) {
     this.uploadedFile = data;
@@ -198,11 +194,3 @@ export default class UploadWorkflow extends Vue {
   }
 }
 </script>
-<style lang='scss' scoped>
-.loading {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  align-items: center;
-}
-</style>

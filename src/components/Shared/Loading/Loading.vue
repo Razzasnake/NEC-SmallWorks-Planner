@@ -1,5 +1,5 @@
 <template>
-  <v-overlay class="loading" v-if="loading" :z-index="41">
+  <v-overlay class="loading" v-if="loading" :z-index="203">
     <span v-if="max !== null && value !== null">
       <v-progress-circular
         :size="105"

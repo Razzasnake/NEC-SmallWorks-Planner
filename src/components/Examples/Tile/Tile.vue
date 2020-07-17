@@ -9,6 +9,7 @@
       <div>{{ exampleAnalysis.description }}</div>
     </v-card-text>
     <v-card-actions>
+      <v-spacer></v-spacer>
       <v-btn color="primary" text @click="preview">Preview</v-btn>
     </v-card-actions>
   </v-card>
