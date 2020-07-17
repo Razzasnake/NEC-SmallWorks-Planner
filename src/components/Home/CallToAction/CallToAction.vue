@@ -1,7 +1,9 @@
 <template>
   <div class="call-to-action" id="upload-drop-area">
-    <div class="title align-center">Table &amp; Map</div>
-    <div class="subtitle align-center">{{ tagline }}</div>
+    <div class="align-center margin-bottom-large">
+      <div class="text-h4">Table &amp; Map</div>
+      <div class="text-subtitle-1">{{ tagline }}</div>
+    </div>
     <UploadWorkflow @finish="finish"></UploadWorkflow>
   </div>
 </template>
