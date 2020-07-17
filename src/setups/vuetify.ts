@@ -6,7 +6,6 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   Vuetify = require('vuetify')
 }
-import 'vuetify/dist/vuetify.min.css'
 import '@mdi/font/css/materialdesignicons.css'
 import "@/sass/helpers/_utility.scss"
 
