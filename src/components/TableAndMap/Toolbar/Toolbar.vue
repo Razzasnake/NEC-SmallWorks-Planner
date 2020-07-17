@@ -57,7 +57,6 @@ export default class Toolbar extends Vue {
 </script>
 <style lang='scss' scoped>
 .toolbar {
-  font-size: 14px;
-  padding: 7.5px 12px;
+  padding: 3px 3.6666666666px;
 }
 </style>
