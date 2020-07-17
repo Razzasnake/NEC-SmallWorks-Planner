@@ -1,15 +1,17 @@
 <template>
-  <b-dropdown :close-on-click="false">
-    <a slot="trigger" slot-scope="{ active }">
-      <span>{{ name }}&nbsp;</span>
-      <font-awesome-icon :icon="active ? 'chevron-up' : 'chevron-down'"></font-awesome-icon>
-    </a>
-    <b-dropdown-item
-      v-for="d in dropdowns"
-      :key="d.key"
-      @click="toggle(d.key)"
-    >{{ keyVisible(d.key) ? `${activeText}${d.label}` :`${inactiveText}${d.label}` }}</b-dropdown-item>
-  </b-dropdown>
+  <v-menu offset-y :close-on-content-click="false">
+    <template v-slot:activator="{ on, value }">
+      <v-btn color="primary" text small v-on="on">
+        <span>{{ name }}&nbsp;</span>
+        <v-icon>{{ value ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+      </v-btn>
+    </template>
+    <v-list small>
+      <v-list-item v-for="d in dropdowns" :key="d.key" @click="toggle(d.key)" small>
+        <v-list-item-title>{{ keyVisible(d.key) ? `${activeText}${d.label}` :`${inactiveText}${d.label}` }}</v-list-item-title>
+      </v-list-item>
+    </v-list>
+  </v-menu>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
@@ -42,13 +44,13 @@ export default class Option extends Vue {
   /**
    * Text to show before the label if option is active
    */
-  @Prop({ default: 'Hide ' })
-  private activeText!: string
+  @Prop({ default: "Hide " })
+  private activeText!: string;
   /**
    * Text to show before the label if option is inactive
    */
-  @Prop({ default: 'Show ' })
-  private inactiveText!: string
+  @Prop({ default: "Show " })
+  private inactiveText!: string;
 
   private keyVisible(key: string) {
     return this.options.indexOf(key) > -1;
