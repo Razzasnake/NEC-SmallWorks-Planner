@@ -19,7 +19,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="reset">Cancel</v-btn>
+          <v-btn text color="primary" @click="reset">Cancel</v-btn>
           <v-btn text color="primary" @click="finish" :disabled="finishIsDisabled">Confirm</v-btn>
         </v-card-actions>
       </v-card>
