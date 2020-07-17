@@ -2,9 +2,9 @@ import Vue from 'vue'
 
 let Vuetify
 if (process.env.NODE_ENV === 'production') {
-  Vuetify = require('vuetify/lib')
+  Vuetify = require('vuetify/lib').default
 } else {
-  Vuetify = require('vuetify')
+  Vuetify = require('vuetify').default
 }
 import '@mdi/font/css/materialdesignicons.css'
 import "@/sass/helpers/_utility.scss"
