@@ -10,6 +10,8 @@
         :label="c.label"
         auto-select-first
         @input="inputFnc($event, c.key)"
+        @blur="inputFnc($event, c.key)"
+        clearable
       ></v-autocomplete>
     </div>
     <a
@@ -192,9 +194,9 @@ export default class SelectColumns extends Vue {
     });
   }
 
-  private inputFnc(text: string, key: string) {
+  private inputFnc(text: string | undefined, key: string) {
     const field = this.visibleColumns.find(_ => _.key === key)!;
-    if (text.length) {
+    if (text && text.length) {
       const option = this.allOptions.find(_ => _.value === text);
       if (option) {
         field.selection = option.index;
