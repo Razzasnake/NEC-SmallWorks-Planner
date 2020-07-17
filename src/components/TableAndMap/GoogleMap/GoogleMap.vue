@@ -1,18 +1,22 @@
 <template>
   <div class="google-map-container">
-    <b-button
+    <v-btn
       v-if="allowDraw"
       v-show="selectedOverlayEvent"
       :id="`delete-button-${mapId}`"
       class="delete-button"
-      size="mini"
-      icon="el-icon-delete"
-    >Delete Boundary</b-button>
+      small
+      color="white"
+    >Delete Boundary</v-btn>
     <div class="google-map" :id="mapId" />
-    <div class="upload-layer">
-      <b-upload @input="shapefileUploaded" accept=".json, .geojson, .zip">
-        <font-awesome-icon icon="layer-group" title="Upload geojson or zipped shapefile" />
-      </b-upload>
+    <div class="upload-layer" title="Upload geojson or zipped shapefile">
+      <v-file-input
+        @change="shapefilesUploaded"
+        multiple
+        prepend-icon="mdi-layers"
+        hide-input
+        accept=".json, .geojson, .zip"
+      />
     </div>
   </div>
 </template>
@@ -24,7 +28,10 @@ import Theme from "./Theme";
 import MarkerClusterer from "@google/markerclustererplus";
 import LayerParser from "worker-loader!./LayerConfig/Parser";
 import ForeignKeyWorker from "worker-loader!./LayerConfig/ForeignKeyWorker";
-import state, { updatePolygonForeignKeys, createPolygonForeignKey } from "@/store/exploreStore";
+import state, {
+  updatePolygonForeignKeys,
+  createPolygonForeignKey
+} from "@/store/exploreStore";
 
 type AvailableOverlays =
   | google.maps.Polygon
@@ -338,38 +345,40 @@ export default class GoogleMap extends Vue {
     });
   }
 
-  private shapefileUploaded(file: File) {
-    const worker = new LayerParser();
-    worker.postMessage(file);
-    worker.onmessage = event => {
-      this.map.data.addGeoJson(event.data);
-      this.map.data.setStyle({
-        strokeWeight: 2,
-        strokeColor: "#00a2d3",
-        fillColor: "#00a2d3",
-        zIndex: 2
-      });
-      const fkWorker = new ForeignKeyWorker();
-      fkWorker.postMessage({
-        markers: this.markers.map(_ => {
-          return [_.getPosition()!.lng(), _.getPosition()!.lat()];
-        }),
-        features: event.data.features
-      });
-      const polygons: google.maps.Data.Feature[] = [];
-      this.map.data.forEach(p => {
-        polygons.push(p);
-      });
-      const polygonHash = createPolygonForeignKey(file.name);
-      fkWorker.onmessage = event => {
-        const polygonIndices: number[] = event.data.polygonIndices;
-        updatePolygonForeignKeys({
-          polygonHash,
-          index: event.data.index,
-          polygons: polygonIndices.map(index => polygons[index])
+  private shapefilesUploaded(fileArray: File[]) {
+    fileArray.forEach(file => {
+      const worker = new LayerParser();
+      worker.postMessage(file);
+      worker.onmessage = event => {
+        this.map.data.addGeoJson(event.data);
+        this.map.data.setStyle({
+          strokeWeight: 2,
+          strokeColor: "#00a2d3",
+          fillColor: "#00a2d3",
+          zIndex: 2
         });
+        const fkWorker = new ForeignKeyWorker();
+        fkWorker.postMessage({
+          markers: this.markers.map(_ => {
+            return [_.getPosition()!.lng(), _.getPosition()!.lat()];
+          }),
+          features: event.data.features
+        });
+        const polygons: google.maps.Data.Feature[] = [];
+        this.map.data.forEach(p => {
+          polygons.push(p);
+        });
+        const polygonHash = createPolygonForeignKey(file.name);
+        fkWorker.onmessage = event => {
+          const polygonIndices: number[] = event.data.polygonIndices;
+          updatePolygonForeignKeys({
+            polygonHash,
+            index: event.data.index,
+            polygons: polygonIndices.map(index => polygons[index])
+          });
+        };
       };
-    };
+    });
   }
 
   private updateBounds() {
@@ -582,25 +591,12 @@ export default class GoogleMap extends Vue {
   z-index: 10;
   top: -1px;
   left: 120px;
-  font-size: 13px;
 }
 .upload-layer {
   position: absolute;
-  top: 5px;
-  right: 6px;
+  top: -12px;
+  right: 7px;
   z-index: 10;
-  width: 28px;
-  height: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: white;
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
-  border-radius: 2px;
-  color: grey;
-  * {
-    cursor: pointer;
-  }
 }
 </style>
 <style lang='scss'>
