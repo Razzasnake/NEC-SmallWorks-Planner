@@ -1,6 +1,6 @@
 <template>
   <AgGridVue
-    class="ag-grid ag-theme-balham full-height"
+    class="ag-theme-balham full-height"
     v-model="rowData"
     :columnDefs="tableLogic.columnDefs"
     :defaultColDef="colDef"
