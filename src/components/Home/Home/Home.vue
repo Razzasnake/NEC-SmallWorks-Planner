@@ -37,6 +37,7 @@ export default class Home extends Vue {}
 </script>
 <style lang='scss' scoped>
 .section {
+  padding: 3rem 1.5rem;
   &:nth-of-type(even) {
     background-color: #eeeeee;
   }

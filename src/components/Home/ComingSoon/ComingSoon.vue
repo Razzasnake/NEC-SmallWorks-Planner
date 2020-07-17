@@ -1,23 +1,14 @@
 <template>
   <InfoSection :title="title" :description="description" :cards="cards">
     <template slot="extra">
-      <div class="field">
-        <label class="label">
-          Subscribe to our mailing list and become a beta tester.
-          <input
-            class="input"
-            type="email"
-            placeholder="Enter email address"
-            id="email-input"
-            v-model="email"
-          />
-        </label>
-      </div>
-      <button
-        class="button is-primary is-fullwidth"
-        @click="submitEmail"
-        :disabled="!isValid"
-      >Subscribe</button>
+      <div class="label">Subscribe to our mailing list and become a beta tester.</div>
+      <v-text-field
+        type="email"
+        label="Enter email address"
+        id="email-input"
+        v-model="email"
+      />
+      <v-btn color="primary" block @click="submitEmail" :disabled="!isValid">Subscribe</v-btn>
       <v-snackbar v-model="snackbar" color="success" top rounded="pill">
         <div class="align-center">Subscribed!</div>
       </v-snackbar>

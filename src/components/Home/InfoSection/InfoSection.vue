@@ -1,13 +1,13 @@
 <template>
   <div class="info-section">
-    <div class="title align-center">{{ title }}</div>
-    <div class="margin-top-large align-center subtitle">{{ description }}</div>
-    <div class="margin-top-large columns">
-      <div v-for="(c, index) in cards" :key="index" class="column">
+    <div class="text-h4 align-center">{{ title }}</div>
+    <div class="margin-top-small align-center text-subtitle-1">{{ description }}</div>
+    <v-row class="margin-top-large">
+      <v-col v-for="(c, index) in cards" :key="index">
         <div class="label">{{ c.title }}</div>
         <div>{{ c.description }}</div>
-      </div>
-    </div>
+      </v-col>
+    </v-row>
     <div class="margin-top-large">
       <!-- @slot Include any extra content under the cards -->
       <slot name="extra"></slot>
@@ -45,5 +45,8 @@ export default class InfoSection extends Vue {
 .info-section {
   margin: auto;
   max-width: 1024px;
+  .label {
+    font-weight: bold;
+  }
 }
 </style>
