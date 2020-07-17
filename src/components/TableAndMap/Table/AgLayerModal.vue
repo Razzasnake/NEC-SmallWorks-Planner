@@ -1,21 +1,20 @@
 <template>
-  <div class="modal-card">
-    <header class="modal-card-head">
-      <p class="modal-card-title">{{ headerName }}</p>
-      <button class="delete" @click="$parent.close()"></button>
-    </header>
-    <section class="modal-card-body">
-      <AgGridVue
-        class="ag-grid ag-theme-balham full-height"
-        v-model="rowData"
-        :columnDefs="columnDefs"
-        :defaultColDef="colDef"
-        suppressColumnVirtualisation
-        @gridReady="gridReady"
-        domLayout="autoHeight"
-      ></AgGridVue>
-    </section>
-  </div>
+  <v-dialog v-model="visible" @click:outside="$emit('close')">
+    <v-card>
+      <v-card-title class="headline">{{ headerName }}</v-card-title>
+      <v-card-text>
+        <AgGridVue
+          class="ag-theme-balham"
+          v-model="rowData"
+          :columnDefs="columnDefs"
+          :defaultColDef="colDef"
+          suppressColumnVirtualisation
+          @gridReady="gridReady"
+          domLayout="autoHeight"
+        ></AgGridVue>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script lang='ts'>
@@ -41,6 +40,7 @@ export default class AgGridLink extends Vue {
    */
   @Prop({ default: () => [] })
   private features!: google.maps.Data.Feature[];
+  private visible: boolean = true;
   private columnDefs: ColDef[] = [];
   private rowData: { [index: string]: any }[] = [];
   private colDef = defaultColDef;
@@ -73,10 +73,4 @@ export default class AgGridLink extends Vue {
 <style lang="scss" scoped>
 @import "~@ag-grid-community/core/dist/styles/ag-grid.css";
 @import "~@ag-grid-community/core/dist/styles/ag-theme-balham.css";
-.modal-card {
-  width: 100%;
-  .modal-card-body {
-    width: 50vw;
-  }
-}
 </style>

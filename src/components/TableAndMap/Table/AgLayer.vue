@@ -1,5 +1,13 @@
 <template>
-  <div class="layer" @click="onClick">View</div>
+  <div>
+    <div class="layer" @click="onClick">View</div>
+    <AgLayerModal
+      v-if="visible"
+      :headerName="params.colDef.headerName"
+      :features="params.value"
+      @close="onClose"
+    />
+  </div>
 </template>
 
 <script lang='ts'>
@@ -8,7 +16,9 @@ import { ICellRendererParams } from "@ag-grid-community/core";
 import AgLayerModal from "./AgLayerModal.vue";
 
 @Component({
-  components: {}
+  components: {
+    AgLayerModal
+  }
 })
 export default class AgLayer extends Vue {
   private params!: ICellRendererParams;
@@ -17,19 +27,12 @@ export default class AgLayer extends Vue {
   private onClick() {
     this.params.api.refreshCells();
     if (this.params.value) {
-      this.$buefy.modal.open({
-        parent: this,
-        component: AgLayerModal,
-        hasModalCard: true,
-        trapFocus: true,
-        canCancel: false,
-        width: '50vw',
-        props: {
-          headerName: this.params.colDef.headerName,
-          features: this.params.value
-        }
-      });
+      this.visible = true;
     }
+  }
+
+  private onClose() {
+    this.visible = false;
   }
 }
 </script>

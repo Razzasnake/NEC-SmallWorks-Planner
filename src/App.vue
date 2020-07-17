@@ -4,7 +4,7 @@
       <NavBar @jumpTo="jumpTo"></NavBar>
       <v-main>
         <router-view></router-view>
-        <v-dialog v-model="areYouSureModal" max-width="400" @outside="cancelLeave">
+        <v-dialog v-model="areYouSureModal" max-width="400" @click:outside="cancelLeave">
           <v-card>
             <v-card-title class="headline">Are you sure you want to leave?</v-card-title>
             <v-card-text>You will lose all uploaded markers, shapefiles, filters and sortings.</v-card-text>
