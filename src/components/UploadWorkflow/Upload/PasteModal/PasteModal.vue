@@ -1,24 +1,18 @@
 <template>
-  <div class="modal is-active">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-      <header class="modal-card-head">
-        <p class="modal-card-title">Paste a dataset</p>
-        <button class="delete" @click="closeModal"></button>
-      </header>
-      <section class="modal-card-body">
+  <v-dialog v-model="visible" @click:outside="closeModal" max-width="700">
+    <v-card>
+      <v-card-title class="headline">Paste a dataset</v-card-title>
+      <v-card-text>
         <div class="margin-bottom-large">{{ description }}</div>
         <b-input type="textarea" :placeholder="placeholder" v-model="text"></b-input>
-      </section>
-      <footer class="modal-card-foot">
-        <div class="field is-grouped">
-          <div class="control">
-            <b-button class="is-primary" @click="uploadText" :disabled="finishIsDisabled">Finish</b-button>
-          </div>
-        </div>
-      </footer>
-    </div>
-  </div>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="primary" text @click="closeModal">Cancel</v-btn>
+        <v-btn color="primary" text @click="uploadText" :disabled="finishIsDisabled">Finish</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
@@ -35,6 +29,7 @@ export default class PasteModal extends Vue {
     "Copy a dataset from an excel or csv file (including the header) and paste it into the text box below.";
   private placeholder: string =
     "Street Address,City,State,Zip Code,Latitude,Longitude\n1600 Amphitheatre Pkwy,Mountain View,CA,94043,37.423432,-122.078865";
+  private visible: boolean = true;
 
   private get finishIsDisabled() {
     return this.text === "";
