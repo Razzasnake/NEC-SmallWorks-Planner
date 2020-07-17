@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="visible" @click:outside="$emit('close')">
+  <v-dialog v-model="visible" @click:outside="$emit('close')" max-width="1600">
     <v-card>
       <v-card-title class="headline">{{ headerName }}</v-card-title>
       <v-card-text>
@@ -13,6 +13,10 @@
           domLayout="autoHeight"
         ></AgGridVue>
       </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn text @click="$emit('close')">Close</v-btn>
+      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
