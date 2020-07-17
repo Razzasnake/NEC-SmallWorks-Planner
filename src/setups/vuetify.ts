@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Vuetify from 'vuetify'
-import '@/sass/vuetify.scss'
+import 'vuetify/dist/vuetify.min.css'
 
 Vue.use(Vuetify)
+
+export default new Vuetify({})
