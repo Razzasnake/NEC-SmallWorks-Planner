@@ -70,7 +70,3 @@ export default class AgGridLink extends Vue {
   }
 }
 </script>
-<style lang="scss" scoped>
-@import "~@ag-grid-community/core/dist/styles/ag-grid.css";
-@import "~@ag-grid-community/core/dist/styles/ag-theme-balham.css";
-</style>

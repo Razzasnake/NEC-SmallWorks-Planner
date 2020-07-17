@@ -2,7 +2,7 @@
   <div>
     <div v-if="footerValue">{{ footerValue }}</div>
     <a v-else @click="onClick">
-      <font-awesome-icon icon="eye" class="preview"></font-awesome-icon>
+      <v-icon style="font-size: 15px; color: black;">mdi-eye</v-icon>
     </a>
   </div>
 </template>

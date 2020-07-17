@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="layer" @click="onClick">View</div>
+    <a href="#" @click="onClick">View</a>
     <AgLayerModal
       v-if="visible"
       :headerName="params.colDef.headerName"
@@ -36,12 +36,3 @@ export default class AgLayer extends Vue {
   }
 }
 </script>
-<style lang="scss" scoped>
-.layer {
-  color: blue;
-  cursor: pointer;
-  &:hover {
-    text-decoration: underline;
-  }
-}
-</style>
