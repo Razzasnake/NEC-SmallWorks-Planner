@@ -30,7 +30,6 @@ export default class CallToAction extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-@import "@/sass/buefy";
 .call-to-action {
   height: 25vh;
   display: flex;
@@ -40,8 +39,8 @@ export default class CallToAction extends Vue {
 #upload-drop-area {
   border: 1px solid transparent;
   &.highlight {
-    background-color: mix(white, $primary, 95%);
-    border: 1px dashed $primary;
+    background-color: mix(white, #10546A, 95%);
+    border: 1px dashed #10546A;
     border-radius: 4px;
   }
 }

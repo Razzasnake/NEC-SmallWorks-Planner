@@ -4,7 +4,7 @@
       <v-card-title class="headline">Paste a dataset</v-card-title>
       <v-card-text>
         <div class="margin-bottom-large">{{ description }}</div>
-        <b-input type="textarea" :placeholder="placeholder" v-model="text"></b-input>
+        <v-textarea outlined flat :placeholder="placeholder" v-model="text"></v-textarea>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>

@@ -21,6 +21,9 @@
       @closeModal="displayPasteModal = false"
       @uploadText="uploadText"
     ></PasteModal>
+    <v-snackbar v-model="snackbar" color="error" top rounded="pill">
+      <div class="align-center">Upload failed. Please try again or upload a different file.</div>
+    </v-snackbar>
   </div>
 </template>
 <script lang='ts'>
@@ -42,6 +45,7 @@ export default class Upload extends Vue {
   private accept: string = ".xls,.xlr,.xlt,.xlsx,.xlsm,.xlsb,.csv";
   private loading: boolean = false;
   private displayPasteModal: boolean = false;
+  private snackbar: boolean = false;
 
   private mounted() {
     this.initDropZone();
@@ -127,11 +131,7 @@ export default class Upload extends Vue {
     worker.postMessage({ file, type });
     worker.onmessage = event => {
       if (event.data.error) {
-        this.$buefy.toast.open({
-          message:
-            "Upload failed. Please try again or upload a different file.",
-          type: "is-danger"
-        });
+        this.snackbar = true;
       } else {
         /**
          * File has been uploaded
