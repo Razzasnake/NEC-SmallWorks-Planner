@@ -15,5 +15,3 @@ import FeaturesComponent from "@/components/Features/Features/Features.vue";
 })
 export default class Features extends Vue {}
 </script>
-<style lang='scss' scoped>
-</style>

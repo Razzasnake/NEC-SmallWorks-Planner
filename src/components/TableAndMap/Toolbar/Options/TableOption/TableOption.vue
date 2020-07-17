@@ -65,5 +65,3 @@ export default class TableOption extends Vue {
   }
 }
 </script>
-<style lang='scss' scoped>
-</style>

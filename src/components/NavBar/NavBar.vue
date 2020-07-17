@@ -1,19 +1,14 @@
 <template>
-  <b-navbar fixed-top transparent class="is-primary">
-    <template slot="brand">
-      <b-navbar-item @click="jumpTo({ name: 'Home' })">
-        <span>Table &amp; Map</span>
-      </b-navbar-item>
-    </template>
-    <template slot="end">
-      <b-navbar-item @click="jumpTo({ name: 'Features' })">
-        <span>Features</span>
-      </b-navbar-item>
-      <b-navbar-item @click="jumpTo({ name: 'Examples' })">
-        <span>Examples</span>
-      </b-navbar-item>
-    </template>
-  </b-navbar>
+  <v-app-bar dense color="primary" app>
+    <a @click="jumpTo({ name: 'Home' })">
+      <v-toolbar-title class="white--text">Table &amp; Map</v-toolbar-title>
+    </a>
+    <v-spacer></v-spacer>
+    <v-toolbar-items>
+      <v-btn text color="white" @click="jumpTo({ name: 'Features' })">Features</v-btn>
+      <v-btn text color="white" @click="jumpTo({ name: 'Examples' })">Examples</v-btn>
+    </v-toolbar-items>
+  </v-app-bar>
 </template>
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
@@ -35,8 +30,3 @@ export default class NavBar extends Vue {
   }
 }
 </script>
-<style lang='scss' scoped>
-.navbar-item {
-  font-weight: bold;
-}
-</style>

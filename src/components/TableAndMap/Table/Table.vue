@@ -1,6 +1,6 @@
 <template>
   <AgGridVue
-    class="ag-grid ag-theme-balham full-height"
+    class="ag-theme-balham full-height"
     v-model="rowData"
     :columnDefs="tableLogic.columnDefs"
     :defaultColDef="colDef"
@@ -169,7 +169,13 @@ export default class Table extends Vue {
     }
     const rowData: Row[] = [];
     this.gridApi.forEachNodeAfterFilter((node, index) => {
-      rowData.push(node.data);
+      const row: any = {};
+      Object.keys(node.data)
+        .filter(_ => !_.startsWith("polygon_"))
+        .forEach(key => {
+          row[key] = node.data[key];
+        });
+      rowData.push(row);
     });
     const columnIds = this.columnApi
       .getAllColumns()

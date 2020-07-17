@@ -2,8 +2,8 @@
   <div class="map-your-excel-locational-data">
     <div class="header">
       <div class="section">
-        <div class="title">Map Your Excel Locational Data</div>
-        <div class="subtitle">
+        <div class="text-h4">Map Your Excel Locational Data</div>
+        <div class="text-subtitle-1">
           Locational data stored in excel and csv files is more insightful when displayed on a map. Thanks to
           <b>Table & Map</b>, interacting with your data has never been easier. Follow the guide to see your locational data on a map and start interacting with your data like you have always wanted.
         </div>
@@ -29,7 +29,7 @@
               <div>a. The system will attempt to automatically detect the columns and if successful, you will enter the tool automatically.</div>
               <div>
                 b. If the system needs some help, it will prompt you to select the correct latitude and longitude columns. After selecting the columns, press
-                <b>Finish</b> and you will enter the tool.
+                <b>Confirm</b> and you will enter the tool.
               </div>
             </div>
             <div>
@@ -40,7 +40,7 @@
               <div>a. The system will ask you to select the location columns. You must fill at least one of the requested fields: Address, City, State or Zip.</div>
               <div>
                 b. Press
-                <b>Finish</b> and the system will compute the latitude and longitude for each record and add them as new columns to your dataset.
+                <b>Confirm</b> and the system will compute the latitude and longitude for each record and add them as new columns to your dataset.
               </div>
               <div>c. You will enter the tool automatically when the geocoding process is complete. The duration of this step depends on the number of records in the dataset.</div>
             </div>
@@ -57,7 +57,7 @@
             <div>2. Copy the dataset and paste it into the text box.</div>
             <div>
               3. Press
-              <b>Finish</b> and continue with Step 3 of the
+              <b>Confirm</b> and continue with Step 3 of the
               <i>I have an excel or csv file</i> instructions above.
             </div>
           </div>
@@ -69,7 +69,7 @@
 </template>
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
-import Preview from '@/components/Home/Preview/Preview.vue';
+import Preview from "@/components/Home/Preview/Preview.vue";
 
 /**
  * Map Your Excel Locational Data
@@ -84,6 +84,7 @@ export default class MapYourExcelLocationalData extends Vue {}
 <style lang='scss' scoped>
 .map-your-excel-locational-data {
   .section {
+    padding: 3rem 1.5rem;
     max-width: 1024px;
     margin: auto;
   }

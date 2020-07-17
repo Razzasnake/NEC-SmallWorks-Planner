@@ -22,7 +22,7 @@ const generate = (x: { index: number, title: string, description: string, github
     id: x.index,
     title: x.title,
     description: x.description,
-    preview: require(`@/assets/examples/covid19/preview-${x.index}.jpg`),
+    preview: require(`@/assets/examples/covid19/covid19.jpg`),
     url: 'https://github.com/CSSEGISandData/COVID-19/blob/master/csse_covid_19_data/csse_covid_19_time_series/' + x.githubFileName,
     createdOn: new Date(),
     config: {
