@@ -1,23 +1,17 @@
 <template>
   <InfoSection :title="title" :description="description" :cards="cards">
     <template slot="extra">
-      <div class="field">
-        <label class="label">
-          Subscribe to our mailing list and become a beta tester.
-          <input
-            class="input"
-            type="email"
-            placeholder="Enter email address"
-            id="email-input"
-            v-model="email"
-          />
-        </label>
-      </div>
-      <button
-        class="button is-primary is-fullwidth"
-        @click="submitEmail"
-        :disabled="!isValid"
-      >Subscribe</button>
+      <div class="label">Subscribe to our mailing list and become a beta tester.</div>
+      <v-text-field
+        type="email"
+        label="Enter email address"
+        id="email-input"
+        v-model="email"
+      />
+      <v-btn color="primary" block @click="submitEmail" :disabled="!isValid">Subscribe</v-btn>
+      <v-snackbar v-model="snackbar" color="success" top rounded="pill">
+        <div class="align-center">Subscribed!</div>
+      </v-snackbar>
     </template>
   </InfoSection>
 </template>
@@ -54,6 +48,7 @@ export default class ComingSoon extends Vue {
     }
   ];
   private email: string = "";
+  private snackbar: boolean = false;
 
   private get isValid() {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -78,10 +73,7 @@ export default class ComingSoon extends Vue {
     mailingListApi
       .subscribe(this.email)
       .then(() => {
-        this.$buefy.toast.open({
-          message: "Subscribed!",
-          type: "is-success"
-        });
+        this.snackbar = true;
       })
       .finally(() => {
         this.close();
@@ -101,5 +93,3 @@ export default class ComingSoon extends Vue {
   }
 }
 </script>
-<style lang='scss' scoped>
-</style>

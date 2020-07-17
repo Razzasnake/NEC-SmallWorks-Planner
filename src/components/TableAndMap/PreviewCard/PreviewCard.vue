@@ -1,12 +1,10 @@
 <template>
-  <div class="card full-height">
-    <header class="card-header">
-      <b-button @click="close" expanded class="close-button">Close</b-button>
-    </header>
+  <v-card>
+    <v-btn @click="close" block>Close</v-btn>
     <div class="preview-card-content">
       <div id="street-view"></div>
       <AgGridVue
-        class="ag-grid ag-theme-balham"
+        class="ag-theme-balham"
         v-model="tableData"
         :columnDefs="tableColumns"
         :modules="modules"
@@ -16,7 +14,7 @@
         @gridReady="gridReady"
       ></AgGridVue>
     </div>
-  </div>
+  </v-card>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
@@ -169,8 +167,5 @@ export default class PreviewCard extends Vue {
     background-color: rgb(229, 227, 223);
     overflow: hidden;
   }
-}
-.close-button {
-  border-radius: 0px;
 }
 </style>

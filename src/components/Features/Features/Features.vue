@@ -17,5 +17,3 @@ import MapYourExcelLocationalData from "../MapYourExcelLocationalData/MapYourExc
 })
 export default class Features extends Vue {}
 </script>
-<style lang='scss' scoped>
-</style>

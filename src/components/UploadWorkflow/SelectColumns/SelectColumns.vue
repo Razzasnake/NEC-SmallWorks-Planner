@@ -1,19 +1,16 @@
 <template>
   <div>
-    <b-field label="First Row Header">
-      <b-checkbox v-model="firstRowHeaderAux"></b-checkbox>
-    </b-field>
-    <b-field v-for="c in visibleColumns" :key="c.key" :label="c.label">
-      <b-autocomplete
+    <v-checkbox v-model="firstRowHeaderAux" label="First Row Header"></v-checkbox>
+    <div v-for="(c, index) in visibleColumns" :key="index">
+      <v-autocomplete
         v-model="c.search"
-        placeholder="Search for a column"
-        dropdown-position="top"
-        :data="filterOptions(c.search)"
+        :items="allOptions"
+        item-text="value"
+        :label="c.label"
         @input="inputFnc($event, c.key)"
-        open-on-focus
-        keep-first
-      ></b-autocomplete>
-    </b-field>
+        clearable
+      ></v-autocomplete>
+    </div>
     <a
       v-if="!showAddressFields"
       a
@@ -194,23 +191,9 @@ export default class SelectColumns extends Vue {
     });
   }
 
-  private filterOptions(search: string | undefined) {
-    if (!search) {
-      return this.allOptions;
-    }
-    return this.allOptions.filter(option => {
-      return (
-        option.value
-          .toString()
-          .toLowerCase()
-          .indexOf(search.toLowerCase()) >= 0
-      );
-    });
-  }
-
-  private inputFnc(text: string, key: string) {
+  private inputFnc(text: string | undefined, key: string) {
     const field = this.visibleColumns.find(_ => _.key === key)!;
-    if (text.length) {
+    if (text && text.length) {
       const option = this.allOptions.find(_ => _.value === text);
       if (option) {
         field.selection = option.index;
@@ -252,5 +235,3 @@ export default class SelectColumns extends Vue {
   }
 }
 </script>
-<style lang='scss' scoped>
-</style>

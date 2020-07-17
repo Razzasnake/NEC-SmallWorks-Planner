@@ -5,7 +5,7 @@ const exampleAnalysisGenerator = (index: number = 0) => {
     id: index,
     title: 'Hospitals',
     description: 'This database contains locations of Hospitals for 50 states and Washington D.C. , Puerto Rico and US territories. The dataset only includes hospital facilities and does not include nursing homes. Data for all the states was acquired from respective states departments or their open source websites and then geocoded and converted into a spatial database.',
-    preview: require('@/assets/app.jpg'),
+    preview: require('@/assets/examples/covid19/covid19.jpg'),
     url: "https://hifld-geoplatform.opendata.arcgis.com/datasets/hospitals",
     createdOn: new Date(),
     config: {
