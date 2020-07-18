@@ -92,7 +92,7 @@ export default class GoogleMapLogic {
       clickableIcons: false,
       zoomControl: true,
       gestureHandling: "greedy",
-      styles: Theme as google.maps.MapTypeStyle[]
+      styles: Theme
     });
     this.addIdleListener();
   }
