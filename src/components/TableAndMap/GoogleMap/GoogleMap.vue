@@ -26,8 +26,8 @@ import UploadedFile, { Row } from "@/entities/UploadedFile";
 import Utils from "./Utils";
 import Theme from "./Theme";
 import MarkerClusterer from "@google/markerclustererplus";
-import LayerParser from "worker-loader!./LayerConfig/Parser";
-import ForeignKeyWorker from "worker-loader!./LayerConfig/ForeignKeyWorker";
+import ShapeParser from "worker-loader!./LayerConfig/ShapeParser";
+import PolygonRelationWorker from "worker-loader!./LayerConfig/PolygonRelationWorker";
 import state, {
   updatePolygonForeignKeys,
   createPolygonForeignKey
@@ -347,7 +347,7 @@ export default class GoogleMap extends Vue {
 
   private shapefilesUploaded(fileArray: File[]) {
     fileArray.forEach(file => {
-      const worker = new LayerParser();
+      const worker = new ShapeParser();
       worker.postMessage(file);
       worker.onmessage = event => {
         this.map.data.addGeoJson(event.data);
@@ -357,7 +357,7 @@ export default class GoogleMap extends Vue {
           fillColor: "#00a2d3",
           zIndex: 2
         });
-        const fkWorker = new ForeignKeyWorker();
+        const fkWorker = new PolygonRelationWorker();
         fkWorker.postMessage({
           markers: this.markers.map(_ => {
             return [_.getPosition()!.lng(), _.getPosition()!.lat()];
