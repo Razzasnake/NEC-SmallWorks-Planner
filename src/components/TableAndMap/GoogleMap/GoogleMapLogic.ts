@@ -20,15 +20,15 @@ export default class GoogleMapLogic {
     .toString(36)
     .substring(7);
 
-  private vueComponent!: GoogleMap
-  private map!: google.maps.Map
+  private vueComponent!: GoogleMap;
+  private map!: google.maps.Map;
 
   private drawingManager: google.maps.drawing.DrawingManager | null = null;
   private markerCluster: MarkerClusterer | null = null;
   private heatmap: google.maps.visualization.HeatmapLayer | null = null;
   private activeOverlays: AvailableOverlays[] = [];
   private selectedOverlayEvent: google.maps.drawing.OverlayCompleteEvent | null = null;
-  private markers: google.maps.Marker[] = []
+  private markers: google.maps.Marker[] = [];
   private clickedInfoWindow: google.maps.InfoWindow | null = null;
 
   private polyOptions = {
@@ -103,9 +103,7 @@ export default class GoogleMapLogic {
         if (this.hiddenMarkerIndices.has(index)) {
           return;
         }
-        const newValue = this.map
-          .getBounds()!
-          .contains(marker.getPosition()!);
+        const newValue = this.map.getBounds()!.contains(marker.getPosition()!);
         if (marker.getVisible() !== newValue) {
           marker.setVisible(newValue);
         }
@@ -114,10 +112,10 @@ export default class GoogleMapLogic {
   }
 
   public initMarkers(): void {
-    this.createMarkers()
-    this.updateBounds()
-    this.displayClustersChanged()
-    this.displayHeatmapChanged()
+    this.createMarkers();
+    this.updateBounds();
+    this.displayClustersChanged();
+    this.displayHeatmapChanged();
     if (this.allowDraw) {
       this.initDrawingManager();
       this.initDrawListeners();
@@ -299,7 +297,8 @@ export default class GoogleMapLogic {
     google.maps.event.addListener(
       this.drawingManager!,
       "overlaycomplete",
-      (newEvent: google.maps.drawing.OverlayCompleteEvent, emit?: boolean) => this.onOverlayComplete(newEvent, emit)
+      (newEvent: google.maps.drawing.OverlayCompleteEvent, emit?: boolean) =>
+        this.onOverlayComplete(newEvent, emit)
     );
     google.maps.event.addListener(
       this.drawingManager!,
@@ -348,7 +347,10 @@ export default class GoogleMapLogic {
        *
        * @type {google.maps.drawing.OverlayCompleteEvent[]}
        */
-      this.vueComponent.$emit("updateOverlayEvents", this.overlayEvents.concat(newEvent));
+      this.vueComponent.$emit(
+        "updateOverlayEvents",
+        this.overlayEvents.concat(newEvent)
+      );
     }
     this.activeOverlays.push(newOverlay);
   }
