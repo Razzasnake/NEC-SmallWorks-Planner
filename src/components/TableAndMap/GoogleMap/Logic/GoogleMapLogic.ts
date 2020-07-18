@@ -7,7 +7,6 @@ import {
 import UploadedFile, { Row } from "@/entities/UploadedFile";
 import MarkerClusterer from "@google/markerclustererplus";
 import Theme from "./Theme";
-import GoogleMap from "./GoogleMap.vue"
 
 type AvailableOverlays =
   | google.maps.Polygon
@@ -20,7 +19,7 @@ export default class GoogleMapLogic {
     .toString(36)
     .substring(7);
 
-  private vueComponent!: GoogleMap;
+  private vueComponent!: Vue;
   private map!: google.maps.Map;
 
   private drawingManager: google.maps.drawing.DrawingManager | null = null;
@@ -80,7 +79,7 @@ export default class GoogleMapLogic {
     return (this.vueComponent as any).clickedMarker;
   }
 
-  constructor(vueComponent: GoogleMap) {
+  constructor(vueComponent: Vue) {
     this.vueComponent = vueComponent;
   }
 
