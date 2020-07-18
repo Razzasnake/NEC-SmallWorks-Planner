@@ -24,7 +24,7 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import UploadedFile, { Row } from "@/entities/UploadedFile";
 import Utils from "./Utils";
-import GoogleMapLogic from "./GoogleMapLogic";
+import GoogleMapLogic from "./Logic/GoogleMapLogic";
 
 /**
  * Display the rows that have been uploaded.
