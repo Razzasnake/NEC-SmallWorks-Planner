@@ -24,9 +24,16 @@ const getContainedPolygons = (
 
 ctx.onmessage = (event: { data: { markers: [number, number][], features: object[] } }) => {
   event.data.markers.forEach((marker, index) => {
-    ctx.postMessage({
-      index,
-      polygonIndices: getContainedPolygons(marker, event.data.features)
-    });
+    if (marker[0] === null && marker[1] === null) {
+      ctx.postMessage({
+        index,
+        polygonIndices: []
+      });
+    } else {
+      ctx.postMessage({
+        index,
+        polygonIndices: getContainedPolygons(marker, event.data.features)
+      });
+    }
   })
 };

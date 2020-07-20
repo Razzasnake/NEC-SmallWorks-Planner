@@ -2,10 +2,16 @@ class Row {
   public id!: string;
   public index!: number;
   public data!: any[];
-  public tableData!: { [key: string]: any };
   public lat: number | null = null;
   public lng: number | null = null;
+  public features: { name: string, features: google.maps.Data.Feature[] | null }[] = [];
   [key: string]: any;
+
+  public get webWorkerSafeState() {
+    const data = Object.assign({}, this);
+    data.features = [];
+    return data;
+  }
 
   constructor(index: number, row: any[], columnSelections: { lat: number, lng: number }) {
     this.index = index;
@@ -23,7 +29,6 @@ export default class UploadedFile {
   public data: Row[];
   public columnSelections: { lat: number, lng: number };
   public firstRowHeader: boolean;
-  public polygonFileName: { [polygonHash: string]: string } = {};
 
   public get rawData(): any[][] {
     return this.data.map(row => row.data)
