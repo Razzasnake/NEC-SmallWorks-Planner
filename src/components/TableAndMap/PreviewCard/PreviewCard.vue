@@ -44,7 +44,7 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import UploadedFile, { Row } from "@/entities/UploadedFile";
 import { AgGridVue } from "@ag-grid-community/vue";
 import { GridApi, ColDef, ColumnApi } from "@ag-grid-community/core";
-import Utils from "@/components/TableAndMap/GoogleMap/Utils";
+import Utils from "@/components/TableAndMap/GoogleMap/Logic/Utils";
 import { defaultColDef } from "../Table/Logic/TableLogic";
 import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
 

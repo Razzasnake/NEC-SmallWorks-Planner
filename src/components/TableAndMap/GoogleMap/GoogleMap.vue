@@ -23,7 +23,7 @@
 <script lang='ts'>
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import UploadedFile, { Row } from "@/entities/UploadedFile";
-import Utils from "./Utils";
+import Utils from "./Logic/Utils";
 import GoogleMapLogic from "./Logic/GoogleMapLogic";
 
 /**

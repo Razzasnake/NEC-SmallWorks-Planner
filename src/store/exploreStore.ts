@@ -2,7 +2,7 @@ import Vue from "vue";
 import UploadedFile from "@/entities/UploadedFile";
 import { TableAndMapMap } from "@/components/TableAndMap/Types";
 import TableLogic from "@/components/TableAndMap/Table/Logic/TableLogic";
-import { OverlayJson } from "@/components/TableAndMap/GoogleMap/Utils";
+import { OverlayJson } from "@/components/TableAndMap/GoogleMap/Logic/Utils";
 
 interface ExploreStoreI {
   uploadedFile: UploadedFile | null,
