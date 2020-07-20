@@ -56,7 +56,7 @@ import GoogleMap from "./GoogleMap/GoogleMap.vue";
 import Split from "split.js";
 import { TableAndMapMap } from "./Types";
 import Utils from "./GoogleMap/Utils";
-import TableLogic from "./Table/TableLogic";
+import TableLogic from "./Table/Logic/TableLogic";
 import UploadedFile, { Row } from "@/entities/UploadedFile";
 import Toolbar from "./Toolbar/Toolbar.vue";
 

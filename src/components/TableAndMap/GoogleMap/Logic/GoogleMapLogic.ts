@@ -1,5 +1,5 @@
-import ShapeParser from "worker-loader!./LayerConfig/ShapeParser";
-import PolygonRelationWorker from "worker-loader!./LayerConfig/PolygonRelationWorker";
+import ShapeParserWorker from "worker-loader!./WebWorkers/ShapeParserWorker";
+import PolygonRelationWorker from "worker-loader!./WebWorkers/PolygonRelationWorker";
 import {
   updatePolygonForeignKeys,
   createPolygonForeignKey
@@ -500,7 +500,7 @@ export default class GoogleMapLogic {
 
   public shapefilesUploaded(fileArray: File[]) {
     fileArray.forEach(file => {
-      const worker = new ShapeParser();
+      const worker = new ShapeParserWorker();
       worker.postMessage(file);
       worker.onmessage = event => {
         this.map.data.addGeoJson(event.data);

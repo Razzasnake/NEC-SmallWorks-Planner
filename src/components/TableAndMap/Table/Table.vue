@@ -24,9 +24,9 @@ import {
   RowNode,
   CellKeyPressEvent
 } from "@ag-grid-community/core";
-import TableLogic, { defaultColDef } from "./TableLogic";
+import TableLogic, { defaultColDef } from "./Logic/TableLogic";
 import { Row } from "@/entities/UploadedFile";
-import CalculateFooterWorker from "worker-loader!./CalculateFooter";
+import CalculateFooterWorker from "worker-loader!./Logic/WebWorkers/CalculateFooterWorker";
 import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
 import { CsvExportModule } from "@ag-grid-community/csv-export";
 

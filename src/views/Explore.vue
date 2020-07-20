@@ -17,7 +17,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import TableAndMap from "@/components/TableAndMap/TableAndMap.vue";
 import UploadedFile from "@/entities/UploadedFile";
-import TableLogic from "@/components/TableAndMap/Table/TableLogic";
+import TableLogic from "@/components/TableAndMap/Table/Logic/TableLogic";
 import { OverlayJson } from "@/components/TableAndMap/GoogleMap/Utils";
 import { TableAndMapMap } from "@/components/TableAndMap/Types";
 import state, {
