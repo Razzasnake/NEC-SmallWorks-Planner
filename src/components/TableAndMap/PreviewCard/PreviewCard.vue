@@ -109,7 +109,7 @@ export default class PreviewCard extends Vue {
     return this.clickedMarker.features.map(feature => {
       if (feature.features === null) {
         return { name: feature.name, data: null };
-      } else if (feature.features) {
+      } else {
         let values: { label: string; value: string }[] = [];
         if (feature.features.length > 0) {
           feature.features[0].forEachProperty((value, name) => {
