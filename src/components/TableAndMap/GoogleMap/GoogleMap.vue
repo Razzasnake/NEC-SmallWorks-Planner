@@ -123,7 +123,7 @@ export default class GoogleMap extends Vue {
   }
 
   private created(): void {
-    this.mapLogic = new GoogleMapLogic(this);
+    this.mapLogic = Vue.observable(new GoogleMapLogic(this));
     Utils.injectGoogleMapsLibrary(
       this.allowDraw ? ["drawing", "visualization"] : []
     ).then(() => {
