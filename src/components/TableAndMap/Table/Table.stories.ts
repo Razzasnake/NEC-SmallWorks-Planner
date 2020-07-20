@@ -1,4 +1,4 @@
-import TableLogic from './TableLogic'
+import TableLogic from './Logic/TableLogic'
 import Table from './Table.vue'
 import { action } from '@storybook/addon-actions'
 import { uploadedFileGenerator } from '@/generator/UploadedFileGenerator'
