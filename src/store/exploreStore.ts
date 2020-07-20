@@ -1,8 +1,8 @@
 import Vue from "vue";
 import UploadedFile from "@/entities/UploadedFile";
 import { TableAndMapMap } from "@/components/TableAndMap/Types";
-import TableLogic from "@/components/TableAndMap/Table/TableLogic";
-import { OverlayJson } from "@/components/TableAndMap/GoogleMap/Utils";
+import TableLogic from "@/components/TableAndMap/Table/Logic/TableLogic";
+import { OverlayJson } from "@/components/TableAndMap/GoogleMap/Logic/Utils";
 
 interface ExploreStoreI {
   uploadedFile: UploadedFile | null,
@@ -47,23 +47,23 @@ export const updateViewOptions = (viewOptions: string[]) => {
   state.viewOptions = viewOptions;
 }
 
-export const createPolygonForeignKey = (fileName: string) => {
-  const polygonHash = `polygon_${Math.random()
-    .toString(36)
-    .substring(2, 15)}`
+export const createFeature = (fileName: string) => {
   if (state.uploadedFile) {
     state.uploadedFile.data.forEach(d => {
-      d[polygonHash] = null
+      d.features.push({
+        name: fileName,
+        features: null
+      })
     })
-    state.uploadedFile.polygonFileName[polygonHash] = fileName.split(".").slice(0, -1).join(".");
-    state.tableLogic = new TableLogic(state.uploadedFile!);
   }
-  return polygonHash;
 }
 
-export const updatePolygonForeignKeys = (fk: { polygonHash: string, index: number, polygons: google.maps.Data.Feature[] }) => {
+export const updateFeature = (fk: { featureIndex: number, index: number, features: google.maps.Data.Feature[] }) => {
   if (state.uploadedFile) {
-    state.uploadedFile.data[fk.index][fk.polygonHash] = fk.polygons
+    state.uploadedFile.data[fk.index].features[fk.featureIndex] = {
+      name: state.uploadedFile.data[fk.index].features[fk.featureIndex].name,
+      features: fk.features
+    }
   }
 }
 
