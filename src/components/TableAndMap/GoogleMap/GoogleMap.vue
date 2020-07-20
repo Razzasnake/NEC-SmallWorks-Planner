@@ -1,12 +1,11 @@
 <template>
   <div class="google-map-container">
     <v-btn
-      v-if="allowDraw"
-      v-show="mapLogic.selectedOverlayEvent"
-      :id="`delete-button-${mapLogic.mapId}`"
+      v-if="mapLogic.selectedOverlayEvent"
       class="delete-button"
       small
       color="white"
+      @click="deleteSelectedOverlay"
     >Delete Boundary</v-btn>
     <div class="google-map" :id="mapLogic.mapId" />
     <div class="upload-layer" title="Upload geojson or zipped shapefile">
@@ -23,7 +22,6 @@
 <script lang='ts'>
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import UploadedFile, { Row } from "@/entities/UploadedFile";
-import Utils from "./Logic/Utils";
 import GoogleMapLogic from "./Logic/GoogleMapLogic";
 
 /**
@@ -124,19 +122,15 @@ export default class GoogleMap extends Vue {
 
   private created(): void {
     this.mapLogic = Vue.observable(new GoogleMapLogic(this));
-    Utils.injectGoogleMapsLibrary(
-      this.allowDraw ? ["drawing", "visualization"] : []
-    ).then(() => {
-      const mapEl = document.getElementById(this.mapLogic.mapId);
-      if (mapEl) {
-        this.mapLogic.createMap(mapEl);
-        this.mapLogic.initMarkers();
-      }
-    });
+    this.mapLogic.createMap();
   }
 
   private shapefilesUploaded(fileArray: File[]) {
     this.mapLogic.shapefilesUploaded(fileArray);
+  }
+
+  private deleteSelectedOverlay() {
+    this.mapLogic.deleteSelectedOverlay();
   }
 
   private beforeDestroy(): void {
