@@ -7,6 +7,7 @@ import {
 import UploadedFile, { Row } from "@/entities/UploadedFile";
 import MarkerClusterer from "@google/markerclustererplus";
 import Theme from "./Theme";
+import Utils from "./Utils";
 
 type AvailableOverlays =
   | google.maps.Polygon
@@ -83,17 +84,25 @@ export default class GoogleMapLogic {
     this.vueComponent = vueComponent;
   }
 
-  public createMap(mapEl: HTMLElement) {
-    this.map = new google.maps.Map(mapEl, {
-      center: new google.maps.LatLng(39.8283, -98.5795),
-      zoom: 5,
-      disableDefaultUI: true,
-      clickableIcons: false,
-      zoomControl: true,
-      gestureHandling: "greedy",
-      styles: Theme
+  public createMap() {
+    Utils.injectGoogleMapsLibrary(
+      this.allowDraw ? ["drawing", "visualization"] : []
+    ).then(() => {
+      const mapEl = document.getElementById(this.mapId);
+      if (mapEl) {
+        this.map = new google.maps.Map(mapEl, {
+          center: new google.maps.LatLng(39.8283, -98.5795),
+          zoom: 5,
+          disableDefaultUI: true,
+          clickableIcons: false,
+          zoomControl: true,
+          gestureHandling: "greedy",
+          styles: Theme
+        });
+        this.addIdleListener();
+        this.initMarkers();
+      }
     });
-    this.addIdleListener();
   }
 
   private addIdleListener() {
@@ -305,14 +314,6 @@ export default class GoogleMapLogic {
       this.clearSelection
     );
     google.maps.event.addListener(this.map, "click", this.clearSelection);
-    const deleteEl = document.getElementById(`delete-button-${this.mapId}`);
-    if (deleteEl) {
-      google.maps.event.addDomListener(
-        deleteEl,
-        "click",
-        this.deleteSelectedOverlay
-      );
-    }
     document.addEventListener("keydown", e => {
       if (e.keyCode === 8 || e.keyCode === 46) {
         this.deleteSelectedOverlay();
@@ -423,7 +424,7 @@ export default class GoogleMapLogic {
     }
   }
 
-  private deleteSelectedOverlay(): void {
+  public deleteSelectedOverlay(): void {
     if (this.selectedOverlayEvent) {
       const overlayIndex = this.overlayEvents.findIndex(
         _ => _.overlay === this.selectedOverlayEvent!.overlay
