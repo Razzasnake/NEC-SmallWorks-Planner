@@ -1,8 +1,8 @@
 import ShapeParserWorker from "worker-loader!./WebWorkers/ShapeParserWorker";
 import PolygonRelationWorker from "worker-loader!./WebWorkers/PolygonRelationWorker";
 import {
-  updatePolygonForeignKeys,
-  createPolygonForeignKey
+  updateFeature,
+  createFeature
 } from "@/store/exploreStore";
 import UploadedFile, { Row } from "@/entities/UploadedFile";
 import MarkerClusterer from "@google/markerclustererplus";
@@ -511,8 +511,12 @@ export default class GoogleMapLogic {
         });
         const fkWorker = new PolygonRelationWorker();
         fkWorker.postMessage({
-          markers: this.markers.map(_ => {
-            return [_.getPosition()!.lng(), _.getPosition()!.lat()];
+          markers: this.uploadedFile.data.map(_ => {
+            if (_.lng && _.lat) {
+              return [_.lng, _.lat];
+            } else {
+              return [null, null];
+            }
           }),
           features: event.data.features
         });
@@ -520,13 +524,14 @@ export default class GoogleMapLogic {
         this.map.data.forEach(p => {
           polygons.push(p);
         });
-        const polygonHash = createPolygonForeignKey(file.name);
+        createFeature(file.name);
+        const featureIndex = this.uploadedFile.data[0].features.findIndex(_ => _.name === file.name);
         fkWorker.onmessage = event => {
           const polygonIndices: number[] = event.data.polygonIndices;
-          updatePolygonForeignKeys({
-            polygonHash,
+          updateFeature({
+            featureIndex,
             index: event.data.index,
-            polygons: polygonIndices.map(index => polygons[index])
+            features: polygonIndices.map(index => polygons[index])
           });
         };
       };

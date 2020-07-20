@@ -111,11 +111,6 @@ export default class Table extends Vue {
     }
   }
 
-  @Watch("tableLogic")
-  private tableLogicUpdated() {
-    this.gridApi.setColumnDefs(this.tableLogic.columnDefs);
-  }
-
   private isExternalFilterPresent(): boolean {
     return this.overlayEvents.length > 0;
   }
@@ -169,13 +164,7 @@ export default class Table extends Vue {
     }
     const rowData: Row[] = [];
     this.gridApi.forEachNodeAfterFilter((node, index) => {
-      const row: any = {};
-      Object.keys(node.data)
-        .filter(_ => !_.startsWith("polygon_"))
-        .forEach(key => {
-          row[key] = node.data[key];
-        });
-      rowData.push(row);
+      rowData.push(node.data.webWorkerSafeState);
     });
     const columnIds = this.columnApi
       .getAllColumns()

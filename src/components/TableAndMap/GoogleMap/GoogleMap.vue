@@ -23,7 +23,7 @@
 <script lang='ts'>
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import UploadedFile, { Row } from "@/entities/UploadedFile";
-import Utils from "./Utils";
+import Utils from "./Logic/Utils";
 import GoogleMapLogic from "./Logic/GoogleMapLogic";
 
 /**
@@ -123,7 +123,7 @@ export default class GoogleMap extends Vue {
   }
 
   private created(): void {
-    this.mapLogic = new GoogleMapLogic(this);
+    this.mapLogic = Vue.observable(new GoogleMapLogic(this));
     Utils.injectGoogleMapsLibrary(
       this.allowDraw ? ["drawing", "visualization"] : []
     ).then(() => {

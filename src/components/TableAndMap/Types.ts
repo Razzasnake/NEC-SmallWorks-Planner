@@ -1,4 +1,4 @@
-import { OverlayJson } from './GoogleMap/Utils'
+import { OverlayJson } from './GoogleMap/Logic/Utils'
 
 interface TableAndMapMap {
   overlayEventJsons: OverlayJson[],
