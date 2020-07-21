@@ -23,7 +23,7 @@ const state: ExploreStoreI = Vue.observable({
     allowDraw: true
   },
   tableLogic: null,
-  viewOptions: ["map", "table"]
+  viewOptions: ["map", "map:markers", "map:clusters", "table"]
 });
 
 export const updateUploadedFile = (uploadedFile: UploadedFile) => {
