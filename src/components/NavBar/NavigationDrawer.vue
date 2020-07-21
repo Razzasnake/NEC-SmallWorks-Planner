@@ -54,19 +54,19 @@ export default class NavigationDrawer extends Vue {
           key: "table"
         },
         {
-          label: "Minimum",
+          label: "Footer Min",
           key: "table:footer:min"
         },
         {
-          label: "Maximum",
+          label: "Footer Max",
           key: "table:footer:max"
         },
         {
-          label: "Average",
+          label: "Footer Avg",
           key: "table:footer:avg"
         },
         {
-          label: "Total",
+          label: "Footer Total",
           key: "table:footer:total"
         }
       ]
