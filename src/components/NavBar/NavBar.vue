@@ -19,7 +19,7 @@
   </div>
 </template>
 <script lang='ts'>
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import NavigationDrawer from "./NavigationDrawer.vue";
 
 /**
@@ -34,6 +34,13 @@ export default class NavBar extends Vue {
   @Prop({ type: Boolean, default: false })
   private drawerAllowed!: boolean;
   private drawer: boolean | null = null;
+
+  @Watch('drawerAllowed')
+  private drawerAllowedUpdated() {
+    if (!this.drawerAllowed) {
+      this.drawer = null;
+    }
+  }
 
   private jumpTo(location: { name: string }) {
     /**
