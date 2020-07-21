@@ -53,7 +53,7 @@ const _TableAndMap = () => ({
     }
   },
   methods: {
-    updateOverlayEventJsons(newJsons) {
+    updateOverlayEventJsons(newJsons: any) {
       (this as any).$data.map.overlayEventJsons = newJsons
     },
     sortChanged: action('sortChanged'),

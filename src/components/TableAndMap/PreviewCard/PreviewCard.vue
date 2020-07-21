@@ -1,8 +1,8 @@
 <template>
-  <v-dialog v-model="visible" @click:outside="close" max-width="1600">
+  <v-dialog v-model="visible" @click:outside="close" max-width="1600" scrollable>
     <v-card>
       <div id="street-view"></div>
-      <v-card-text>
+      <v-card-text class="full-height">
         <v-row>
           <v-col>
             <div class="text-h6">Marker</div>
