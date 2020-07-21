@@ -8,15 +8,22 @@
       @click="deleteSelectedOverlay"
     >Delete Boundary</v-btn>
     <div class="google-map" :id="mapLogic.mapId" />
-    <div class="upload-layer" title="Upload geojson or zipped shapefile">
-      <v-file-input
-        @change="shapefilesUploaded"
-        multiple
-        prepend-icon="mdi-layers"
-        hide-input
+    <v-btn
+      class="upload-layer"
+      title="Upload geojson or zipped shapefile"
+      @click="openUpload"
+      fab
+      x-small
+    >
+      <v-icon>mdi-layers</v-icon>
+      <input
         accept=".json, .geojson, .zip"
+        ref="input"
+        type="file"
+        style="display: none"
+        @change="shapefilesUploaded($event.target.files)"
       />
-    </div>
+    </v-btn>
   </div>
 </template>
 <script lang='ts'>
@@ -125,8 +132,8 @@ export default class GoogleMap extends Vue {
     this.mapLogic.createMap();
   }
 
-  private shapefilesUploaded(fileArray: File[]) {
-    this.mapLogic.shapefilesUploaded(fileArray);
+  private shapefilesUploaded(fileArray: FileList) {
+    this.mapLogic.shapefilesUploaded(Array.from(fileArray));
   }
 
   private deleteSelectedOverlay() {
@@ -135,6 +142,10 @@ export default class GoogleMap extends Vue {
 
   private beforeDestroy(): void {
     this.mapLogic.beforeDestroy();
+  }
+
+  private openUpload() {
+    (this.$refs.input as HTMLInputElement).click();
   }
 }
 </script>
@@ -152,7 +163,7 @@ export default class GoogleMap extends Vue {
 }
 .upload-layer {
   position: absolute;
-  top: -12px;
+  top: 7px;
   right: 7px;
   z-index: 10;
 }
