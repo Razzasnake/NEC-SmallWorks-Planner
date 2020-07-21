@@ -13,7 +13,7 @@ const _NavBar = () => ({
     <NavBar :drawerAllowed="drawerAllowed" @jumpTo="jumpTo" @toggleDrawer="toggleDrawer"></NavBar>`,
   props: {
     drawerAllowed: {
-      default: boolean('drawerAllowed', false)
+      default: boolean('drawerAllowed', true)
     }
   },
   methods: {
