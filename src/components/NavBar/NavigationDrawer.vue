@@ -1,10 +1,5 @@
 <template>
   <v-list>
-    <v-list-item>
-      <v-list-item-content>
-        <v-list-item-title class="title">Settings</v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
     <v-list-group
       v-for="(dropdown0, index0) in dropdowns"
       :key="index0"
