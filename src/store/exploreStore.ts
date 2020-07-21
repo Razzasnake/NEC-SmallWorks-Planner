@@ -83,7 +83,7 @@ export const reset = () => {
     allowDraw: true
   };
   state.tableLogic = null;
-  state.viewOptions = ["map", "table"];
+  state.viewOptions = ["map", "map:markers", "map:clusters", "table"];
 }
 
 export default state;
