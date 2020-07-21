@@ -21,14 +21,14 @@
         </v-list-item>
       </span>
     </v-list-group>
-    <v-list-item link>
+    <v-list-item link @click="exportToCsv">
       <v-list-item-content>Export</v-list-item-content>
     </v-list-item>
   </v-list>
 </template>
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
-import state, { updateViewOptions } from "@/store/exploreStore";
+import state, { updateViewOptions, exportToCsv } from "@/store/exploreStore";
 
 /**
  * Table options
@@ -114,6 +114,10 @@ export default class NavigationDrawer extends Vue {
       }
     }
     updateViewOptions(newOptions);
+  }
+
+  private exportToCsv() {
+    exportToCsv()
   }
 }
 </script>

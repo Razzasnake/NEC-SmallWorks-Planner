@@ -47,6 +47,12 @@ export const updateViewOptions = (viewOptions: string[]) => {
   state.viewOptions = viewOptions;
 }
 
+export const exportToCsv = () => {
+  if (state.tableLogic && state.tableLogic.api) {
+    state.tableLogic.api.exportDataAsCsv();
+  }
+}
+
 export const createFeature = (fileName: string) => {
   if (state.uploadedFile) {
     state.uploadedFile.data.forEach(d => {
