@@ -1,4 +1,4 @@
-import { ColDef, ColGroupDef } from "@ag-grid-community/core"
+import { ColDef, ColGroupDef, GridApi } from "@ag-grid-community/core"
 import UploadedFile, { Row } from "@/entities/UploadedFile"
 import AgPreview from "./AgPreview.vue"
 
@@ -11,6 +11,12 @@ export const defaultColDef: ColDef = {
 export default class TableLogic {
 
   public columnDefs: (ColDef | ColGroupDef)[] = []
+  public api: GridApi | null = null;
+
+  public setGridApi(api: GridApi) {
+    /* This is so we can call the export function from the store. */
+    this.api = api;
+  }
 
   private computeColumnTypes(uploadedFile: UploadedFile) {
     const columnTypes: { number: number, string: number }[] = []

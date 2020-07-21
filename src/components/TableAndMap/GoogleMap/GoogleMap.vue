@@ -157,15 +157,14 @@ export default class GoogleMap extends Vue {
 .delete-button {
   position: absolute;
   margin: 5px;
-  z-index: 10;
+  z-index: 1;
   top: -1px;
   left: 120px;
 }
 .upload-layer {
   position: absolute;
-  top: 7px;
-  right: 7px;
-  z-index: 10;
+  top: 3px;
+  right: 3px;
 }
 </style>
 <style lang='scss'>

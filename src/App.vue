@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <v-app>
-      <NavBar @jumpTo="jumpTo"></NavBar>
+      <NavBar :drawerAllowed="drawerAllowed" @jumpTo="jumpTo"></NavBar>
       <v-main>
         <router-view></router-view>
         <v-dialog v-model="areYouSureModal" max-width="400" @click:outside="cancelLeave">
@@ -36,6 +36,16 @@ import { reset } from "@/store/exploreStore";
 export default class App extends Vue {
   private areYouSureModal = false;
   private pathToLeaveTo: { name: string } | null = null;
+  private drawerAllowed: boolean = false;
+
+  @Watch("$route")
+  private routerUpdated() {
+    this.drawerAllowed = this.$route.name === "Explore";
+  }
+
+  private created() {
+    this.routerUpdated();
+  }
 
   private jumpTo(location: { name: string }) {
     if (location.name !== this.$route.name) {

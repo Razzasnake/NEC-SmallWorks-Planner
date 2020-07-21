@@ -10,11 +10,15 @@ export default {
 const _NavBar = () => ({
   components: { NavBar },
   template: `
-    <NavBar @jumpTo="jumpTo"></NavBar>`,
+    <NavBar :drawerAllowed="drawerAllowed" @jumpTo="jumpTo" @toggleDrawer="toggleDrawer"></NavBar>`,
   props: {
+    drawerAllowed: {
+      default: boolean('drawerAllowed', true)
+    }
   },
   methods: {
-    jumpTo: action('jumpTo')
+    jumpTo: action('jumpTo'),
+    toggleDrawer: action('toggleDrawer')
   }
 })
 

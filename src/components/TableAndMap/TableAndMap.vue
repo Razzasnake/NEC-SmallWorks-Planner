@@ -1,51 +1,43 @@
 <template>
-  <div class="table-and-map full-height">
-    <Toolbar
-      :viewOptions="viewOptions"
-      @updateViewOptions="updateViewOptions"
-      @updateExportOptions="updateExportOptions"
-    ></Toolbar>
-    <div class="table-and-map__main">
-      <div :id="mapId" :class="sectionClass" v-show="hasMap">
-        <GoogleMap
-          v-if="map"
-          :uploadedFile="uploadedFile"
-          :hiddenMarkerIndices="hiddenMarkerIndices"
-          :overlayEvents="overlayEvents"
-          :createInfoWindow="createInfoWindow"
-          :allowDraw="map.allowDraw"
-          :displayHeatmap="displayHeatmap"
-          :displayMarkers="displayMarkers"
-          :displayClusters="displayClusters"
-          :clickedMarker="clickedMarker"
-          @markerSelected="markerSelected"
-          @updateOverlayEvents="updateOverlayEvents"
-        ></GoogleMap>
-      </div>
-      <div :id="tableId" :class="sectionClass" v-show="hasTable">
-        <Table
-          ref="Table"
-          :rowData="rowData"
-          :filters="filters"
-          :sorting="sorting"
-          :tableLogic="tableLogic"
-          :overlayEvents="overlayEvents"
-          :viewOptions="viewOptions"
-          :clickedMarker="clickedMarker"
-          @sortChanged="sortChanged"
-          @filterChanged="filterChanged"
-          @hiddenMarkerIndicesChanged="hiddenMarkerIndicesChanged"
-          @markerSelected="markerSelected"
-        ></Table>
-      </div>
-      <PreviewCard
-        class="entity-preview"
-        v-if="clickedMarker"
-        :clickedMarker="clickedMarker"
+  <div class="full-height">
+    <div :id="mapId" :class="sectionClass" v-show="hasMap">
+      <GoogleMap
+        v-if="map"
         :uploadedFile="uploadedFile"
-        @close="close"
-      ></PreviewCard>
+        :hiddenMarkerIndices="hiddenMarkerIndices"
+        :overlayEvents="overlayEvents"
+        :createInfoWindow="createInfoWindow"
+        :allowDraw="map.allowDraw"
+        :displayHeatmap="displayHeatmap"
+        :displayMarkers="displayMarkers"
+        :displayClusters="displayClusters"
+        :clickedMarker="clickedMarker"
+        @markerSelected="markerSelected"
+        @updateOverlayEvents="updateOverlayEvents"
+      ></GoogleMap>
     </div>
+    <div :id="tableId" :class="sectionClass" v-show="hasTable">
+      <Table
+        ref="Table"
+        :rowData="rowData"
+        :filters="filters"
+        :sorting="sorting"
+        :tableLogic="tableLogic"
+        :overlayEvents="overlayEvents"
+        :viewOptions="viewOptions"
+        :clickedMarker="clickedMarker"
+        @sortChanged="sortChanged"
+        @filterChanged="filterChanged"
+        @hiddenMarkerIndicesChanged="hiddenMarkerIndicesChanged"
+        @markerSelected="markerSelected"
+      ></Table>
+    </div>
+    <PreviewCard
+      v-if="clickedMarker"
+      :clickedMarker="clickedMarker"
+      :uploadedFile="uploadedFile"
+      @close="close"
+    ></PreviewCard>
   </div>
 </template>
 <script lang='ts'>
@@ -58,7 +50,7 @@ import { TableAndMapMap } from "./Types";
 import Utils from "./GoogleMap/Logic/Utils";
 import TableLogic from "./Table/Logic/TableLogic";
 import UploadedFile, { Row } from "@/entities/UploadedFile";
-import Toolbar from "./Toolbar/Toolbar.vue";
+import state from "@/store/exploreStore";
 
 interface Split {
   destroy: () => void;
@@ -68,7 +60,6 @@ interface Split {
  */
 @Component({
   components: {
-    Toolbar,
     GoogleMap,
     Table,
     PreviewCard
@@ -115,12 +106,10 @@ export default class TableAndMap extends Vue {
   private hiddenMarkerIndices: Set<number> = new Set();
   private clickedMarker: Row | null = null;
   private splitInstance: Split | null = null;
-  private viewOptions: string[] = [
-    "table",
-    "map",
-    "map:markers",
-    "map:clusters"
-  ];
+
+  private get viewOptions() {
+    return state.viewOptions;
+  }
 
   private get hasMap(): boolean {
     return this.viewOptions.indexOf("map") > -1;
@@ -204,7 +193,10 @@ export default class TableAndMap extends Vue {
           keys.forEach(key => {
             if (
               header &&
-              header.toString().toLowerCase().indexOf(key.toLowerCase()) > -1
+              header
+                .toString()
+                .toLowerCase()
+                .indexOf(key.toLowerCase()) > -1
             ) {
               if (row[index]) {
                 content =
@@ -263,16 +255,6 @@ export default class TableAndMap extends Vue {
     this.$emit("filterChanged", filters);
   }
 
-  private updateViewOptions(viewOptions: string[]) {
-    this.viewOptions = viewOptions;
-  }
-
-  private updateExportOptions(exportOptions: string[]) {
-    if (exportOptions.indexOf("export:csv") > -1) {
-      (this.$refs.Table as Table).exportCsv();
-    }
-  }
-
   private hiddenMarkerIndicesChanged(hiddenMarkerIndices: Set<number>) {
     this.hiddenMarkerIndices = hiddenMarkerIndices;
   }
@@ -282,26 +264,6 @@ export default class TableAndMap extends Vue {
   }
 }
 </script>
-<style lang='scss' scoped>
-.half-height {
-  height: 50%;
-}
-.table-and-map {
-  position: relative;
-  .entity-preview {
-    height: 100%;
-    overflow: auto;
-    z-index: 10;
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    width: 500px;
-  }
-  .table-and-map__main {
-    height: calc(100% - 30px);
-  }
-}
-</style>
 <style lang='scss'>
 @import "@/sass/gutter.scss";
 </style>
