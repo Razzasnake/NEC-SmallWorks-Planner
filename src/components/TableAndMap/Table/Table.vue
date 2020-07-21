@@ -155,6 +155,7 @@ export default class Table extends Vue {
       this.gridApi.setSortModel(this.sorting);
     }
     this.updateVisibleRows();
+    this.tableLogic.setGridApi(this.gridApi);
   }
 
   private updatePinnedFooter() {

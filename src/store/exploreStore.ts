@@ -23,7 +23,7 @@ const state: ExploreStoreI = Vue.observable({
     allowDraw: true
   },
   tableLogic: null,
-  viewOptions: ["map", "table"]
+  viewOptions: ["map", "map:markers", "map:clusters", "table"]
 });
 
 export const updateUploadedFile = (uploadedFile: UploadedFile) => {
@@ -45,6 +45,12 @@ export const updateFilters = (filters: { [colId: string]: any }) => {
 
 export const updateViewOptions = (viewOptions: string[]) => {
   state.viewOptions = viewOptions;
+}
+
+export const exportToCsv = () => {
+  if (state.tableLogic && state.tableLogic.api) {
+    state.tableLogic.api.exportDataAsCsv();
+  }
 }
 
 export const createFeature = (fileName: string) => {

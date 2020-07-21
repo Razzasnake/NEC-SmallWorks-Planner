@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="footerValue">{{ footerValue }}</div>
-    <a v-else @click="onClick">
+    <a v-else @click="onClick" style="cursor: pointer;">
       <v-icon color="primary" style="font-size: 15px;">mdi-eye</v-icon>
     </a>
   </div>

@@ -3,6 +3,10 @@
   height: 100%;
 }
 
+.half-height {
+  height: 50%;
+}
+
 @each $dir in right, left, center {
   .float-#{$dir} {
     float: #{$dir};
