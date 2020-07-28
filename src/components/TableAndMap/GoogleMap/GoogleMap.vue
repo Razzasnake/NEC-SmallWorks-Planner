@@ -1,13 +1,29 @@
 <template>
   <div class="google-map-container">
-    <v-btn
-      v-if="mapLogic.selectedOverlayEvent"
-      class="delete-button"
-      small
-      color="white"
-      @click="deleteSelectedOverlay"
-    >Delete Boundary</v-btn>
     <div class="google-map" :id="mapLogic.mapId" />
+    <v-btn-toggle class="drawing-manager">
+      <v-btn x-small fab title="Stop drawing" @click="mapLogic.setDrawingManager(0)">
+        <v-icon>mdi-hand-right</v-icon>
+      </v-btn>
+      <v-btn x-small fab title="Draw a circle" @click="mapLogic.setDrawingManager(1)">
+        <v-icon>mdi-circle-outline</v-icon>
+      </v-btn>
+      <v-btn x-small fab title="Draw a shape" @click="mapLogic.setDrawingManager(2)">
+        <v-icon>mdi-vector-polygon</v-icon>
+      </v-btn>
+      <v-btn x-small fab title="Draw a rectangle" @click="mapLogic.setDrawingManager(3)">
+        <v-icon>mdi-square-outline</v-icon>
+      </v-btn>
+      <v-btn
+        v-if="mapLogic.selectedOverlayEvent"
+        x-small
+        fab
+        title="Delete selected polygon"
+        @click="deleteSelectedOverlay"
+      >
+        <v-icon color="error">mdi-delete</v-icon>
+      </v-btn>
+    </v-btn-toggle>
     <v-btn
       class="upload-layer"
       title="Upload geojson or zipped shapefile"
@@ -35,7 +51,7 @@ import GoogleMapLogic from "./Logic/GoogleMapLogic";
  * Display the rows that have been uploaded.
  */
 @Component({
-  components: {}
+  components: {},
 })
 export default class GoogleMap extends Vue {
   /**
@@ -154,17 +170,15 @@ export default class GoogleMap extends Vue {
   height: 100%;
   position: relative;
 }
-.delete-button {
+.drawing-manager {
   position: absolute;
-  margin: 5px;
-  z-index: 1;
-  top: -1px;
-  left: 120px;
+  top: 5px;
+  left: 5px;
 }
 .upload-layer {
   position: absolute;
-  top: 3px;
-  right: 3px;
+  top: 5px;
+  right: 5px;
 }
 </style>
 <style lang='scss'>

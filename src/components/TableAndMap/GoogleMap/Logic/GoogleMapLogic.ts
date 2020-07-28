@@ -24,6 +24,7 @@ export default class GoogleMapLogic {
   private map!: google.maps.Map;
 
   private drawingManager: google.maps.drawing.DrawingManager | null = null;
+  public activeDrawingMode: number | null = null;
   private markerCluster: MarkerClusterer | null = null;
   private heatmap: google.maps.visualization.HeatmapLayer | null = null;
   private activeOverlays: AvailableOverlays[] = [];
@@ -293,12 +294,29 @@ export default class GoogleMapLogic {
           google.maps.drawing.OverlayType.RECTANGLE
         ]
       },
-      drawingControl: true,
+      drawingControl: false,
       rectangleOptions: this.polyOptions,
       circleOptions: this.polyOptions,
       polygonOptions: this.polyOptions,
       map: this.map
     });
+  }
+
+  public setDrawingManager(state: number) {
+    if (this.drawingManager) {
+      this.activeDrawingMode = state > 0 ? state : null;
+      switch (state) {
+        case 0:
+          this.clearSelection();
+          return this.drawingManager.setDrawingMode(null);
+        case 1:
+          return this.drawingManager.setDrawingMode(google.maps.drawing.OverlayType.CIRCLE);
+        case 2:
+          return this.drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
+        case 3:
+          return this.drawingManager.setDrawingMode(google.maps.drawing.OverlayType.RECTANGLE);
+      }
+    }
   }
 
   private initDrawListeners(): void {
@@ -353,6 +371,7 @@ export default class GoogleMapLogic {
       );
     }
     this.activeOverlays.push(newOverlay);
+    this.activeDrawingMode = null;
   }
 
   private setPolygonListeners(newOverlay: google.maps.Polygon): void {

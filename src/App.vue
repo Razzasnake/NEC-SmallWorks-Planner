@@ -23,7 +23,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import NavBar from "@/components/NavBar/NavBar.vue";
-import { reset } from "@/store/exploreStore";
+import state, { reset } from "@/store/exploreStore";
 
 /**
  * Root of project
@@ -40,7 +40,7 @@ export default class App extends Vue {
 
   @Watch("$route")
   private routerUpdated() {
-    this.drawerAllowed = this.$route.name === "Explore";
+    this.drawerAllowed = state.uploadedFile !== null;
   }
 
   private created() {
