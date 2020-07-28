@@ -267,7 +267,8 @@ export default class GoogleMapLogic {
     this.heatmap = new google.maps.visualization.HeatmapLayer({
       data: this.markers
         .filter((_, index) => {
-          return !this.hiddenMarkerIndices.has(index);
+          const position = _.getPosition();
+          return !this.hiddenMarkerIndices.has(index) && position && position.lat() && position.lng();
         })
         .map(_ => {
           return { location: _.getPosition() };

@@ -33,7 +33,7 @@ export default class CallToAction extends Vue {
 </script>
 <style lang='scss' scoped>
 .call-to-action {
-  height: 25vh;
+  height: 20vh;
   display: flex;
   flex-direction: column;
   justify-content: center;

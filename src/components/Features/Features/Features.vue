@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <component v-if="story" :blok="story.content" :is="story.content.component"></component>
-  </div>
+  <component class="full-height" v-if="story" :blok="story.content" :is="story.content.component"></component>
 </template>
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
@@ -36,5 +34,3 @@ export default class Features extends Vue {
   }
 }
 </script>
-<style lang='scss' scoped>
-</style>

@@ -3,6 +3,7 @@ import axios from 'axios';
 axios.interceptors.request.use((config) => {
   config.url = "https://api.storyblok.com/v1/" + config.url;
   config.params["token"] = process.env.VUE_APP_STORYBLOK_TOKEN;
+  config.params["cv"] = new Date().getTime()
   return config;
 });
 
