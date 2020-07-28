@@ -222,13 +222,13 @@ export default class GoogleMap extends Vue {
     height: calc(100% + 28px);
   }
   .custom-clustericon-1 {
-    --cluster-color: #00a2d3;
+    --cluster-color: #1E88E5;
   }
   .custom-clustericon-2 {
-    --cluster-color: #ff9b00;
+    --cluster-color: #FB8C00;
   }
   .custom-clustericon-3 {
-    --cluster-color: #ff6969;
+    --cluster-color: #EF5350;
   }
 }
 </style>

@@ -526,8 +526,8 @@ export default class GoogleMapLogic {
         this.map.data.addGeoJson(event.data);
         this.map.data.setStyle({
           strokeWeight: 2,
-          strokeColor: "#00a2d3",
-          fillColor: "#00a2d3"
+          strokeColor: "#1E88E5",
+          fillColor: "#1E88E5"
         });
         const fkWorker = new PolygonRelationWorker();
         fkWorker.postMessage({
