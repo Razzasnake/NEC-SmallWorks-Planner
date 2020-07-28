@@ -1,5 +1,5 @@
 <template>
-  <v-list>
+  <v-list dense>
     <v-list-group
       v-for="(dropdown0, index0) in dropdowns"
       :key="index0"
@@ -17,7 +17,12 @@
       </span>
     </v-list-group>
     <v-list-item link @click="exportToCsv">
-      <v-list-item-content>Export</v-list-item-content>
+      <v-list-item-icon>
+        <v-icon>mdi-export</v-icon>
+      </v-list-item-icon>
+      <v-list-item-content>
+        <v-list-item-title>Export</v-list-item-title>
+      </v-list-item-content>
     </v-list-item>
   </v-list>
 </template>
@@ -29,7 +34,7 @@ import state, { updateViewOptions, exportToCsv } from "@/store/exploreStore";
  * Table options
  */
 @Component({
-  components: {}
+  components: {},
 })
 export default class NavigationDrawer extends Vue {
   private activeText: string = "Hide ";
@@ -46,25 +51,25 @@ export default class NavigationDrawer extends Vue {
       dropdowns: [
         {
           label: "Table",
-          key: "table"
+          key: "table",
         },
         {
           label: "Footer Min",
-          key: "table:footer:min"
+          key: "table:footer:min",
         },
         {
           label: "Footer Max",
-          key: "table:footer:max"
+          key: "table:footer:max",
         },
         {
           label: "Footer Avg",
-          key: "table:footer:avg"
+          key: "table:footer:avg",
         },
         {
           label: "Footer Total",
-          key: "table:footer:total"
-        }
-      ]
+          key: "table:footer:total",
+        },
+      ],
     },
     {
       label: "Map",
@@ -72,22 +77,22 @@ export default class NavigationDrawer extends Vue {
       dropdowns: [
         {
           label: "Map",
-          key: "map"
+          key: "map",
         },
         {
           label: "Heat Map",
-          key: "map:heat"
+          key: "map:heat",
         },
         {
           label: "Markers",
-          key: "map:markers"
+          key: "map:markers",
         },
         {
           label: "Clusters",
-          key: "map:clusters"
-        }
-      ]
-    }
+          key: "map:clusters",
+        },
+      ],
+    },
   ];
 
   private keyVisible(key: string) {
@@ -97,7 +102,7 @@ export default class NavigationDrawer extends Vue {
   private updateViewOptions(selection: { label: string; key: string }) {
     let newOptions: string[] = [];
     if (this.keyVisible(selection.key)) {
-      newOptions = this.viewOptions.filter(_ => _ !== selection.key);
+      newOptions = this.viewOptions.filter((_) => _ !== selection.key);
     } else {
       newOptions = this.viewOptions.concat(selection.key);
     }
@@ -112,7 +117,7 @@ export default class NavigationDrawer extends Vue {
   }
 
   private exportToCsv() {
-    exportToCsv()
+    exportToCsv();
   }
 }
 </script>
