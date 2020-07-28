@@ -18,7 +18,7 @@
         v-if="mapLogic.selectedOverlayEvent"
         x-small
         fab
-        title="Delete selected polygon"
+        title="Delete selected shape"
         @click="deleteSelectedOverlay"
       >
         <v-icon color="error">mdi-delete</v-icon>
