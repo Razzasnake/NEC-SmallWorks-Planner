@@ -1,9 +1,13 @@
 <template>
   <v-card width="400px">
     <v-img class="align-end" height="200px" :src="exampleAnalysis.preview">
-      <a :href="exampleAnalysis.url" target="_blank" class="white--text">
-        <v-card-title>{{ exampleAnalysis.title }}</v-card-title>
-      </a>
+      <v-card-title>
+        <a
+          :href="exampleAnalysis.url"
+          target="_blank"
+          class="white--text"
+        >{{ exampleAnalysis.title }}</a>
+      </v-card-title>
     </v-img>
     <v-card-text class="text--primary">
       <div>{{ exampleAnalysis.description }}</div>
@@ -22,7 +26,7 @@ import ExampleAnalysis from "@/entities/ExampleAnalysis";
  * One exampleAnalysis tile
  */
 @Component({
-  components: {}
+  components: {},
 })
 export default class Tile extends Vue {
   /**
