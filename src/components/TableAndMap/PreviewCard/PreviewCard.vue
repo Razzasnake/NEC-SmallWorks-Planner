@@ -15,6 +15,7 @@
                 :modules="modules"
                 :defaultColDef="colDef"
                 suppressMenuHide
+                enableCellTextSelection
               ></AgGridVue>
             </div>
           </v-col>

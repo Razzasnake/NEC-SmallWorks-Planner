@@ -1,11 +1,20 @@
-import { ColDef, ColGroupDef, GridApi } from "@ag-grid-community/core"
+import { ColDef, ColGroupDef, GridApi, ICellRendererParams } from "@ag-grid-community/core"
 import UploadedFile, { Row } from "@/entities/UploadedFile"
 import AgPreview from "./AgPreview.vue"
 
 export const defaultColDef: ColDef = {
   sortable: true,
   filter: true,
-  resizable: true
+  resizable: true,
+  cellRenderer: (params: ICellRendererParams) => {
+    const urlExpression = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+    const urlRegex = new RegExp(urlExpression);
+    if ((params.value || "").toString().match(urlRegex)) {
+      return `<a href="${params.value}" target="_blank">${params.value}</a>`;
+    } else {
+      return params.value;
+    }
+  }
 }
 
 export default class TableLogic {
@@ -62,6 +71,7 @@ export default class TableLogic {
       width: 50,
       suppressMenu: true,
       sortable: false,
+      cellRenderer: undefined,
       cellRendererFramework: AgPreview
     }
     this.columnDefs = [previewCol].concat(generatedCols)
