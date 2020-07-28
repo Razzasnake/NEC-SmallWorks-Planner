@@ -7,3 +7,5 @@ declare module "worker-loader!*" {
   export default WebpackWorker;
 }
 declare module "shpjs";
+declare module "storyblok-vue";
+declare const storyblok: any;

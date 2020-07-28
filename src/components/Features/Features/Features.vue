@@ -1,19 +1,40 @@
 <template>
   <div>
-    <MapYourExcelLocationalData />
+    <component v-if="story" :blok="story.content" :is="story.content.component"></component>
   </div>
 </template>
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
-import MapYourExcelLocationalData from "../MapYourExcelLocationalData/MapYourExcelLocationalData.vue";
+import storyapi from "@/api/blog";
+import Page from "./Page.vue";
 
 /**
- * Display all the features that Table & Map has
+ * Storyblok blog landing page
  */
 @Component({
   components: {
-    MapYourExcelLocationalData
-  }
+    Page,
+  },
 })
-export default class Features extends Vue {}
+export default class Features extends Vue {
+  private story: null | any = null;
+
+  private created() {
+    storyblok.init({
+      accessToken: process.env.VUE_APP_STORYBLOK_TOKEN,
+    });
+    storyblok.on("change", async () => {
+      this.story = await storyapi.getStory("features", "draft");
+    });
+    storyblok.pingEditor(async () => {
+      if (storyblok.isInEditor()) {
+        this.story = await storyapi.getStory("features", "draft");
+      } else {
+        this.story = await storyapi.getStory("features", "published");
+      }
+    });
+  }
+}
 </script>
+<style lang='scss' scoped>
+</style>
