@@ -2,8 +2,7 @@ import { OverlayJson } from './GoogleMap/Logic/Utils'
 
 interface TableAndMapMap {
   overlayEventJsons: OverlayJson[],
-  infoWindowKeys: { label: string, prop: string }[],
-  allowDraw: boolean
+  infoWindowKeys: { label: string, prop: string }[]
 }
 
 interface TableAndMapTable {

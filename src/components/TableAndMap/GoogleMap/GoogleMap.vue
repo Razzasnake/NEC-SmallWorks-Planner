@@ -69,11 +69,6 @@ export default class GoogleMap extends Vue {
     row: Row
   ) => google.maps.InfoWindow;
   /**
-   * Whether or not to allow the user to draw polygons on the map
-   */
-  @Prop({ type: Boolean, default: true })
-  public allowDraw!: boolean;
-  /**
    * A Set of indices of objects to hide
    */
   @Prop({ default: () => new Set() })

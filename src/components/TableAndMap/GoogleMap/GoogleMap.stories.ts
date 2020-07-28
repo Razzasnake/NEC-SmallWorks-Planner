@@ -16,7 +16,6 @@ const _GoogleMap = () => ({
         :hiddenMarkerIndices="hiddenMarkerIndices"
         :overlayEvents="overlayEvents"
         :createInfoWindow="createInfoWindow"
-        :allowDraw="allowDraw"
         :clickedMarker="clickedMarker"
         @markerSelected="markerSelected"
         @updateOverlayEvents="updateOverlayEvents"
@@ -33,9 +32,6 @@ const _GoogleMap = () => ({
       default: () => {
         return null
       }
-    },
-    allowDraw: {
-      default: true
     },
     clickedMarker: {
       default: null

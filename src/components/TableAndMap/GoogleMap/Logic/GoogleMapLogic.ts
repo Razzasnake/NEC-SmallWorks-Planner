@@ -58,10 +58,6 @@ export default class GoogleMapLogic {
     return (this.vueComponent as any).createInfoWindow;
   }
 
-  private get allowDraw(): boolean {
-    return (this.vueComponent as any).allowDraw;
-  }
-
   private get hiddenMarkerIndices(): Set<number> {
     return (this.vueComponent as any).hiddenMarkerIndices;
   }
@@ -87,9 +83,7 @@ export default class GoogleMapLogic {
   }
 
   public createMap() {
-    Utils.injectGoogleMapsLibrary(
-      this.allowDraw ? ["drawing", "visualization"] : []
-    ).then(() => {
+    Utils.injectGoogleMapsLibrary(["drawing", "visualization"]).then(() => {
       const mapEl = document.getElementById(this.mapId);
       if (mapEl) {
         this.map = new google.maps.Map(mapEl, {
@@ -126,11 +120,9 @@ export default class GoogleMapLogic {
     this.updateBounds();
     this.displayClustersChanged();
     this.displayHeatmapChanged();
-    if (this.allowDraw) {
-      this.initDrawingManager();
-      this.initDrawListeners();
-      this.initOverlayEvents();
-    }
+    this.initDrawingManager();
+    this.initDrawListeners();
+    this.initOverlayEvents();
   }
 
   private createMarkers(): void {

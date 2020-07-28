@@ -47,8 +47,7 @@ const _TableAndMap = () => ({
     return {
       map: {
         overlayEventJsons: [],
-        infoWindowKeys: [],
-        allowDraw: true
+        infoWindowKeys: []
       }
     }
   },

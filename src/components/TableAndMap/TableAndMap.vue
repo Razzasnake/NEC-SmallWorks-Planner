@@ -7,7 +7,6 @@
         :hiddenMarkerIndices="hiddenMarkerIndices"
         :overlayEvents="overlayEvents"
         :createInfoWindow="createInfoWindow"
-        :allowDraw="map.allowDraw"
         :displayHeatmap="displayHeatmap"
         :displayMarkers="displayMarkers"
         :displayClusters="displayClusters"

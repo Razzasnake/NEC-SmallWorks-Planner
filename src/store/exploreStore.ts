@@ -19,8 +19,7 @@ const state: ExploreStoreI = Vue.observable({
   sorting: [],
   map: {
     overlayEventJsons: [],
-    infoWindowKeys: [],
-    allowDraw: true
+    infoWindowKeys: []
   },
   tableLogic: null,
   viewOptions: ["map", "map:markers", "map:clusters", "table"]
@@ -79,8 +78,7 @@ export const reset = () => {
   state.sorting = [];
   state.map = {
     overlayEventJsons: [],
-    infoWindowKeys: [],
-    allowDraw: true
+    infoWindowKeys: []
   };
   state.tableLogic = null;
   state.viewOptions = ["map", "map:markers", "map:clusters", "table"];
