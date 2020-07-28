@@ -3,16 +3,16 @@
     <div class="google-map" :id="mapLogic.mapId" />
     <v-btn-toggle class="drawing-manager" :value="mapLogic.activeDrawingMode">
       <v-btn x-small fab title="Stop drawing" @click="mapLogic.setDrawingManager(0)">
-        <v-icon>mdi-hand-right</v-icon>
+        <v-icon :color="mapLogic.iconColor">mdi-hand-right</v-icon>
       </v-btn>
       <v-btn x-small fab title="Draw a circle" @click="mapLogic.setDrawingManager(1)">
-        <v-icon>mdi-circle-outline</v-icon>
+        <v-icon :color="mapLogic.iconColor">mdi-circle-outline</v-icon>
       </v-btn>
       <v-btn x-small fab title="Draw a shape" @click="mapLogic.setDrawingManager(2)">
-        <v-icon>mdi-vector-polygon</v-icon>
+        <v-icon :color="mapLogic.iconColor">mdi-vector-polygon</v-icon>
       </v-btn>
       <v-btn x-small fab title="Draw a rectangle" @click="mapLogic.setDrawingManager(3)">
-        <v-icon>mdi-square-outline</v-icon>
+        <v-icon :color="mapLogic.iconColor">mdi-square-outline</v-icon>
       </v-btn>
       <v-btn
         v-if="mapLogic.selectedOverlayEvent"
@@ -24,22 +24,18 @@
         <v-icon color="error">mdi-delete</v-icon>
       </v-btn>
     </v-btn-toggle>
-    <v-btn
-      class="upload-layer"
-      title="Upload geojson or zipped shapefile"
-      @click="openUpload"
-      fab
-      x-small
-    >
-      <v-icon>mdi-layers</v-icon>
-      <input
-        accept=".json, .geojson, .zip"
-        ref="input"
-        type="file"
-        style="display: none"
-        @change="shapefilesUploaded($event.target.files)"
-      />
-    </v-btn>
+    <v-btn-toggle class="upload-layer">
+      <v-btn title="Upload geojson or zipped shapefile" @click="openUpload" fab x-small>
+        <v-icon :color="mapLogic.iconColor">mdi-layers</v-icon>
+        <input
+          accept=".json, .geojson, .zip"
+          ref="input"
+          type="file"
+          style="display: none"
+          @change="shapefilesUploaded($event.target.files)"
+        />
+      </v-btn>
+    </v-btn-toggle>
   </div>
 </template>
 <script lang='ts'>
@@ -222,13 +218,13 @@ export default class GoogleMap extends Vue {
     height: calc(100% + 28px);
   }
   .custom-clustericon-1 {
-    --cluster-color: #1E88E5;
+    --cluster-color: #1e88e5;
   }
   .custom-clustericon-2 {
-    --cluster-color: #FB8C00;
+    --cluster-color: #fb8c00;
   }
   .custom-clustericon-3 {
-    --cluster-color: #EF5350;
+    --cluster-color: #ef5350;
   }
 }
 </style>

@@ -20,6 +20,7 @@ export default class GoogleMapLogic {
     .toString(36)
     .substring(7);
   public activeDrawingMode: number | null = null;
+  public iconColor: string = "#000000DE";
 
   private vueComponent!: Vue;
   private map!: google.maps.Map;
