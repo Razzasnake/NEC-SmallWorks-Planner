@@ -1,7 +1,7 @@
 <template>
   <div class="google-map-container">
     <div class="google-map" :id="mapLogic.mapId" />
-    <v-btn-toggle class="drawing-manager">
+    <v-btn-toggle class="drawing-manager" :value="mapLogic.activeDrawingMode">
       <v-btn x-small fab title="Stop drawing" @click="mapLogic.setDrawingManager(0)">
         <v-icon>mdi-hand-right</v-icon>
       </v-btn>

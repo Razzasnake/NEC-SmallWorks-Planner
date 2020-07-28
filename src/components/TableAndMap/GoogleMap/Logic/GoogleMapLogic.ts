@@ -19,12 +19,12 @@ export default class GoogleMapLogic {
   public mapId = Math.random()
     .toString(36)
     .substring(7);
+  public activeDrawingMode: number | null = null;
 
   private vueComponent!: Vue;
   private map!: google.maps.Map;
 
   private drawingManager: google.maps.drawing.DrawingManager | null = null;
-  public activeDrawingMode: number | null = null;
   private markerCluster: MarkerClusterer | null = null;
   private heatmap: google.maps.visualization.HeatmapLayer | null = null;
   private activeOverlays: AvailableOverlays[] = [];
