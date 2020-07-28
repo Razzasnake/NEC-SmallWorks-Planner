@@ -1,18 +1,4 @@
-interface ExampleAnalysisI {
-  id: number
-  title: string
-  description: string
-  preview: string
-  url: string
-  createdOn: Date
-  config: {
-    data: () => Promise<{ default: any[][]}>,
-    columnSelections: { lat: number, lng: number },
-    firstRowHeader: boolean
-  }
-}
-
-export default class ExampleAnalysis implements ExampleAnalysisI {
+export default class ExampleAnalysis {
   public id!: number;
   public title!: string;
   public description!: string;
@@ -25,7 +11,7 @@ export default class ExampleAnalysis implements ExampleAnalysisI {
     firstRowHeader: boolean
   };
 
-  constructor(obj: ExampleAnalysisI) {
+  constructor(obj: ExampleAnalysis) {
     Object.assign(this, obj)
   }
 }
