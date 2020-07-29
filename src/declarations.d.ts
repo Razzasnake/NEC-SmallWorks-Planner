@@ -8,4 +8,5 @@ declare module "worker-loader!*" {
 }
 declare module "shpjs";
 declare module "storyblok-vue";
+declare module "storyblok-js-client";
 declare const storyblok: any;

@@ -1,11 +1,17 @@
 <template>
   <Wrapper :blok="blok">
-    <template>{{ blok.content }}</template>
+    <div v-html="html" class="feature"></div>
   </Wrapper>
 </template>
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
 import Wrapper from "./Wrapper.vue";
+import StoryblokClient from "storyblok-js-client";
+
+const Storyblok = new StoryblokClient({
+  accessToken: process.env.VUE_APP_STORYBLOK_TOKEN,
+});
+
 /**
  * Storyblok feature component
  */
@@ -20,5 +26,15 @@ export default class Feature extends Vue {
    */
   @Prop()
   private blok: any;
+  private get html() {
+    return Storyblok.richTextResolver.render(this.blok.content);
+  }
 }
 </script>
+<style lang="scss" scoped>
+.feature {
+  padding: 3rem 1.5rem;
+  max-width: 1024px;
+  margin: auto;
+}
+</style>
