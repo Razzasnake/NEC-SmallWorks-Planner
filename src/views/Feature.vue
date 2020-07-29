@@ -1,15 +1,18 @@
 <template>
-  <div>{{ story }}</div>
+  <FeatureComponent :blok="story" />
 </template>
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
+import FeatureComponent from "@/components/Features/Feature.vue";
 import storyapi from "@/api/blog";
 
 /**
  * Storyblok blog full content page
  */
 @Component({
-  components: {},
+  components: {
+    FeatureComponent,
+  },
 })
 export default class Feature extends Vue {
   @Prop()
