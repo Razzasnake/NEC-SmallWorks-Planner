@@ -1,6 +1,6 @@
 <template>
   <Wrapper :blok="blok">
-    <div v-html="html" class="feature"></div>
+    <div v-html="html" class="feature section"></div>
   </Wrapper>
 </template>
 <script lang='ts'>
@@ -33,7 +33,6 @@ export default class Feature extends Vue {
 </script>
 <style lang="scss" scoped>
 .feature {
-  padding: 3rem 1.5rem;
   max-width: 1024px;
   margin: auto;
 }

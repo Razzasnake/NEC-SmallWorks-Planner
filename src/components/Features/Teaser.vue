@@ -1,5 +1,5 @@
 <template>
-  <v-card width="400px">
+  <v-card width="397px">
     <div v-editable="blok">
       <v-img class="align-end" height="200px" :src="blok.preview.filename"></v-img>
       <v-card-title>

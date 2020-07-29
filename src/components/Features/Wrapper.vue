@@ -1,23 +1,31 @@
 <template>
   <div v-editable="blok" class="full-height">
-    <div class="header">
-      <div class="text-h4">{{ blok.title }}</div>
-      <div class="text-subtitle-1">{{ blok.subtitle }}</div>
+    <div class="section">
+      <div class="header">
+        <div class="text-h4">{{ blok.title }}</div>
+        <div class="text-subtitle-1">{{ blok.subtitle }}</div>
+      </div>
     </div>
-    <div class="content">
-      <!-- @slot Content -->
-      <slot></slot>
+    <div class="content section">
+      <div class="slot">
+        <!-- @slot Content -->
+        <slot></slot>
+      </div>
     </div>
+    <Footer class="section" />
   </div>
 </template>
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
+import Footer from "@/components/Home/Footer/Footer.vue";
 
 /**
  * Wrapper for the content
  */
 @Component({
-  components: {},
+  components: {
+    Footer,
+  },
 })
 export default class Wrapper extends Vue {
   /**
@@ -29,7 +37,7 @@ export default class Wrapper extends Vue {
 </script>
 <style lang='scss' scoped>
 .header {
-  height: calc(20vh + 6rem);
+  height: 200px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -37,6 +45,9 @@ export default class Wrapper extends Vue {
 }
 .content {
   background-color: #eeeeee;
-  height: calc(100% - 20vh - 6rem);
+  .slot {
+    max-width: 1628px;
+    margin: auto;
+  }
 }
 </style>
