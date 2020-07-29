@@ -5,7 +5,7 @@
       <div class="text-subtitle-1">{{ blok.subtitle }}</div>
     </div>
     <div class="content">
-      <v-container>
+      <div>
         <v-row justify="center">
           <template v-for="item in blok.body">
             <component
@@ -17,7 +17,7 @@
             ></component>
           </template>
         </v-row>
-      </v-container>
+      </div>
     </div>
   </div>
 </template>
@@ -41,7 +41,10 @@ export default class Page extends Vue {
   private blok: any;
 
   private learnMore(blok: any) {
-    console.log(blok);
+    /**
+     * Learn more about this teaser
+     */
+    this.$emit("learnMore", blok);
   }
 }
 </script>
