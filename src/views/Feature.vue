@@ -1,5 +1,5 @@
 <template>
-  <FeatureComponent :blok="story" />
+  <FeatureComponent v-if="story" :blok="story.content" />
 </template>
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
@@ -18,11 +18,11 @@ export default class Feature extends Vue {
   @Prop()
   private slug!: string;
 
+  private story: null | any = null;
+
   private get url() {
     return "feature/" + this.slug;
   }
-
-  private story: null | any = null;
 
   private created() {
     storyblok.init({

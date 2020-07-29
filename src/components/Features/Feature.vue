@@ -1,14 +1,18 @@
 <template>
-  <div>{{ blok }}</div>
+  <Wrapper :blok="blok">
+    <template>{{ blok.content }}</template>
+  </Wrapper>
 </template>
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
-
+import Wrapper from "./Wrapper.vue";
 /**
  * Storyblok feature component
  */
 @Component({
-  components: {},
+  components: {
+    Wrapper,
+  },
 })
 export default class Feature extends Vue {
   /**
@@ -18,5 +22,3 @@ export default class Feature extends Vue {
   private blok: any;
 }
 </script>
-<style lang='scss' scoped>
-</style>

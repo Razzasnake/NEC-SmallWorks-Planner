@@ -1,29 +1,22 @@
 <template>
-  <div v-editable="blok">
-    <div class="header">
-      <div class="text-h4">{{ blok.title }}</div>
-      <div class="text-subtitle-1">{{ blok.subtitle }}</div>
-    </div>
-    <div class="content">
-      <div>
-        <v-row justify="center">
-          <template v-for="item in blok.body">
-            <component
-              :key="item._uid"
-              :blok="item"
-              :is="item.component"
-              class="ma-2"
-              @learnMore="learnMore"
-            ></component>
-          </template>
-        </v-row>
-      </div>
-    </div>
-  </div>
+  <Wrapper :blok="blok">
+    <v-row justify="center">
+      <template v-for="item in blok.body">
+        <component
+          :key="item._uid"
+          :blok="item"
+          :is="item.component"
+          class="ma-2"
+          @learnMore="learnMore"
+        ></component>
+      </template>
+    </v-row>
+  </Wrapper>
 </template>
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
 import Teaser from "./Teaser.vue";
+import Wrapper from "./Wrapper.vue";
 
 /**
  * Storyblok page component
@@ -31,6 +24,7 @@ import Teaser from "./Teaser.vue";
 @Component({
   components: {
     Teaser,
+    Wrapper,
   },
 })
 export default class Page extends Vue {
@@ -48,16 +42,3 @@ export default class Page extends Vue {
   }
 }
 </script>
-<style lang='scss' scoped>
-.header {
-  height: calc(20vh + 6rem);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-.content {
-  background-color: #eeeeee;
-  height: calc(100% - 20vh - 6rem);
-}
-</style>

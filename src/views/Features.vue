@@ -1,11 +1,9 @@
 <template>
-  <component
-    class="full-height"
+  <Page
     v-if="story"
     :blok="story.content"
-    :is="story.content.component"
     @learnMore="learnMore"
-  ></component>
+  ></Page>
 </template>
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
