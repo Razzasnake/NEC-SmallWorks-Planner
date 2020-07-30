@@ -26,7 +26,7 @@
 </template>
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
-import Teaser from "./Teaser.vue";
+import Teaser from "./Teaser/Teaser.vue";
 import Footer from "@/components/Home/Footer/Footer.vue";
 import PageI from "@/entities/storyblok/Page";
 

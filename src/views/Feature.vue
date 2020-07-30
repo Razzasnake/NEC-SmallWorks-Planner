@@ -3,7 +3,7 @@
 </template>
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
-import FeatureComponent from "@/components/Features/Feature.vue";
+import FeatureComponent from "@/components/Features/Feature/Feature.vue";
 import storyapi from "@/api/storyblok";
 import StoryI from "@/entities/storyblok/Story";
 

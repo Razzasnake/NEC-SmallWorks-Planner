@@ -1,8 +1,8 @@
-import FeatureI from "./Feature";
+import TeaserI from "./Teaser";
 
 export default interface PageI {
   _uid: string,
-  body: FeatureI[],
+  body: TeaserI[],
   title: string,
   subtitle: string,
   component: "page"

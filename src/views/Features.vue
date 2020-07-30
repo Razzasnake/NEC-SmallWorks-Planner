@@ -8,7 +8,7 @@
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
 import storyapi from "@/api/storyblok";
-import Page from "@/components/Features/Page.vue";
+import Page from "@/components/Features/Page/Page.vue";
 import StoryI from "@/entities/storyblok/Story";
 
 /**
