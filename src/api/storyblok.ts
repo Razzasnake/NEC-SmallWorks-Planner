@@ -1,7 +1,8 @@
 import StoryI from "@/entities/storyblok/Story";
 import axios from 'axios';
 
-axios.interceptors.request.use((config) => {
+const instance = axios.create();
+instance.interceptors.request.use((config) => {
   config.url = "https://api.storyblok.com/v1/" + config.url;
   config.params["token"] = process.env.VUE_APP_STORYBLOK_TOKEN;
   config.params["cv"] = new Date().getTime()
@@ -10,7 +11,7 @@ axios.interceptors.request.use((config) => {
 
 export default {
   getStory: async (slug: string, version: string): Promise<StoryI> => {
-    return axios
+    return instance
       .get("cdn/stories/" + slug, {
         params: {
           version: version
