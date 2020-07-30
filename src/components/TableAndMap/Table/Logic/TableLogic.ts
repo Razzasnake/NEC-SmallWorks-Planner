@@ -1,6 +1,7 @@
 import { ColDef, ColGroupDef, GridApi, ICellRendererParams } from "@ag-grid-community/core"
 import UploadedFile, { Row } from "@/entities/UploadedFile"
 import AgPreview from "./AgPreview.vue"
+import { max } from "@/logic/Math";
 
 export const defaultColDef: ColDef = {
   sortable: true,
@@ -29,7 +30,7 @@ export default class TableLogic {
 
   private computeColumnTypes(uploadedFile: UploadedFile) {
     const columnTypes: { number: number, string: number }[] = []
-    const maxCols = Math.max(...uploadedFile.data.map(_ => _.data.length));
+    const maxCols = max(uploadedFile.data.map(_ => _.data.length));
     for (let i = 0; i < maxCols; i++) {
       columnTypes.push({ number: 0, string: 0 })
     }
