@@ -4,7 +4,7 @@
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
 import FeatureComponent from "@/components/Features/Feature.vue";
-import storyapi from "@/api/blog";
+import storyapi from "@/api/storyblok";
 
 /**
  * Storyblok blog full content page

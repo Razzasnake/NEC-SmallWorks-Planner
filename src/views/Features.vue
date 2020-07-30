@@ -7,7 +7,7 @@
 </template>
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
-import storyapi from "@/api/blog";
+import storyapi from "@/api/storyblok";
 import Page from "@/components/Features/Page.vue";
 
 /**
