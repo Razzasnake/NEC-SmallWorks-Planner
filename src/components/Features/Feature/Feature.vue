@@ -20,7 +20,7 @@
         ></iframe>
       </div>
     </div>
-    <Footer class="section" />
+    <Footer />
   </div>
 </template>
 <script lang='ts'>
@@ -59,13 +59,13 @@ export default class Feature extends Vue {
   margin: 3rem 1.5rem;
   display: flex;
   align-items: center;
-  max-width: 1024px;
+  max-width: 1215px;
   margin: auto;
 }
 .content {
   background-color: #eeeeee;
   .feature {
-    max-width: 1024px;
+    max-width: 1215px;
     margin: auto;
   }
 }

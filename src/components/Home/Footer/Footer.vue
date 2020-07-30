@@ -19,6 +19,7 @@ export default class Footer extends Vue {
 <style lang='scss' scoped>
 .foot {
   margin: auto;
-  max-width: 1024px;
+  max-width: 1215px;
+  padding: 3rem 0rem;
 }
 </style>

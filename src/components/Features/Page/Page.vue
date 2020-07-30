@@ -21,7 +21,7 @@
         </v-row>
       </div>
     </div>
-    <Footer class="section" />
+    <Footer />
   </div>
 </template>
 <script lang='ts'>
@@ -65,7 +65,7 @@ export default class Page extends Vue {
 .content {
   background-color: #eeeeee;
   .features {
-    max-width: 1628px;
+    max-width: 1215px;
     margin: auto;
   }
 }

@@ -44,7 +44,7 @@ export default class InfoSection extends Vue {
 <style lang='scss' scoped>
 .info-section {
   margin: auto;
-  max-width: 1024px;
+  max-width: 1215px;
   .label {
     font-weight: bold;
   }

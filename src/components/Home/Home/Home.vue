@@ -1,15 +1,15 @@
 <template>
   <div>
-    <div class="section">
+    <div class="content section">
       <CallToAction @finish="$emit('finish', $event)"></CallToAction>
     </div>
-    <div class="section">
+    <div class="content section">
       <Features />
     </div>
-    <div class="section">
+    <div class="content section">
       <ComingSoon />
     </div>
-    <div class="section">
+    <div class="content">
       <Footer />
     </div>
   </div>
@@ -36,7 +36,7 @@ import Footer from "@/components/Home/Footer/Footer.vue";
 export default class Home extends Vue {}
 </script>
 <style lang='scss' scoped>
-.section {
+.content {
   &:nth-of-type(even) {
     background-color: #eeeeee;
   }
