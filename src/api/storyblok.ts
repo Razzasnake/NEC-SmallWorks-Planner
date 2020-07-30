@@ -20,7 +20,6 @@ export default {
         return response.data.story;
       })
       .catch((error) => {
-        console.log(error);
         return null;
       });
   }
