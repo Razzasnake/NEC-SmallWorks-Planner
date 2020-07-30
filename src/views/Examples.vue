@@ -1,34 +1,26 @@
 <template>
-  <v-container>
+  <div>
     <Loading :loading="loading" />
-    <v-row justify="center">
-      <Tile
-        v-for="example in exampleAnalyses"
-        :key="example.id"
-        :exampleAnalysis="example"
-        @preview="preview"
-        class="ma-2"
-      ></Tile>
-    </v-row>
-  </v-container>
+    <Page :exampleAnalyses="exampleAnalyses" @preview="preview" />
+  </div>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
-import Tile from "@/components/Examples/Tile/Tile.vue";
 import ExampleAnalysis from "@/entities/ExampleAnalysis";
 import UploadedFile from "@/entities/UploadedFile";
 import { updateUploadedFile } from "@/store/exploreStore";
 import examplesApi from "@/api/examples";
 import Loading from "@/components/Shared/Loading/Loading.vue";
+import Page from "@/components/Examples/Page/Page.vue";
 
 /**
  * All examples
  */
 @Component({
   components: {
-    Tile,
-    Loading
-  }
+    Page,
+    Loading,
+  },
 })
 export default class Examples extends Vue {
   private exampleAnalyses: ExampleAnalysis[] = [];
@@ -45,7 +37,7 @@ export default class Examples extends Vue {
       const uploadedFile = new UploadedFile({
         data: (await exampleAnalysis.config.data()).default,
         columnSelections: exampleAnalysis.config.columnSelections,
-        firstRowHeader: exampleAnalysis.config.firstRowHeader
+        firstRowHeader: exampleAnalysis.config.firstRowHeader,
       });
       updateUploadedFile(uploadedFile);
       this.$router.push({ name: "Explore" });
