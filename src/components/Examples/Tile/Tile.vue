@@ -1,15 +1,10 @@
 <template>
-  <v-card width="400px">
-    <v-img class="align-end" height="200px" :src="exampleAnalysis.preview">
-      <v-card-title>
-        <a
-          :href="exampleAnalysis.url"
-          target="_blank"
-          class="white--text"
-        >{{ exampleAnalysis.title }}</a>
-      </v-card-title>
-    </v-img>
-    <v-card-text class="text--primary">
+  <v-card width="397px">
+    <v-img class="align-end" height="200px" :src="exampleAnalysis.preview"></v-img>
+    <v-card-title>
+      <a :href="exampleAnalysis.url" target="_blank">{{ exampleAnalysis.title }}</a>
+    </v-card-title>
+    <v-card-text>
       <div>{{ exampleAnalysis.description }}</div>
     </v-card-text>
     <v-card-actions>

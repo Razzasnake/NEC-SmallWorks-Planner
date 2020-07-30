@@ -1,18 +1,16 @@
 <template>
-  <v-card width="397px">
-    <div v-editable="blok">
-      <v-img class="align-end" height="200px" :src="blok.preview.filename"></v-img>
-      <v-card-title>
-        <a @click="learnMore">{{ blok.title }}</a>
-      </v-card-title>
-      <v-card-text class="text--primary">
-        <div>{{ blok.description }}</div>
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn color="primary" text @click="learnMore">Learn More</v-btn>
-      </v-card-actions>
-    </div>
+  <v-card width="397px" v-editable="blok">
+    <v-img class="align-end" height="200px" :src="blok.preview.filename"></v-img>
+    <v-card-title>
+      <a @click="learnMore">{{ blok.title }}</a>
+    </v-card-title>
+    <v-card-text>
+      <div>{{ blok.description }}</div>
+    </v-card-text>
+    <v-card-actions>
+      <v-spacer></v-spacer>
+      <v-btn color="primary" text @click="learnMore">Learn More</v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 <script lang='ts'>
