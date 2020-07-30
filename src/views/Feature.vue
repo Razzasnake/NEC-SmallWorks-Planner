@@ -15,6 +15,9 @@ import storyapi from "@/api/storyblok";
   },
 })
 export default class Feature extends Vue {
+  /**
+   * Slug of the feature
+   */
   @Prop()
   private slug!: string;
 

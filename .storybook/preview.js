@@ -1,6 +1,7 @@
 import { addDecorator } from '@storybook/vue'
 
 import vuetify from '@/setups/vuetify'
+import '@/setups/storyblok'
 
 addDecorator(() => ({
   vuetify,

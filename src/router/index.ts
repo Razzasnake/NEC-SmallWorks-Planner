@@ -27,7 +27,7 @@ const routes = [
   {
     path: '/feature/:slug',
     name: 'Feature',
-    component: () => import(/* webpackChunkName: "Features" */ '@//views/Feature.vue'),
+    component: () => import(/* webpackChunkName: "Feature" */ '@//views/Feature.vue'),
     props: true
   },
   { path: '/*', redirect: '/' }
