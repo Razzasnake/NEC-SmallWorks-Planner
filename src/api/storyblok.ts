@@ -1,3 +1,4 @@
+import StoryI from "@/entities/storyblok/Story";
 import axios from 'axios';
 
 axios.interceptors.request.use((config) => {
@@ -8,7 +9,7 @@ axios.interceptors.request.use((config) => {
 });
 
 export default {
-  getStory: async (slug: string, version: string) => {
+  getStory: async (slug: string, version: string): Promise<StoryI> => {
     return axios
       .get("cdn/stories/" + slug, {
         params: {

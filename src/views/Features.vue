@@ -9,6 +9,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import storyapi from "@/api/storyblok";
 import Page from "@/components/Features/Page.vue";
+import StoryI from "@/entities/storyblok/Story";
 
 /**
  * Storyblok blog landing page
@@ -19,7 +20,7 @@ import Page from "@/components/Features/Page.vue";
   },
 })
 export default class Features extends Vue {
-  private story: null | any = null;
+  private story: StoryI | null = null;
 
   private created() {
     storyblok.init({

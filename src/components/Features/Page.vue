@@ -28,6 +28,7 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import Teaser from "./Teaser.vue";
 import Footer from "@/components/Home/Footer/Footer.vue";
+import PageI from "@/entities/storyblok/Page";
 
 /**
  * Storyblok page component
@@ -43,7 +44,7 @@ export default class Page extends Vue {
    * All of the content for this page
    */
   @Prop()
-  private blok: any;
+  private blok!: PageI;
 
   private learnMore(blok: any) {
     /**

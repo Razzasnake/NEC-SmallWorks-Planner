@@ -27,6 +27,7 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import StoryblokClient from "storyblok-js-client";
 import Footer from "@/components/Home/Footer/Footer.vue";
+import FeatureI from "@/entities/storyblok/Feature";
 
 const Storyblok = new StoryblokClient({
   accessToken: process.env.VUE_APP_STORYBLOK_TOKEN,
@@ -45,7 +46,7 @@ export default class Feature extends Vue {
    * All of the content for this feature
    */
   @Prop()
-  private blok: any;
+  private blok!: FeatureI;
 
   private createHtml(richText: object) {
     return Storyblok.richTextResolver.render(richText);

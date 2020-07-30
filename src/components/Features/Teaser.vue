@@ -17,6 +17,7 @@
 </template>
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
+import TeaserI from "@/entities/storyblok/Teaser";
 
 /**
  * Storyblok teaser component
@@ -29,7 +30,7 @@ export default class Teaser extends Vue {
    * Teaser content to display
    */
   @Prop()
-  private blok: any;
+  private blok!: TeaserI;
 
   private learnMore() {
     /**
