@@ -3,13 +3,13 @@
     <div class="section">
       <div class="section-header">
         <div>
-          <div class="text-h4">{{ blok.title }}</div>
-          <div class="text-subtitle-1">{{ blok.subtitle }}</div>
+          <div class="text-h4" v-html="createHtml(blok.title)"></div>
+          <div class="text-subtitle-1" v-html="createHtml(blok.subtitle)"></div>
         </div>
       </div>
     </div>
     <div class="content section">
-      <div v-html="html" class="feature section"></div>
+      <div v-html="createHtml(blok.content)" class="feature"></div>
     </div>
     <Footer class="section" />
   </div>
@@ -37,15 +37,16 @@ export default class Feature extends Vue {
    */
   @Prop()
   private blok: any;
-  private get html() {
-    return Storyblok.richTextResolver.render(this.blok.content);
+
+  private createHtml(richText: object) {
+    return Storyblok.richTextResolver.render(richText);
   }
 }
 </script>
 <style lang='scss' scoped>
 .section-header {
   height: 200px;
-  padding: 3rem 1.5rem;
+  margin: 3rem 1.5rem;
   display: flex;
   align-items: center;
   max-width: 1024px;
