@@ -17,8 +17,8 @@ import UploadedFile from "@/entities/UploadedFile";
  */
 @Component({
   components: {
-    UploadWorkflow
-  }
+    UploadWorkflow,
+  },
 })
 export default class CallToAction extends Vue {
   private tagline =
@@ -33,7 +33,7 @@ export default class CallToAction extends Vue {
 </script>
 <style lang='scss' scoped>
 .call-to-action {
-  height: 25vh;
+  height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -41,8 +41,8 @@ export default class CallToAction extends Vue {
 #upload-drop-area {
   border: 1px solid transparent;
   &.highlight {
-    background-color: mix(white, #10546A, 95%);
-    border: 1px dashed #10546A;
+    background-color: mix(white, #10546a, 95%);
+    border: 1px dashed #10546a;
     border-radius: 4px;
   }
 }

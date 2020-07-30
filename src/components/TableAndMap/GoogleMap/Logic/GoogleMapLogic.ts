@@ -267,7 +267,8 @@ export default class GoogleMapLogic {
     this.heatmap = new google.maps.visualization.HeatmapLayer({
       data: this.markers
         .filter((_, index) => {
-          return !this.hiddenMarkerIndices.has(index);
+          const position = _.getPosition();
+          return !this.hiddenMarkerIndices.has(index) && position && position.lat() && position.lng();
         })
         .map(_ => {
           return { location: _.getPosition() };
@@ -322,9 +323,9 @@ export default class GoogleMapLogic {
     google.maps.event.addListener(
       this.drawingManager!,
       "drawingmode_changed",
-      this.clearSelection
+      () => this.clearSelection()
     );
-    google.maps.event.addListener(this.map, "click", this.clearSelection);
+    google.maps.event.addListener(this.map, "click", () => this.clearSelection());
     document.addEventListener("keydown", e => {
       if (e.keyCode === 8 || e.keyCode === 46) {
         this.deleteSelectedOverlay();

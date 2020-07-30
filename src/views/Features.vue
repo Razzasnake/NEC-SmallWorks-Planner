@@ -1,17 +1,45 @@
 <template>
-  <FeaturesComponent />
+  <Page
+    v-if="story"
+    :blok="story.content"
+    @learnMore="learnMore"
+  ></Page>
 </template>
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
-import FeaturesComponent from "@/components/Features/Features/Features.vue";
+import storyapi from "@/api/storyblok";
+import Page from "@/components/Features/Page/Page.vue";
+import StoryI from "@/entities/storyblok/Story";
 
 /**
- * Features page
+ * Storyblok blog landing page
  */
 @Component({
   components: {
-    FeaturesComponent
-  }
+    Page,
+  },
 })
-export default class Features extends Vue {}
+export default class Features extends Vue {
+  private story: StoryI | null = null;
+
+  private created() {
+    storyblok.init({
+      accessToken: process.env.VUE_APP_STORYBLOK_TOKEN,
+    });
+    storyblok.on("change", async () => {
+      this.story = await storyapi.getStory("features", "draft");
+    });
+    storyblok.pingEditor(async () => {
+      if (storyblok.isInEditor()) {
+        this.story = await storyapi.getStory("features", "draft");
+      } else {
+        this.story = await storyapi.getStory("features", "published");
+      }
+    });
+  }
+
+  private learnMore(blok: any) {
+    this.$router.push(blok.feature.cached_url);
+  }
+}
 </script>
