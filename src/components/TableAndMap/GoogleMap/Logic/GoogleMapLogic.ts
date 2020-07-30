@@ -323,9 +323,9 @@ export default class GoogleMapLogic {
     google.maps.event.addListener(
       this.drawingManager!,
       "drawingmode_changed",
-      this.clearSelection
+      () => this.clearSelection()
     );
-    google.maps.event.addListener(this.map, "click", this.clearSelection);
+    google.maps.event.addListener(this.map, "click", () => this.clearSelection());
     document.addEventListener("keydown", e => {
       if (e.keyCode === 8 || e.keyCode === 46) {
         this.deleteSelectedOverlay();
