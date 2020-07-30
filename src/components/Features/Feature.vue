@@ -9,7 +9,16 @@
       </div>
     </div>
     <div class="content section">
-      <div v-html="createHtml(blok.content)" class="feature"></div>
+      <div class="feature">
+        <div v-html="createHtml(blok.content)"></div>
+        <iframe
+          v-if="blok.youtubeUrl"
+          width="100%"
+          height="500"
+          :src="blok.youtubeUrl.url"
+          frameborder="0"
+        ></iframe>
+      </div>
     </div>
     <Footer class="section" />
   </div>
