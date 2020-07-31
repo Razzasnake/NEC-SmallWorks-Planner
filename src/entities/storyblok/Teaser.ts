@@ -5,6 +5,6 @@ export default interface TeaserI {
   title: string,
   feature: Link,
   preview: Asset,
-  component: "teaser",
+  component: string,
   description: string
 }

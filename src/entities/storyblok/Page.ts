@@ -7,5 +7,5 @@ export default interface PageI {
   title: string,
   subtitle: string,
   preview: Asset,
-  component: "page"
+  component: string
 }

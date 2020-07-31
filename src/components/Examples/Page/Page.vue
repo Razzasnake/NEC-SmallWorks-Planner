@@ -20,7 +20,7 @@
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
 import Teaser from "@/components/Shared/Teaser/Teaser.vue";
-import TeaserI from "@/entities/storyblok/Teaser";
+import ExampleTeaserI from "@/entities/storyblok/ExampleTeaser";
 import BasePage from "@/components/Shared/Page/Page.vue";
 import PageI from "@/entities/storyblok/Page";
 
@@ -40,7 +40,7 @@ export default class Page extends Vue {
   @Prop()
   private blok!: PageI;
 
-  private preview(teaser: TeaserI) {
+  private preview(teaser: ExampleTeaserI) {
     /**
      * Open the selected teaser in the tool
      */
