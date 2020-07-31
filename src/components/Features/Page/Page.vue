@@ -1,17 +1,15 @@
 <template>
-  <div v-editable="blok">
-    <BasePage :title="blok.title" :subtitle="blok.subtitle">
-      <v-row justify="center">
-        <Teaser
-          v-for="item in blok.body"
-          :key="item._uid"
-          :blok="item"
-          class="ma-2"
-          @learnMore="learnMore"
-        ></Teaser>
-      </v-row>
-    </BasePage>
-  </div>
+  <BasePage :title="blok.title" :subtitle="blok.subtitle" v-editable="blok">
+    <v-row justify="center">
+      <Teaser
+        v-for="item in blok.body"
+        :key="item._uid"
+        :blok="item"
+        class="ma-2"
+        @learnMore="learnMore"
+      ></Teaser>
+    </v-row>
+  </BasePage>
 </template>
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
