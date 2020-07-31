@@ -8,9 +8,13 @@
       <div class="section">
         <div class="section-header">
           <div>
-            <div class="text-h4" v-if="titleIsString">{{ title }}</div>
+            <div class="text-h4" v-if="titleIsString">
+              <p>{{ title }}</p>
+            </div>
             <div class="text-h4" v-else v-html="createHtml(title)"></div>
-            <div class="text-subtitle-1" v-if="subtitleIsString">{{ subtitle }}</div>
+            <div class="text-subtitle-1" v-if="subtitleIsString">
+              <p>{{ subtitle }}</p>
+            </div>
             <div class="text-subtitle-1" v-else v-html="createHtml(subtitle)"></div>
           </div>
         </div>
