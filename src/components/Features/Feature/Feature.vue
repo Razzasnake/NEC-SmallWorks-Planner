@@ -1,14 +1,20 @@
 <template>
   <div v-editable="blok" class="full-height">
-    <div class="section">
-      <div class="section-header">
-        <div>
-          <div class="text-h4" v-html="createHtml(blok.title)"></div>
-          <div class="text-subtitle-1" v-html="createHtml(blok.subtitle)"></div>
+    <v-img
+      class="image-header"
+      :src="blok.preview.filename"
+      gradient="to top, rgba(16, 84, 106, .75), rgba(16, 84, 106, .75)"
+    >
+      <div class="section">
+        <div class="section-header">
+          <div>
+            <div class="text-h4" v-html="createHtml(blok.title)"></div>
+            <div class="text-subtitle-1" v-html="createHtml(blok.subtitle)"></div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="content section">
+    </v-img>
+    <div class="section">
       <div class="feature">
         <div v-html="createHtml(blok.content)"></div>
         <iframe
@@ -54,19 +60,20 @@ export default class Feature extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-.section-header {
-  height: 200px;
-  margin: 3rem 1.5rem;
+.image-header {
   display: flex;
+  justify-content: center;
   align-items: center;
-  max-width: 1215px;
-  margin: auto;
-}
-.content {
-  background-color: #eeeeee;
-  .feature {
+  height: calc(200px + 6rem);
+  width: 100%;
+  .section-header {
     max-width: 1215px;
     margin: auto;
+    color: #eeeeee;
   }
+}
+.feature {
+  max-width: 1215px;
+  margin: auto;
 }
 </style>
