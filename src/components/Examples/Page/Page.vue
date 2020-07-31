@@ -5,6 +5,7 @@
     :img="blok.preview.filename"
     v-editable="blok"
   >
+    <div class="text-h4">Health</div>
     <v-row justify="start">
       <Teaser
         v-for="item in blok.body"
