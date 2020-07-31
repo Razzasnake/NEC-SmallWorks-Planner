@@ -1,33 +1,22 @@
 <template>
-  <div>
-    <div class="section">
-      <div class="header">
-        <div class="text-h4">Examples</div>
-        <div class="text-subtitle-1">Preview some example datasets</div>
-      </div>
-    </div>
-    <div class="content section">
-      <div class="features">
-        <div class="text-h4">Health</div>
-        <v-row justify="start">
-          <Tile
-            v-for="example in exampleAnalyses"
-            :key="example.id"
-            :exampleAnalysis="example"
-            @preview="preview"
-            class="ma-2"
-          ></Tile>
-        </v-row>
-      </div>
-    </div>
-    <Footer />
-  </div>
+  <BasePage title="Examples" subtitle="Preview some example datasets">
+    <div class="text-h4">Health</div>
+    <v-row justify="start">
+      <Tile
+        v-for="example in exampleAnalyses"
+        :key="example.id"
+        :exampleAnalysis="example"
+        @preview="preview"
+        class="ma-2"
+      ></Tile>
+    </v-row>
+  </BasePage>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
 import Tile from "@/components/Examples/Tile/Tile.vue";
 import ExampleAnalysis from "@/entities/ExampleAnalysis";
-import Footer from "@/components/Home/Footer/Footer.vue";
+import BasePage from "@/components/Shared/Page/Page.vue";
 
 /**
  * All examples
@@ -35,10 +24,10 @@ import Footer from "@/components/Home/Footer/Footer.vue";
 @Component({
   components: {
     Tile,
-    Footer,
+    BasePage,
   },
 })
-export default class Examples extends Vue {
+export default class Page extends Vue {
   /**
    * All example analyses available for preview
    */
@@ -53,19 +42,3 @@ export default class Examples extends Vue {
   }
 }
 </script>
-<style lang='scss' scoped>
-.header {
-  height: 200px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-.content {
-  background-color: #eeeeee;
-  .features {
-    max-width: 1215px;
-    margin: auto;
-  }
-}
-</style>
