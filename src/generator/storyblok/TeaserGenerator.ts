@@ -2,7 +2,7 @@ import TeaserI from "@/entities/storyblok/Teaser";
 
 const teaserGenerator = (): TeaserI => {
   return {
-    _uid: "cf617342-cb25-4bb7-8795-cb0e42728199",
+    _uid: Math.random().toString(36).substring(7),
     title: "GeoJSON and Shapefile Layers",
     feature: {
       id: "6693dcde-098d-476c-9bef-2c6a1ec76ef1",

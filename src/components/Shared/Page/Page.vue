@@ -1,13 +1,21 @@
 <template>
   <div>
-    <div class="section">
-      <div class="header">
-        <div class="text-h4">{{ title }}</div>
-        <div class="text-subtitle-1">{{ subtitle }}</div>
+    <v-img
+      class="image-header"
+      :src="img"
+      gradient="to top, rgba(16, 84, 106, .75), rgba(16, 84, 106, .75)"
+    >
+      <div class="section">
+        <div class="section-header">
+          <div>
+            <div class="text-h4">{{ title }}</div>
+            <div class="text-subtitle-1">{{ subtitle }}</div>
+          </div>
+        </div>
       </div>
-    </div>
+    </v-img>
     <div class="content section">
-      <div class="features">
+      <div class="feature">
         <!-- @slot What to put in the content -->
         <slot></slot>
       </div>
@@ -38,21 +46,28 @@ export default class Page extends Vue {
    */
   @Prop()
   private subtitle!: string;
+  /**
+   * Image to appear behind the header
+   */
+  @Prop({ default: null })
+  private img!: string | null;
 }
 </script>
 <style lang='scss' scoped>
-.header {
-  height: 200px;
+.image-header {
   display: flex;
-  justify-content: center;
   align-items: center;
-  flex-direction: column;
-}
-.content {
-  background-color: #eeeeee;
-  .features {
+  text-align: center;
+  height: calc(200px + 6rem);
+  width: 100%;
+  .section-header {
     max-width: 1215px;
     margin: auto;
+    color: #eeeeee;
   }
+}
+.feature {
+  max-width: 1215px;
+  margin: auto;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <BasePage title="Examples" subtitle="Preview some example datasets">
+  <BasePage :title="blok.title" :subtitle="blok.subtitle" :img="blok.preview.filename">
     <div class="text-h4">Health</div>
     <v-row justify="start">
       <Tile
@@ -17,6 +17,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import Tile from "@/components/Examples/Tile/Tile.vue";
 import ExampleAnalysis from "@/entities/ExampleAnalysis";
 import BasePage from "@/components/Shared/Page/Page.vue";
+import PageI from "@/entities/storyblok/Page";
 
 /**
  * All examples
@@ -28,6 +29,11 @@ import BasePage from "@/components/Shared/Page/Page.vue";
   },
 })
 export default class Page extends Vue {
+  /**
+   * All of the content for this page
+   */
+  @Prop()
+  private blok!: PageI;
   /**
    * All example analyses available for preview
    */

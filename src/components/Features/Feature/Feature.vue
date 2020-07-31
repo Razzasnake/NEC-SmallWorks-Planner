@@ -62,7 +62,6 @@ export default class Feature extends Vue {
 <style lang='scss' scoped>
 .image-header {
   display: flex;
-  justify-content: center;
   align-items: center;
   height: calc(200px + 6rem);
   width: 100%;

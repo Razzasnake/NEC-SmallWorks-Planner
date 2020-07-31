@@ -9,7 +9,7 @@ export default {
 const _Page = () => ({
   components: { Page },
   template: `
-    <Page :title="title" :subtitle="subtitle">
+    <Page :title="title" :subtitle="subtitle" :img="img">
       <div>Content goes here</div>
     </Page>`,
   props: {
@@ -18,6 +18,9 @@ const _Page = () => ({
     },
     subtitle: {
       default: text('subtitle', 'Subtitle')
+    },
+    img: {
+      default: require('@/assets/examples/covid19/covid19.jpg')
     }
   }
 })

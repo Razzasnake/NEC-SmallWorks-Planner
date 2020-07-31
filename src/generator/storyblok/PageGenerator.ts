@@ -7,7 +7,17 @@ const pageGenerator = (): PageI => {
     body: teasersGenerator(),
     title: "Features",
     subtitle: "Learn more about the many features offered by Table & Map",
-    component: "page"
+    component: "page",
+    preview: {
+      id: 1278733,
+      alt: null,
+      name: "",
+      focus: null,
+      title: null,
+      filename: require("@/assets/examples/covid19/covid19.jpg"),
+      copyright: null,
+      fieldtype: "asset"
+    }
   }
 }
 

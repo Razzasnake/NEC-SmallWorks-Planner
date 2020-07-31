@@ -1,7 +1,7 @@
 <template>
   <div>
     <Loading :loading="loading" />
-    <Page :exampleAnalyses="exampleAnalyses" @preview="preview" />
+    <Page :blok="story.content" :exampleAnalyses="exampleAnalyses" @preview="preview" />
   </div>
 </template>
 <script lang='ts'>
@@ -12,6 +12,8 @@ import { updateUploadedFile } from "@/store/exploreStore";
 import examplesApi from "@/api/examples";
 import Loading from "@/components/Shared/Loading/Loading.vue";
 import Page from "@/components/Examples/Page/Page.vue";
+import storyapi from "@/api/storyblok";
+import StoryI from "@/entities/storyblok/Story";
 
 /**
  * All examples
@@ -23,12 +25,25 @@ import Page from "@/components/Examples/Page/Page.vue";
   },
 })
 export default class Examples extends Vue {
+  private story: StoryI | null = null;
   private exampleAnalyses: ExampleAnalysis[] = [];
-  private loading = true;
+  private loading: boolean = false;
 
   private async created() {
     this.exampleAnalyses = await examplesApi.getAllExamples();
-    this.loading = false;
+    storyblok.init({
+      accessToken: process.env.VUE_APP_STORYBLOK_TOKEN,
+    });
+    storyblok.on("change", async () => {
+      this.story = await storyapi.getStory("examples", "draft");
+    });
+    storyblok.pingEditor(async () => {
+      if (storyblok.isInEditor()) {
+        this.story = await storyapi.getStory("examples", "draft");
+      } else {
+        this.story = await storyapi.getStory("examples", "published");
+      }
+    });
   }
 
   private async preview(exampleAnalysis: ExampleAnalysis) {

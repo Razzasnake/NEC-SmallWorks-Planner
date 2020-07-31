@@ -98,12 +98,12 @@ const featureGenerator = (): FeatureI => {
       ]
     },
     preview: {
-      id: null,
+      id: 1278733,
       alt: null,
       name: "",
       focus: null,
       title: null,
-      filename: "",
+      filename: require("@/assets/examples/covid19/covid19.jpg"),
       copyright: null,
       fieldtype: "asset"
     },

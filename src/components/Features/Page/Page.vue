@@ -1,5 +1,5 @@
 <template>
-  <BasePage :title="blok.title" :subtitle="blok.subtitle" v-editable="blok">
+  <BasePage :title="blok.title" :subtitle="blok.subtitle" :img="blok.preview.filename" v-editable="blok">
     <v-row justify="center">
       <Teaser
         v-for="item in blok.body"
