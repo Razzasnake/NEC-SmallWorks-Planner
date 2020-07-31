@@ -1,6 +1,5 @@
 import Page from './Page.vue'
 import { action } from '@storybook/addon-actions'
-import { exampleAnalysesGenerator } from '@/generator/ExampleAnalysisGenerator'
 import { pageGenerator } from '@/generator/storyblok/PageGenerator'
 
 export default {
@@ -13,15 +12,11 @@ const _Page = () => ({
   template: `
     <Page
       :blok="blok"
-      :exampleAnalyses="exampleAnalyses"
       @preview="preview"
     ></Page>`,
   props: {
     blok: {
       default: pageGenerator()
-    },
-    exampleAnalyses: {
-      default: exampleAnalysesGenerator()
     }
   },
   methods: {

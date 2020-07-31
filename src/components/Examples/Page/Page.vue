@@ -1,21 +1,26 @@
 <template>
-  <BasePage :title="blok.title" :subtitle="blok.subtitle" :img="blok.preview.filename">
-    <div class="text-h4">Health</div>
+  <BasePage
+    :title="blok.title"
+    :subtitle="blok.subtitle"
+    :img="blok.preview.filename"
+    v-editable="blok"
+  >
     <v-row justify="start">
-      <Tile
-        v-for="example in exampleAnalyses"
-        :key="example.id"
-        :exampleAnalysis="example"
-        @preview="preview"
+      <Teaser
+        v-for="item in blok.body"
+        :key="item._uid"
+        :blok="item"
+        buttonText="Preview"
         class="ma-2"
-      ></Tile>
+        @onClick="preview"
+      ></Teaser>
     </v-row>
   </BasePage>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
-import Tile from "@/components/Examples/Tile/Tile.vue";
-import ExampleAnalysis from "@/entities/ExampleAnalysis";
+import Teaser from "@/components/Shared/Teaser/Teaser.vue";
+import TeaserI from "@/entities/storyblok/Teaser";
 import BasePage from "@/components/Shared/Page/Page.vue";
 import PageI from "@/entities/storyblok/Page";
 
@@ -24,7 +29,7 @@ import PageI from "@/entities/storyblok/Page";
  */
 @Component({
   components: {
-    Tile,
+    Teaser,
     BasePage,
   },
 })
@@ -34,17 +39,12 @@ export default class Page extends Vue {
    */
   @Prop()
   private blok!: PageI;
-  /**
-   * All example analyses available for preview
-   */
-  @Prop({ default: [] })
-  private exampleAnalyses!: ExampleAnalysis[];
 
-  private preview(analysis: ExampleAnalysis) {
+  private preview(teaser: TeaserI) {
     /**
-     * Open the selected tile in the tool
+     * Open the selected teaser in the tool
      */
-    this.$emit("preview", analysis);
+    this.$emit("preview", teaser);
   }
 }
 </script>
