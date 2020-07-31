@@ -8,7 +8,7 @@ export interface Asset {
   title: string | null,
   filename: string,
   copyright: string | null,
-  fieldtype: "asset"
+  fieldtype: string
 }
 
 export interface Link {

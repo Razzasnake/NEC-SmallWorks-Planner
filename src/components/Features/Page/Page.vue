@@ -10,15 +10,16 @@
         v-for="item in blok.body"
         :key="item._uid"
         :blok="item"
+        buttonText="Learn More"
         class="ma-2"
-        @learnMore="learnMore"
+        @onClick="learnMore"
       ></Teaser>
     </v-row>
   </BasePage>
 </template>
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
-import Teaser from "./Teaser/Teaser.vue";
+import Teaser from "@/components/Shared/Teaser/Teaser.vue";
 import PageI from "@/entities/storyblok/Page";
 import BasePage from "@/components/Shared/Page/Page.vue";
 

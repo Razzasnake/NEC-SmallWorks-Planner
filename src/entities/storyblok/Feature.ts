@@ -6,6 +6,6 @@ export default interface FeatureI {
   content: RichText,
   preview: Asset,
   subtitle: RichText,
-  component: "feature",
+  component: string,
   youtubeUrl: Link
 }

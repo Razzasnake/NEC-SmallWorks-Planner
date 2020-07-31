@@ -4,7 +4,7 @@ import { teaserGenerator } from '@/generator/storyblok/TeaserGenerator'
 
 export default {
   component: Teaser,
-  title: 'Features|Page/Teaser'
+  title: 'Shared|Teaser'
 }
 
 const _Teaser = () => ({
@@ -12,7 +12,7 @@ const _Teaser = () => ({
   template: `
     <Teaser
       :blok="blok"
-      @learnMore="learnMore"
+      @onClick="onClick"
     ></Teaser>`,
   props: {
     blok: {
@@ -20,7 +20,7 @@ const _Teaser = () => ({
     }
   },
   methods: {
-    learnMore: action('learnMore')
+    onClick: action('onClick')
   }
 })
 

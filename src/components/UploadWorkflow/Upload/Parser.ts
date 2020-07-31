@@ -2,14 +2,20 @@ import { read, utils } from "xlsx";
 
 const ctx: Worker = self as any;
 
-const convert = (file: string | ArrayBuffer | null, type: "binary" | "buffer", options = { header: 1 }): { error: boolean, data: unknown[] } => {
+const convert = (file: string | ArrayBuffer | null, type: "binary" | "buffer"): { error: boolean, data: unknown[] } => {
   try {
     const workbook = read(file, { type });
     const firstWorksheet = workbook.Sheets[workbook.SheetNames[0]];
-    return {
-      error: false,
-      data: utils.sheet_to_json(firstWorksheet, options)
-    };
+    const data: any[][] = utils.sheet_to_json(firstWorksheet, { header: 1, raw: false });
+    const cleanArr = data.map(x => {
+      return x.map(y => {
+        if (!isNaN(y)) {
+          return parseFloat(y);
+        }
+        return y;
+      });
+    });
+    return { error: false, data: cleanArr };
   } catch (e) {
     return {
       error: true,
@@ -19,6 +25,6 @@ const convert = (file: string | ArrayBuffer | null, type: "binary" | "buffer", o
 };
 
 ctx.onmessage = (event) => {
-  const result = convert(event.data.file, event.data.type, event.data.options);
+  const result = convert(event.data.file, event.data.type);
   ctx.postMessage(result);
 };
