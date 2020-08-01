@@ -12,8 +12,25 @@
       </a>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-btn text color="white" @click="jumpTo({ name: 'Features' })">Features</v-btn>
-        <v-btn text color="white" @click="jumpTo({ name: 'Examples' })">Examples</v-btn>
+        <v-menu offset-y v-if="$vuetify.breakpoint.xs">
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn icon color="white" v-bind="attrs" v-on="on">
+              <v-icon>mdi-dots-vertical</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item @click="jumpTo({ name: 'Features' })">
+              <v-list-item-title>Features</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="jumpTo({ name: 'Examples' })">
+              <v-list-item-title>Examples</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+        <template v-else>
+          <v-btn text color="white" @click="jumpTo({ name: 'Features' })">Features</v-btn>
+          <v-btn text color="white" @click="jumpTo({ name: 'Examples' })">Examples</v-btn>
+        </template>
       </v-toolbar-items>
     </v-app-bar>
   </div>
@@ -27,15 +44,15 @@ import NavigationDrawer from "./NavigationDrawer.vue";
  */
 @Component({
   components: {
-    NavigationDrawer
-  }
+    NavigationDrawer,
+  },
 })
 export default class NavBar extends Vue {
   @Prop({ type: Boolean, default: false })
   private drawerAllowed!: boolean;
   private drawer: boolean | null = null;
 
-  @Watch('drawerAllowed')
+  @Watch("drawerAllowed")
   private drawerAllowedUpdated() {
     if (!this.drawerAllowed) {
       this.drawer = null;
