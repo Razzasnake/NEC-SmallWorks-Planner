@@ -2,7 +2,7 @@
   <FeatureComponent v-if="story" :blok="story.content" />
 </template>
 <script lang='ts'>
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import FeatureComponent from "@/components/Features/Feature/Feature.vue";
 import storyapi from "@/api/storyblok";
 import StoryI from "@/entities/storyblok/Story";
@@ -24,11 +24,9 @@ export default class Feature extends Vue {
 
   private story: StoryI | null = null;
 
-  private get url() {
-    return "feature/" + this.slug;
-  }
-
-  private created() {
+  @Watch("slug")
+  private slugChanged() {
+    this.story = null;
     storyblok.init({
       accessToken: process.env.VUE_APP_STORYBLOK_TOKEN,
     });
@@ -42,6 +40,14 @@ export default class Feature extends Vue {
         this.story = await storyapi.getStory(this.url, "published");
       }
     });
+  }
+
+  private get url() {
+    return "feature/" + this.slug;
+  }
+
+  private created() {
+    this.slugChanged();
   }
 }
 </script>
