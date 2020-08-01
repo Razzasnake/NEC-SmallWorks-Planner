@@ -73,11 +73,11 @@ export default class InfoSection extends Vue {
     font-weight: bold;
   }
   .info-description {
-    margin-bottom: 34px;
+    margin-bottom: 42px;
   }
   .card-actions {
     position: absolute;
-    bottom: 0px;
+    bottom: 8px;
     right: 0px;
   }
 }
