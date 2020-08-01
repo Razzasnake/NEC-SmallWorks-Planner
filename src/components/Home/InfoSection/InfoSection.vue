@@ -10,11 +10,12 @@
         </v-card-title>
         <v-card-text>
           <div>{{ c.description }}</div>
+          <div v-if="c.learnMorePath" class="info-description"></div>
+          <div v-if="c.learnMorePath" class="card-actions">
+            <v-spacer></v-spacer>
+            <v-btn color="primary" text @click="$router.push(c.learnMorePath)">Learn More</v-btn>
+          </div>
         </v-card-text>
-        <v-card-actions v-if="c.learnMorePath">
-          <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="$router.push(c.learnMorePath)">Learn More</v-btn>
-        </v-card-actions>
       </v-card>
     </v-row>
     <div class="margin-top-large">
@@ -70,6 +71,14 @@ export default class InfoSection extends Vue {
   max-width: 1215px;
   .label {
     font-weight: bold;
+  }
+  .info-description {
+    margin-bottom: 34px;
+  }
+  .card-actions {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
   }
 }
 </style>
