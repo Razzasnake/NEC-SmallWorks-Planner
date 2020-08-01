@@ -151,11 +151,11 @@ export default class TableAndMap extends Vue {
       document.getElementById(this.mapId) &&
       document.getElementById(this.tableId)
     ) {
-      if (this.splitInstance) {
+      if ((!this.hasMap || !this.hasTable) && this.splitInstance) {
         this.splitInstance.destroy();
         this.splitInstance = null;
       }
-      if (this.hasMap && this.hasTable) {
+      if (this.hasMap && this.hasTable && !this.splitInstance) {
         this.splitInstance = Split([`#${this.mapId}`, `#${this.tableId}`], {
           direction: "vertical",
           sizes: [50, 50],
