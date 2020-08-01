@@ -61,8 +61,8 @@ interface Split {
   components: {
     GoogleMap,
     Table,
-    PreviewCard
-  }
+    PreviewCard,
+  },
 })
 export default class TableAndMap extends Vue {
   /**
@@ -91,16 +91,8 @@ export default class TableAndMap extends Vue {
   @Prop()
   private tableLogic!: TableLogic;
 
-  private mapId =
-    "Map-" +
-    Math.random()
-      .toString(36)
-      .substring(7);
-  private tableId =
-    "Table-" +
-    Math.random()
-      .toString(36)
-      .substring(7);
+  private mapId = "Map-" + Math.random().toString(36).substring(7);
+  private tableId = "Table-" + Math.random().toString(36).substring(7);
   private rowData: Row[] = [];
   private hiddenMarkerIndices: Set<number> = new Set();
   private clickedMarker: Row | null = null;
@@ -166,7 +158,7 @@ export default class TableAndMap extends Vue {
       if (this.hasMap && this.hasTable) {
         this.splitInstance = Split([`#${this.mapId}`, `#${this.tableId}`], {
           direction: "vertical",
-          sizes: [50, 50]
+          sizes: [50, 50],
         });
       }
     }
@@ -189,13 +181,10 @@ export default class TableAndMap extends Vue {
       let content = "";
       this.uploadedFile.data[0].data.forEach(
         (header: string | number | null, index: number) => {
-          keys.forEach(key => {
+          keys.forEach((key) => {
             if (
               header &&
-              header
-                .toString()
-                .toLowerCase()
-                .indexOf(key.toLowerCase()) > -1
+              header.toString().toLowerCase().indexOf(key.toLowerCase()) > -1
             ) {
               if (row[index]) {
                 content =
@@ -207,7 +196,7 @@ export default class TableAndMap extends Vue {
       );
       if (content.length) {
         return new google.maps.InfoWindow({
-          content
+          content,
         });
       }
     }
@@ -215,7 +204,7 @@ export default class TableAndMap extends Vue {
   }
 
   private markerSelected(id: string): void {
-    const clickedMarker = this.rowData.find(_ => _.id === id);
+    const clickedMarker = this.rowData.find((_) => _.id === id);
     if (clickedMarker) {
       this.clickedMarker = clickedMarker;
     }

@@ -22,7 +22,7 @@ import {
   GridApi,
   ColumnApi,
   RowNode,
-  CellKeyPressEvent
+  CellKeyPressEvent,
 } from "@ag-grid-community/core";
 import TableLogic, { defaultColDef } from "./Logic/TableLogic";
 import { Row } from "@/entities/UploadedFile";
@@ -42,8 +42,8 @@ type PinnedData = {
  */
 @Component({
   components: {
-    AgGridVue
-  }
+    AgGridVue,
+  },
 })
 export default class Table extends Vue {
   /**
@@ -79,8 +79,8 @@ export default class Table extends Vue {
       "table:footer:min",
       "table:footer:max",
       "table:footer:avg",
-      "table:footer:total"
-    ]
+      "table:footer:total",
+    ],
   })
   private viewOptions!: string[];
   /**
@@ -169,12 +169,12 @@ export default class Table extends Vue {
     });
     const columnIds = this.columnApi
       .getAllColumns()
-      .filter(column => column.getColDef().filter === "number")
-      .map(col => col.getColId());
+      .filter((column) => column.getColDef().filter === "number")
+      .map((col) => col.getColId());
 
     const worker = new CalculateFooterWorker();
     worker.postMessage({ columnIds, rowData });
-    worker.onmessage = event => {
+    worker.onmessage = (event) => {
       const pinnedData: PinnedData = event.data;
       const pinnedFooter = [];
       if (this.viewOptions.includes("table:footer:min")) {
@@ -242,7 +242,7 @@ export default class Table extends Vue {
 
   public exportCsv() {
     this.gridApi.exportDataAsCsv({
-      skipPinnedBottom: true
+      skipPinnedBottom: true,
     });
   }
 }

@@ -2,12 +2,7 @@
   <InfoSection :title="title" :description="description" :cards="cards">
     <template slot="extra">
       <div class="label">Subscribe to our mailing list and become a beta tester.</div>
-      <v-text-field
-        type="email"
-        label="Enter email address"
-        id="email-input"
-        v-model="email"
-      />
+      <v-text-field type="email" label="Enter email address" id="email-input" v-model="email" />
       <v-btn color="primary" block @click="submitEmail" :disabled="!isValid">Subscribe</v-btn>
       <v-snackbar v-model="snackbar" color="success" top rounded="pill">
         <div class="align-center">Subscribed!</div>
@@ -25,8 +20,8 @@ import InfoSection from "../InfoSection/InfoSection.vue";
  */
 @Component({
   components: {
-    InfoSection
-  }
+    InfoSection,
+  },
 })
 export default class ComingSoon extends Vue {
   private title: string = "Coming Soon";
@@ -36,16 +31,16 @@ export default class ComingSoon extends Vue {
     {
       title: "User Accounts",
       description:
-        "Upload your datasets once and see them in the tool each time you log in."
+        "Upload your datasets once and see them in the tool each time you log in.",
     },
     {
       title: "Public Links",
-      description: "Share your dataset with friends and coworkers."
+      description: "Share your dataset with friends and coworkers.",
     },
     {
       title: "Embeddable",
-      description: "Embed our tool on your website for your users to enjoy."
-    }
+      description: "Embed our tool on your website for your users to enjoy.",
+    },
   ];
   private email: string = "";
   private snackbar: boolean = false;

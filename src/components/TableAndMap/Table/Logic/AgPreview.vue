@@ -12,7 +12,7 @@ import { Component, Vue } from "vue-property-decorator";
 import { ICellRendererParams } from "@ag-grid-community/core";
 
 @Component({
-  components: {}
+  components: {},
 })
 export default class AgGridLink extends Vue {
   private params!: ICellRendererParams;

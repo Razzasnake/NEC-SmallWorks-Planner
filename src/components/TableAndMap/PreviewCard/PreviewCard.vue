@@ -54,8 +54,8 @@ import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-mod
  */
 @Component({
   components: {
-    AgGridVue
-  }
+    AgGridVue,
+  },
 })
 export default class PreviewCard extends Vue {
   /**
@@ -74,13 +74,13 @@ export default class PreviewCard extends Vue {
     {
       field: "label",
       headerName: "Label",
-      flex: 1
+      flex: 1,
     },
     {
       field: "value",
       headerName: "Value",
-      flex: 1
-    }
+      flex: 1,
+    },
   ];
   private modules = [ClientSideRowModelModule];
   private visible = true;
@@ -91,7 +91,7 @@ export default class PreviewCard extends Vue {
       this.uploadedFile.data[0].data.forEach((key, index) => {
         values.push({
           label: (key || "").toString(),
-          value: (this.clickedMarker.data[index] || "").toString()
+          value: (this.clickedMarker.data[index] || "").toString(),
         });
       });
     } else {
@@ -99,7 +99,7 @@ export default class PreviewCard extends Vue {
         const key = `Column ${index.toString()}`;
         values.push({
           label: (key || "").toString(),
-          value: (this.clickedMarker.data[index] || "").toString()
+          value: (this.clickedMarker.data[index] || "").toString(),
         });
       });
     }
@@ -107,7 +107,7 @@ export default class PreviewCard extends Vue {
   }
 
   private get featureTables() {
-    return this.clickedMarker.features.map(feature => {
+    return this.clickedMarker.features.map((feature) => {
       if (feature.features === null) {
         return { name: feature.name, data: null };
       } else {
@@ -116,7 +116,7 @@ export default class PreviewCard extends Vue {
           feature.features[0].forEachProperty((value, name) => {
             values.push({
               label: (name || "").toString(),
-              value: (value || "").toString()
+              value: (value || "").toString(),
             });
           });
         }
@@ -126,7 +126,7 @@ export default class PreviewCard extends Vue {
   }
 
   private created() {
-    Utils.injectGoogleMapsLibrary([]).then(google => {
+    Utils.injectGoogleMapsLibrary([]).then((google) => {
       this.updatePanorama();
     });
   }
@@ -141,7 +141,7 @@ export default class PreviewCard extends Vue {
         location: { lat: this.clickedMarker.lat, lng: this.clickedMarker.lng },
         preference: google.maps.StreetViewPreference.NEAREST,
         radius: 50,
-        source: google.maps.StreetViewSource.OUTDOOR
+        source: google.maps.StreetViewSource.OUTDOOR,
       };
       const findPanorama = (radius: number) => {
         panoRequest.radius = radius;
@@ -156,7 +156,7 @@ export default class PreviewCard extends Vue {
               panControl: false,
               zoomControl: false,
               fullscreenControl: false,
-              addressControl: false
+              addressControl: false,
             });
           } else {
             if (radius > 200) {

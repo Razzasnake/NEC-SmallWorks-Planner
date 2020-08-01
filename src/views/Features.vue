@@ -1,9 +1,5 @@
 <template>
-  <Page
-    v-if="story"
-    :blok="story.content"
-    @learnMore="learnMore"
-  ></Page>
+  <Page v-if="story" :blok="story.content" @learnMore="learnMore"></Page>
 </template>
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";

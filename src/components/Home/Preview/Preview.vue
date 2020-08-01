@@ -62,7 +62,7 @@ import { Component, Vue } from "vue-property-decorator";
  * Preview of the platform
  */
 @Component({
-  components: {}
+  components: {},
 })
 export default class Preview extends Vue {}
 </script>

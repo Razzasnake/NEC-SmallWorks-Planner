@@ -18,7 +18,9 @@
     <div class="section">
       <ComingSoon />
     </div>
-    <Footer />
+    <div class="section">
+      <Footer />
+    </div>
   </div>
 </template>
 <script lang='ts'>

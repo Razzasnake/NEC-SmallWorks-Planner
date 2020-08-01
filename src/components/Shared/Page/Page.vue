@@ -26,7 +26,9 @@
         <slot></slot>
       </div>
     </div>
-    <Footer />
+    <div class="section">
+      <Footer />
+    </div>
   </div>
 </template>
 <script lang='ts'>

@@ -24,7 +24,7 @@ import state, {
   updateOverlayEventJsons,
   updateFilters,
   updateSorting,
-  updateUploadedFile
+  updateUploadedFile,
 } from "@/store/exploreStore";
 
 /**
@@ -32,8 +32,8 @@ import state, {
  */
 @Component({
   components: {
-    TableAndMap
-  }
+    TableAndMap,
+  },
 })
 export default class Explore extends Vue {
   private get uploadedFile() {

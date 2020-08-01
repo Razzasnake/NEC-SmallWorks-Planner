@@ -1,13 +1,19 @@
 <template>
   <v-card width="397px" v-editable="blok">
-    <v-img class="align-end" height="200px" :src="blok.preview.filename"></v-img>
+    <v-img
+      v-if="blok.preview && blok.preview.filename"
+      class="align-end"
+      height="200px"
+      :src="blok.preview.filename"
+    ></v-img>
     <v-card-title>
-      <a @click="onClick">{{ blok.title }}</a>
+      <a v-if="buttonText" @click="onClick">{{ blok.title }}</a>
+      <div v-else @click="onClick">{{ blok.title }}</div>
     </v-card-title>
     <v-card-text>
       <div>{{ blok.description }}</div>
     </v-card-text>
-    <v-card-actions>
+    <v-card-actions v-if="buttonText">
       <v-spacer></v-spacer>
       <v-btn color="primary" text @click="onClick">{{ buttonText }}</v-btn>
     </v-card-actions>
@@ -32,7 +38,7 @@ export default class Teaser extends Vue {
   /**
    * Button text
    */
-  @Prop({ default: "Click Me" })
+  @Prop({ default: null })
   private buttonText!: string;
 
   private onClick() {

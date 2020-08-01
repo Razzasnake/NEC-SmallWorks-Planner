@@ -10,7 +10,7 @@ declare const Microsoft: any;
  * Component with a height of 1 pixel and width of 1 pixel. Pass in a list of addresses and it uses the bing map to geocode them super fast.
  */
 @Component({
-  components: {}
+  components: {},
 })
 export default class Geocoder extends Vue {
   /**
@@ -55,7 +55,7 @@ export default class Geocoder extends Vue {
   private geocode() {
     if (!this.searchManager) {
       const map = new Microsoft.Maps.Map("#hiddenMap", {
-        credentials: process.env.VUE_APP_GEOCODE_KEY
+        credentials: process.env.VUE_APP_GEOCODE_KEY,
       });
       Microsoft.Maps.loadModule("Microsoft.Maps.Search", () => {
         this.searchManager = new Microsoft.Maps.Search.SearchManager(map);
@@ -84,7 +84,7 @@ export default class Geocoder extends Vue {
             this.$emit("updateLocation", {
               index,
               latitude: null,
-              longitude: null
+              longitude: null,
             });
             this.completedAux += 1;
           }
@@ -94,7 +94,7 @@ export default class Geocoder extends Vue {
         },
         errorCallback: () => {
           return geocode(index, stop);
-        }
+        },
       };
       this.searchManager.geocode(searchRequest);
     };

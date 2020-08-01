@@ -36,7 +36,7 @@ interface Column {
  * Confirm our predictions or select columns for lat/lon or address component
  */
 @Component({
-  components: {}
+  components: {},
 })
 export default class SelectColumns extends Vue {
   /**
@@ -68,14 +68,14 @@ export default class SelectColumns extends Vue {
       label: "Latitude",
       key: "lat",
       search: "",
-      selection: null
+      selection: null,
     },
     {
       label: "Longitude",
       key: "lng",
       search: "",
-      selection: null
-    }
+      selection: null,
+    },
   ];
 
   private addressColmns: Column[] = [
@@ -83,26 +83,26 @@ export default class SelectColumns extends Vue {
       label: "Address",
       key: "address",
       search: "",
-      selection: null
+      selection: null,
     },
     {
       label: "City",
       key: "city",
       search: "",
-      selection: null
+      selection: null,
     },
     {
       label: "State",
       key: "state",
       search: "",
-      selection: null
+      selection: null,
     },
     {
       label: "Zip",
       key: "zip",
       search: "",
-      selection: null
-    }
+      selection: null,
+    },
   ];
 
   private get visibleColumns() {
@@ -140,14 +140,14 @@ export default class SelectColumns extends Vue {
         if (this.value[0][index]) {
           data.push({
             index,
-            value: this.value[0][index].toString()
+            value: this.value[0][index].toString(),
           });
         } else {
           data.push({
             index,
             value: `Column ${index.toString()} (Example: ${
               this.value[0][index]
-            })`
+            })`,
           });
         }
       }
@@ -155,7 +155,9 @@ export default class SelectColumns extends Vue {
       for (let index = 0; index < this.value[0].length; index++) {
         data.push({
           index,
-          value: `Column ${index.toString()} (Example: ${this.value[0][index]})`
+          value: `Column ${index.toString()} (Example: ${
+            this.value[0][index]
+          })`,
         });
       }
     }
@@ -165,17 +167,17 @@ export default class SelectColumns extends Vue {
   private get isComplete() {
     if (this.showAddressFields) {
       // Only need at least one field selected for us to be able to geocode.
-      return this.addressColmns.filter(_ => _.selection !== null).length > 0;
+      return this.addressColmns.filter((_) => _.selection !== null).length > 0;
     } else {
       return (
-        this.locationColumns.filter(_ => _.selection !== null).length === 2
+        this.locationColumns.filter((_) => _.selection !== null).length === 2
       );
     }
   }
 
   @Watch("firstRowHeader")
   private firstRowHeaderUpdated() {
-    this.allColumns.forEach(col => {
+    this.allColumns.forEach((col) => {
       if (col.selection !== null) {
         col.search = this.allOptions[col.selection].value;
       }
@@ -183,7 +185,7 @@ export default class SelectColumns extends Vue {
   }
 
   private created() {
-    this.allColumns.forEach(col => {
+    this.allColumns.forEach((col) => {
       col.selection = (this.columnSelections as any)[col.key];
       if (col.selection !== null) {
         col.search = this.allOptions[col.selection].value;
@@ -192,9 +194,9 @@ export default class SelectColumns extends Vue {
   }
 
   private inputFnc(text: string | undefined, key: string) {
-    const field = this.visibleColumns.find(_ => _.key === key)!;
+    const field = this.visibleColumns.find((_) => _.key === key)!;
     if (text && text.length) {
-      const option = this.allOptions.find(_ => _.value === text);
+      const option = this.allOptions.find((_) => _.value === text);
       if (option) {
         field.selection = option.index;
         field.search = option.value;
@@ -207,7 +209,7 @@ export default class SelectColumns extends Vue {
       field.search = "";
     }
     const toReturn: { [key: string]: number | null } = {};
-    this.allColumns.forEach(col => {
+    this.allColumns.forEach((col) => {
       toReturn[col.key] = col.selection;
     });
     /**

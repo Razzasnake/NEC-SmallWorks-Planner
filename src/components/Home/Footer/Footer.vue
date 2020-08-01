@@ -8,7 +8,7 @@ import { Component, Vue } from "vue-property-decorator";
  * Footer of website
  */
 @Component({
-  components: {}
+  components: {},
 })
 export default class Footer extends Vue {
   private get currentYear() {
@@ -20,6 +20,5 @@ export default class Footer extends Vue {
 .foot {
   margin: auto;
   max-width: 1215px;
-  padding: 3rem 0rem;
 }
 </style>

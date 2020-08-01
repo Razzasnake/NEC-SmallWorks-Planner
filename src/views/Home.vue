@@ -12,8 +12,8 @@ import { updateUploadedFile } from "@/store/exploreStore";
  */
 @Component({
   components: {
-    HomeComponent
-  }
+    HomeComponent,
+  },
 })
 export default class Home extends Vue {
   private finish(uploadedFile: UploadedFile) {

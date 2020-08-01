@@ -16,8 +16,8 @@ import Preview from "@/components/Home/Preview/Preview.vue";
 @Component({
   components: {
     InfoSection,
-    Preview
-  }
+    Preview,
+  },
 })
 export default class Features extends Vue {
   private title: string = "No Work. Just Insight.";
@@ -27,18 +27,21 @@ export default class Features extends Vue {
     {
       title: "Unlimited Geocoding",
       description:
-        "Visualize your data without a latitude or longitude. Just select the location columns and we take care of the rest."
+        "Visualize your data without a latitude or longitude. Just select the location columns and we take care of the rest.",
+      learnMorePath: "/feature/unlimited-geocoding",
     },
     {
       title: "Automation",
       description:
-        "We automate everything to give you a quick glimpse of your data without the tedious setup."
+        "We automate everything to give you a quick glimpse of your data without the tedious setup.",
+      learnMorePath: "/feature/automation",
     },
     {
       title: "Filterable",
       description:
-        "Draw shapes on the map or apply filters to the table and see your data update instantly."
-    }
+        "Draw shapes on the map or apply filters to the table and see your data update instantly.",
+      learnMorePath: "/feature/filter-with-shapes",
+    },
   ];
 }
 </script>
