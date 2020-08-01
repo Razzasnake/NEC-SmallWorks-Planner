@@ -16,7 +16,7 @@ const _Page = () => ({
     ></Page>`,
   props: {
     blok: {
-      default: pageGenerator()
+      default: pageGenerator(true)
     }
   },
   methods: {
