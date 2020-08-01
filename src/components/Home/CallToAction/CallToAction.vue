@@ -2,7 +2,7 @@
   <div>
     <div class="margin-bottom-large">
       <div class="text-h2">Table &amp; Map</div>
-      <div class="text-h6">{{ tagline }}</div>
+      <div class="text-h6 tagline">{{ tagline }}</div>
     </div>
     <UploadWorkflow @finish="finish"></UploadWorkflow>
   </div>
@@ -31,3 +31,8 @@ export default class CallToAction extends Vue {
   }
 }
 </script>
+<style lang="scss" scoped>
+.tagline {
+  max-width: 500px;
+}
+</style>
