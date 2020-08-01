@@ -22,7 +22,7 @@ import UploadedFile from "@/entities/UploadedFile";
 })
 export default class CallToAction extends Vue {
   private tagline =
-    "View locational data in an interactive map. Upload an excel or csv file to get started.";
+    "Visualize your locational data in an interactive map. Upload an excel or csv file to get started.";
   private finish(uploadedFile: UploadedFile) {
     /**
      * Emit the uploaded file
@@ -33,6 +33,6 @@ export default class CallToAction extends Vue {
 </script>
 <style lang="scss" scoped>
 .tagline {
-  max-width: 500px;
+  max-width: 600px;
 }
 </style>
