@@ -2,7 +2,7 @@
   <div>
     <v-img
       class="image-header"
-      src="https://a.storyblok.com/f/89733/2546x1259/7900401573/app.jpg"
+      src="https://a.storyblok.com/f/89733/2546x1251/d87e8b50ff/app.jpg"
       gradient="to top, rgba(38, 50, 56, .75), rgba(38, 50, 56, .75)"
     >
       <div id="upload-drop-area">
