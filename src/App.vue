@@ -3,7 +3,9 @@
     <v-app>
       <NavBar :drawerAllowed="drawerAllowed" @jumpTo="jumpTo"></NavBar>
       <v-main>
-        <router-view></router-view>
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
         <v-dialog v-model="areYouSureModal" max-width="400" @click:outside="cancelLeave">
           <v-card>
             <v-card-title class="headline">Are you sure you want to leave?</v-card-title>
