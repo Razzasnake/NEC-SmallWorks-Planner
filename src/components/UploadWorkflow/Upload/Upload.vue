@@ -1,7 +1,7 @@
 <template>
   <div>
     <Loading :loading="loading" />
-    <v-btn :accept="accept" color="primary" @click="openUpload">
+    <v-btn :accept="accept" color="#eeeeee" @click="openUpload">
       <v-icon>mdi-upload</v-icon>
       <span class="margin-left-small">Upload a dataset</span>
       <input
