@@ -7,7 +7,7 @@
     >
       <div id="upload-drop-area">
         <CallToAction class="section-header section" @finish="$emit('finish', $event)"></CallToAction>
-        <v-btn icon fab @click="scrollDown" small class="scroll-down">
+        <v-btn icon fab @click="scrollDown" small class="scroll-down" aria-label="Scroll down">
           <v-icon large>mdi-chevron-down</v-icon>
         </v-btn>
       </div>

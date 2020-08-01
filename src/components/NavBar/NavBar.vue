@@ -14,7 +14,7 @@
       <v-toolbar-items>
         <v-menu offset-y v-if="$vuetify.breakpoint.xs">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn icon color="#eeeeee" v-bind="attrs" v-on="on">
+            <v-btn icon color="#eeeeee" v-bind="attrs" v-on="on" aria-label="More Options">
               <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>
           </template>
