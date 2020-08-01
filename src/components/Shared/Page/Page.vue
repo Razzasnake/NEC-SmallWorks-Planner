@@ -3,19 +3,19 @@
     <v-img
       class="image-header"
       :src="img"
-      gradient="to top, rgba(16, 84, 106, .75), rgba(16, 84, 106, .75)"
+      gradient="to top, rgba(38, 50, 56, .70), rgba(38, 50, 56, .70)"
     >
       <div class="section">
         <div class="section-header">
           <div>
-            <div class="text-h4" v-if="titleIsString">
+            <div class="text-h2" v-if="titleIsString">
               <p>{{ title }}</p>
             </div>
-            <div class="text-h4" v-else v-html="createHtml(title)"></div>
-            <div class="text-subtitle-1" v-if="subtitleIsString">
+            <div class="text-h2" v-else v-html="createHtml(title)"></div>
+            <div class="text-h6" v-if="subtitleIsString">
               <p>{{ subtitle }}</p>
             </div>
-            <div class="text-subtitle-1" v-else v-html="createHtml(subtitle)"></div>
+            <div class="text-h6" v-else v-html="createHtml(subtitle)"></div>
           </div>
         </div>
       </div>

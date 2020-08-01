@@ -8,14 +8,12 @@
         :accept="accept"
         ref="input"
         type="file"
-        style="display: none"
+        class="upload-input"
         @change="fileUploaded($event.target.files[0])"
       />
     </v-btn>
-    <span class="margin-right-small margin-left-small">
-      <b>or</b>
-    </span>
-    <a @click="displayPasteModal = true">Paste</a>
+    <span class="margin-right-small margin-left-small">or</span>
+    <a class="paste" @click="displayPasteModal = true">Paste</a>
     <PasteModal
       v-if="displayPasteModal"
       @closeModal="displayPasteModal = false"
@@ -38,8 +36,8 @@ import Loading from "@/components/Shared/Loading/Loading.vue";
 @Component({
   components: {
     PasteModal,
-    Loading
-  }
+    Loading,
+  },
 })
 export default class Upload extends Vue {
   private accept: string = ".xls,.xlr,.xlt,.xlsx,.xlsm,.xlsb,.csv";
@@ -55,10 +53,10 @@ export default class Upload extends Vue {
     /* This element is in the CallToAction class. */
     const dropArea = document.getElementById("upload-drop-area");
     if (dropArea) {
-      ["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
+      ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
         dropArea.addEventListener(
           eventName,
-          e => {
+          (e) => {
             e.preventDefault();
             e.stopPropagation();
           },
@@ -66,20 +64,20 @@ export default class Upload extends Vue {
         );
       });
 
-      ["dragenter", "dragover"].forEach(eventName => {
+      ["dragenter", "dragover"].forEach((eventName) => {
         dropArea.addEventListener(
           eventName,
-          e => {
+          (e) => {
             dropArea.classList.add("highlight");
           },
           false
         );
       });
 
-      ["dragleave", "drop"].forEach(eventName => {
+      ["dragleave", "drop"].forEach((eventName) => {
         dropArea.addEventListener(
           eventName,
-          e => {
+          (e) => {
             dropArea.classList.remove("highlight");
           },
           false
@@ -88,13 +86,13 @@ export default class Upload extends Vue {
 
       dropArea.addEventListener(
         "drop",
-        e => {
+        (e) => {
           let dt = e.dataTransfer;
           if (dt) {
             const file = dt.files[0];
             if (
-              this.accept.split(",").filter(_ => file.name.endsWith(_)).length >
-              0
+              this.accept.split(",").filter((_) => file.name.endsWith(_))
+                .length > 0
             ) {
               /* If a supported file. */
               this.fileUploaded(file);
@@ -112,7 +110,7 @@ export default class Upload extends Vue {
 
   private fileUploaded(file: File) {
     const reader = new FileReader();
-    reader.onloadend = e => {
+    reader.onloadend = (e) => {
       if (e.target) {
         const bstr = e.target.result;
         this.convert(bstr, "binary");
@@ -129,7 +127,7 @@ export default class Upload extends Vue {
     this.loading = true;
     const worker = new ParserWorker();
     worker.postMessage({ file, type });
-    worker.onmessage = event => {
+    worker.onmessage = (event) => {
       if (event.data.error) {
         this.snackbar = true;
       } else {
@@ -149,3 +147,12 @@ export default class Upload extends Vue {
   }
 }
 </script>
+<style lang="scss" scoped>
+.upload-input {
+  display: none;
+}
+.paste {
+  color: #eeeeee;
+  font-weight: 500;
+}
+</style>

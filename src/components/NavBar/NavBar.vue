@@ -6,15 +6,15 @@
       </v-navigation-drawer>
     </div>
     <v-app-bar dense color="primary" app :clipped-left="$vuetify.breakpoint.lgAndUp">
-      <v-app-bar-nav-icon v-if="drawerAllowed" @click.stop="toggleDrawer" color="white"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon v-if="drawerAllowed" @click.stop="toggleDrawer" color="#eeeeee"></v-app-bar-nav-icon>
       <a @click="jumpTo({ name: 'Home' })">
-        <v-toolbar-title class="white--text">Table &amp; Map</v-toolbar-title>
+        <v-toolbar-title class="appbar-title">Table &amp; Map</v-toolbar-title>
       </a>
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-menu offset-y v-if="$vuetify.breakpoint.xs">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn icon color="white" v-bind="attrs" v-on="on">
+            <v-btn icon color="#eeeeee" v-bind="attrs" v-on="on">
               <v-icon>mdi-dots-vertical</v-icon>
             </v-btn>
           </template>
@@ -28,8 +28,8 @@
           </v-list>
         </v-menu>
         <template v-else>
-          <v-btn text color="white" @click="jumpTo({ name: 'Features' })">Features</v-btn>
-          <v-btn text color="white" @click="jumpTo({ name: 'Examples' })">Examples</v-btn>
+          <v-btn text color="#eeeeee" @click="jumpTo({ name: 'Features' })">Features</v-btn>
+          <v-btn text color="#eeeeee" @click="jumpTo({ name: 'Examples' })">Examples</v-btn>
         </template>
       </v-toolbar-items>
     </v-app-bar>
@@ -73,3 +73,8 @@ export default class NavBar extends Vue {
   }
 }
 </script>
+<style lang="scss" scoped>
+.appbar-title {
+  color: #eeeeee;
+}
+</style>

@@ -1,17 +1,24 @@
 <template>
   <div>
-    <div class="content section">
-      <CallToAction @finish="$emit('finish', $event)"></CallToAction>
-    </div>
-    <div class="content section">
+    <v-img
+      class="image-header"
+      src="https://a.storyblok.com/f/89733/2546x1259/7900401573/app.jpg"
+      gradient="to top, rgba(38, 50, 56, .75), rgba(38, 50, 56, .75)"
+    >
+      <div id="upload-drop-area">
+        <CallToAction class="section-header section" @finish="$emit('finish', $event)"></CallToAction>
+        <v-btn icon fab @click="scrollDown" small class="scroll-down">
+          <v-icon large>mdi-chevron-down</v-icon>
+        </v-btn>
+      </div>
+    </v-img>
+    <div class="section">
       <Features />
     </div>
-    <div class="content section">
+    <div class="section">
       <ComingSoon />
     </div>
-    <div class="content">
-      <Footer />
-    </div>
+    <Footer />
   </div>
 </template>
 <script lang='ts'>
@@ -30,18 +37,49 @@ import Footer from "@/components/Home/Footer/Footer.vue";
     CallToAction,
     Features,
     ComingSoon,
-    Footer
-  }
+    Footer,
+  },
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+  private scrollDown() {
+    window.scroll({
+      top: window.innerHeight - 48,
+      left: 0,
+      behavior: "smooth",
+    });
+  }
+}
 </script>
 <style lang='scss' scoped>
-.content {
-  &:nth-of-type(even) {
-    background-color: #eeeeee;
+.image-header {
+  display: flex;
+  align-items: center;
+  height: calc(100vh - 48px);
+  width: 100%;
+  .section-header {
+    width: 1215px;
+    margin: auto;
+    color: #eeeeee;
   }
-  &:nth-of-type(odd) {
-    background-color: #fafafa;
+}
+
+#upload-drop-area {
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  border: 2px solid transparent;
+  height: calc(100vh - 88px);
+  width: calc(100vw - 40px);
+
+  &.highlight {
+    border: 2px dashed #eeeeee;
+    border-radius: 4px;
+  }
+  .scroll-down {
+    color: #eeeeee;
+    position: absolute;
+    bottom: 40px;
+    border: 1px solid #eeeeee;
   }
 }
 </style>

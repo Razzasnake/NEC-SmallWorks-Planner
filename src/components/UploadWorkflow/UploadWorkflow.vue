@@ -1,7 +1,7 @@
 <template>
   <div>
     <Loading :loading="loading" :value="numberGeocoded" :max="addresses.length" />
-    <Upload @fileUploaded="fileUploaded" class="align-center"></Upload>
+    <Upload @fileUploaded="fileUploaded"></Upload>
     <v-dialog v-model="visible" @click:outside="reset" max-width="700">
       <v-card>
         <v-card-title class="headline">Select Columns</v-card-title>

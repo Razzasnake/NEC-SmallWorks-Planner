@@ -31,7 +31,7 @@
           accept=".json, .geojson, .zip"
           ref="input"
           type="file"
-          style="display: none"
+          class="shape-input"
           @change="shapefilesUploaded($event.target.files)"
         />
       </v-btn>
@@ -170,6 +170,9 @@ export default class GoogleMap extends Vue {
   position: absolute;
   top: 5px;
   right: 5px;
+}
+.shape-input {
+  display: none;
 }
 </style>
 <style lang='scss'>

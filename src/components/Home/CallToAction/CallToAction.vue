@@ -1,8 +1,8 @@
 <template>
-  <div class="call-to-action" id="upload-drop-area">
-    <div class="align-center margin-bottom-large">
-      <div class="text-h4">Table &amp; Map</div>
-      <div class="text-subtitle-1">{{ tagline }}</div>
+  <div>
+    <div class="margin-bottom-large">
+      <div class="text-h2">Table &amp; Map</div>
+      <div class="text-h6">{{ tagline }}</div>
     </div>
     <UploadWorkflow @finish="finish"></UploadWorkflow>
   </div>
@@ -22,7 +22,7 @@ import UploadedFile from "@/entities/UploadedFile";
 })
 export default class CallToAction extends Vue {
   private tagline =
-    "View locational data in an interactive map. Upload an excel or csv file and see for yourself!";
+    "View locational data in an interactive map. Upload an excel or csv file to get started.";
   private finish(uploadedFile: UploadedFile) {
     /**
      * Emit the uploaded file
@@ -31,19 +31,3 @@ export default class CallToAction extends Vue {
   }
 }
 </script>
-<style lang='scss' scoped>
-.call-to-action {
-  height: 200px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-#upload-drop-area {
-  border: 1px solid transparent;
-  &.highlight {
-    background-color: mix(white, #10546a, 95%);
-    border: 1px dashed #10546a;
-    border-radius: 4px;
-  }
-}
-</style>
