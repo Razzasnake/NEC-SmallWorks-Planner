@@ -103,6 +103,7 @@ export default class GoogleMapLogic {
 
   private addIdleListener() {
     google.maps.event.addListener(this.map, "idle", () => {
+      this.map.setOptions({ maxZoom: undefined });
       this.markers.forEach((marker, index) => {
         if (this.hiddenMarkerIndices.has(index)) {
           return;
@@ -206,6 +207,7 @@ export default class GoogleMapLogic {
           bounds.extend(pos);
         }
       });
+    this.map.setOptions({ maxZoom: 15 });
     this.map.fitBounds(bounds);
   }
 
