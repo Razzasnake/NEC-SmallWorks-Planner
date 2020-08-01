@@ -22,17 +22,17 @@ import Preview from "@/components/Home/Preview/Preview.vue";
 export default class Features extends Vue {
   private title: string = "No Work. Just Insight.";
   private description: string =
-    "Analyze your locational data like never before.";
+    "Visualize your locational data like never before.";
   private cards = [
     {
-      title: "Geocoding",
+      title: "Unlimited Geocoding",
       description:
-        "Analyze your data without a latitude or longitude. Just select the location columns and we take care of the rest."
+        "Visualize your data without a latitude or longitude. Just select the location columns and we take care of the rest."
     },
     {
       title: "Automation",
       description:
-        "We automate everything to give you a quick glimpse of your data without any tedious setup."
+        "We automate everything to give you a quick glimpse of your data without the tedious setup."
     },
     {
       title: "Filterable",
