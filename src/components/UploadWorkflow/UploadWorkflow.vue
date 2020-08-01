@@ -1,8 +1,8 @@
 <template>
   <div>
-    <Loading :loading="loading" :value="numberGeocoded" :max="addresses.length" />
     <Upload @fileUploaded="fileUploaded"></Upload>
     <v-dialog v-model="visible" @click:outside="reset" max-width="700">
+      <Loading :loading="loading" :value="numberGeocoded" :max="addresses.length" />
       <v-card>
         <v-card-title class="headline">Select Columns</v-card-title>
         <v-card-text>
@@ -43,8 +43,8 @@ import Loading from "@/components/Shared/Loading/Loading.vue";
     Upload,
     SelectColumns,
     Geocoder,
-    Loading
-  }
+    Loading,
+  },
 })
 export default class UploadWorkflow extends Vue {
   private step: number = 0;
@@ -62,7 +62,7 @@ export default class UploadWorkflow extends Vue {
     address: null,
     city: null,
     state: null,
-    zip: null
+    zip: null,
   };
   private firstRowHeader: boolean = true;
   private finishIsDisabled: boolean = true;
@@ -135,9 +135,9 @@ export default class UploadWorkflow extends Vue {
         data: this.uploadedFile,
         columnSelections: {
           lat: this.columnSelections.lat!,
-          lng: this.columnSelections.lng!
+          lng: this.columnSelections.lng!,
         },
-        firstRowHeader: this.firstRowHeader
+        firstRowHeader: this.firstRowHeader,
       });
       /**
        * Emit the uploaded file
@@ -154,8 +154,8 @@ export default class UploadWorkflow extends Vue {
       this.columnSelections.address,
       this.columnSelections.city,
       this.columnSelections.state,
-      this.columnSelections.zip
-    ].filter(_ => _ !== null) as number[];
+      this.columnSelections.zip,
+    ].filter((_) => _ !== null) as number[];
     this.uploadedFile.forEach((row, index) => {
       this.uploadedFile[index] = row.concat(["", ""]);
     });
@@ -167,8 +167,8 @@ export default class UploadWorkflow extends Vue {
     this.columnSelections.lat = this.uploadedFile[0].length - 2;
     this.columnSelections.lng = this.uploadedFile[0].length - 1;
     /* When addresses is updated, the geocoder is going to start. */
-    this.addresses = this.uploadedFile.slice(offset).map(row => {
-      return selections.map(i => row[i]).join(" ");
+    this.addresses = this.uploadedFile.slice(offset).map((row) => {
+      return selections.map((i) => row[i]).join(" ");
     });
     this.loading = true;
   }
@@ -182,7 +182,7 @@ export default class UploadWorkflow extends Vue {
       address: null,
       city: null,
       state: null,
-      zip: null
+      zip: null,
     };
     this.firstRowHeader = true;
     this.addresses = [];
