@@ -40,7 +40,7 @@ export default class Features extends Vue {
       title: "Filterable",
       description:
         "Draw shapes on the map or apply filters to the table and see your data update instantly.",
-      learnMorePath: "/feature/filter-with-shapes",
+      learnMorePath: "/feature/filterable",
     },
   ];
 }
