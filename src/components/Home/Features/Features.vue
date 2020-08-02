@@ -28,19 +28,19 @@ export default class Features extends Vue {
       title: "Unlimited Geocoding",
       description:
         "Visualize your data without a latitude or longitude. Just select the location columns and we take care of the rest.",
-      learnMorePath: "/feature/unlimited-geocoding",
+      learnMorePath: "/features/unlimited-geocoding",
     },
     {
       title: "Automation",
       description:
         "We automate everything to give you a quick glimpse of your data without the tedious setup.",
-      learnMorePath: "/feature/automation",
+      learnMorePath: "/features/automation",
     },
     {
       title: "Filterable",
       description:
         "Draw shapes on the map or apply filters to the table and see your data update instantly.",
-      learnMorePath: "/feature/filterable",
+      learnMorePath: "/features/filterable",
     },
   ];
 }

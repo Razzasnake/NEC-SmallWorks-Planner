@@ -5,14 +5,15 @@ const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 const paths = [
   '/',
   '/examples',
-  '/feature/map-your-locational-data',
-  '/feature/filterable',
-  '/feature/unlimited-geocoding',
-  '/feature/geojson-and-shapefile-layers',
-  '/feature/supports-50-000-markers',
-  '/feature/heat-map-layer',
-  '/feature/automation',
-  '/feature/helpful-table-footers'
+  '/features',
+  '/features/map-your-locational-data',
+  '/features/filterable',
+  '/features/unlimited-geocoding',
+  '/features/geojson-and-shapefile-layers',
+  '/features/supports-50-000-markers',
+  '/features/heat-map-layer',
+  '/features/automation',
+  '/features/helpful-table-footers'
 ]
 
 module.exports = {

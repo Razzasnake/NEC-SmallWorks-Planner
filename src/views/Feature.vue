@@ -43,7 +43,7 @@ export default class Feature extends Vue {
   }
 
   private get url() {
-    return "feature/" + this.slug;
+    return "features/" + this.slug;
   }
 
   private created() {
