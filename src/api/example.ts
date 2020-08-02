@@ -1,5 +1,5 @@
 import axios from 'axios';
-import ParserWorker from "worker-loader!@/components/UploadWorkflow/Upload/ParserWorker";
+import ParserWorker from "worker-loader!@/components/UploadWorkflow/Upload/Parser.worker";
 import ExampleTeaserI from "@/entities/storyblok/ExampleTeaser";
 import UpladedFile from "@/entities/UploadedFile";
 

@@ -1,5 +1,5 @@
-import ShapeParserWorker from "worker-loader!./WebWorkers/ShapeParserWorker";
-import PolygonRelationWorker from "worker-loader!./WebWorkers/PolygonRelationWorker";
+import ShapeParserWorker from "worker-loader!./WebWorkers/ShapeParser.worker";
+import PolygonRelationWorker from "worker-loader!./WebWorkers/PolygonRelation.worker";
 import {
   updateFeature,
   createFeature

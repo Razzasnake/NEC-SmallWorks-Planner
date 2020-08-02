@@ -26,7 +26,7 @@ import {
 } from "@ag-grid-community/core";
 import TableLogic, { defaultColDef } from "./Logic/TableLogic";
 import { Row } from "@/entities/UploadedFile";
-import CalculateFooterWorker from "worker-loader!./Logic/WebWorkers/CalculateFooterWorker";
+import CalculateFooterWorker from "worker-loader!./Logic/WebWorkers/CalculateFooter.worker";
 import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
 import { CsvExportModule } from "@ag-grid-community/csv-export";
 
