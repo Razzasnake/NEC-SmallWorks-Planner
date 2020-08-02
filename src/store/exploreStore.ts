@@ -22,10 +22,13 @@ const state: ExploreStoreI = Vue.observable({
     infoWindowKeys: []
   },
   tableLogic: null,
-  viewOptions: ["map", "map:markers", "map:clusters", "table"]
+  viewOptions: ["map", "map:markers", "table"]
 });
 
 export const updateUploadedFile = (uploadedFile: UploadedFile) => {
+  if (uploadedFile.data.length > 1000) {
+    state.viewOptions.push("map:clusters");
+  }
   state.uploadedFile = uploadedFile;
   state.tableLogic = new TableLogic(uploadedFile);
 }
@@ -81,7 +84,7 @@ export const reset = () => {
     infoWindowKeys: []
   };
   state.tableLogic = null;
-  state.viewOptions = ["map", "map:markers", "map:clusters", "table"];
+  state.viewOptions = ["map", "map:markers", "table"];
 }
 
 export default state;

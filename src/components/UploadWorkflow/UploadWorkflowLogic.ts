@@ -16,7 +16,7 @@ export default class UploadWorkflowLogic {
       zip: null
     };
     const latTerms = new Set(["latitude", "lat"]);
-    const lngTerms = new Set(["longitude", "lng", "lon"]);
+    const lngTerms = new Set(["longitude", "lng", "lon", "long"]);
     const addressTerms = new Set(["address", "streetaddress"]);
     const cityTerms = new Set(["city"]);
     const stateTerms = new Set(["state", "st"]);
