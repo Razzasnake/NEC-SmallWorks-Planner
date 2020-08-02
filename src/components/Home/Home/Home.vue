@@ -8,7 +8,7 @@
       <div id="upload-drop-area">
         <CallToAction class="section-header section" @finish="$emit('finish', $event)"></CallToAction>
         <v-btn icon fab @click="scrollDown" small class="scroll-down" aria-label="Scroll down">
-          <v-icon large>mdi-chevron-down</v-icon>
+          <v-icon large>{{ mdiChevronDown }}</v-icon>
         </v-btn>
       </div>
     </v-img>
@@ -30,6 +30,7 @@ import CallToAction from "@/components/Home/CallToAction/CallToAction.vue";
 import Features from "@/components/Home/Features/Features.vue";
 import ComingSoon from "@/components/Home/ComingSoon/ComingSoon.vue";
 import Footer from "@/components/Home/Footer/Footer.vue";
+import { mdiChevronDown } from "@mdi/js";
 
 /**
  * Root most component for the home page
@@ -43,6 +44,9 @@ import Footer from "@/components/Home/Footer/Footer.vue";
   },
 })
 export default class Home extends Vue {
+
+  private mdiChevronDown = mdiChevronDown;
+
   private scrollDown() {
     window.scroll({
       top: window.innerHeight - 48,

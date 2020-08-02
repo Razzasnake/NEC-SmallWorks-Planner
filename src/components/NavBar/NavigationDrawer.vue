@@ -18,7 +18,7 @@
     </v-list-group>
     <v-list-item link @click="exportToCsv">
       <v-list-item-icon>
-        <v-icon>mdi-export</v-icon>
+        <v-icon>{{ mdiExport }}</v-icon>
       </v-list-item-icon>
       <v-list-item-content>
         <v-list-item-title>Export</v-list-item-title>
@@ -29,6 +29,7 @@
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
 import state, { updateViewOptions, exportToCsv } from "@/store/exploreStore";
+import { mdiExport, mdiTable, mdiMap } from "@mdi/js";
 
 /**
  * Table options
@@ -39,6 +40,7 @@ import state, { updateViewOptions, exportToCsv } from "@/store/exploreStore";
 export default class NavigationDrawer extends Vue {
   private activeText: string = "Hide ";
   private inactiveText: string = "Show ";
+  private mdiExport = mdiExport;
 
   private get viewOptions() {
     return state.viewOptions;
@@ -47,7 +49,7 @@ export default class NavigationDrawer extends Vue {
   private dropdowns = [
     {
       label: "Table",
-      icon: "mdi-table",
+      icon: mdiTable,
       dropdowns: [
         {
           label: "Table",
@@ -73,7 +75,7 @@ export default class NavigationDrawer extends Vue {
     },
     {
       label: "Map",
-      icon: "mdi-map",
+      icon: mdiMap,
       dropdowns: [
         {
           label: "Map",

@@ -2,7 +2,7 @@
   <div>
     <div v-if="footerValue">{{ footerValue }}</div>
     <a v-else @click="onClick" style="cursor: pointer;">
-      <v-icon color="primary" style="font-size: 15px;">mdi-eye</v-icon>
+      <v-icon color="primary" style="font-size: 15px;">{{ mdiEye }}</v-icon>
     </a>
   </div>
 </template>
@@ -10,12 +10,14 @@
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
 import { ICellRendererParams } from "@ag-grid-community/core";
+import { mdiEye } from "@mdi/js";
 
 @Component({
   components: {},
 })
 export default class AgGridLink extends Vue {
   private params!: ICellRendererParams;
+  private mdiEye = mdiEye;
   private get footerValue() {
     return this.params.data.preview;
   }

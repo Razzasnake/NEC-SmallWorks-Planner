@@ -2,17 +2,15 @@
   <div class="google-map-container">
     <div class="google-map" :id="mapLogic.mapId" />
     <v-btn-toggle class="drawing-manager" :value="mapLogic.activeDrawingMode">
-      <v-btn x-small fab title="Stop drawing" @click="mapLogic.setDrawingManager(0)">
-        <v-icon :color="mapLogic.iconColor">mdi-hand-right</v-icon>
-      </v-btn>
-      <v-btn x-small fab title="Draw a circle" @click="mapLogic.setDrawingManager(1)">
-        <v-icon :color="mapLogic.iconColor">mdi-circle-outline</v-icon>
-      </v-btn>
-      <v-btn x-small fab title="Draw a shape" @click="mapLogic.setDrawingManager(2)">
-        <v-icon :color="mapLogic.iconColor">mdi-vector-polygon</v-icon>
-      </v-btn>
-      <v-btn x-small fab title="Draw a rectangle" @click="mapLogic.setDrawingManager(3)">
-        <v-icon :color="mapLogic.iconColor">mdi-square-outline</v-icon>
+      <v-btn
+        v-for="(d, index) in drawingOptions"
+        x-small
+        fab
+        :title="d.title"
+        @click="mapLogic.setDrawingManager(index)"
+        :key="index"
+      >
+        <v-icon :color="mapLogic.iconColor">{{ d.icon }}</v-icon>
       </v-btn>
       <v-btn
         v-if="mapLogic.selectedOverlayEvent"
@@ -21,12 +19,12 @@
         title="Delete selected shape"
         @click="deleteSelectedOverlay"
       >
-        <v-icon color="error">mdi-delete</v-icon>
+        <v-icon color="error">{{ mdiDelete }}</v-icon>
       </v-btn>
     </v-btn-toggle>
     <v-btn-toggle class="upload-layer">
       <v-btn title="Upload geojson or zipped shapefile" @click="openUpload" fab x-small>
-        <v-icon :color="mapLogic.iconColor">mdi-layers</v-icon>
+        <v-icon :color="mapLogic.iconColor">{{ mdiLayers }}</v-icon>
         <input
           accept=".json, .geojson, .zip"
           ref="input"
@@ -42,6 +40,14 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import UploadedFile, { Row } from "@/entities/UploadedFile";
 import GoogleMapLogic from "./Logic/GoogleMapLogic";
+import {
+  mdiHandRight,
+  mdiCircleOutline,
+  mdiVectorPolygon,
+  mdiSquareOutline,
+  mdiDelete,
+  mdiLayers
+} from "@mdi/js";
 
 /**
  * Display the rows that have been uploaded.
@@ -95,6 +101,15 @@ export default class GoogleMap extends Vue {
   public clickedMarker!: Row | null;
 
   private mapLogic!: GoogleMapLogic;
+
+  private drawingOptions = [
+    { title: "Stop drawing", icon: mdiHandRight },
+    { title: "Draw a circle", icon: mdiCircleOutline },
+    { title: "Draw a shape", icon: mdiVectorPolygon },
+    { title: "Draw a rectangle", icon: mdiSquareOutline },
+  ];
+  private mdiDelete = mdiDelete;
+  private mdiLayers = mdiLayers;
 
   @Watch("uploadedFile")
   private updateUploadedFile(): void {

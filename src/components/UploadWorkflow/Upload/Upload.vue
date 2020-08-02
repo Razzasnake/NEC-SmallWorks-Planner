@@ -2,7 +2,7 @@
   <div>
     <Loading :loading="loading" />
     <v-btn :accept="accept" color="#eeeeee" @click="openUpload">
-      <v-icon>mdi-upload</v-icon>
+      <v-icon>{{ mdiUpload }}</v-icon>
       <span class="margin-left-small">Upload a dataset</span>
       <input
         :accept="accept"
@@ -29,6 +29,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import PasteModal from "./PasteModal/PasteModal.vue";
 import ParserWorker from "worker-loader!./Parser";
 import Loading from "@/components/Shared/Loading/Loading.vue";
+import { mdiUpload } from "@mdi/js";
 
 /**
  * Accept a csv or excel file
@@ -44,6 +45,7 @@ export default class Upload extends Vue {
   private loading: boolean = false;
   private displayPasteModal: boolean = false;
   private snackbar: boolean = false;
+  private mdiUpload = mdiUpload;
 
   private mounted() {
     this.initDropZone();

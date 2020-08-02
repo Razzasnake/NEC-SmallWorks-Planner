@@ -15,7 +15,7 @@
         <v-menu offset-y v-if="$vuetify.breakpoint.xs">
           <template v-slot:activator="{ on, attrs }">
             <v-btn icon color="#eeeeee" v-bind="attrs" v-on="on" aria-label="More Options">
-              <v-icon>mdi-dots-vertical</v-icon>
+              <v-icon>{{ mdiDotsVertical }}</v-icon>
             </v-btn>
           </template>
           <v-list>
@@ -38,6 +38,7 @@
 <script lang='ts'>
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import NavigationDrawer from "./NavigationDrawer.vue";
+import { mdiDotsVertical } from "@mdi/js";
 
 /**
  * Navigation Bar at the top of the website to navigate between sections
@@ -51,6 +52,7 @@ export default class NavBar extends Vue {
   @Prop({ type: Boolean, default: false })
   private drawerAllowed!: boolean;
   private drawer: boolean | null = null;
+  private mdiDotsVertical = mdiDotsVertical;
 
   @Watch("drawerAllowed")
   private drawerAllowedUpdated() {

@@ -6,13 +6,15 @@ if (process.env.NODE_ENV === 'production') {
 } else {
   Vuetify = require('vuetify')
 }
-import '@mdi/font/css/materialdesignicons.css'
 import "@/sass/helpers/_utility.scss"
 
 
 Vue.use(Vuetify)
 
 export default new Vuetify({
+  icons: {
+    iconfont: 'mdiSvg',
+  },
   theme: {
     themes: {
       light: {
