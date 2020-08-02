@@ -7,7 +7,17 @@
   >
     <div v-for="key in Object.keys(groupByBloks)" :key="key" class="slide-group-container">
       <div class="text-h4">{{ key }}</div>
-      <v-slide-group show-arrows>
+      <v-row justify="center" v-if="$vuetify.breakpoint.xs">
+        <Teaser
+          :blok="item"
+          buttonText="Preview"
+          class="ma-2"
+          @onClick="preview"
+          v-for="item in groupByBloks[key]"
+          :key="item._uid"
+        ></Teaser>
+      </v-row>
+      <v-slide-group show-arrows v-else>
         <v-slide-item v-for="item in groupByBloks[key]" :key="item._uid">
           <Teaser :blok="item" buttonText="Preview" class="ma-2" @onClick="preview"></Teaser>
         </v-slide-item>

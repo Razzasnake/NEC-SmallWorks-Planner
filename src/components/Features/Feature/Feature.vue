@@ -5,6 +5,10 @@
     :img="blok.preview.filename"
     v-editable="blok"
   >
+    <template v-if="blok.abstract">
+      <div class="text-h5" v-html="createHtml(blok.abstract)"></div>
+      <v-divider class="margin-bottom-large margin-top-large" />
+    </template>
     <div v-html="createHtml(blok.content)"></div>
     <iframe
       v-if="blok.youtubeUrl.url"

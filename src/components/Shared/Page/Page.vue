@@ -8,10 +8,10 @@
       <div class="section">
         <div class="section-header">
           <div>
-            <div class="text-h2" v-if="titleIsString">
+            <div :class="titleClass" v-if="titleIsString">
               <p>{{ title }}</p>
             </div>
-            <div class="text-h2" v-else v-html="createHtml(title)"></div>
+            <div :class="titleClass" v-else v-html="createHtml(title)"></div>
             <div class="text-h6" v-if="subtitleIsString">
               <p>{{ subtitle }}</p>
             </div>
@@ -64,6 +64,10 @@ export default class Page extends Vue {
    */
   @Prop({ default: null })
   private img!: string | null;
+
+  private get titleClass() {
+    return this.$vuetify.breakpoint.xs ? "text-h3" : "text-h2";
+  }
 
   private get titleIsString() {
     return typeof this.title === "string";

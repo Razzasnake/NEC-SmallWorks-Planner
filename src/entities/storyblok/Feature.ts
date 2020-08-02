@@ -5,6 +5,7 @@ export default interface FeatureI {
   title: RichText,
   content: RichText,
   preview: Asset,
+  abstract: RichText,
   subtitle: RichText,
   component: string,
   youtubeUrl: Link

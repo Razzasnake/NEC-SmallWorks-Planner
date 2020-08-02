@@ -107,6 +107,33 @@ const featureGenerator = (): FeatureI => {
       copyright: null,
       fieldtype: "asset"
     },
+    abstract: {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          content: [
+            {
+              text: "Locational data stored in excel and csv files is more insightful when displayed on a map. Thanks to ",
+              type: "text"
+            },
+            {
+              text: "Table \u0026 Map",
+              type: "text",
+              marks: [
+                {
+                  type: "bold"
+                }
+              ]
+            },
+            {
+              text: ", interacting with your data has never been easier. Follow the guide to see your locational data on a map and start interacting with your data like you have always wanted.",
+              type: "text"
+            }
+          ]
+        }
+      ]
+    },
     subtitle: {
       type: "doc",
       content: [
