@@ -199,7 +199,7 @@ export default class PreviewCard extends Vue {
 }
 @media (max-width: 600px) {
   .ag-theme-balham {
-    min-width: 300px;
+    min-width: 200px;
   }
 }
 </style>
