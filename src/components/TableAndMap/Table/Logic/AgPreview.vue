@@ -1,8 +1,8 @@
 <template>
   <div>
     <div v-if="footerValue">{{ footerValue }}</div>
-    <a v-else @click="onClick" style="cursor: pointer;">
-      <v-icon color="primary" style="font-size: 15px;">{{ mdiEye }}</v-icon>
+    <a v-else @click="onClick">
+      <v-icon color="primary" small>{{ mdiEye }}</v-icon>
     </a>
   </div>
 </template>

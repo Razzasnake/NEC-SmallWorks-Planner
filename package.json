@@ -60,7 +60,7 @@
     "vue-template-compiler": "^2.6.11",
     "vuetify-loader": "^1.6.0",
     "webpack-bundle-analyzer": "^3.8.0",
-    "worker-loader": "^3.0.0"
+    "worker-loader": "^2.0.0"
   },
   "lint-staged": {
     "*.ts": [
