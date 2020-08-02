@@ -5,7 +5,6 @@ const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 const paths = [
   '/',
   '/examples',
-  '/features',
   '/feature/map-your-locational-data',
   '/feature/filterable',
   '/feature/unlimited-geocoding',
