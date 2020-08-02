@@ -30,10 +30,10 @@
     "vue-property-decorator": "^9.0.0",
     "vue-router": "^3.3.4",
     "vuetify": "^2.3.7",
-    "xlsx": "^0.16.4"
+    "xlsx": "^0.16.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.5",
+    "@babel/core": "^7.11.0",
     "@storybook/addon-actions": "^5.3.19",
     "@storybook/addon-docs": "^5.3.19",
     "@storybook/addon-knobs": "^5.3.19",
@@ -48,7 +48,7 @@
     "@vue/eslint-config-typescript": "^5.0.2",
     "babel-loader": "^8.1.0",
     "babel-preset-vue": "^2.0.2",
-    "eslint": "^7.5.0",
+    "eslint": "^7.6.0",
     "eslint-plugin-vue": "^6.2.2",
     "sass": "^1.26.10",
     "sass-loader": "^9.0.2",
@@ -60,7 +60,7 @@
     "vue-template-compiler": "^2.6.11",
     "vuetify-loader": "^1.6.0",
     "webpack-bundle-analyzer": "^3.8.0",
-    "worker-loader": "^2.0.0"
+    "worker-loader": "^3.0.0"
   },
   "lint-staged": {
     "*.ts": [
