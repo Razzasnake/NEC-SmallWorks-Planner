@@ -25,7 +25,8 @@ const exampleTeaserGenerator = (): ExampleTeaserI => {
     },
     component: "exampleTeaser",
     description: "Daily time series data for confirmed Covid-19 cases in the United States.",
-    firstRowHeader: true
+    firstRowHeader: true,
+    type: "Nature"
   }
 }
 

@@ -32,8 +32,8 @@ import state, { reset } from "@/store/exploreStore";
  */
 @Component({
   components: {
-    NavBar
-  }
+    NavBar,
+  },
 })
 export default class App extends Vue {
   private areYouSureModal = false;
@@ -42,6 +42,9 @@ export default class App extends Vue {
 
   @Watch("$route")
   private routerUpdated() {
+    if (this.$route.name !== "Explore" && state.uploadedFile) {
+      reset();
+    }
     this.drawerAllowed = state.uploadedFile !== null;
   }
 
