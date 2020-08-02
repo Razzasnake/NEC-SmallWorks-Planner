@@ -27,7 +27,7 @@
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
 import PasteModal from "./PasteModal/PasteModal.vue";
-import ParserWorker from "worker-loader!./Parser";
+import ParserWorker from "worker-loader!./ParserWorker";
 import Loading from "@/components/Shared/Loading/Loading.vue";
 import { mdiUpload } from "@mdi/js";
 
