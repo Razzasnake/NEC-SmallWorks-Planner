@@ -6,7 +6,7 @@
     v-editable="blok"
   >
     <template v-if="blok.abstract">
-      <div class="text-h5" v-html="createHtml(blok.abstract)"></div>
+      <h5 class="text-h5" v-html="createHtml(blok.abstract)"></h5>
       <v-divider class="margin-bottom-large margin-top-large" />
     </template>
     <div v-html="createHtml(blok.content)"></div>

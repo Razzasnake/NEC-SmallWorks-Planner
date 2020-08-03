@@ -3,20 +3,7 @@ import FeatureI from "@/entities/storyblok/Feature";
 const featureGenerator = (): FeatureI => {
   return {
     _uid: "65fdc3c6-64e2-42f8-be61-589baf8e861e",
-    title: {
-      type: "doc",
-      content: [
-        {
-          type: "paragraph",
-          content: [
-            {
-              text: "Filter With Shapes",
-              type: "text"
-            }
-          ]
-        }
-      ]
-    },
+    title: "Filter With Shapes",
     content: {
       type: "doc",
       content: [
@@ -134,20 +121,7 @@ const featureGenerator = (): FeatureI => {
         }
       ]
     },
-    subtitle: {
-      type: "doc",
-      content: [
-        {
-          type: "paragraph",
-          content: [
-            {
-              text: "Easily draw shapes around markers to filter the table and display only the markers you want to see.",
-              type: "text"
-            }
-          ]
-        }
-      ]
-    },
+    subtitle: "Easily draw shapes around markers to filter the table and display only the markers you want to see.",
     component: "feature",
     youtubeUrl: {
       id: "",

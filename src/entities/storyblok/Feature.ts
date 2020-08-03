@@ -2,11 +2,11 @@ import { RichText, Asset, Link } from "./Base";
 
 export default interface FeatureI {
   _uid: string,
-  title: RichText,
+  title: string,
   content: RichText,
   preview: Asset,
   abstract: RichText,
-  subtitle: RichText,
+  subtitle: string,
   component: string,
   youtubeUrl: Link
 }

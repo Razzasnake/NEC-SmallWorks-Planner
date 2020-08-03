@@ -8,12 +8,8 @@
       <div class="section">
         <div class="section-header">
           <div>
-            <h1 :class="titleClass" v-if="titleIsString">{{ title }}</h1>
-            <h1 :class="titleClass" v-else v-html="createHtml(title)"></h1>
-            <div class="text-h6" v-if="subtitleIsString">
-              <p>{{ subtitle }}</p>
-            </div>
-            <div class="text-h6" v-else v-html="createHtml(subtitle)"></div>
+            <h1 :class="titleClass">{{ title }}</h1>
+            <h6 class="text-h6">{{ subtitle }}</h6>
           </div>
         </div>
       </div>
@@ -31,12 +27,7 @@
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
-import StoryblokClient from "storyblok-js-client";
 import Footer from "@/components/Home/Footer/Footer.vue";
-
-const Storyblok = new StoryblokClient({
-  accessToken: process.env.VUE_APP_STORYBLOK_TOKEN,
-});
 
 /**
  * Generic Page component
@@ -51,12 +42,12 @@ export default class Page extends Vue {
    * Title
    */
   @Prop()
-  private title!: string | object;
+  private title!: string;
   /**
    * Subtitle
    */
   @Prop()
-  private subtitle!: string | object;
+  private subtitle!: string;
   /**
    * Image to appear behind the header
    */
@@ -65,18 +56,6 @@ export default class Page extends Vue {
 
   private get titleClass() {
     return this.$vuetify.breakpoint.xs ? "text-h3" : "text-h2";
-  }
-
-  private get titleIsString() {
-    return typeof this.title === "string";
-  }
-
-  private get subtitleIsString() {
-    return typeof this.subtitle === "string";
-  }
-
-  private createHtml(richText: object) {
-    return Storyblok.richTextResolver.render(richText);
   }
 }
 </script>
