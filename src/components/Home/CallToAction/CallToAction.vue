@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="margin-bottom-large">
-      <div class="text-h2">Table &amp; Map</div>
-      <div class="text-h6 tagline">{{ tagline }}</div>
+      <h2 class="text-h2">Table &amp; Map</h2>
+      <h6 class="text-h6 tagline">{{ tagline }}</h6>
     </div>
     <UploadWorkflow @finish="finish"></UploadWorkflow>
   </div>
