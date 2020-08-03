@@ -226,28 +226,51 @@ export default class GoogleMapLogic {
         {
           maxZoom: 12,
           clusterClass: "custom-clustericon",
-          styles: [
-            {
-              width: 30,
-              height: 30,
-              className: "custom-clustericon-1"
-            },
-            {
-              width: 40,
-              height: 40,
-              className: "custom-clustericon-2"
-            },
-            {
-              width: 50,
-              height: 50,
-              className: "custom-clustericon-3"
-            }
-          ]
+          calculator: this.computeClusterCalculator,
+          styles: this.computeClusterStyles()
         }
       );
     } else {
       this.displayMarkersChanged();
     }
+  }
+
+  private computeClusterCalculator(markers: google.maps.Marker[], numStyles: number) {
+    let index = 0;
+    const count: number = markers.length;
+
+    let dv = count;
+    while (dv !== 0) {
+      dv = Math.floor(dv / 10);
+      index++;
+    }
+    // Instead of text, use an svg
+    index = Math.min(index, numStyles);
+    return {
+      text: count.toString(),
+      index: index,
+      title: ""
+    };
+  }
+
+  private computeClusterStyles() {
+    return [
+      {
+        width: 30,
+        height: 30,
+        className: "custom-clustericon-1",
+      },
+      {
+        width: 40,
+        height: 40,
+        className: "custom-clustericon-2"
+      },
+      {
+        width: 50,
+        height: 50,
+        className: "custom-clustericon-3"
+      }
+    ];
   }
 
   public displayMarkersChanged() {
