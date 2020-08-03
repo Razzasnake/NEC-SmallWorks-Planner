@@ -52,6 +52,17 @@ export default class App extends Vue {
     this.routerUpdated();
   }
 
+  private mounted() {
+    if (process.env.NODE_ENV !== "production") {
+      const script = document.createElement("script");
+      script.setAttribute(
+        "src",
+        `https://app.storyblok.com/f/storyblok-latest.js?t=${process.env.VUE_APP_STORYBLOK_TOKEN}`
+      );
+      document.head.appendChild(script);
+    }
+  }
+
   private jumpTo(location: { name: string }) {
     if (location.name !== this.$route.name) {
       if (this.$route.name === "Explore") {
