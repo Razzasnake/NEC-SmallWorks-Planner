@@ -43,6 +43,8 @@ export default class GoogleMapLogic {
     zIndex: 2
   };
 
+  private groupByKey: string | null = "0";
+
   private get uploadedFile(): UploadedFile {
     return (this.vueComponent as any).uploadedFile;
   }
@@ -138,6 +140,7 @@ export default class GoogleMapLogic {
         }
         const position = { lat: row.lat!, lng: row.lng! };
         const newMarker = this.createMarker(position);
+        (newMarker as unknown as { row: Row }).row = row;
         newMarker.addListener("click", () => {
           if (this.map) {
             this.map.panTo(position);
@@ -226,8 +229,24 @@ export default class GoogleMapLogic {
         {
           maxZoom: 12,
           clusterClass: "custom-clustericon",
-          calculator: this.computeClusterCalculator,
-          styles: this.computeClusterStyles()
+          calculator: this.groupByKey ? (...args) => this.computeClusterCalculator(...args) : undefined,
+          styles: [
+            {
+              width: this.groupByKey ? 50 : 30,
+              height: this.groupByKey ? 50 : 30,
+              className: this.groupByKey ? undefined : "custom-clustericon-1"
+            },
+            {
+              width: this.groupByKey ? 60 : 40,
+              height: this.groupByKey ? 60 : 40,
+              className: this.groupByKey ? undefined : "custom-clustericon-2"
+            },
+            {
+              width: this.groupByKey ? 70 : 50,
+              height: this.groupByKey ? 70 : 50,
+              className: this.groupByKey ? undefined : "custom-clustericon-3"
+            }
+          ]
         }
       );
     } else {
@@ -238,39 +257,73 @@ export default class GoogleMapLogic {
   private computeClusterCalculator(markers: google.maps.Marker[], numStyles: number) {
     let index = 0;
     const count: number = markers.length;
-
     let dv = count;
     while (dv !== 0) {
       dv = Math.floor(dv / 10);
       index++;
     }
-    // Instead of text, use an svg
-    index = Math.min(index, numStyles);
     return {
-      text: count.toString(),
-      index: index,
+      text: this.createSvgPieChart(markers),
+      index: Math.min(index, numStyles),
       title: ""
     };
   }
 
-  private computeClusterStyles() {
-    return [
-      {
-        width: 30,
-        height: 30,
-        className: "custom-clustericon-1",
-      },
-      {
-        width: 40,
-        height: 40,
-        className: "custom-clustericon-2"
-      },
-      {
-        width: 50,
-        height: 50,
-        className: "custom-clustericon-3"
+  private createSvgPieChart(markers: google.maps.Marker[]) {
+    const data: { [key: string]: number } = {};
+    markers.forEach(marker => {
+      const value = (marker as unknown as { row: Row }).row[this.groupByKey!];
+      if (data[value] === undefined) {
+        data[value] = 0;
       }
-    ];
+      data[value] = data[value] + 1;
+    });
+    let cumulativePercent = 0;
+    const getCoordinatesForPercent = (percent: number) => {
+      const x = Math.cos(2 * Math.PI * percent);
+      const y = Math.sin(2 * Math.PI * percent);
+      return [x, y];
+    }
+    const svgEl = document.createElement("svg");
+    svgEl.setAttribute("viewBox", "-1 -1 2 2");
+    const slices = Object.keys(data).map(key => {
+      return { total: data[key], percent: data[key] / markers.length, color: this.computeColorFromKey(key) };
+    });
+    slices.forEach(slice => {
+      const [startX, startY] = getCoordinatesForPercent(cumulativePercent);
+      cumulativePercent += slice.percent;
+      const [endX, endY] = getCoordinatesForPercent(cumulativePercent);
+      const largeArcFlag = slice.percent > .5 ? 1 : 0;
+      const thickness = 0;
+      const pathData = [
+        `M ${startX} ${startY}`,
+        `A 1 1 0 ${largeArcFlag} 1 ${endX} ${endY}`,
+        `L ${endX * thickness} ${endY * thickness}`,
+        `A ${thickness} ${thickness} 0 ${largeArcFlag} 0 ${startX * thickness} ${startY * thickness}`,
+      ].join(" ");
+      const pathEl = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      pathEl.setAttribute("d", pathData);
+      pathEl.setAttribute("fill", slice.color);
+      svgEl.appendChild(pathEl);
+    });
+    return svgEl.outerHTML;
+  }
+
+  private computeColorFromKey(key: string) {
+    const hashCode = (str: string) => {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        hash = str.charCodeAt(i) + ((hash << 5) - hash);
+      }
+      return hash;
+    }
+    const intToRGB = (i: number) => {
+      const c = (i & 0x00FFFFFF)
+        .toString(16)
+        .toUpperCase();
+      return "00000".substring(0, 6 - c.length) + c;
+    }
+    return `#${intToRGB(hashCode(key))}`;
   }
 
   public displayMarkersChanged() {
