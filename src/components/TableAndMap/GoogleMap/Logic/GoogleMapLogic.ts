@@ -8,6 +8,7 @@ import UploadedFile, { Row } from "@/entities/UploadedFile";
 import MarkerClusterer from "@google/markerclustererplus";
 import Theme from "./Theme";
 import Utils from "./Utils";
+import colors from "vuetify/lib/util/colors";
 
 type AvailableOverlays =
   | google.maps.Polygon
@@ -43,7 +44,29 @@ export default class GoogleMapLogic {
     zIndex: 2
   };
 
-  private groupByKey: string | null = "0";
+  private materialColors = [
+    colors.red.darken1,
+    colors.pink.darken1,
+    colors.purple.darken1,
+    colors.deepPurple.darken1,
+    colors.indigo.darken1,
+    colors.blue.darken1,
+    colors.lightBlue.darken1,
+    colors.cyan.darken1,
+    colors.teal.darken1,
+    colors.green.darken1,
+    colors.lightGreen.darken1,
+    colors.lime.darken1,
+    colors.yellow.darken1,
+    colors.amber.darken1,
+    colors.orange.darken1,
+    colors.deepOrange.darken1,
+    colors.brown.darken1,
+    colors.blueGrey.darken1,
+    colors.grey.darken1
+  ];
+
+  private groupByKey: string | null = "5";
 
   private get uploadedFile(): UploadedFile {
     return (this.vueComponent as any).uploadedFile;
@@ -318,12 +341,9 @@ export default class GoogleMapLogic {
       return hash;
     }
     const intToRGB = (i: number) => {
-      const c = (i & 0x00FFFFFF)
-        .toString(16)
-        .toUpperCase();
-      return "00000".substring(0, 6 - c.length) + c;
+      return this.materialColors[Math.abs(i) % this.materialColors.length];
     }
-    return `#${intToRGB(hashCode(key))}`;
+    return intToRGB(hashCode(key));
   }
 
   public displayMarkersChanged() {
