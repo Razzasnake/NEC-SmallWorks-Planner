@@ -28,7 +28,6 @@ export default class Error404 extends Vue {
 
   private goHome() {
     this.$router.push({ name: "Home" });
-    this.countdown = 10;
     if (this.interval) {
       clearInterval(this.interval);
     }
