@@ -22,7 +22,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 @Component({
   components: {},
 })
-export default class _404 extends Vue {
+export default class Status404 extends Vue {
   /**
    * Seconds remaining until redirected to the home page
    */
