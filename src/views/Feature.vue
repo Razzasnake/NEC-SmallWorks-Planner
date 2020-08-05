@@ -59,6 +59,12 @@ export default class Feature extends Vue {
     this.slugChanged();
   }
 
+  private activated() {
+    if (this.story) {
+      document.title = `Table & Map - ${this.story.content.title}`;
+    }
+  }
+
   private finish(uploadedFile: UploadedFile) {
     updateUploadedFile(uploadedFile);
     this.$router.push({ name: "Explore" });
