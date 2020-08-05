@@ -3,10 +3,7 @@
     <v-app>
       <NavBar :drawerAllowed="drawerAllowed" @jumpTo="jumpTo"></NavBar>
       <v-main>
-        <template v-if="$route.name === '404'">
-          <router-view></router-view>
-        </template>
-        <keep-alive v-else>
+        <keep-alive>
           <router-view></router-view>
         </keep-alive>
         <v-dialog v-model="areYouSureModal" max-width="400" @click:outside="cancelLeave">

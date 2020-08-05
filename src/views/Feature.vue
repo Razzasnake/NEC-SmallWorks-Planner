@@ -39,6 +39,7 @@ export default class Feature extends Vue {
     });
     storyblok.on("change", async () => {
       this.story = await storyapi.getStory(this.url, "draft");
+      document.title = `Table & Map - ${this.story.content.title}`;
     });
     storyblok.pingEditor(async () => {
       if (storyblok.isInEditor()) {
@@ -46,6 +47,7 @@ export default class Feature extends Vue {
       } else {
         this.story = await storyapi.getStory(this.url, "published");
       }
+      document.title = `Table & Map - ${this.story.content.title}`;
     });
   }
 

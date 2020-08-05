@@ -43,13 +43,4 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to, _, next) => {
-  if (to.name && to.name !== 'Home') {
-    document.title = to.name + ' | Table & Map';
-  } else {
-    document.title = 'Table & Map - View excel files in a map'
-  }
-  next();
-});
-
 export default router

@@ -34,6 +34,10 @@ export default class Features extends Vue {
     });
   }
 
+  private activated() {
+    document.title = "Table & Map - Features";
+  }
+
   private learnMore(blok: any) {
     this.$router.push(blok.feature.cached_url);
   }

@@ -43,6 +43,10 @@ export default class Examples extends Vue {
     });
   }
 
+  private activated() {
+    document.title = "Table & Map - Examples";
+  }
+
   private async preview(teaser: ExampleTeaserI) {
     this.loading = true;
     updateUploadedFile(await exampleApi.getExample(teaser));

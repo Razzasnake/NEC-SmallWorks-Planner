@@ -62,6 +62,10 @@ export default class Explore extends Vue {
     }
   }
 
+  private activated() {
+    document.title = "Table & Map - Explore";
+  }
+
   private finish(uploadedFile: UploadedFile) {
     updateUploadedFile(uploadedFile);
   }
