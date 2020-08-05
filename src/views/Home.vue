@@ -16,7 +16,6 @@ import { updateUploadedFile } from "@/store/exploreStore";
   },
 })
 export default class Home extends Vue {
-
   private finish(uploadedFile: UploadedFile) {
     updateUploadedFile(uploadedFile);
     this.$router.push({ name: "Explore" });
@@ -24,6 +23,11 @@ export default class Home extends Vue {
 
   private activated() {
     document.title = "Table & Map - View excel files in a map";
+    const description = document.getElementsByName("description");
+    if (description.length) {
+      (description[0] as HTMLMetaElement).content =
+        "Visualize your locational data in an interactive map. Upload an excel or csv file to get started.";
+    }
   }
 }
 </script>

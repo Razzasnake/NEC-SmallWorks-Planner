@@ -36,6 +36,11 @@ export default class Features extends Vue {
 
   private activated() {
     document.title = "Table & Map - Features";
+    const description = document.getElementsByName("description");
+    if (description.length) {
+      (description[0] as HTMLMetaElement).content =
+        "Learn more about the many features offered by Table & Map.";
+    }
   }
 
   private learnMore(blok: any) {

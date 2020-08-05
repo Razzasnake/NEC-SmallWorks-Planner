@@ -39,7 +39,7 @@ export default class Feature extends Vue {
     });
     storyblok.on("change", async () => {
       this.story = await storyapi.getStory(this.url, "draft");
-      document.title = `Table & Map - ${this.story.content.title}`;
+      this.updateTitleDescription();
     });
     storyblok.pingEditor(async () => {
       if (storyblok.isInEditor()) {
@@ -47,7 +47,7 @@ export default class Feature extends Vue {
       } else {
         this.story = await storyapi.getStory(this.url, "published");
       }
-      document.title = `Table & Map - ${this.story.content.title}`;
+      this.updateTitleDescription();
     });
   }
 
@@ -60,8 +60,16 @@ export default class Feature extends Vue {
   }
 
   private activated() {
+    this.updateTitleDescription();
+  }
+
+  private updateTitleDescription() {
     if (this.story) {
       document.title = `Table & Map - ${this.story.content.title}`;
+      const description = document.getElementsByName("description");
+      if (description.length) {
+        (description[0] as HTMLMetaElement).content = this.story.content.subtitle;
+      }
     }
   }
 

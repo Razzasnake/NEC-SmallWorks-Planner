@@ -45,6 +45,11 @@ export default class Examples extends Vue {
 
   private activated() {
     document.title = "Table & Map - Examples";
+    const description = document.getElementsByName("description");
+    if (description.length) {
+      (description[0] as HTMLMetaElement).content =
+        "See how Table & Map can add value by trying one of our datasets.";
+    }
   }
 
   private async preview(teaser: ExampleTeaserI) {

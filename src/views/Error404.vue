@@ -19,6 +19,11 @@ export default class Error404 extends Vue {
 
   private activated() {
     document.title = "Table & Map - Page Not Found";
+    const description = document.getElementsByName("description");
+    if (description.length) {
+      (description[0] as HTMLMetaElement).content =
+        "Page Not Found. The page you are looking for no longer exists.";
+    }
     this.interval = setInterval(() => {
       this.countdown = this.countdown - 1;
       if (this.countdown === 0) {
