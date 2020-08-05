@@ -8,7 +8,10 @@
       <div class="section">
         <div class="text-h2">404 - Page Not Found</div>
         <div class="text-subtitle-1">The page you are looking for no longer exists.</div>
-        <div class="text-h6 margin-top-large">Back home in {{ time }}</div>
+        <div class="text-h6 margin-top-large">
+          <a @click="goHome" class="go-home">Back home</a>
+          in {{ time }}
+        </div>
       </div>
     </div>
   </v-img>
@@ -22,19 +25,26 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 @Component({
   components: {},
 })
-export default class Status404 extends Vue {
+export default class Error404 extends Vue {
   /**
    * Seconds remaining until redirected to the home page
    */
-  @Prop({ default: 0})
-  private countdown!: number
+  @Prop({ default: 0 })
+  private countdown!: number;
 
   private get time(): string {
     let time = this.countdown.toString();
     if (time.length === 1) {
-      return `00:00:0${time}`
+      return `00:00:0${time}`;
     }
-    return `00:00:${time}`
+    return `00:00:${time}`;
+  }
+
+  private goHome() {
+    /**
+     * Notify parent that the user wants to be navigated home now.
+     */
+    this.$emit("goHome");
   }
 }
 </script>
@@ -47,6 +57,9 @@ export default class Status404 extends Vue {
   .section-header {
     width: 1215px;
     margin: auto;
+    color: #eeeeee;
+  }
+  .go-home {
     color: #eeeeee;
   }
 }
