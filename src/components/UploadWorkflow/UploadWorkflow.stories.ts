@@ -1,5 +1,6 @@
 import UploadWorkflow from './UploadWorkflow.vue'
 import { action } from '@storybook/addon-actions'
+import { text } from '@storybook/addon-knobs'
 
 export default {
   component: UploadWorkflow,
@@ -10,14 +11,16 @@ const _UploadWorkflow = () => ({
   components: { UploadWorkflow },
   template: `
     <UploadWorkflow
+      :color="color"
       @finish="finish"
-      @closeModal="closeModal"
     ></UploadWorkflow>`,
   props: {
+    color: {
+      default: text('color', '#eeeeee')
+    }
   },
   methods: {
-    finish: action('finish'),
-    closeModal: action('closeModal')
+    finish: action('finish')
   }
 })
 

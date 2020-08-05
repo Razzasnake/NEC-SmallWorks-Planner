@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Upload @fileUploaded="fileUploaded"></Upload>
+    <Upload :color="color" @fileUploaded="fileUploaded"></Upload>
     <v-dialog v-model="visible" @click:outside="reset" max-width="700">
       <Loading
         :loading="loading"
@@ -52,6 +52,12 @@ import Loading from "@/components/Shared/Loading/Loading.vue";
   },
 })
 export default class UploadWorkflow extends Vue {
+  /**
+   * Color of the upload button
+   */
+  @Prop({ default: '#eeeeee' })
+  private color!: string;
+
   private step: number = 0;
   private uploadedFile: any[][] = [];
   private columnSelections: {
@@ -194,10 +200,6 @@ export default class UploadWorkflow extends Vue {
     this.addresses = [];
     this.loading = false;
     this.numberGeocoded = 0;
-    /**
-     * The modal was closed
-     */
-    this.$emit("closeModal");
   }
 }
 </script>

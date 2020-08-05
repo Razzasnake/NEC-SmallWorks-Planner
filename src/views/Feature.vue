@@ -1,11 +1,18 @@
 <template>
-  <FeatureComponent v-if="story" :blok="story.content" />
+  <FeatureComponent
+    v-if="story"
+    :blok="story.content"
+    @finish="finish"
+    @previewExamples="previewExamples"
+  />
 </template>
 <script lang='ts'>
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import FeatureComponent from "@/components/Features/Feature/Feature.vue";
 import storyapi from "@/api/storyblok";
 import StoryI from "@/entities/storyblok/Story";
+import UploadedFile from "@/entities/UploadedFile";
+import { updateUploadedFile } from "@/store/exploreStore";
 
 /**
  * Storyblok blog full content page
@@ -48,6 +55,15 @@ export default class Feature extends Vue {
 
   private created() {
     this.slugChanged();
+  }
+
+  private finish(uploadedFile: UploadedFile) {
+    updateUploadedFile(uploadedFile);
+    this.$router.push({ name: "Explore" });
+  }
+
+  private previewExamples() {
+    this.$router.push({ name: "Examples" });
   }
 }
 </script>
