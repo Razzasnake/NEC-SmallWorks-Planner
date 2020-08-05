@@ -2,7 +2,12 @@
   <div>
     <Upload @fileUploaded="fileUploaded"></Upload>
     <v-dialog v-model="visible" @click:outside="reset" max-width="700">
-      <Loading :loading="loading" :value="numberGeocoded" :max="addresses.length" />
+      <Loading
+        :loading="loading"
+        :value="numberGeocoded"
+        :max="addresses.length"
+        label="Geocoding"
+      />
       <v-card>
         <v-card-title class="headline">Select Columns</v-card-title>
         <v-card-text>
@@ -185,8 +190,10 @@ export default class UploadWorkflow extends Vue {
       zip: null,
     };
     this.firstRowHeader = true;
+    this.finishIsDisabled = true;
     this.addresses = [];
     this.loading = false;
+    this.numberGeocoded = 0;
     /**
      * The modal was closed
      */
