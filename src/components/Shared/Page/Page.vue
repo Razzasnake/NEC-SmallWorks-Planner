@@ -70,6 +70,11 @@ export default class Page extends Vue {
     margin: auto;
     color: #eeeeee;
   }
+  @media (max-width: 1215px) {
+    .section-header {
+      width: 100%;
+    }
+  }
 }
 .feature {
   max-width: 1215px;
