@@ -19,6 +19,10 @@ export default class Error404 extends Vue {
 
   private activated() {
     document.title = "Table & Map - Page Not Found";
+    const title = document.getElementsByName("title");
+    if (title.length) {
+      (title[0] as HTMLMetaElement).content = document.title;
+    }
     const description = document.getElementsByName("description");
     if (description.length) {
       (description[0] as HTMLMetaElement).content =

@@ -66,6 +66,10 @@ export default class Feature extends Vue {
   private updateTitleDescription() {
     if (this.story) {
       document.title = `Table & Map - ${this.story.content.title}`;
+      const title = document.getElementsByName("title");
+      if (title.length) {
+        (title[0] as HTMLMetaElement).content = document.title;
+      }
       const description = document.getElementsByName("description");
       if (description.length) {
         (description[0] as HTMLMetaElement).content = this.story.content.subtitle;
