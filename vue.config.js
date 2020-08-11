@@ -19,6 +19,7 @@ const paths = [
 module.exports = {
   configureWebpack: {
     plugins: [
+      // new BundleAnalyzerPlugin(),
       new VuetifyLoaderPlugin(),
       new SitemapPlugin(process.env.VUE_APP_BASE_URL, paths)
     ]

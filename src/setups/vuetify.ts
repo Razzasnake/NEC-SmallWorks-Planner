@@ -1,17 +1,10 @@
 import Vue from 'vue'
-
-let Vuetify
-if (process.env.NODE_ENV === 'production') {
-  Vuetify = require('vuetify/lib').default
-} else {
-  Vuetify = require('vuetify')
-}
+import Vuetify from "vuetify/lib"
 import "@/sass/helpers/_utility.scss"
-
 
 Vue.use(Vuetify)
 
-export default new Vuetify({
+const config: any = {
   icons: {
     iconfont: 'mdiSvg',
   },
@@ -22,4 +15,8 @@ export default new Vuetify({
       }
     }
   }
-})
+}
+
+export { config }
+
+export default new Vuetify(config)
