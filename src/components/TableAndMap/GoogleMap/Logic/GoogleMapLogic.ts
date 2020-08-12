@@ -332,7 +332,7 @@ export default class GoogleMapLogic {
       cumulativePercent += slice.percent;
       const [endX, endY] = getCoordinatesForPercent(cumulativePercent);
       const largeArcFlag = slice.percent > .5 ? 1 : 0;
-      const thickness = 0;
+      const thickness = 0; /* You can use this to make a donut pie chart. */
       const pathData = [
         `M ${startX} ${startY}`,
         `A 1 1 0 ${largeArcFlag} 1 ${endX} ${endY}`,
