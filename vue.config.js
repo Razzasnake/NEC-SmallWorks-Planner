@@ -10,7 +10,7 @@ const paths = [
   '/features/filterable',
   '/features/unlimited-geocoding',
   '/features/geojson-and-shapefile-layers',
-  '/features/supports-50-000-markers',
+  '/features/supports-many-markers',
   '/features/heat-map-layer',
   '/features/categorical-grouping',
   '/features/automation',
