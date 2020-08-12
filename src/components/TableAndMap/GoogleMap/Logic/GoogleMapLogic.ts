@@ -201,7 +201,7 @@ export default class GoogleMapLogic {
       position,
       zIndex: 1,
       map: this.displayClusters ? undefined : this.map,
-      icon: require("@/assets/markers/point.png")
+      icon: require("@/assets/markers/primary.png")
     });
   }
 
