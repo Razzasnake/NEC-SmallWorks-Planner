@@ -8,6 +8,7 @@ import UploadedFile, { Row } from "@/entities/UploadedFile";
 import MarkerClusterer from "@google/markerclustererplus";
 import Theme from "./Theme";
 import Utils from "./Utils";
+import colors from "vuetify/lib/util/colors";
 
 type AvailableOverlays =
   | google.maps.Polygon
@@ -21,6 +22,28 @@ export default class GoogleMapLogic {
     .substring(7);
   public activeDrawingMode: number | null = null;
   public iconColor: string = "#000000DE";
+  public colorPosition: { [key: string]: number } | null = null;
+  public materialColors = [
+    { fileName: "red", hash: colors.red.darken1 },
+    { fileName: "pink", hash: colors.pink.darken1 },
+    { fileName: "purple", hash: colors.purple.darken1 },
+    { fileName: "deepPurple", hash: colors.deepPurple.darken1 },
+    { fileName: "indigo", hash: colors.indigo.darken1 },
+    { fileName: "blue", hash: colors.blue.darken1 },
+    { fileName: "lightBlue", hash: colors.lightBlue.darken1 },
+    { fileName: "cyan", hash: colors.cyan.darken1 },
+    { fileName: "teal", hash: colors.teal.darken1 },
+    { fileName: "green", hash: colors.green.darken1 },
+    { fileName: "lightGreen", hash: colors.lightGreen.darken1 },
+    { fileName: "lime", hash: colors.lime.darken1 },
+    { fileName: "yellow", hash: colors.yellow.darken1 },
+    { fileName: "amber", hash: colors.amber.darken1 },
+    { fileName: "orange", hash: colors.orange.darken1 },
+    { fileName: "deepOrange", hash: colors.deepOrange.darken1 },
+    { fileName: "brown", hash: colors.brown.darken1 },
+    { fileName: "blueGrey", hash: colors.blueGrey.darken1 },
+    { fileName: "grey", hash: colors.grey.darken1 }
+  ];
 
   private vueComponent!: Vue;
   private map!: google.maps.Map;
@@ -78,6 +101,10 @@ export default class GoogleMapLogic {
     return (this.vueComponent as any).clickedMarker;
   }
 
+  private get groupByKey(): string | null {
+    return (this.vueComponent as any).groupByKey;
+  }
+
   constructor(vueComponent: Vue) {
     this.vueComponent = vueComponent;
   }
@@ -129,6 +156,8 @@ export default class GoogleMapLogic {
   private createMarkers(): void {
     this.clearMarkers();
     const drawnMarkers: google.maps.Marker[] = [];
+    const colorPosition: { [key: string]: number } = {};
+    let colorPositionIndex: number = 0;
     this.uploadedFile.data
       .slice(this.uploadedFile.firstRowHeader ? 1 : 0)
       .forEach((row, index) => {
@@ -137,7 +166,13 @@ export default class GoogleMapLogic {
           return;
         }
         const position = { lat: row.lat!, lng: row.lng! };
-        const newMarker = this.createMarker(position);
+        if (this.groupByKey && colorPosition[row[this.groupByKey]] === undefined) {
+          colorPosition[row[this.groupByKey]] = colorPositionIndex;
+          colorPositionIndex = (colorPositionIndex + 1) % this.materialColors.length;
+        }
+        const fileName = this.groupByKey ? this.materialColors[colorPosition[row[this.groupByKey]]].fileName : "primary";
+        const newMarker = this.createMarker(position, fileName);
+        (newMarker as unknown as { row: Row }).row = row;
         newMarker.addListener("click", () => {
           if (this.map) {
             this.map.panTo(position);
@@ -155,6 +190,11 @@ export default class GoogleMapLogic {
         }
         drawnMarkers.push(newMarker);
       });
+    if (Object.keys(colorPosition).length) {
+      this.colorPosition = colorPosition;
+    } else {
+      this.colorPosition = null;
+    }
     this.markers = drawnMarkers;
   }
 
@@ -170,12 +210,12 @@ export default class GoogleMapLogic {
     }
   }
 
-  private createMarker(position: { lat: number; lng: number }) {
+  private createMarker(position: { lat: number; lng: number }, fileName: string) {
     return new google.maps.Marker({
       position,
       zIndex: 1,
       map: this.displayClusters ? undefined : this.map,
-      icon: require("@/assets/markers/point.png")
+      icon: require(`@/assets/markers/${fileName}.png`)
     });
   }
 
@@ -226,21 +266,22 @@ export default class GoogleMapLogic {
         {
           maxZoom: 12,
           clusterClass: "custom-clustericon",
+          calculator: this.groupByKey ? (...args) => this.computeClusterCalculator(...args) : undefined,
           styles: [
             {
-              width: 30,
-              height: 30,
-              className: "custom-clustericon-1"
+              width: this.groupByKey ? 50 : 30,
+              height: this.groupByKey ? 50 : 30,
+              className: this.groupByKey ? undefined : "custom-clustericon-1"
             },
             {
-              width: 40,
-              height: 40,
-              className: "custom-clustericon-2"
+              width: this.groupByKey ? 60 : 40,
+              height: this.groupByKey ? 60 : 40,
+              className: this.groupByKey ? undefined : "custom-clustericon-2"
             },
             {
-              width: 50,
-              height: 50,
-              className: "custom-clustericon-3"
+              width: this.groupByKey ? 70 : 50,
+              height: this.groupByKey ? 70 : 50,
+              className: this.groupByKey ? undefined : "custom-clustericon-3"
             }
           ]
         }
@@ -248,6 +289,69 @@ export default class GoogleMapLogic {
     } else {
       this.displayMarkersChanged();
     }
+  }
+
+  private computeClusterCalculator(markers: google.maps.Marker[], numStyles: number) {
+    let index = 0;
+    const count: number = markers.length;
+    let dv = count;
+    while (dv !== 0) {
+      dv = Math.floor(dv / 10);
+      index++;
+    }
+    return {
+      text: this.createSvgPieChart(markers),
+      index: Math.min(index, numStyles),
+      title: ""
+    };
+  }
+
+  private createSvgPieChart(markers: google.maps.Marker[]) {
+    const data: { [key: string]: number } = {};
+    markers.forEach(marker => {
+      const value = (marker as unknown as { row: Row }).row[this.groupByKey!];
+      if (data[value] === undefined) {
+        data[value] = 0;
+      }
+      data[value] = data[value] + 1;
+    });
+    let cumulativePercent = 0;
+    const getCoordinatesForPercent = (percent: number) => {
+      const x = Math.cos(2 * Math.PI * percent);
+      const y = Math.sin(2 * Math.PI * percent);
+      return [x, y];
+    }
+    const svgEl = document.createElement("svg");
+    svgEl.setAttribute("viewBox", "-1 -1 2 2");
+    const slices = Object.keys(data).map(key => {
+      const hash = this.materialColors[this.colorPosition![key]].hash;
+      return { total: data[key], percent: data[key] / markers.length, color: hash };
+    });
+    slices.forEach(slice => {
+      const [startX, startY] = getCoordinatesForPercent(cumulativePercent);
+      cumulativePercent += slice.percent;
+      const [endX, endY] = getCoordinatesForPercent(cumulativePercent);
+      const largeArcFlag = slice.percent > .5 ? 1 : 0;
+      const thickness = 0; /* You can use this to make a donut pie chart. */
+      const pathData = [
+        `M ${startX} ${startY}`,
+        `A 1 1 0 ${largeArcFlag} 1 ${endX} ${endY}`,
+        `L ${endX * thickness} ${endY * thickness}`,
+        `A ${thickness} ${thickness} 0 ${largeArcFlag} 0 ${startX * thickness} ${startY * thickness}`,
+      ].join(" ");
+      const pathEl = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      pathEl.setAttribute("d", pathData);
+      pathEl.setAttribute("fill", slice.color);
+      svgEl.appendChild(pathEl);
+    });
+    const textEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    textEl.textContent = markers.length.toString();
+    textEl.setAttribute("font-size", "0.035em");
+    textEl.setAttribute("fill", "white");
+    textEl.setAttribute("dominant-baseline", "middle");
+    textEl.setAttribute("text-anchor", "middle");
+    svgEl.appendChild(textEl);
+    return svgEl.outerHTML;
   }
 
   public displayMarkersChanged() {
@@ -492,6 +596,26 @@ export default class GoogleMapLogic {
         }
       }
     }
+  }
+
+  public updateMarkerImages() {
+    const colorPosition: { [key: string]: number } = {};
+    let colorPositionIndex: number = 0;
+    this.markers.forEach(row => {
+      const data = (row as unknown as { row: Row }).row;
+      if (this.groupByKey && colorPosition[data[this.groupByKey]] === undefined) {
+        colorPosition[data[this.groupByKey]] = colorPositionIndex;
+        colorPositionIndex = (colorPositionIndex + 1) % this.materialColors.length;
+      }
+      const fileName = this.groupByKey ? this.materialColors[colorPosition[data[this.groupByKey]]].fileName : "primary";
+      row.setIcon(require(`@/assets/markers/${fileName}.png`));
+    });
+    if (Object.keys(colorPosition).length) {
+      this.colorPosition = colorPosition;
+    } else {
+      this.colorPosition = null;
+    }
+    this.displayClustersChanged();
   }
 
   public hiddenMarkerIndicesUpdated(
