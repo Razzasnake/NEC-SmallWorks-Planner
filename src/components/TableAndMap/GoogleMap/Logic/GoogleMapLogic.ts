@@ -324,7 +324,8 @@ export default class GoogleMapLogic {
     const svgEl = document.createElement("svg");
     svgEl.setAttribute("viewBox", "-1 -1 2 2");
     const slices = Object.keys(data).map(key => {
-      return { total: data[key], percent: data[key] / markers.length, color: this.computeColorFromKey(key) };
+      const hash = this.materialColors[this.colorPosition![key]].hash;
+      return { total: data[key], percent: data[key] / markers.length, color: hash };
     });
     slices.forEach(slice => {
       const [startX, startY] = getCoordinatesForPercent(cumulativePercent);
@@ -344,20 +345,6 @@ export default class GoogleMapLogic {
       svgEl.appendChild(pathEl);
     });
     return svgEl.outerHTML;
-  }
-
-  private computeColorFromKey(key: string) {
-    const hashCode = (str: string) => {
-      let hash = 0;
-      for (let i = 0; i < str.length; i++) {
-        hash = str.charCodeAt(i) + ((hash << 5) - hash);
-      }
-      return hash;
-    }
-    const intToRGB = (i: number) => {
-      return this.materialColors[Math.abs(i) % this.materialColors.length].hash;
-    }
-    return intToRGB(hashCode(key));
   }
 
   public displayMarkersChanged() {
