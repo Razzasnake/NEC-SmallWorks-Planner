@@ -24,7 +24,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 @Component({
   components: {},
 })
-export default class UploadWorkflow extends Vue {
+export default class Loading extends Vue {
   /**
    * Optional max value being counted to (max and value work together)
    */
