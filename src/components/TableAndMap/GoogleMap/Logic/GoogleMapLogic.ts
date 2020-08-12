@@ -344,6 +344,13 @@ export default class GoogleMapLogic {
       pathEl.setAttribute("fill", slice.color);
       svgEl.appendChild(pathEl);
     });
+    const textEl = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    textEl.textContent = markers.length.toString();
+    textEl.setAttribute("font-size", "0.035em");
+    textEl.setAttribute("fill", "white");
+    textEl.setAttribute("dominant-baseline", "middle");
+    textEl.setAttribute("text-anchor", "middle");
+    svgEl.appendChild(textEl);
     return svgEl.outerHTML;
   }
 
