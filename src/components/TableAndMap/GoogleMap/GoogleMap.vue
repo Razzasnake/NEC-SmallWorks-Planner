@@ -209,6 +209,7 @@ export default class GoogleMap extends Vue {
   bottom: 30px;
   left: 5px;
   max-height: calc(100% - 70px);
+  max-width: 200px;
   overflow: auto;
   div {
     color: white;
