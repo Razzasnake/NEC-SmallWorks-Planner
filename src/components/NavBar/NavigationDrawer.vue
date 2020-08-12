@@ -12,6 +12,7 @@
         <v-list-item v-if="dropdown1.key === 'map:groupByKey'">
           <v-list-item-content>
             <v-select
+              :value="groupByKeyValue"
               :label="dropdown1.label"
               :items="groupByKeyItems"
               clearable
@@ -75,6 +76,15 @@ export default class NavigationDrawer extends Vue {
     }
     return [];
   }
+
+  private get groupByKeyValue() {
+    const value = this.viewOptions.find((_) => _.startsWith("map:groupByKey:"));
+    if (value) {
+      return value.split("map:groupByKey:")[1];
+    }
+    return null;
+  }
+  private set groupByKeyValue(newValue: string | null) {}
 
   private dropdowns = [
     {
