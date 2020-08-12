@@ -62,6 +62,19 @@ export default class Explore extends Vue {
     }
   }
 
+  private activated() {
+    document.title = "Table & Map - Explore";
+    const title = document.getElementsByName("title");
+    if (title.length) {
+      (title[0] as HTMLMetaElement).content = document.title;
+    }
+    const description = document.getElementsByName("description");
+    if (description.length) {
+      (description[0] as HTMLMetaElement).content =
+        "Visualize your locational data in an interactive map. Upload an excel or csv file to get started.";
+    }
+  }
+
   private finish(uploadedFile: UploadedFile) {
     updateUploadedFile(uploadedFile);
   }

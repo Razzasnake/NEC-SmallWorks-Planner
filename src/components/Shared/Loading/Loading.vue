@@ -5,7 +5,12 @@
         :size="105"
         :max="max"
         :value="Math.round(value / max * 100)"
-      >{{ value.toLocaleString() }} / {{ max.toLocaleString() }}</v-progress-circular>
+      >
+      <div class="loading-text">
+        <div v-if="label">{{ label }}</div>
+        <div>{{ value.toLocaleString() }} / {{ max.toLocaleString() }}</div>
+      </div>
+      </v-progress-circular>
     </span>
     <v-progress-circular v-else :size="50" indeterminate />
   </v-overlay>
@@ -31,9 +36,21 @@ export default class UploadWorkflow extends Vue {
   @Prop({ default: null })
   private value!: number | null;
   /**
+   * Include a label inside of the loader
+   */
+  @Prop({ default: null })
+  private label!: string | null;
+  /**
    * Whether or not to display the loading state.
    */
   @Prop({ type: Boolean, default: false })
   private loading!: boolean;
 }
 </script>
+<style lang="scss" scoped>
+.loading-text {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+</style>

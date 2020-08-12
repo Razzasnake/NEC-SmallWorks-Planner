@@ -10,11 +10,14 @@
               <AgGridVue
                 class="ag-theme-balham"
                 domLayout="autoHeight"
+                rowBuffer="9999"
                 v-model="markerData"
                 :columnDefs="tableColumns"
                 :modules="modules"
                 :defaultColDef="colDef"
+                @gridReady="gridReady"
                 suppressMenuHide
+                suppressColumnVirtualisation
                 enableCellTextSelection
               ></AgGridVue>
             </div>
@@ -74,7 +77,6 @@ export default class PreviewCard extends Vue {
     {
       field: "label",
       headerName: "Label",
-      flex: 1,
     },
     {
       field: "value",
@@ -129,6 +131,15 @@ export default class PreviewCard extends Vue {
     Utils.injectGoogleMapsLibrary([]).then((google) => {
       this.updatePanorama();
     });
+  }
+
+  private gridReady(config: { api: GridApi; columnApi: ColumnApi }) {
+    config.columnApi.autoSizeAllColumns();
+    const label: any = config.columnApi.getColumn("label");
+    const value: any = config.columnApi.getColumn("value");
+    label.minWidth = label.getActualWidth();
+    value.minWidth = value.getActualWidth();
+    value.setFlex(1);
   }
 
   private updatePanorama(): void {

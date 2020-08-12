@@ -19,7 +19,7 @@ const exampleTeaserGenerator = (): ExampleTeaserI => {
       name: "",
       focus: null,
       title: null,
-      filename: "https://a.storyblok.com/f/89733/1600x685/eff1378677/covid19.jpg",
+      filename: require("@/assets/examples/covid19/covid19.jpg"),
       copyright: null,
       fieldtype: "asset"
     },

@@ -1,7 +1,7 @@
 <template>
   <div>
     <Loading :loading="loading" />
-    <v-btn :accept="accept" color="#eeeeee" @click="openUpload">
+    <v-btn :accept="accept" :color="color" @click="openUpload">
       <v-icon>{{ mdiUpload }}</v-icon>
       <span class="margin-left-small">Upload a dataset</span>
       <input
@@ -41,6 +41,12 @@ import { mdiUpload } from "@mdi/js";
   },
 })
 export default class Upload extends Vue {
+  /**
+   * Color of the upload button
+   */
+  @Prop({ default: '#eeeeee' })
+  private color!: string;
+
   private accept: string = ".xls,.xlr,.xlt,.xlsx,.xlsm,.xlsb,.csv";
   private loading: boolean = false;
   private displayPasteModal: boolean = false;
@@ -154,7 +160,7 @@ export default class Upload extends Vue {
   display: none;
 }
 .paste {
-  color: #eeeeee;
+  color: inherit;
   font-weight: 500;
 }
 </style>

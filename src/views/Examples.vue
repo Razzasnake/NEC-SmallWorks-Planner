@@ -43,6 +43,19 @@ export default class Examples extends Vue {
     });
   }
 
+  private activated() {
+    document.title = "Table & Map - Examples";
+    const title = document.getElementsByName("title");
+    if (title.length) {
+      (title[0] as HTMLMetaElement).content = document.title;
+    }
+    const description = document.getElementsByName("description");
+    if (description.length) {
+      (description[0] as HTMLMetaElement).content =
+        "See how Table & Map can add value by trying one of our datasets.";
+    }
+  }
+
   private async preview(teaser: ExampleTeaserI) {
     this.loading = true;
     updateUploadedFile(await exampleApi.getExample(teaser));

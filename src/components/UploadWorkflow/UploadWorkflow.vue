@@ -1,8 +1,13 @@
 <template>
   <div>
-    <Upload @fileUploaded="fileUploaded"></Upload>
+    <Upload :color="color" @fileUploaded="fileUploaded"></Upload>
     <v-dialog v-model="visible" @click:outside="reset" max-width="700">
-      <Loading :loading="loading" :value="numberGeocoded" :max="addresses.length" />
+      <Loading
+        :loading="loading"
+        :value="numberGeocoded"
+        :max="addresses.length"
+        label="Geocoding"
+      />
       <v-card>
         <v-card-title class="headline">Select Columns</v-card-title>
         <v-card-text>
@@ -47,6 +52,12 @@ import Loading from "@/components/Shared/Loading/Loading.vue";
   },
 })
 export default class UploadWorkflow extends Vue {
+  /**
+   * Color of the upload button
+   */
+  @Prop({ default: '#eeeeee' })
+  private color!: string;
+
   private step: number = 0;
   private uploadedFile: any[][] = [];
   private columnSelections: {
@@ -185,12 +196,10 @@ export default class UploadWorkflow extends Vue {
       zip: null,
     };
     this.firstRowHeader = true;
+    this.finishIsDisabled = true;
     this.addresses = [];
     this.loading = false;
-    /**
-     * The modal was closed
-     */
-    this.$emit("closeModal");
+    this.numberGeocoded = 0;
   }
 }
 </script>

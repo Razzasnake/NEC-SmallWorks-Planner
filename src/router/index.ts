@@ -30,7 +30,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "Feature" */ '@/views/Feature.vue'),
     props: true
   },
-  { path: '/*', redirect: '/' }
+  {
+    path: '/*',
+    name: '404',
+    component: () => import(/* webpackChunkName: "Error404" */ '@/views/Error404.vue'),
+  }
 ]
 
 const router = new VueRouter({
@@ -38,14 +42,5 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-
-router.beforeEach((to, _, next) => {
-  if (to.name && to.name !== 'Home') {
-    document.title = to.name + ' | Table & Map';
-  } else {
-    document.title = 'Table & Map - View excel files in a map'
-  }
-  next();
-});
 
 export default router
