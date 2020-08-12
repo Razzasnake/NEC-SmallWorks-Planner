@@ -9,7 +9,18 @@
         <v-list-item-title>{{ dropdown0.label }}</v-list-item-title>
       </template>
       <span v-for="(dropdown1, index1) in dropdown0.dropdowns" :key="index1">
-        <v-list-item link @click="updateViewOptions(dropdown1)">
+        <v-list-item v-if="dropdown1.key === 'map:groupByKey'">
+          <v-list-item-content>
+            <v-select
+              :label="dropdown1.label"
+              :items="groupByKeyItems"
+              clearable
+              dense
+              @change="groupByKeyChange"
+            ></v-select>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item v-else link @click="updateViewOptions(dropdown1)">
           <v-list-item-content>
             <v-list-item-title>{{ keyVisible(dropdown1.key) ? `${activeText}${dropdown1.label}` :`${inactiveText}${dropdown1.label}` }}</v-list-item-title>
           </v-list-item-content>
@@ -44,6 +55,25 @@ export default class NavigationDrawer extends Vue {
 
   private get viewOptions() {
     return state.viewOptions;
+  }
+
+  private get groupByKeyItems() {
+    if (state.uploadedFile) {
+      return state.uploadedFile.data[0].data.map((_, index) => {
+        if (state.uploadedFile!.firstRowHeader) {
+          return {
+            text: state.uploadedFile!.data[0].data[index],
+            value: index.toString(),
+          };
+        } else {
+          return {
+            text: `Column ${(index + 1).toString()}`,
+            value: index.toString(),
+          };
+        }
+      });
+    }
+    return [];
   }
 
   private dropdowns = [
@@ -93,6 +123,10 @@ export default class NavigationDrawer extends Vue {
           label: "Clusters",
           key: "map:clusters",
         },
+        {
+          label: "Group By",
+          key: "map:groupByKey",
+        },
       ],
     },
   ];
@@ -114,6 +148,16 @@ export default class NavigationDrawer extends Vue {
       } else {
         newOptions.push("map");
       }
+    }
+    updateViewOptions(newOptions);
+  }
+
+  private groupByKeyChange(value: string | undefined) {
+    const newOptions: string[] = this.viewOptions.filter(
+      (_) => !_.startsWith("map:groupByKey")
+    );
+    if (value) {
+      newOptions.push(`map:groupByKey:${value}`);
     }
     updateViewOptions(newOptions);
   }
