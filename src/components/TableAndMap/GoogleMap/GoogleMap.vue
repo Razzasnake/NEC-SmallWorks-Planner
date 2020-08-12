@@ -34,6 +34,14 @@
         />
       </v-btn>
     </v-btn-toggle>
+    <v-card class="legend" v-if="mapLogic.colorPosition">
+      <template v-for="key in Object.keys(mapLogic.colorPosition)">
+        <div
+          :style="`background-color: ${mapLogic.materialColors[mapLogic.colorPosition[key]].hash};`"
+          :key="key"
+        >{{ key }}</div>
+      </template>
+    </v-card>
   </div>
 </template>
 <script lang='ts'>
@@ -46,7 +54,7 @@ import {
   mdiVectorPolygon,
   mdiSquareOutline,
   mdiDelete,
-  mdiLayers
+  mdiLayers,
 } from "@mdi/js";
 
 /**
@@ -99,6 +107,11 @@ export default class GoogleMap extends Vue {
    */
   @Prop({ default: null })
   public clickedMarker!: Row | null;
+  /**
+   * Categorical column to use to determine the marker color and pie chart when clusters are activated.
+   */
+  @Prop({ default: null })
+  private groupByKey!: string | null;
 
   private mapLogic!: GoogleMapLogic;
 
@@ -149,6 +162,11 @@ export default class GoogleMap extends Vue {
     this.mapLogic.clickedMarkerChanged();
   }
 
+  @Watch("groupByKey")
+  private updateGroupByKey() {
+    this.mapLogic.updateMarkerImages();
+  }
+
   private created(): void {
     this.mapLogic = Vue.observable(new GoogleMapLogic(this));
     this.mapLogic.createMap();
@@ -185,6 +203,17 @@ export default class GoogleMap extends Vue {
   position: absolute;
   top: 5px;
   right: 5px;
+}
+.legend {
+  position: absolute;
+  bottom: 30px;
+  left: 5px;
+  max-height: calc(100% - 70px);
+  overflow: auto;
+  div {
+    color: white;
+    padding: 8px;
+  }
 }
 .shape-input {
   display: none;

@@ -2,7 +2,7 @@ import GoogleMap from './GoogleMap.vue'
 import { uploadedFileGenerator } from '@/generator/UploadedFileGenerator'
 import state, { updateUploadedFile } from '@/store/exploreStore'
 import { action } from '@storybook/addon-actions'
-import { boolean } from '@storybook/addon-knobs'
+import { boolean, text } from '@storybook/addon-knobs'
 
 export default {
   title: 'TableAndMap|GoogleMap',
@@ -24,6 +24,7 @@ const _GoogleMap = () => ({
         :displayHeatmap="displayHeatmap"
         :displayMarkers="displayMarkers"
         :displayClusters="displayClusters"
+        :groupByKey="groupByKey"
         @markerSelected="markerSelected"
         @updateOverlayEvents="updateOverlayEvents"
       ></GoogleMap>
@@ -51,6 +52,9 @@ const _GoogleMap = () => ({
     },
     displayClusters: {
       default: boolean('displayClusters', false)
+    },
+    groupByKey: {
+      default: text('groupByKey', '2')
     }
   },
   data() {

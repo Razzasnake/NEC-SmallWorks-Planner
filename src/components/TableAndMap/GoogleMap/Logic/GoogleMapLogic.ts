@@ -22,29 +22,8 @@ export default class GoogleMapLogic {
     .substring(7);
   public activeDrawingMode: number | null = null;
   public iconColor: string = "#000000DE";
-
-  private vueComponent!: Vue;
-  private map!: google.maps.Map;
-
-  private drawingManager: google.maps.drawing.DrawingManager | null = null;
-  private markerCluster: MarkerClusterer | null = null;
-  private heatmap: google.maps.visualization.HeatmapLayer | null = null;
-  private activeOverlays: AvailableOverlays[] = [];
-  private selectedOverlayEvent: google.maps.drawing.OverlayCompleteEvent | null = null;
-  private markers: google.maps.Marker[] = [];
-  private clickedInfoWindow: google.maps.InfoWindow | null = null;
-
-  private polyOptions = {
-    strokeWeight: 2,
-    strokeColor: "#10546A",
-    fillColor: "#ECECEC",
-    fillOpacity: 0.5,
-    editable: true,
-    draggable: false,
-    zIndex: 2
-  };
-
-  private materialColors = [
+  public colorPosition: { [key: string]: number } | null = null;
+  public materialColors = [
     { fileName: "red", hash: colors.red.darken1 },
     { fileName: "pink", hash: colors.pink.darken1 },
     { fileName: "purple", hash: colors.purple.darken1 },
@@ -66,7 +45,26 @@ export default class GoogleMapLogic {
     { fileName: "grey", hash: colors.grey.darken1 }
   ];
 
-  private groupByKey: string | null = "5";
+  private vueComponent!: Vue;
+  private map!: google.maps.Map;
+
+  private drawingManager: google.maps.drawing.DrawingManager | null = null;
+  private markerCluster: MarkerClusterer | null = null;
+  private heatmap: google.maps.visualization.HeatmapLayer | null = null;
+  private activeOverlays: AvailableOverlays[] = [];
+  private selectedOverlayEvent: google.maps.drawing.OverlayCompleteEvent | null = null;
+  private markers: google.maps.Marker[] = [];
+  private clickedInfoWindow: google.maps.InfoWindow | null = null;
+
+  private polyOptions = {
+    strokeWeight: 2,
+    strokeColor: "#10546A",
+    fillColor: "#ECECEC",
+    fillOpacity: 0.5,
+    editable: true,
+    draggable: false,
+    zIndex: 2
+  };
 
   private get uploadedFile(): UploadedFile {
     return (this.vueComponent as any).uploadedFile;
@@ -101,6 +99,10 @@ export default class GoogleMapLogic {
 
   private get clickedMarker(): Row | null {
     return (this.vueComponent as any).clickedMarker;
+  }
+
+  private get groupByKey(): string | null {
+    return (this.vueComponent as any).groupByKey;
   }
 
   constructor(vueComponent: Vue) {
@@ -154,6 +156,8 @@ export default class GoogleMapLogic {
   private createMarkers(): void {
     this.clearMarkers();
     const drawnMarkers: google.maps.Marker[] = [];
+    const colorPosition: { [key: string]: number } = {};
+    let colorPositionIndex: number = 0;
     this.uploadedFile.data
       .slice(this.uploadedFile.firstRowHeader ? 1 : 0)
       .forEach((row, index) => {
@@ -162,7 +166,12 @@ export default class GoogleMapLogic {
           return;
         }
         const position = { lat: row.lat!, lng: row.lng! };
-        const newMarker = this.createMarker(position);
+        if (this.groupByKey && colorPosition[row[this.groupByKey]] === undefined) {
+          colorPosition[row[this.groupByKey]] = colorPositionIndex;
+          colorPositionIndex = (colorPositionIndex + 1) % this.materialColors.length;
+        }
+        const fileName = this.groupByKey ? this.materialColors[colorPosition[row[this.groupByKey]]].fileName : "primary";
+        const newMarker = this.createMarker(position, fileName);
         (newMarker as unknown as { row: Row }).row = row;
         newMarker.addListener("click", () => {
           if (this.map) {
@@ -181,6 +190,11 @@ export default class GoogleMapLogic {
         }
         drawnMarkers.push(newMarker);
       });
+    if (Object.keys(colorPosition).length) {
+      this.colorPosition = colorPosition;
+    } else {
+      this.colorPosition = null;
+    }
     this.markers = drawnMarkers;
   }
 
@@ -196,12 +210,12 @@ export default class GoogleMapLogic {
     }
   }
 
-  private createMarker(position: { lat: number; lng: number }) {
+  private createMarker(position: { lat: number; lng: number }, fileName: string) {
     return new google.maps.Marker({
       position,
       zIndex: 1,
       map: this.displayClusters ? undefined : this.map,
-      icon: require("@/assets/markers/primary.png")
+      icon: require(`@/assets/markers/${fileName}.png`)
     });
   }
 
@@ -587,6 +601,25 @@ export default class GoogleMapLogic {
           this.clickedInfoWindow.open(this.map, selectedMarker);
         }
       }
+    }
+  }
+
+  public updateMarkerImages() {
+    const colorPosition: { [key: string]: number } = {};
+    let colorPositionIndex: number = 0;
+    this.markers.forEach(row => {
+      const data = (row as unknown as { row: Row }).row;
+      if (this.groupByKey && colorPosition[data[this.groupByKey]] === undefined) {
+        colorPosition[data[this.groupByKey]] = colorPositionIndex;
+        colorPositionIndex = (colorPositionIndex + 1) % this.materialColors.length;
+      }
+      const fileName = this.groupByKey ? this.materialColors[colorPosition[data[this.groupByKey]]].fileName : "primary";
+      row.setIcon(require(`@/assets/markers/${fileName}.png`));
+    });
+    if (Object.keys(colorPosition).length) {
+      this.colorPosition = colorPosition;
+    } else {
+      this.colorPosition = null;
     }
   }
 
