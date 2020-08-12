@@ -608,9 +608,7 @@ export default class GoogleMapLogic {
     } else {
       this.colorPosition = null;
     }
-    if (this.markerCluster) {
-      this.markerCluster.repaint();
-    }
+    this.displayClustersChanged();
   }
 
   public hiddenMarkerIndicesUpdated(

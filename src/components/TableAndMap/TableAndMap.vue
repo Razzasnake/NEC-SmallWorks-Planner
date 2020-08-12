@@ -124,9 +124,11 @@ export default class TableAndMap extends Vue {
   }
 
   private get groupByKey(): string | null {
-    const groupByIndex = this.viewOptions.indexOf("map:groupByKey");
+    const groupByIndex = this.viewOptions.findIndex((_) =>
+      _.startsWith("map:groupByKey:")
+    );
     if (groupByIndex > -1) {
-      return this.viewOptions[groupByIndex].split("map:groupByKey")[1];
+      return this.viewOptions[groupByIndex].split("map:groupByKey:")[1];
     }
     return null;
   }
