@@ -45,25 +45,25 @@ export default class GoogleMapLogic {
   };
 
   private materialColors = [
-    colors.red.darken1,
-    colors.pink.darken1,
-    colors.purple.darken1,
-    colors.deepPurple.darken1,
-    colors.indigo.darken1,
-    colors.blue.darken1,
-    colors.lightBlue.darken1,
-    colors.cyan.darken1,
-    colors.teal.darken1,
-    colors.green.darken1,
-    colors.lightGreen.darken1,
-    colors.lime.darken1,
-    colors.yellow.darken1,
-    colors.amber.darken1,
-    colors.orange.darken1,
-    colors.deepOrange.darken1,
-    colors.brown.darken1,
-    colors.blueGrey.darken1,
-    colors.grey.darken1
+    { fileName: "red", hash: colors.red.darken1 },
+    { fileName: "pink", hash: colors.pink.darken1 },
+    { fileName: "purple", hash: colors.purple.darken1 },
+    { fileName: "deepPurple", hash: colors.deepPurple.darken1 },
+    { fileName: "indigo", hash: colors.indigo.darken1 },
+    { fileName: "blue", hash: colors.blue.darken1 },
+    { fileName: "lightBlue", hash: colors.lightBlue.darken1 },
+    { fileName: "cyan", hash: colors.cyan.darken1 },
+    { fileName: "teal", hash: colors.teal.darken1 },
+    { fileName: "green", hash: colors.green.darken1 },
+    { fileName: "lightGreen", hash: colors.lightGreen.darken1 },
+    { fileName: "lime", hash: colors.lime.darken1 },
+    { fileName: "yellow", hash: colors.yellow.darken1 },
+    { fileName: "amber", hash: colors.amber.darken1 },
+    { fileName: "orange", hash: colors.orange.darken1 },
+    { fileName: "deepOrange", hash: colors.deepOrange.darken1 },
+    { fileName: "brown", hash: colors.brown.darken1 },
+    { fileName: "blueGrey", hash: colors.blueGrey.darken1 },
+    { fileName: "grey", hash: colors.grey.darken1 }
   ];
 
   private groupByKey: string | null = "5";
@@ -341,7 +341,7 @@ export default class GoogleMapLogic {
       return hash;
     }
     const intToRGB = (i: number) => {
-      return this.materialColors[Math.abs(i) % this.materialColors.length];
+      return this.materialColors[Math.abs(i) % this.materialColors.length].hash;
     }
     return intToRGB(hashCode(key));
   }
