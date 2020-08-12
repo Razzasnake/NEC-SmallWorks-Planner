@@ -12,6 +12,7 @@ const paths = [
   '/features/geojson-and-shapefile-layers',
   '/features/supports-50-000-markers',
   '/features/heat-map-layer',
+  '/features/categorical-grouping',
   '/features/automation',
   '/features/helpful-table-footers'
 ]
