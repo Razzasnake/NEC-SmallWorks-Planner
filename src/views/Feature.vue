@@ -39,6 +39,9 @@ export default class Feature extends Vue {
     });
     storyblok.on("change", async () => {
       this.story = await storyapi.getStory(this.url, "draft");
+      if (this.story === null) {
+        this.$router.push({ name: "404" });
+      }
       this.updateTitleDescription();
     });
     storyblok.pingEditor(async () => {
@@ -46,6 +49,9 @@ export default class Feature extends Vue {
         this.story = await storyapi.getStory(this.url, "draft");
       } else {
         this.story = await storyapi.getStory(this.url, "published");
+      }
+      if (this.story === null) {
+        this.$router.push({ name: "404" });
       }
       this.updateTitleDescription();
     });
