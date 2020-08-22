@@ -22,7 +22,7 @@ import Preview from "@/components/Home/Preview/Preview.vue";
 export default class Features extends Vue {
   private title: string = "No Work. Just Insight.";
   private description: string =
-    "Visualize your locational data like never before.";
+    "Visualize your location data like never before.";
   private cards = [
     {
       title: "Unlimited Geocoding",

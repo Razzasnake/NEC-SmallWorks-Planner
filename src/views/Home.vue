@@ -30,7 +30,7 @@ export default class Home extends Vue {
     const description = document.getElementsByName("description");
     if (description.length) {
       (description[0] as HTMLMetaElement).content =
-        "Visualize your locational data in an interactive map. Upload an excel or csv file to get started.";
+        "Visualize your location data in an interactive map. Upload an excel or csv file to get started.";
     }
   }
 }
