@@ -27,7 +27,7 @@ export default class Features extends Vue {
     {
       title: "Unlimited Geocoding",
       description:
-        "Visualize your data without a latitude or longitude. Just select the location columns and we take care of the rest.",
+        "Visualize your location data without a latitude or longitude. Just select the location columns and we take care of the rest.",
       learnMorePath: "/features/unlimited-geocoding",
     },
     {
