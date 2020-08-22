@@ -4,7 +4,7 @@ import { pageGenerator } from '@/generator/storyblok/PageGenerator'
 
 export default {
   component: Page,
-  title: 'Examples|Page'
+  title: 'Examples/Page'
 }
 
 const _Page = () => ({

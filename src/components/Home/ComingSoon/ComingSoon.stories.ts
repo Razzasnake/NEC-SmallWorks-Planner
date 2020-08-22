@@ -2,7 +2,7 @@ import ComingSoon from './ComingSoon.vue'
 
 export default {
   component: ComingSoon,
-  title: 'Home|ComingSoon'
+  title: 'Home/ComingSoon'
 }
 
 const _ComingSoon = () => ({

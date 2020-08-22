@@ -2,7 +2,7 @@ import Footer from './Footer.vue'
 
 export default {
   component: Footer,
-  title: 'Home|Footer'
+  title: 'Home/Footer'
 }
 
 const _Footer = () => ({

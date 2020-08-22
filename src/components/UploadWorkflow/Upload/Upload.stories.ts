@@ -4,7 +4,7 @@ import { text } from '@storybook/addon-knobs'
 
 export default {
   component: Upload,
-  title: 'Upload Workflow|Upload'
+  title: 'Upload Workflow/Upload'
 }
 
 const _Upload = () => ({

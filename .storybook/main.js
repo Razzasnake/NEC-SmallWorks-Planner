@@ -3,15 +3,7 @@ module.exports = {
     '../src/**/*.stories.@(ts|js)'
   ],
   addons: [
-    {
-      name: '@storybook/addon-docs',
-      options: {
-        configureJSX: true,
-        babelOptions: {},
-        sourceLoaderOptions: null,
-      },
-    },
-    '@storybook/addon-actions',
+    '@storybook/addon-essentials',
     '@storybook/addon-knobs'
   ]
 }

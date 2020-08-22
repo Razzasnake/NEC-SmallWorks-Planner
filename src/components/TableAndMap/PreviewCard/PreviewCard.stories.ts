@@ -3,7 +3,7 @@ import { uploadedFileGenerator } from '@/generator/UploadedFileGenerator'
 import { action } from '@storybook/addon-actions'
 
 export default {
-  title: 'TableAndMap|PreviewCard',
+  title: 'TableAndMap/PreviewCard',
   component: PreviewCard
 }
 

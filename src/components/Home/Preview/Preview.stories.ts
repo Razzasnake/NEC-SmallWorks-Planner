@@ -2,7 +2,7 @@ import Preview from './Preview.vue'
 
 export default {
   component: Preview,
-  title: 'Home|Preview'
+  title: 'Home/Preview'
 }
 
 const _Preview = () => ({

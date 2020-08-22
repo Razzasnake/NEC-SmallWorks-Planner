@@ -3,7 +3,7 @@ import { text } from '@storybook/addon-knobs'
 
 export default {
   component: Page,
-  title: 'Shared|Page'
+  title: 'Shared/Page'
 }
 
 const _Page = () => ({

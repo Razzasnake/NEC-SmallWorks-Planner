@@ -2,7 +2,7 @@ import InfoSection from './InfoSection.vue'
 
 export default {
   component: InfoSection,
-  title: 'Home|InfoSection'
+  title: 'Home/InfoSection'
 }
 
 const _InfoSection = () => ({

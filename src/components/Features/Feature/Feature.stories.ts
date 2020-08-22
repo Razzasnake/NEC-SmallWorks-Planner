@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions'
 
 export default {
   component: Feature,
-  title: 'Features|Feature'
+  title: 'Features/Feature'
 }
 
 const _Feature = () => ({

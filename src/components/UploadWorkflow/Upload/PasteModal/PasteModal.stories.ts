@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions'
 
 export default {
   component: PasteModal,
-  title: 'Upload Workflow|Upload/PasteModal'
+  title: 'Upload Workflow/Upload/PasteModal'
 }
 
 const _PasteModal = () => ({

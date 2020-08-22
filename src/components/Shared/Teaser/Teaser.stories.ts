@@ -4,7 +4,7 @@ import { teaserGenerator } from '@/generator/storyblok/TeaserGenerator'
 
 export default {
   component: Teaser,
-  title: 'Shared|Teaser'
+  title: 'Shared/Teaser'
 }
 
 const _Teaser = () => ({

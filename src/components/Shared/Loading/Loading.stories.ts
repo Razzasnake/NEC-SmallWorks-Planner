@@ -3,7 +3,7 @@ import { number, text } from '@storybook/addon-knobs'
 
 export default {
   component: Loading,
-  title: 'Shared|Loading'
+  title: 'Shared/Loading'
 }
 
 const _Loading = () => ({

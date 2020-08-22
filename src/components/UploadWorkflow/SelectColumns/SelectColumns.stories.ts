@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions'
 
 export default {
   component: SelectColumns,
-  title: 'Upload Workflow|SelectColumns'
+  title: 'Upload Workflow/SelectColumns'
 }
 
 const _SelectColumns = () => ({

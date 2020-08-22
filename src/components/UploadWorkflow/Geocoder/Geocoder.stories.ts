@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions'
 
 export default {
   component: Geocoder,
-  title: 'Upload Workflow|Geocoder'
+  title: 'Upload Workflow/Geocoder'
 }
 
 const _Geocoder = () => ({

@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions'
 
 export default {
   component: CallToAction,
-  title: 'Home|CallToAction'
+  title: 'Home/CallToAction'
 }
 
 const _CallToAction = () => ({

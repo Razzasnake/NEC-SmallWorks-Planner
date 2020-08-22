@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions'
 
 export default {
   component: NavBar,
-  title: 'NavBar|NavBar'
+  title: 'NavBar/NavBar'
 }
 
 const _NavBar = () => ({

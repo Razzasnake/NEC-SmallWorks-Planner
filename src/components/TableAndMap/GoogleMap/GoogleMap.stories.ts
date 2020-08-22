@@ -5,7 +5,7 @@ import { action } from '@storybook/addon-actions'
 import { boolean, text } from '@storybook/addon-knobs'
 
 export default {
-  title: 'TableAndMap|GoogleMap',
+  title: 'TableAndMap/GoogleMap',
   component: GoogleMap,
 }
 

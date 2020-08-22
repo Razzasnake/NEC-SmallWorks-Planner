@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions'
 
 export default {
   component: Home,
-  title: 'Home|Home'
+  title: 'Home/Home'
 }
 
 const _Home = () => ({

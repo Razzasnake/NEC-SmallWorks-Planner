@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions'
 
 export default {
   component: Error404,
-  title: 'Shared|Error404'
+  title: 'Shared/Error404'
 }
 
 const _Error404 = () => ({

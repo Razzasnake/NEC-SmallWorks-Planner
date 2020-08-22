@@ -4,7 +4,7 @@ import { uploadedFileGenerator } from '@/generator/UploadedFileGenerator'
 import state, { updateUploadedFile } from '@/store/exploreStore'
 
 export default {
-  title: 'TableAndMap|TableAndMap',
+  title: 'TableAndMap/TableAndMap',
   component: TableAndMap
 }
 
