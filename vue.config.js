@@ -6,7 +6,7 @@ const paths = [
   '/',
   '/examples',
   '/features',
-  '/features/map-your-locational-data',
+  '/features/map-your-location-data',
   '/features/filterable',
   '/features/unlimited-geocoding',
   '/features/geojson-and-shapefile-layers',
