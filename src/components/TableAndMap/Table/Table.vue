@@ -190,6 +190,7 @@ export default class Table extends Vue {
         pinnedFooter.push({ ...pinnedData.total, preview: "Total" });
       }
       this.gridApi.setPinnedBottomRowData(pinnedFooter);
+      worker.terminate();
     };
   }
 

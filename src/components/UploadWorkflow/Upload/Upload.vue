@@ -147,6 +147,7 @@ export default class Upload extends Vue {
         this.$emit("fileUploaded", event.data.data);
       }
       this.loading = false;
+      worker.terminate();
     };
   }
 

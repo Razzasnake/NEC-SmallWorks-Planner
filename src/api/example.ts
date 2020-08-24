@@ -16,6 +16,7 @@ export default {
             columnSelections: { lat: teaser.lat, lng: teaser.lng },
             firstRowHeader: teaser.firstRowHeader
           }));
+          worker.terminate();
         }
       });
     });
