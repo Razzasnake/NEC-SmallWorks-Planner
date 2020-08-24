@@ -22,7 +22,7 @@ export default class Home extends Vue {
   }
 
   private activated() {
-    document.title = "Table & Map - View excel files in a map";
+    document.title = "Table & Map - Visualize your location data";
     const title = document.getElementsByName("title");
     if (title.length) {
       (title[0] as HTMLMetaElement).content = document.title;
