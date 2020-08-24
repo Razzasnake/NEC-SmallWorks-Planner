@@ -22,7 +22,7 @@ export default class Home extends Vue {
   }
 
   private activated() {
-    document.title = "Table & Map - View excel files in a map";
+    document.title = "Table & Map - Visualize your location data";
     const title = document.getElementsByName("title");
     if (title.length) {
       (title[0] as HTMLMetaElement).content = document.title;
@@ -30,7 +30,7 @@ export default class Home extends Vue {
     const description = document.getElementsByName("description");
     if (description.length) {
       (description[0] as HTMLMetaElement).content =
-        "Visualize your location data in an interactive map. Upload an excel or csv file to get started.";
+        "Visualize your location data in an interactive map. Upload an excel or csv file with addresses or latitudes and longitudes to get started.";
     }
   }
 }

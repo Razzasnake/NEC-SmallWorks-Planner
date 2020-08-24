@@ -71,7 +71,7 @@ export default class Explore extends Vue {
     const description = document.getElementsByName("description");
     if (description.length) {
       (description[0] as HTMLMetaElement).content =
-        "Visualize your location data in an interactive map. Upload an excel or csv file to get started.";
+        "Visualize your location data in an interactive map. Upload an excel or csv file with addresses or latitudes and longitudes to get started.";
     }
   }
 
