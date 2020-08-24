@@ -673,7 +673,9 @@ export default class GoogleMapLogic {
             index: event.data.index,
             features: polygonIndices.map(index => polygons[index])
           });
+          fkWorker.terminate();
         };
+        worker.terminate();
       };
     });
   }
