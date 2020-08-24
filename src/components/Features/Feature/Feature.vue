@@ -24,7 +24,7 @@
           <div>Get Started Today</div>
         </v-card-title>
         <v-card-text class="info-description">
-          <div>Visualize your location data in an interactive map. Upload an excel or csv file to get started.</div>
+          <div>Visualize your location data in an interactive map. Upload an excel or csv file with addresses or latitude and longitudes to get started.</div>
         </v-card-text>
         <v-card-actions class="card-actions">
           <UploadWorkflow color="primary" @finish="finish" />
