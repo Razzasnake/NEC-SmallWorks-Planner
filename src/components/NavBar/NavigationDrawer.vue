@@ -149,8 +149,19 @@ export default class NavigationDrawer extends Vue {
     let newOptions: string[] = [];
     if (this.keyVisible(selection.key)) {
       newOptions = this.viewOptions.filter((_) => _ !== selection.key);
+      if (selection.key === "map:heat") {
+        newOptions.push("map:markers");
+        if (state.uploadedFile && state.uploadedFile.data.length > 1000) {
+          newOptions.push("map:clusters");
+        }
+      }
     } else {
       newOptions = this.viewOptions.concat(selection.key);
+      if (selection.key === "map:heat") {
+        newOptions = newOptions.filter(
+          (_) => ["map:markers", "map:clusters"].indexOf(_) < 0
+        );
+      }
     }
     if (!newOptions.includes("map") && !newOptions.includes("table")) {
       if (this.viewOptions.includes("map")) {
