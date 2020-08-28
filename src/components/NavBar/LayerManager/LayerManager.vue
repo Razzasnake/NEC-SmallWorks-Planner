@@ -4,7 +4,10 @@
       <v-card-title class="headline">GeoJSON and Shapefile Layers</v-card-title>
       <v-card-subtitle>Upload a geojson (.json, .geojson) or shapefile (.zip) and see where your markers fall in relation to the uploaded shapes.</v-card-subtitle>
       <v-card-text>
-        <div id="shape-drop-area" @click="openUpload">Drop files here or click to upload</div>
+        <div id="shape-drop-area" @click="openUpload">
+          <v-icon x-large>{{ mdiUpload }}</v-icon>
+          <div>Drop files here or click to upload</div>
+        </div>
         <input
           :accept="accept"
           multiple="multiple"
@@ -13,7 +16,7 @@
           class="upload-input"
           @change="uploadLayers($event.target.files)"
         />
-        <v-data-table :headers="headers" :items="tableData">
+        <v-data-table :headers="headers" :items="tableData" v-if="tableData.length">
           <template v-slot:item.actions="{ item }">
             <div class="float-right">
               <v-progress-circular v-if="item.data === null" indeterminate :size="20" :width="2" />
@@ -33,6 +36,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import state, { uploadLayer, removeLayer } from "@/store/exploreStore";
 import UploadLogic from "@/components/UploadWorkflow/Upload/UploadLogic";
+import { mdiUpload } from "@mdi/js";
 
 /**
  * Modal to manage the uploaded shape files
@@ -43,6 +47,7 @@ import UploadLogic from "@/components/UploadWorkflow/Upload/UploadLogic";
 export default class LayerManager extends Vue {
   private visible: boolean = true;
   private accept: string = ".json,.geojson,.zip";
+  private mdiUpload = mdiUpload;
 
   private headers = [
     { text: "File Name", value: "fileName" },
@@ -100,6 +105,7 @@ export default class LayerManager extends Vue {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   height: 200px;
   border: 2px dashed #eeeeee;
   &.highlight,
