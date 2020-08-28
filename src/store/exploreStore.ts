@@ -152,6 +152,7 @@ export const reset = () => {
   };
   state.tableLogic = null;
   state.viewOptions = ["map", "map:markers", "table"];
+  state.layers = [];
 }
 
 export default state;
