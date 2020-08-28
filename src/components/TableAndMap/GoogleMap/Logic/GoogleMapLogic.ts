@@ -638,6 +638,25 @@ export default class GoogleMapLogic {
     }
   }
 
+  public updateLayers(layers: { id: string, fileName: string, data: object }[]) {
+    const activeIds: Set<string> = new Set();
+    const currentIds = new Set(layers.map(_ => _.id));
+    this.map.data.forEach(layer => {
+      const layerId = layer.getId().toString();
+      if (!currentIds.has(layerId)) {
+        this.map.data.remove(layer);
+      }
+      activeIds.add(layerId);
+    });
+    layers.forEach(layer => {
+      if (!activeIds.has(layer.id)) {
+        this.map.data.addGeoJson(layer.data, {
+          idPropertyName: "Table_Map_Id"
+        });
+      }
+    });
+  }
+
   public shapefilesUploaded(fileArray: File[]) {
     fileArray.forEach(file => {
       const worker = new ShapeParserWorker();

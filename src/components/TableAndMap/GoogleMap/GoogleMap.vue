@@ -22,18 +22,6 @@
         <v-icon color="error">{{ mdiDelete }}</v-icon>
       </v-btn>
     </v-btn-toggle>
-    <v-btn-toggle class="upload-layer">
-      <v-btn title="Upload geojson or zipped shapefile" @click="openUpload" fab x-small>
-        <v-icon :color="mapLogic.iconColor">{{ mdiLayers }}</v-icon>
-        <input
-          accept=".json, .geojson, .zip"
-          ref="input"
-          type="file"
-          class="shape-input"
-          @change="shapefilesUploaded($event.target.files)"
-        />
-      </v-btn>
-    </v-btn-toggle>
     <v-card class="legend" v-if="mapLogic.colorPosition">
       <template v-for="key in Object.keys(mapLogic.colorPosition)">
         <div
@@ -54,8 +42,8 @@ import {
   mdiVectorPolygon,
   mdiSquareOutline,
   mdiDelete,
-  mdiLayers,
 } from "@mdi/js";
+import state from "@/store/exploreStore";
 
 /**
  * Display the rows that have been uploaded.
@@ -122,7 +110,10 @@ export default class GoogleMap extends Vue {
     { title: "Draw a rectangle", icon: mdiSquareOutline },
   ];
   private mdiDelete = mdiDelete;
-  private mdiLayers = mdiLayers;
+
+  private get layers() {
+    return state.layers;
+  }
 
   @Watch("uploadedFile")
   private updateUploadedFile(): void {
@@ -167,13 +158,14 @@ export default class GoogleMap extends Vue {
     this.mapLogic.updateMarkerImages();
   }
 
+  @Watch("layers")
+  private updateLayers() {
+    this.mapLogic.updateLayers(state.layers);
+  }
+
   private created(): void {
     this.mapLogic = Vue.observable(new GoogleMapLogic(this));
     this.mapLogic.createMap();
-  }
-
-  private shapefilesUploaded(fileArray: FileList) {
-    this.mapLogic.shapefilesUploaded(Array.from(fileArray));
   }
 
   private deleteSelectedOverlay() {
@@ -182,10 +174,6 @@ export default class GoogleMap extends Vue {
 
   private beforeDestroy(): void {
     this.mapLogic.beforeDestroy();
-  }
-
-  private openUpload() {
-    (this.$refs.input as HTMLInputElement).click();
   }
 }
 </script>
@@ -199,11 +187,6 @@ export default class GoogleMap extends Vue {
   top: 5px;
   left: 5px;
 }
-.upload-layer {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-}
 .legend {
   position: absolute;
   bottom: 30px;
@@ -215,9 +198,6 @@ export default class GoogleMap extends Vue {
     color: white;
     padding: 8px;
   }
-}
-.shape-input {
-  display: none;
 }
 </style>
 <style lang='scss'>

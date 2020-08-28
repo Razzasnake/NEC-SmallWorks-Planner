@@ -11,7 +11,7 @@ interface ExploreStoreI {
   sorting: { colId: string; sort: string }[],
   map: TableAndMapMap,
   tableLogic: TableLogic | null,
-  shapes: { id: number, file_name: string, data: object }[],
+  layers: { id: string, fileName: string, data: object }[],
   viewOptions: string[]
 };
 
@@ -24,7 +24,7 @@ const state: ExploreStoreI = Vue.observable({
     infoWindowKeys: []
   },
   tableLogic: null,
-  shapes: [],
+  layers: [],
   viewOptions: ["map", "map:markers", "table"]
 });
 
@@ -80,16 +80,23 @@ export const updateFeature = (fk: { featureIndex: number, index: number, feature
   }
 }
 
-export const uploadShape = (file: File) => {
+export const uploadLayer = (file: File) => {
   const worker = new ShapeParserWorker();
   worker.postMessage(file);
   worker.onmessage = event => {
-    state.shapes = state.shapes.concat({ id: state.shapes.length, file_name: file.name, data: event.data });
+    event.data.features.forEach((feature: any) => {
+      feature.properties.Table_Map_Id = Math.random().toString(36).substring(7);
+    });
+    state.layers = state.layers.concat({
+      id: Math.random().toString(36).substring(7),
+      fileName: file.name,
+      data: event.data
+    });
   }
 }
 
-export const removeShape = (item: { id: number, file_name: string; data: object }) => {
-  state.shapes = state.shapes.filter(_ => _.id !== item.id);
+export const removeLayer = (item: { id: string, fileName: string; data: object }) => {
+  state.layers = state.layers.filter(_ => _.id !== item.id);
 }
 
 export const reset = () => {
