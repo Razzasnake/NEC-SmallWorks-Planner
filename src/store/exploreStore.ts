@@ -3,8 +3,8 @@ import UploadedFile from "@/entities/UploadedFile";
 import { TableAndMapMap } from "@/components/TableAndMap/Types";
 import TableLogic from "@/components/TableAndMap/Table/Logic/TableLogic";
 import { OverlayJson } from "@/components/TableAndMap/GoogleMap/Logic/Utils";
-import ShapeParserWorker from "worker-loader!@/components/TableAndMap/GoogleMap/Logic/WebWorkers/ShapeParser.worker";
-import PolygonRelationWorker from "worker-loader!@/components/TableAndMap/GoogleMap/Logic/WebWorkers/PolygonRelation.worker";
+import ShapeParserWorker from "worker-loader!./WebWorkers/ShapeParser.worker";
+import PolygonRelationWorker from "worker-loader!./WebWorkers/PolygonRelation.worker";
 
 interface ExploreStoreI {
   uploadedFile: UploadedFile | null,
@@ -61,11 +61,12 @@ export const exportToCsv = () => {
   }
 }
 
-export const createFeature = (fileName: string) => {
+export const createFeature = (layer: { id: string, fileName: string, data: object }) => {
   if (state.uploadedFile) {
     state.uploadedFile.data.forEach(d => {
       d.features.push({
-        name: fileName,
+        id: layer.id,
+        name: layer.fileName,
         features: null
       })
     })
@@ -75,6 +76,7 @@ export const createFeature = (fileName: string) => {
 export const updateFeature = (fk: { featureIndex: number, index: number, features: google.maps.Data.Feature[] }) => {
   if (state.uploadedFile) {
     state.uploadedFile.data[fk.index].features[fk.featureIndex] = {
+      id: state.uploadedFile.data[fk.index].features[fk.featureIndex].id,
       name: state.uploadedFile.data[fk.index].features[fk.featureIndex].name,
       features: fk.features
     }
@@ -91,15 +93,16 @@ export const uploadLayer = (file: File) => {
         .toString(36)
         .substring(7);
     });
-    state.layers = state.layers.concat({
+    const newLayer = {
       id: Math.random().toString(36).substring(7),
       fileName: file.name,
       data: event.data,
-    });
+    }
+    state.layers = state.layers.concat(newLayer);
     if (state.uploadedFile) {
-      createFeature(file.name);
+      createFeature(newLayer);
       const featureIndex = state.uploadedFile.data[0].features.findIndex(
-        (_) => _.name === file.name
+        (_) => _.id === newLayer.id
       );
       const fkWorker = new PolygonRelationWorker();
       fkWorker.postMessage({

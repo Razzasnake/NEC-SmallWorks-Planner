@@ -4,7 +4,7 @@ class Row {
   public data!: any[];
   public lat: number | null = null;
   public lng: number | null = null;
-  public features: { name: string, features: google.maps.Data.Feature[] | null }[] = [];
+  public features: { name: string, id: string, features: google.maps.Data.Feature[] | null }[] = [];
   [key: string]: any;
 
   public get webWorkerSafeState() {
