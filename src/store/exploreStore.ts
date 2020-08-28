@@ -11,7 +11,7 @@ interface ExploreStoreI {
   sorting: { colId: string; sort: string }[],
   map: TableAndMapMap,
   tableLogic: TableLogic | null,
-  shapes: any[],
+  shapes: { id: number, file_name: string, data: any }[],
   viewOptions: string[]
 };
 
@@ -89,7 +89,7 @@ export const uploadShape = (file: File) => {
 }
 
 export const removeShape = (item: { id: number, file_name: string; data: any }) => {
-  state.shapes = state.shapes.filter(_ => _.id !== item.id)
+  state.shapes = state.shapes.filter(_ => _.id !== item.id);
 }
 
 export const reset = () => {
