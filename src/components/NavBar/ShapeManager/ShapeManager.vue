@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="visible" max-width="600">
+  <v-dialog v-model="visible" @click:outside="close" max-width="600">
     <v-card>
       <v-card-title class="headline">GeoJSON and Shapefile Layers</v-card-title>
       <v-card-subtitle>Upload a geojson (.json, .geojson) or shapefile (.zip) and see where your markers fall in relation to the uploaded shapes.</v-card-subtitle>
@@ -20,7 +20,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn text color="primary">Close</v-btn>
+        <v-btn text color="primary" @click="close">Close</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -62,8 +62,16 @@ export default class ShapeManager extends Vue {
     (this.$refs.input as HTMLInputElement).value = "";
   }
 
-  private removeShape(item: { file_name: string; id: number, data: any }) {
+  private removeShape(item: { file_name: string; id: number; data: object }) {
     removeShape(item);
+  }
+
+  private close() {
+    this.visible = false;
+    /**
+     * Close the modal
+     */
+    this.$emit("close");
   }
 }
 </script>
@@ -74,7 +82,6 @@ export default class ShapeManager extends Vue {
   justify-content: center;
   align-items: center;
   height: 200px;
-  width: 100%;
   border: 2px dashed #eeeeee;
   &.highlight,
   &:hover {

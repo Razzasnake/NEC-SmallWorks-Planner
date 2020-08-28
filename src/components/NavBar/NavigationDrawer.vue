@@ -21,6 +21,15 @@
             ></v-select>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item
+          v-else-if="dropdown1.key === 'map:uploadShape'"
+          @click="uploadShapeModal = true"
+        >
+          <v-list-item-content>
+            <v-list-item-title>Upload Shape</v-list-item-title>
+            <ShapeManager v-if="uploadShapeModal" @close="uploadShapeModal = false" />
+          </v-list-item-content>
+        </v-list-item>
         <v-list-item v-else link @click="updateViewOptions(dropdown1)">
           <v-list-item-content>
             <v-list-item-title>{{ keyVisible(dropdown1.key) ? `${activeText}${dropdown1.label}` :`${inactiveText}${dropdown1.label}` }}</v-list-item-title>
@@ -42,17 +51,21 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import state, { updateViewOptions, exportToCsv } from "@/store/exploreStore";
 import { mdiExport, mdiTable, mdiMap } from "@mdi/js";
+import ShapeManager from "./ShapeManager/ShapeManager.vue";
 
 /**
  * Table options
  */
 @Component({
-  components: {},
+  components: {
+    ShapeManager,
+  },
 })
 export default class NavigationDrawer extends Vue {
   private activeText: string = "Hide ";
   private inactiveText: string = "Show ";
   private mdiExport = mdiExport;
+  private uploadShapeModal: boolean = false;
 
   private get viewOptions() {
     return state.viewOptions;
@@ -136,6 +149,10 @@ export default class NavigationDrawer extends Vue {
         {
           label: "Group By",
           key: "map:groupByKey",
+        },
+        {
+          label: "Upload Shape",
+          key: "map:uploadShape",
         },
       ],
     },
