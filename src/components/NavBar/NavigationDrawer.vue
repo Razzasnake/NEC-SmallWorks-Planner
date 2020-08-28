@@ -22,12 +22,12 @@
           </v-list-item-content>
         </v-list-item>
         <v-list-item
-          v-else-if="dropdown1.key === 'map:uploadShape'"
-          @click="uploadShapeModal = true"
+          v-else-if="dropdown1.key === 'map:uploadLayer'"
+          @click="uploadLayerModal = true"
         >
           <v-list-item-content>
-            <v-list-item-title>Upload Shape</v-list-item-title>
-            <ShapeManager v-if="uploadShapeModal" @close="uploadShapeModal = false" />
+            <v-list-item-title>Upload Layer</v-list-item-title>
+            <LayerManager v-if="uploadLayerModal" @close="uploadLayerModal = false" />
           </v-list-item-content>
         </v-list-item>
         <v-list-item v-else link @click="updateViewOptions(dropdown1)">
@@ -51,21 +51,21 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import state, { updateViewOptions, exportToCsv } from "@/store/exploreStore";
 import { mdiExport, mdiTable, mdiMap } from "@mdi/js";
-import ShapeManager from "./ShapeManager/ShapeManager.vue";
+import LayerManager from "./LayerManager/LayerManager.vue";
 
 /**
  * Table options
  */
 @Component({
   components: {
-    ShapeManager,
+    LayerManager,
   },
 })
 export default class NavigationDrawer extends Vue {
   private activeText: string = "Hide ";
   private inactiveText: string = "Show ";
   private mdiExport = mdiExport;
-  private uploadShapeModal: boolean = false;
+  private uploadLayerModal: boolean = false;
 
   private get viewOptions() {
     return state.viewOptions;
@@ -152,7 +152,7 @@ export default class NavigationDrawer extends Vue {
         },
         {
           label: "Upload Shape",
-          key: "map:uploadShape",
+          key: "map:uploadLayer",
         },
       ],
     },

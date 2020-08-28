@@ -10,11 +10,11 @@
           ref="input"
           type="file"
           class="upload-input"
-          @change="uploadShape($event.target.files[0])"
+          @change="uploadLayer($event.target.files[0])"
         />
         <v-data-table :headers="headers" :items="tableData">
           <template v-slot:item.actions="{ item }">
-            <v-btn text color="error" @click="removeShape(item)" class="float-right">Delete</v-btn>
+            <v-btn text color="error" @click="removeLayer(item)" class="float-right">Delete</v-btn>
           </template>
         </v-data-table>
       </v-card-text>
@@ -27,7 +27,7 @@
 </template>
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
-import state, { uploadShape, removeShape } from "@/store/exploreStore";
+import state, { uploadLayer, removeLayer } from "@/store/exploreStore";
 import UploadLogic from "@/components/UploadWorkflow/Upload/UploadLogic";
 
 /**
@@ -36,34 +36,34 @@ import UploadLogic from "@/components/UploadWorkflow/Upload/UploadLogic";
 @Component({
   components: {},
 })
-export default class ShapeManager extends Vue {
+export default class LayerManager extends Vue {
   private visible: boolean = true;
   private accept: string = ".json,.geojson,.zip";
 
   private headers = [
-    { text: "File Name", value: "file_name" },
+    { text: "File Name", value: "fileName" },
     { text: "", value: "actions", sortable: false },
   ];
 
   private get tableData() {
-    return state.shapes;
+    return state.layers;
   }
 
   private mounted() {
-    UploadLogic.initDropZone("shape-drop-area", this.accept, this.uploadShape);
+    UploadLogic.initDropZone("shape-drop-area", this.accept, this.uploadLayer);
   }
 
   private openUpload() {
     (this.$refs.input as HTMLInputElement).click();
   }
 
-  private uploadShape(file: File) {
-    uploadShape(file);
+  private uploadLayer(file: File) {
+    uploadLayer(file);
     (this.$refs.input as HTMLInputElement).value = "";
   }
 
-  private removeShape(item: { file_name: string; id: number; data: object }) {
-    removeShape(item);
+  private removeLayer(item: { fileName: string; id: string; data: object }) {
+    removeLayer(item);
   }
 
   private close() {
