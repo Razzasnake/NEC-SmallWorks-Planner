@@ -97,7 +97,7 @@ export const uploadLayer = (file: File) => {
       id: Math.random().toString(36).substring(7),
       fileName: file.name,
       data: event.data,
-    }
+    };
     state.layers = state.layers.concat(newLayer);
     if (state.uploadedFile) {
       createFeature(newLayer);
