@@ -27,11 +27,15 @@
             <AgGridVue
               class="ag-theme-balham"
               domLayout="autoHeight"
+              rowBuffer="9999"
               v-model="feature.data"
               :columnDefs="tableColumns"
               :modules="modules"
               :defaultColDef="colDef"
+              @gridReady="gridReady"
               suppressMenuHide
+              suppressColumnVirtualisation
+              enableCellTextSelection
             ></AgGridVue>
           </v-col>
         </v-row>
@@ -117,10 +121,12 @@ export default class PreviewCard extends Vue {
         if (feature.features.length > 0) {
           const properties = (feature.features[0] as any).properties
           Object.entries(properties).forEach(([name, value]: [any, any]) => {
-            values.push({
-              label: (name || "").toString(),
-              value: (value || "").toString(),
-            });
+            if (name !== "Table_Map_Id") {
+              values.push({
+                label: (name || "").toString(),
+                value: (value || "").toString(),
+              });
+            }
           });
         }
         return { name: feature.name, data: values };
