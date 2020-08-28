@@ -28,6 +28,15 @@
         </v-list-item>
       </span>
     </v-list-group>
+    <v-list-item @click="uploadLayerModal = true">
+      <v-list-item-icon>
+        <v-icon>{{ mdiLayers }}</v-icon>
+      </v-list-item-icon>
+      <v-list-item-content>
+        <v-list-item-title>Layer Manager</v-list-item-title>
+        <LayerManager v-if="uploadLayerModal" @close="uploadLayerModal = false" />
+      </v-list-item-content>
+    </v-list-item>
     <v-list-item link @click="exportToCsv">
       <v-list-item-icon>
         <v-icon>{{ mdiExport }}</v-icon>
@@ -41,18 +50,23 @@
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
 import state, { updateViewOptions, exportToCsv } from "@/store/exploreStore";
-import { mdiExport, mdiTable, mdiMap } from "@mdi/js";
+import { mdiExport, mdiTable, mdiMap, mdiLayers } from "@mdi/js";
+import LayerManager from "./LayerManager/LayerManager.vue";
 
 /**
  * Table options
  */
 @Component({
-  components: {},
+  components: {
+    LayerManager,
+  },
 })
 export default class NavigationDrawer extends Vue {
   private activeText: string = "Hide ";
   private inactiveText: string = "Show ";
   private mdiExport = mdiExport;
+  private mdiLayers = mdiLayers;
+  private uploadLayerModal: boolean = false;
 
   private get viewOptions() {
     return state.viewOptions;
