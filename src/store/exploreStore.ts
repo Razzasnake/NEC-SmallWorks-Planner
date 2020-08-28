@@ -124,7 +124,7 @@ export const uploadLayer = (file: File) => {
           index: event.data.index,
           features: polygonIndices.map((index) => features[index]),
         });
-        if (messages === state.uploadedFile!.data.length) {
+        if (state.uploadedFile === null || messages === state.uploadedFile.data.length) {
           fkWorker.terminate();
         }
       };
