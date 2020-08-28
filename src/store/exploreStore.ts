@@ -88,6 +88,9 @@ export const uploadLayer = (file: File) => {
   worker.postMessage(file);
   worker.onmessage = (event) => {
     const features = event.data.features;
+    if (features === undefined) {
+      return;
+    }
     features.forEach((feature: any) => {
       feature.properties.Table_Map_Id = Math.random()
         .toString(36)
