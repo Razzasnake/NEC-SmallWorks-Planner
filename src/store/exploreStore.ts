@@ -134,6 +134,11 @@ export const uploadLayer = (file: File) => {
 }
 
 export const removeLayer = (item: { id: string, fileName: string; data: object }) => {
+  if (state.uploadedFile) {
+    state.uploadedFile.data.forEach(d => {
+      d.features = d.features.filter(_ => _.id !== item.id);
+    });
+  }
   state.layers = state.layers.filter(_ => _.id !== item.id);
 }
 
