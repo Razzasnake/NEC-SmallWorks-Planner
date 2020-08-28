@@ -115,7 +115,8 @@ export default class PreviewCard extends Vue {
       } else {
         let values: { label: string; value: string }[] = [];
         if (feature.features.length > 0) {
-          feature.features[0].forEachProperty((value, name) => {
+          const properties = (feature.features[0] as any).properties
+          Object.entries(properties).forEach(([name, value]: [any, any]) => {
             values.push({
               label: (name || "").toString(),
               value: (value || "").toString(),

@@ -4,6 +4,7 @@ import { TableAndMapMap } from "@/components/TableAndMap/Types";
 import TableLogic from "@/components/TableAndMap/Table/Logic/TableLogic";
 import { OverlayJson } from "@/components/TableAndMap/GoogleMap/Logic/Utils";
 import ShapeParserWorker from "worker-loader!@/components/TableAndMap/GoogleMap/Logic/WebWorkers/ShapeParser.worker";
+import PolygonRelationWorker from "worker-loader!@/components/TableAndMap/GoogleMap/Logic/WebWorkers/PolygonRelation.worker";
 
 interface ExploreStoreI {
   uploadedFile: UploadedFile | null,
@@ -83,16 +84,50 @@ export const updateFeature = (fk: { featureIndex: number, index: number, feature
 export const uploadLayer = (file: File) => {
   const worker = new ShapeParserWorker();
   worker.postMessage(file);
-  worker.onmessage = event => {
-    event.data.features.forEach((feature: any) => {
-      feature.properties.Table_Map_Id = Math.random().toString(36).substring(7);
+  worker.onmessage = (event) => {
+    const features = event.data.features;
+    features.forEach((feature: any) => {
+      feature.properties.Table_Map_Id = Math.random()
+        .toString(36)
+        .substring(7);
     });
     state.layers = state.layers.concat({
       id: Math.random().toString(36).substring(7),
       fileName: file.name,
-      data: event.data
+      data: event.data,
     });
-  }
+    if (state.uploadedFile) {
+      createFeature(file.name);
+      const featureIndex = state.uploadedFile.data[0].features.findIndex(
+        (_) => _.name === file.name
+      );
+      const fkWorker = new PolygonRelationWorker();
+      fkWorker.postMessage({
+        markers: state.uploadedFile.data.map((_) => {
+          if (_.lng && _.lat) {
+            return [_.lng, _.lat];
+          } else {
+            return [null, null];
+          }
+        }),
+        features,
+      });
+      let messages: number = 0;
+      fkWorker.onmessage = (event) => {
+        messages = messages + 1;
+        const polygonIndices: number[] = event.data.polygonIndices;
+        updateFeature({
+          featureIndex,
+          index: event.data.index,
+          features: polygonIndices.map((index) => features[index]),
+        });
+        if (messages === state.uploadedFile!.data.length) {
+          fkWorker.terminate();
+        }
+      };
+    }
+    worker.terminate();
+  };
 }
 
 export const removeLayer = (item: { id: string, fileName: string; data: object }) => {
