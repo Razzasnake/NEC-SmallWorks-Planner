@@ -21,15 +21,6 @@
             ></v-select>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item
-          v-else-if="dropdown1.key === 'map:uploadLayer'"
-          @click="uploadLayerModal = true"
-        >
-          <v-list-item-content>
-            <v-list-item-title>Upload Layer</v-list-item-title>
-            <LayerManager v-if="uploadLayerModal" @close="uploadLayerModal = false" />
-          </v-list-item-content>
-        </v-list-item>
         <v-list-item v-else link @click="updateViewOptions(dropdown1)">
           <v-list-item-content>
             <v-list-item-title>{{ keyVisible(dropdown1.key) ? `${activeText}${dropdown1.label}` :`${inactiveText}${dropdown1.label}` }}</v-list-item-title>
@@ -37,6 +28,15 @@
         </v-list-item>
       </span>
     </v-list-group>
+    <v-list-item @click="uploadLayerModal = true">
+      <v-list-item-icon>
+        <v-icon>{{ mdiLayers }}</v-icon>
+      </v-list-item-icon>
+      <v-list-item-content>
+        <v-list-item-title>Layer Manager</v-list-item-title>
+        <LayerManager v-if="uploadLayerModal" @close="uploadLayerModal = false" />
+      </v-list-item-content>
+    </v-list-item>
     <v-list-item link @click="exportToCsv">
       <v-list-item-icon>
         <v-icon>{{ mdiExport }}</v-icon>
@@ -50,7 +50,7 @@
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
 import state, { updateViewOptions, exportToCsv } from "@/store/exploreStore";
-import { mdiExport, mdiTable, mdiMap } from "@mdi/js";
+import { mdiExport, mdiTable, mdiMap, mdiLayers } from "@mdi/js";
 import LayerManager from "./LayerManager/LayerManager.vue";
 
 /**
@@ -65,6 +65,7 @@ export default class NavigationDrawer extends Vue {
   private activeText: string = "Hide ";
   private inactiveText: string = "Show ";
   private mdiExport = mdiExport;
+  private mdiLayers = mdiLayers;
   private uploadLayerModal: boolean = false;
 
   private get viewOptions() {
@@ -149,10 +150,6 @@ export default class NavigationDrawer extends Vue {
         {
           label: "Group By",
           key: "map:groupByKey",
-        },
-        {
-          label: "Upload Shape",
-          key: "map:uploadLayer",
         },
       ],
     },
