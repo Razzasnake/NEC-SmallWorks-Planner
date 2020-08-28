@@ -12,7 +12,7 @@ interface ExploreStoreI {
   sorting: { colId: string; sort: string }[],
   map: TableAndMapMap,
   tableLogic: TableLogic | null,
-  layers: { id: string, fileName: string, data: object }[],
+  layers: { id: string, fileName: string, data: object | null }[],
   viewOptions: string[]
 };
 
@@ -61,7 +61,7 @@ export const exportToCsv = () => {
   }
 }
 
-export const createFeature = (layer: { id: string, fileName: string, data: object }) => {
+export const createFeature = (layer: { id: string, fileName: string, data: object | null }) => {
   if (state.uploadedFile) {
     state.uploadedFile.data.forEach(d => {
       d.features.push({
@@ -84,6 +84,12 @@ export const updateFeature = (fk: { featureIndex: number, index: number, feature
 }
 
 export const uploadLayer = (file: File) => {
+  const newLayer = {
+    id: Math.random().toString(36).substring(7),
+    fileName: file.name,
+    data: null,
+  };
+  state.layers = state.layers.concat(newLayer);
   const worker = new ShapeParserWorker();
   worker.postMessage(file);
   worker.onmessage = (event) => {
@@ -96,17 +102,10 @@ export const uploadLayer = (file: File) => {
         .toString(36)
         .substring(7);
     });
-    const newLayer = {
-      id: Math.random().toString(36).substring(7),
-      fileName: file.name,
-      data: event.data,
-    };
-    state.layers = state.layers.concat(newLayer);
+    newLayer.data = event.data;
+    state.layers = state.layers.filter(_ => _.id !== newLayer.id).concat(newLayer);
     if (state.uploadedFile) {
       createFeature(newLayer);
-      const featureIndex = state.uploadedFile.data[0].features.findIndex(
-        (_) => _.id === newLayer.id
-      );
       const fkWorker = new PolygonRelationWorker();
       fkWorker.postMessage({
         markers: state.uploadedFile.data.map((_) => {
@@ -121,13 +120,24 @@ export const uploadLayer = (file: File) => {
       let messages: number = 0;
       fkWorker.onmessage = (event) => {
         messages = messages + 1;
+        if (state.uploadedFile === null) {
+          fkWorker.terminate();
+          return;
+        }
         const polygonIndices: number[] = event.data.polygonIndices;
+        const featureIndex = state.uploadedFile.data[0].features.findIndex(
+          (_) => _.id === newLayer.id
+        );
+        if (featureIndex < 0) {
+          fkWorker.terminate();
+          return;
+        }
         updateFeature({
           featureIndex,
           index: event.data.index,
           features: polygonIndices.map((index) => features[index]),
         });
-        if (state.uploadedFile === null || messages === state.uploadedFile.data.length) {
+        if (messages === state.uploadedFile.data.length) {
           fkWorker.terminate();
         }
       };
@@ -136,7 +146,7 @@ export const uploadLayer = (file: File) => {
   };
 }
 
-export const removeLayer = (item: { id: string, fileName: string; data: object }) => {
+export const removeLayer = (item: { id: string, fileName: string; data: object | null }) => {
   if (state.uploadedFile) {
     state.uploadedFile.data.forEach(d => {
       d.features = d.features.filter(_ => _.id !== item.id);

@@ -15,7 +15,10 @@
         />
         <v-data-table :headers="headers" :items="tableData">
           <template v-slot:item.actions="{ item }">
-            <v-btn text color="error" @click="removeLayer(item)" class="float-right">Delete</v-btn>
+            <div class="float-right">
+              <v-progress-circular v-if="item.data === null" indeterminate :size="20" :width="2" />
+              <v-btn v-else text color="error" @click="removeLayer(item)">Delete</v-btn>
+            </div>
           </template>
         </v-data-table>
       </v-card-text>
@@ -74,7 +77,11 @@ export default class LayerManager extends Vue {
     (this.$refs.input as HTMLInputElement).value = "";
   }
 
-  private removeLayer(item: { fileName: string; id: string; data: object }) {
+  private removeLayer(item: {
+    fileName: string;
+    id: string;
+    data: object | null;
+  }) {
     removeLayer(item);
   }
 

@@ -49,6 +49,7 @@ export default class GoogleMapLogic {
   private selectedOverlayEvent: google.maps.drawing.OverlayCompleteEvent | null = null;
   private markers: google.maps.Marker[] = [];
   private clickedInfoWindow: google.maps.InfoWindow | null = null;
+  private activeLayerIds: Set<string> = new Set();
 
   private polyOptions = {
     strokeWeight: 2,
@@ -632,23 +633,23 @@ export default class GoogleMapLogic {
     }
   }
 
-  public updateLayers(layers: { id: string, fileName: string, data: object }[]) {
-    const activeIds: Set<string> = new Set();
-    const currentIds = new Set(layers.map(_ => _.id));
+  public updateLayers(layers: { id: string, fileName: string, data: object | null }[]) {
+    const doneLayers = layers.filter(_ => _.data !== null);
+    const currentIds = new Set(doneLayers.flatMap((layer: any) => layer.data.features).map((feature: any) => feature.properties.Table_Map_Id));
     this.map.data.forEach(layer => {
       const layerId = layer.getId().toString();
       if (!currentIds.has(layerId)) {
         this.map.data.remove(layer);
       }
-      activeIds.add(layerId);
     });
-    layers.forEach(layer => {
-      if (!activeIds.has(layer.id)) {
-        this.map.data.addGeoJson(layer.data, {
+    doneLayers.forEach(layer => {
+      if (!this.activeLayerIds.has(layer.id)) {
+        this.map.data.addGeoJson(layer.data!, {
           idPropertyName: "Table_Map_Id"
         });
       }
     });
+    this.activeLayerIds = new Set(doneLayers.map(layer => layer.id));
     this.map.data.setStyle({
       strokeWeight: 2,
       strokeColor: "#1E88E5",
