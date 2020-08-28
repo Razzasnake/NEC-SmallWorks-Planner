@@ -7,10 +7,11 @@
         <div id="shape-drop-area" @click="openUpload">Drop files here or click to upload</div>
         <input
           :accept="accept"
+          multiple="multiple"
           ref="input"
           type="file"
           class="upload-input"
-          @change="uploadLayer($event.target.files[0])"
+          @change="uploadLayers($event.target.files)"
         />
         <v-data-table :headers="headers" :items="tableData">
           <template v-slot:item.actions="{ item }">
@@ -50,11 +51,22 @@ export default class LayerManager extends Vue {
   }
 
   private mounted() {
-    UploadLogic.initDropZone("shape-drop-area", this.accept, this.uploadLayer);
+    UploadLogic.initDropZone(
+      "shape-drop-area",
+      this.accept,
+      this.uploadLayer,
+      true
+    );
   }
 
   private openUpload() {
     (this.$refs.input as HTMLInputElement).click();
+  }
+
+  private uploadLayers(fileArray: FileList) {
+    Array.from(fileArray).forEach((file) => {
+      this.uploadLayer(file);
+    });
   }
 
   private uploadLayer(file: File) {

@@ -1,5 +1,5 @@
 export default class UploadLogic {
-  public static initDropZone(id: string, accept: string, uploadCallback: (file: File) => void) {
+  public static initDropZone(id: string, accept: string, uploadCallback: (file: File) => void, multiple: boolean) {
     const dropArea = document.getElementById(id);
     if (dropArea) {
       ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
@@ -38,13 +38,21 @@ export default class UploadLogic {
         (e) => {
           const dt = e.dataTransfer;
           if (dt) {
-            const file = dt.files[0];
-            if (
-              accept.split(",").filter((_) => file.name.endsWith(_))
-                .length > 0
-            ) {
-              /* If a supported file. */
-              uploadCallback(file);
+            const fnc = (file: File) => {
+              if (
+                accept.split(",").filter((_) => file.name.endsWith(_))
+                  .length > 0
+              ) {
+                /* If a supported file. */
+                uploadCallback(file);
+              }
+            };
+            if (multiple) {
+              Array.from(dt.files).forEach(file => {
+                fnc(file);
+              });
+            } else {
+              fnc(dt.files[0]);
             }
           }
         },

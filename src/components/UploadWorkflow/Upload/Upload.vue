@@ -58,7 +58,8 @@ export default class Upload extends Vue {
     UploadLogic.initDropZone(
       "upload-drop-area",
       this.accept,
-      this.fileUploaded
+      this.fileUploaded,
+      false
     );
   }
 
