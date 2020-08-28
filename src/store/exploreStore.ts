@@ -3,6 +3,7 @@ import UploadedFile from "@/entities/UploadedFile";
 import { TableAndMapMap } from "@/components/TableAndMap/Types";
 import TableLogic from "@/components/TableAndMap/Table/Logic/TableLogic";
 import { OverlayJson } from "@/components/TableAndMap/GoogleMap/Logic/Utils";
+import ShapeParserWorker from "worker-loader!@/components/TableAndMap/GoogleMap/Logic/WebWorkers/ShapeParser.worker";
 
 interface ExploreStoreI {
   uploadedFile: UploadedFile | null,
@@ -10,6 +11,7 @@ interface ExploreStoreI {
   sorting: { colId: string; sort: string }[],
   map: TableAndMapMap,
   tableLogic: TableLogic | null,
+  shapes: any[],
   viewOptions: string[]
 };
 
@@ -22,6 +24,7 @@ const state: ExploreStoreI = Vue.observable({
     infoWindowKeys: []
   },
   tableLogic: null,
+  shapes: [],
   viewOptions: ["map", "map:markers", "table"]
 });
 
@@ -75,6 +78,18 @@ export const updateFeature = (fk: { featureIndex: number, index: number, feature
       features: fk.features
     }
   }
+}
+
+export const uploadShape = (file: File) => {
+  const worker = new ShapeParserWorker();
+  worker.postMessage(file);
+  worker.onmessage = event => {
+    state.shapes = state.shapes.concat({ id: state.shapes.length, file_name: file.name, data: event.data });
+  }
+}
+
+export const removeShape = (item: { id: number, file_name: string; data: any }) => {
+  state.shapes = state.shapes.filter(_ => _.id !== item.id)
 }
 
 export const reset = () => {
