@@ -151,8 +151,8 @@ export const reset = () => {
     infoWindowKeys: []
   };
   state.tableLogic = null;
-  state.viewOptions = ["map", "map:markers", "table"];
   state.layers = [];
+  state.viewOptions = ["map", "map:markers", "table"];
 }
 
 export default state;
