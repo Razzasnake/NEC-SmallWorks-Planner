@@ -1,4 +1,5 @@
 import LayerManager from './LayerManager.vue'
+import { action } from '@storybook/addon-actions'
 
 export default {
   component: LayerManager,
@@ -7,10 +8,9 @@ export default {
 
 const _LayerManager = () => ({
   components: { LayerManager },
-  template: '<LayerManager />',
-  props: {
-  },
+  template: '<LayerManager @close="close" />',
   methods: {
+    close: action('close')
   }
 })
 
