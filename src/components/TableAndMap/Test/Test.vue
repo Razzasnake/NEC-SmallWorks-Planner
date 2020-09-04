@@ -1,7 +1,12 @@
 <template>
   <div>
     <v-btn @click="login">Login</v-btn>
-    <div v-if="googleDriveLogic.files.length">
+    <table v-if="googleDriveLogic.files.length">
+      <tr>
+        <td>Name</td>
+        <td>Type</td>
+        <td></td>
+      </tr>
       <tr v-for="(file, index) in googleDriveLogic.files" :key="index">
         <td>{{ file.name }}</td>
         <td>{{ file.mimeType }}</td>
@@ -9,7 +14,7 @@
           <v-btn @click="downloadFile(file)">Download</v-btn>
         </td>
       </tr>
-    </div>
+    </table>
   </div>
 </template>
 <script lang='ts'>
