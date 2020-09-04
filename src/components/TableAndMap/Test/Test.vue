@@ -3,10 +3,8 @@
     <v-btn @click="login">Login</v-btn>
     <div v-if="googleDriveLogic.files.length">
       <tr v-for="(file, index) in googleDriveLogic.files" :key="index">
-        <td>{{ file.title }}</td>
-        <td>{{ file.ownerNames }}</td>
-        <td>{{ file.modifiedDate }}</td>
-        <td>{{ file.quotaBytesUsed }}</td>
+        <td>{{ file.name }}</td>
+        <td>{{ file.mimeType }}</td>
         <td>
           <v-btn @click="downloadFile(file)">Download</v-btn>
         </td>
@@ -28,8 +26,10 @@ export default class Test extends Vue {
     this.googleDriveLogic.login();
   }
 
-  private downloadFile(file) {
-    window.open(file.webContentLink, "_blank");
+  private downloadFile(file: gapi.client.drive.File) {
+    this.googleDriveLogic.getWebContentLink(file.id!, (webContentLink) => {
+      window.open(webContentLink, "_blank");
+    });
   }
 }
 </script>

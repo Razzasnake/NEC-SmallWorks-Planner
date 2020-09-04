@@ -1,6 +1,6 @@
 export default class GoogleDriveLogic {
 
-  public files = []
+  public files: gapi.client.drive.File[] = [];
 
   private scope = [
     "email",
@@ -19,8 +19,8 @@ export default class GoogleDriveLogic {
     gapi.load("auth2", () => {
       gapi.auth2.authorize(loginOptions, () => {
         gapi.load("client", () => {
-          gapi.client.load("drive", "v2", async () => {
-            this.getTableAndMapFolderId((folderId: string) => {
+          gapi.client.load("drive", "v3", async () => {
+            this.getTableAndMapFolderId((folderId) => {
               this.retrieveAllFilesInFolder(folderId, (result) => {
                 this.files = result;
               });
@@ -31,37 +31,58 @@ export default class GoogleDriveLogic {
     });
   }
 
+  public getWebContentLink(
+    fileId: string,
+    callback: (webContentLink: string) => void
+  ) {
+    gapi.client.drive.files
+      .get({ fileId, fields: "webContentLink" })
+      .execute((file) => {
+        if (file.result.webContentLink) {
+          callback(file.result.webContentLink);
+        }
+      });
+  }
+
   private getTableAndMapFolderId(callback: (folderId: string) => void) {
     const mimeType = "application/vnd.google-apps.folder";
-    const title = "tableandmap.com";
-    const q = `mimeType = '${mimeType}' and trashed = false and title='${title}'`;
+    const name = "tableandmap.com";
+    const q = `mimeType = '${mimeType}' and trashed = false and name='${name}'`;
     gapi.client.drive.files.list({ pageSize: 1, q }).then((response) => {
-      const folders = response.result.items;
+      const folders = response.result.files;
       if (folders && folders.length) {
-        callback(folders[0].id);
+        if (folders[0].id) {
+          callback(folders[0].id);
+        }
       } else {
         gapi.client.drive.files
-          .insert({ resource: { title, mimeType } })
+          .create({
+            resource: {
+              name,
+              mimeType,
+            },
+          })
           .execute((resp) => {
-            callback(resp.id);
+            if (resp.result.id) {
+              callback(resp.result.id);
+            }
           });
       }
     });
   }
 
-  private retrieveAllFilesInFolder(folderId: string, callback) {
-    gapi.client.drive.children
-      .list({ pageSize: 1000, folderId })
-      .execute((children) => {
-        const files = [];
-        children.items.forEach((item) => {
-          gapi.client.drive.files.get({ fileId: item.id }).execute((file) => {
-            files.push(file);
-            if (files.length === children.items.length) {
-              callback(files);
-            }
-          });
-        });
+  private retrieveAllFilesInFolder(
+    folderId: string,
+    callback: (files: gapi.client.drive.File[]) => void
+  ) {
+    gapi.client.drive.files
+      .list({ pageSize: 1000, q: `'${folderId}' in parents` })
+      .execute((files) => {
+        if (files.result.files) {
+          callback(files.result.files);
+        } else {
+          callback([]);
+        }
       });
   }
 }

@@ -13,7 +13,10 @@
     "baseUrl": ".",
     "types": [
       "webpack-env",
-      "vuetify"
+      "vuetify",
+      "gapi",
+      "gapi.auth2",
+      "gapi.client.drive"
     ],
     "paths": {
       "@/*": [
