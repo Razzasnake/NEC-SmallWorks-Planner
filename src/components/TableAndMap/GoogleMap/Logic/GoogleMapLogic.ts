@@ -1,9 +1,3 @@
-import ShapeParserWorker from "worker-loader!./WebWorkers/ShapeParser.worker";
-import PolygonRelationWorker from "worker-loader!./WebWorkers/PolygonRelation.worker";
-import {
-  updateFeature,
-  createFeature
-} from "@/store/exploreStore";
 import UploadedFile, { Row } from "@/entities/UploadedFile";
 import MarkerClusterer from "@google/markerclustererplus";
 import Theme from "./Theme";
@@ -55,6 +49,7 @@ export default class GoogleMapLogic {
   private selectedOverlayEvent: google.maps.drawing.OverlayCompleteEvent | null = null;
   private markers: google.maps.Marker[] = [];
   private clickedInfoWindow: google.maps.InfoWindow | null = null;
+  private activeLayerIds: Set<string> = new Set();
 
   private polyOptions = {
     strokeWeight: 2,
@@ -638,45 +633,27 @@ export default class GoogleMapLogic {
     }
   }
 
-  public shapefilesUploaded(fileArray: File[]) {
-    fileArray.forEach(file => {
-      const worker = new ShapeParserWorker();
-      worker.postMessage(file);
-      worker.onmessage = event => {
-        this.map.data.addGeoJson(event.data);
-        this.map.data.setStyle({
-          strokeWeight: 2,
-          strokeColor: "#1E88E5",
-          fillColor: "#1E88E5"
+  public updateLayers(layers: { id: string, fileName: string, data: object | null }[]) {
+    const doneLayers = layers.filter(_ => _.data !== null);
+    const currentIds = new Set(doneLayers.flatMap((layer: any) => layer.data.features).map((feature: any) => feature.properties.Table_Map_Id));
+    this.map.data.forEach(layer => {
+      const layerId = layer.getId().toString();
+      if (!currentIds.has(layerId)) {
+        this.map.data.remove(layer);
+      }
+    });
+    doneLayers.forEach(layer => {
+      if (!this.activeLayerIds.has(layer.id)) {
+        this.map.data.addGeoJson(layer.data!, {
+          idPropertyName: "Table_Map_Id"
         });
-        const fkWorker = new PolygonRelationWorker();
-        fkWorker.postMessage({
-          markers: this.uploadedFile.data.map(_ => {
-            if (_.lng && _.lat) {
-              return [_.lng, _.lat];
-            } else {
-              return [null, null];
-            }
-          }),
-          features: event.data.features
-        });
-        const polygons: google.maps.Data.Feature[] = [];
-        this.map.data.forEach(p => {
-          polygons.push(p);
-        });
-        createFeature(file.name);
-        const featureIndex = this.uploadedFile.data[0].features.findIndex(_ => _.name === file.name);
-        fkWorker.onmessage = event => {
-          const polygonIndices: number[] = event.data.polygonIndices;
-          updateFeature({
-            featureIndex,
-            index: event.data.index,
-            features: polygonIndices.map(index => polygons[index])
-          });
-          fkWorker.terminate();
-        };
-        worker.terminate();
-      };
+      }
+    });
+    this.activeLayerIds = new Set(doneLayers.map(layer => layer.id));
+    this.map.data.setStyle({
+      strokeWeight: 2,
+      strokeColor: "#1E88E5",
+      fillColor: "#1E88E5"
     });
   }
 

@@ -30,6 +30,7 @@ import PasteModal from "./PasteModal/PasteModal.vue";
 import ParserWorker from "worker-loader!./Parser.worker";
 import Loading from "@/components/Shared/Loading/Loading.vue";
 import { mdiUpload } from "@mdi/js";
+import UploadLogic from "./UploadLogic";
 
 /**
  * Accept a csv or excel file
@@ -44,7 +45,7 @@ export default class Upload extends Vue {
   /**
    * Color of the upload button
    */
-  @Prop({ default: '#eeeeee' })
+  @Prop({ default: "#eeeeee" })
   private color!: string;
 
   private accept: string = ".xls,.xlr,.xlt,.xlsx,.xlsm,.xlsb,.csv";
@@ -54,62 +55,12 @@ export default class Upload extends Vue {
   private mdiUpload = mdiUpload;
 
   private mounted() {
-    this.initDropZone();
-  }
-
-  private initDropZone() {
-    /* This element is in the CallToAction class. */
-    const dropArea = document.getElementById("upload-drop-area");
-    if (dropArea) {
-      ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
-        dropArea.addEventListener(
-          eventName,
-          (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          },
-          false
-        );
-      });
-
-      ["dragenter", "dragover"].forEach((eventName) => {
-        dropArea.addEventListener(
-          eventName,
-          (e) => {
-            dropArea.classList.add("highlight");
-          },
-          false
-        );
-      });
-
-      ["dragleave", "drop"].forEach((eventName) => {
-        dropArea.addEventListener(
-          eventName,
-          (e) => {
-            dropArea.classList.remove("highlight");
-          },
-          false
-        );
-      });
-
-      dropArea.addEventListener(
-        "drop",
-        (e) => {
-          let dt = e.dataTransfer;
-          if (dt) {
-            const file = dt.files[0];
-            if (
-              this.accept.split(",").filter((_) => file.name.endsWith(_))
-                .length > 0
-            ) {
-              /* If a supported file. */
-              this.fileUploaded(file);
-            }
-          }
-        },
-        false
-      );
-    }
+    UploadLogic.initDropZone(
+      "upload-drop-area",
+      this.accept,
+      this.fileUploaded,
+      false
+    );
   }
 
   private openUpload() {
