@@ -8,19 +8,46 @@
         </v-btn>
       </template>
       <v-list>
+        <v-list-item @click="openMyUploads">
+          <v-list-item-icon>
+            <v-icon>{{ mdiFileDocumentMultiple }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>My Uploads</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <v-list-item @click="signOut">
-          <v-list-item-title>Sign out</v-list-item-title>
+          <v-list-item-icon>
+            <v-icon>{{ mdiLogout }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Sign out</v-list-item-title>
+          </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-menu>
-    <v-list-item v-else-if="mobile && !loggedOut" @click="signOut">
-      <v-list-item-title>Sign out</v-list-item-title>
+    <v-list-item @click="openMyUploads" v-if="mobile && !loggedOut">
+      <v-list-item-icon>
+        <v-icon>{{ mdiFileDocumentMultiple }}</v-icon>
+      </v-list-item-icon>
+      <v-list-item-content>
+        <v-list-item-title>My Uploads</v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
+    <v-list-item @click="signOut" v-if="mobile && !loggedOut">
+      <v-list-item-icon>
+        <v-icon>{{ mdiLogout }}</v-icon>
+      </v-list-item-icon>
+      <v-list-item-content>
+        <v-list-item-title>Sign out</v-list-item-title>
+      </v-list-item-content>
     </v-list-item>
   </div>
 </template>
 <script lang='ts'>
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import state, { signIn, signOut } from "@/store/driveStore";
+import { mdiFileDocumentMultiple, mdiLogout } from "@mdi/js";
 
 /**
  * Login/Logout of Google
@@ -31,6 +58,9 @@ import state, { signIn, signOut } from "@/store/driveStore";
 export default class Login extends Vue {
   @Prop({ type: Boolean, default: false })
   private mobile!: boolean;
+
+  private mdiFileDocumentMultiple = mdiFileDocumentMultiple;
+  private mdiLogout = mdiLogout;
 
   private get loggedOut() {
     return state.user === null;
@@ -49,6 +79,13 @@ export default class Login extends Vue {
 
   private signOut() {
     signOut();
+  }
+
+  private openMyUploads() {
+    /**
+     * Navigate to the user uploads page
+     */
+    this.$emit("jumpTo", { name: "Uploads" });
   }
 }
 </script>
