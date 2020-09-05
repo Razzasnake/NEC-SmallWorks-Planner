@@ -1,9 +1,5 @@
 <template>
-  <v-data-table :headers="headers" :items="tableData" @dblclick:row="rowClicked">
-    <template v-slot:item.name="{ item }">
-      <a @click="rowClicked($event, { item })">{{ item.name }}</a>
-    </template>
-  </v-data-table>
+  <v-data-table :headers="headers" :items="tableData" @dblclick:row="rowClicked"></v-data-table>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
