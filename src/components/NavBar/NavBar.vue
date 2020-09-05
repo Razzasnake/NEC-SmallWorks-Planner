@@ -25,11 +25,13 @@
             <v-list-item @click="jumpTo({ name: 'Examples' })">
               <v-list-item-title>Examples</v-list-item-title>
             </v-list-item>
+            <Login mobile />
           </v-list>
         </v-menu>
         <template v-else>
           <v-btn text color="#eeeeee" @click="jumpTo({ name: 'Features' })">Features</v-btn>
           <v-btn text color="#eeeeee" @click="jumpTo({ name: 'Examples' })">Examples</v-btn>
+          <Login />
         </template>
       </v-toolbar-items>
     </v-app-bar>
@@ -39,12 +41,15 @@
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import NavigationDrawer from "./NavigationDrawer.vue";
 import { mdiDotsVertical } from "@mdi/js";
+import Login from "./Login/Login.vue";
+import { signOut } from "@/store/driveStore";
 
 /**
  * Navigation Bar at the top of the website to navigate between sections
  */
 @Component({
   components: {
+    Login,
     NavigationDrawer,
   },
 })
@@ -72,6 +77,10 @@ export default class NavBar extends Vue {
 
   private toggleDrawer() {
     this.drawer = !this.drawer;
+  }
+
+  private signOut() {
+    signOut();
   }
 }
 </script>
