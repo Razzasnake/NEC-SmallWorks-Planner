@@ -7,6 +7,7 @@ import state, { downloadFile } from "@/store/driveStore";
 import UploadsComponent from "@/components/Uploads/Uploads.vue";
 import UploadedFile from "@/entities/UploadedFile";
 import { updateUploadedFile } from "@/store/exploreStore";
+import ParserWorker from "worker-loader!@/components/UploadWorkflow/Upload/Parser.worker";
 
 /**
  * Display all of the users uploads stored in google drive.
@@ -36,8 +37,23 @@ export default class Uploads extends Vue {
 
   private async rowClicked(file: gapi.client.drive.File) {
     if (file.id) {
-      const uploadedDocument = await downloadFile(file.id);
-      console.log(uploadedDocument);
+      const worker = new ParserWorker();
+      worker.postMessage({
+        file: await downloadFile(file.id),
+        type: 'buffer'
+      });
+      worker.onmessage = (event) => {
+        const uploadedFile = new UploadedFile({
+          data:event.data.data,
+          columnSelections: {
+            lat: 10,
+            lng: 11
+          },
+          firstRowHeader: true
+        })
+        updateUploadedFile(uploadedFile);
+        this.$router.push({ name: "Explore" });
+      }
     }
   }
 }
