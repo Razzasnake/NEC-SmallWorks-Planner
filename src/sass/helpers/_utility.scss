@@ -32,7 +32,7 @@
 }
 
 .margin-large {
-  margin:  !important;
+  margin: 24px !important;
 }
 
 @each $dir in top, right, bottom, left {
@@ -51,10 +51,6 @@
   .margin-#{$dir}-large {
     margin-#{$dir}: 24px !important;
   }
-}
-
-a {
-  text-decoration: none;
 }
 
 .section {

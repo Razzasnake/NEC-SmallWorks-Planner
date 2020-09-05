@@ -22,10 +22,9 @@ export const signIn = (id: string) => {
     scope: scope.join(" "),
     width: 100,
     onsuccess: (user) => {
-      console.log(user)
       state.user = user;
       refreshFiles();
-    },
+    }
   });
 };
 
@@ -49,18 +48,13 @@ export const refreshFiles = () => {
   });
 };
 
-export const getWebContentLink = (
-  fileId: string,
-  callback: (webContentLink: string) => void
-) => {
-  gapi.client.drive.files
-    .get({ fileId, fields: "webContentLink" })
-    .execute((file) => {
-      if (file.result.webContentLink) {
-        callback(file.result.webContentLink);
-      }
+export const downloadFile = (fileId: string) => {
+  return gapi.client.drive.files
+    .get({ fileId, alt: 'media' })
+    .then((response) => {
+      return response.body;
     });
-};
+}
 
 const getTableAndMapFolderId = (callback: (folderId: string) => void) => {
   const mimeType = "application/vnd.google-apps.folder";
@@ -94,7 +88,7 @@ const retrieveAllFilesInFolder = (
   callback: (files: gapi.client.drive.File[]) => void
 ) => {
   gapi.client.drive.files
-    .list({ pageSize: 1000, q: `'${folderId}' in parents` })
+    .list({ pageSize: 1000, q: `'${folderId}' in parents and trashed = false`, fields: '*' })
     .execute((files) => {
       if (files.result.files) {
         callback(files.result.files);

@@ -97,7 +97,7 @@ export default class Login extends Vue {
 <style lang="scss" scoped>
 .login {
   position: relative;
-  top: 7px;
+  top: 8px;
   .first-letter {
     font-size: 18px;
     color: #37474f;
