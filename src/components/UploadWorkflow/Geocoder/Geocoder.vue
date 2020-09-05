@@ -16,7 +16,7 @@ export default class Geocoder extends Vue {
   /**
    * Addresses to geocode
    */
-  @Prop({ default: () => [] })
+  @Prop({ default: Array() })
   private addresses!: string[];
   private completed: number = 0;
   private searchManager: any;

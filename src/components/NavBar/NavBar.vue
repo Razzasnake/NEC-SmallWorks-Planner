@@ -54,6 +54,9 @@ import { signOut } from "@/store/driveStore";
   },
 })
 export default class NavBar extends Vue {
+  /**
+   * Whether or not to display the drawer
+   */
   @Prop({ type: Boolean, default: false })
   private drawerAllowed!: boolean;
   private drawer: boolean | null = null;
@@ -70,7 +73,7 @@ export default class NavBar extends Vue {
     /**
      * User wants to jump to a different location
      *
-     * @type {{location: {name: string}}}
+     * @type {{ name: string }}
      */
     this.$emit("jumpTo", location);
   }

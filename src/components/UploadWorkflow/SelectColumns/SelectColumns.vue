@@ -42,7 +42,7 @@ export default class SelectColumns extends Vue {
   /**
    * Array of anything that came from the Upload step.
    */
-  @Prop({ default: () => [] })
+  @Prop({ default: Array() })
   private value!: any[][];
   /**
    * The row that contains the headers for this file.
@@ -123,6 +123,8 @@ export default class SelectColumns extends Vue {
   private set firstRowHeaderAux(newVal: boolean) {
     /**
      * Update first row header value
+     * 
+     * @type {boolean}
      */
     this.$emit("updateFirstRowHeader", newVal);
   }
@@ -178,7 +180,7 @@ export default class SelectColumns extends Vue {
   @Watch("firstRowHeader")
   private firstRowHeaderUpdated() {
     this.allColumns.forEach((col) => {
-      if (col.selection !== null) {
+      if (col.selection !== null && this.allOptions.length) {
         col.search = this.allOptions[col.selection].value;
       }
     });
@@ -187,7 +189,7 @@ export default class SelectColumns extends Vue {
   private created() {
     this.allColumns.forEach((col) => {
       col.selection = (this.columnSelections as any)[col.key];
-      if (col.selection !== null) {
+      if (col.selection !== null && this.allOptions.length) {
         col.search = this.allOptions[col.selection].value;
       }
     });
@@ -227,6 +229,8 @@ export default class SelectColumns extends Vue {
     this.$emit("updateSelections", toReturn);
     /**
      * Notify parent is the selections needed are done
+     * 
+     * @type {boolean}
      */
     this.$emit("updateIsComplete", this.isComplete);
   }

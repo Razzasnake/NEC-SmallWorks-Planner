@@ -56,6 +56,9 @@ import { mdiFileDocumentMultiple, mdiLogout } from "@mdi/js";
   components: {},
 })
 export default class Login extends Vue {
+  /**
+   * Whether or not we are in mobile view or not
+   */
   @Prop({ type: Boolean, default: false })
   private mobile!: boolean;
 
@@ -89,6 +92,8 @@ export default class Login extends Vue {
   private openMyUploads() {
     /**
      * Navigate to the user uploads page
+     *
+     * @type {{ name: string }}
      */
     this.$emit("jumpTo", { name: "Uploads" });
   }

@@ -19,8 +19,11 @@ interface TableRow {
 @Component({
   components: {},
 })
-export default class Uploads extends Vue {
-  @Prop({ default: [] })
+export default class UploadsTable extends Vue {
+  /**
+   * List of files to display in the table
+   */
+  @Prop({ default: Array() })
   private files!: gapi.client.drive.File[];
 
   private headers = [
@@ -89,6 +92,8 @@ export default class Uploads extends Vue {
   private rowClicked(event: MouseEvent, row: { item: TableRow }) {
     /**
      * Notify parent to download this row and start the tool with it
+     *
+     * @type {gapi.client.drive.File}
      */
     this.$emit(
       "rowClicked",

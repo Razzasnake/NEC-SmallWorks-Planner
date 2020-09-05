@@ -89,6 +89,8 @@ export default class Feature extends Vue {
   private finish(uploadedFile: UploadedFile) {
     /**
      * Emit the uploaded file
+     *
+     * @type {UploadedFile}
      */
     this.$emit("finish", uploadedFile);
   }

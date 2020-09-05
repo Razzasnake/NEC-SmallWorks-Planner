@@ -74,12 +74,12 @@ export default class TableAndMap extends Vue {
   /**
    * An object used to apply previous filters
    */
-  @Prop({ default: () => {} })
+  @Prop({ default: new Object() })
   private filters!: { [colId: string]: any };
   /**
    * An array of objects to apply previous sorting
    */
-  @Prop({ default: () => [] })
+  @Prop({ default: Array() })
   private sorting!: { colId: string; sort: string }[];
   /**
    * Config for the map

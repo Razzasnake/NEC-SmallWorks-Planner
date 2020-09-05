@@ -119,7 +119,7 @@ export default class PreviewCard extends Vue {
       } else {
         let values: { label: string; value: string }[] = [];
         if (feature.features.length > 0) {
-          const properties = (feature.features[0] as any).properties
+          const properties = (feature.features[0] as any).properties;
           Object.entries(properties).forEach(([name, value]: [any, any]) => {
             if (name !== "Table_Map_Id") {
               values.push({
@@ -193,8 +193,6 @@ export default class PreviewCard extends Vue {
   private close(): void {
     /**
      * Tell the parent to close this preview
-     *
-     * @type {string}
      */
     this.$emit("close");
   }

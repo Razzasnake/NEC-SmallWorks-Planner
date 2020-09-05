@@ -50,7 +50,7 @@ export const refreshFiles = () => {
 
 export const downloadFile = (fileId: string) => {
   return gapi.client.drive.files
-    .get({ fileId, alt: 'media' })
+    .get({ fileId, alt: "media" })
     .then((response) => {
       return response.body;
     });

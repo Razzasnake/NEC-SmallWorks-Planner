@@ -8,7 +8,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import UploadsTable from "./UploadsTable/UploadsTable.vue";
 
 /**
- * Display all of the users uploads stored in google drive.
+ * Uploads section where a user can manage their documents
  */
 @Component({
   components: {
@@ -16,12 +16,17 @@ import UploadsTable from "./UploadsTable/UploadsTable.vue";
   },
 })
 export default class Uploads extends Vue {
+  /**
+   * List of files to display in the table
+   */
   @Prop({ default: [] })
   private files!: gapi.client.drive.File[];
 
   private rowClicked(file: gapi.client.drive.File) {
     /**
      * Notify parent to download this row and start the tool with it
+     *
+     * @type {gapi.client.drive.File}
      */
     this.$emit("rowClicked", file);
   }

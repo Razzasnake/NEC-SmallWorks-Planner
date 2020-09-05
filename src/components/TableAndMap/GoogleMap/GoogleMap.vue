@@ -60,7 +60,7 @@ export default class GoogleMap extends Vue {
   /**
    * All of the polygons being displayed on the map
    */
-  @Prop({ default: () => [] })
+  @Prop({ default: Array() })
   public overlayEvents!: google.maps.drawing.OverlayCompleteEvent[];
   /**
    * Function that creates a google maps info window, passed in to keep class generic
@@ -73,7 +73,7 @@ export default class GoogleMap extends Vue {
   /**
    * A Set of indices of objects to hide
    */
-  @Prop({ default: () => new Set() })
+  @Prop({ default: new Set() })
   public hiddenMarkerIndices!: Set<number>;
   /**
    * Whether or not to display a heatmap
