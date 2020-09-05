@@ -74,7 +74,12 @@ export default class Login extends Vue {
   }
 
   private mounted() {
-    signIn("google-signin-button");
+    const script = document.createElement("script");
+    script.src = "https://apis.google.com/js/platform.js";
+    script.onload = () => {
+      signIn("google-signin-button");
+    };
+    document.getElementsByTagName("head")[0].appendChild(script);
   }
 
   private signOut() {
