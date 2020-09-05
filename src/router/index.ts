@@ -33,8 +33,7 @@ const routes = [
   {
     path: '/uploads',
     name: 'Uploads',
-    component: () => import(/* webpackChunkName: "Uploads" */ '@/views/Uploads.vue'),
-    props: true
+    component: () => import(/* webpackChunkName: "Uploads" */ '@/views/Uploads.vue')
   },
   {
     path: '/*',

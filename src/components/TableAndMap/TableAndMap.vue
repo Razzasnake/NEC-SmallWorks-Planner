@@ -74,7 +74,7 @@ export default class TableAndMap extends Vue {
   /**
    * An object used to apply previous filters
    */
-  @Prop({ default: new Object() })
+  @Prop({ default: Object() })
   private filters!: { [colId: string]: any };
   /**
    * An array of objects to apply previous sorting

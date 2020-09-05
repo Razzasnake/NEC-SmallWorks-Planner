@@ -42,7 +42,6 @@ import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import NavigationDrawer from "./NavigationDrawer.vue";
 import { mdiDotsVertical } from "@mdi/js";
 import Login from "./Login/Login.vue";
-import { signOut } from "@/store/driveStore";
 
 /**
  * Navigation Bar at the top of the website to navigate between sections
@@ -80,10 +79,6 @@ export default class NavBar extends Vue {
 
   private toggleDrawer() {
     this.drawer = !this.drawer;
-  }
-
-  private signOut() {
-    signOut();
   }
 }
 </script>
