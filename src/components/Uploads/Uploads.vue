@@ -1,18 +1,18 @@
 <template>
   <v-card class="margin-large">
-    <UploadsTable :files="files" @rowClicked="rowClicked" />
+    <Table :files="files" @rowClicked="rowClicked" />
   </v-card>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
-import UploadsTable from "./UploadsTable/UploadsTable.vue";
+import Table from "./Table/Table.vue";
 
 /**
  * Uploads section where a user can manage their documents
  */
 @Component({
   components: {
-    UploadsTable,
+    Table,
   },
 })
 export default class Uploads extends Vue {

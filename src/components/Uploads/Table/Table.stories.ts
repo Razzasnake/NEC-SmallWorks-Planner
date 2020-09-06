@@ -1,18 +1,18 @@
-import UploadsTable from './UploadsTable.vue'
+import Table from './Table.vue'
 import GoogleFileGenerator from '@/generator/GoogleFileGenerator'
 import { action } from '@storybook/addon-actions'
 
 export default {
-  component: UploadsTable,
-  title: 'Uploads/UploadsTable'
+  component: Table,
+  title: 'Uploads/Table'
 }
 
-const _UploadsTable = () => ({
-  components: { UploadsTable },
+const _Table = () => ({
+  components: { Table },
   template: `
-    <UploadsTable
+    <Table
       :files="filesProp"
-    ></UploadsTable>`,
+    ></Table>`,
   props: {
     filesProp: {
       default: [
@@ -29,4 +29,4 @@ const _UploadsTable = () => ({
   }
 })
 
-export { _UploadsTable }
+export { _Table }

@@ -2,12 +2,14 @@ import Vue from "vue";
 
 interface DriveStoreI {
   user: gapi.auth2.GoogleUser | null,
-  files: gapi.client.drive.File[]
+  files: gapi.client.drive.File[],
+  folderId: string | null
 };
 
 const state: DriveStoreI = Vue.observable({
   user: null,
-  files: []
+  files: [],
+  folderId: null
 });
 
 export const signIn = (id: string) => {
@@ -40,6 +42,7 @@ export const refreshFiles = () => {
   gapi.load("client", () => {
     gapi.client.load("drive", "v3", async () => {
       getTableAndMapFolderId((folderId) => {
+        state.folderId = folderId;
         retrieveAllFilesInFolder(folderId, (result) => {
           state.files = result;
         });

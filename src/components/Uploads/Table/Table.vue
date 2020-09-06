@@ -19,7 +19,7 @@ interface TableRow {
 @Component({
   components: {},
 })
-export default class UploadsTable extends Vue {
+export default class Table extends Vue {
   /**
    * List of files to display in the table
    */
