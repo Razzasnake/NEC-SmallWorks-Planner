@@ -1,9 +1,23 @@
 <template>
-  <v-data-table :headers="headers" :items="tableData" @dblclick:row="rowClicked"></v-data-table>
+  <v-card>
+    <v-card-title>
+      My Uploads
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        :prepend-icon="mdiMagnify"
+        label="Search in Drive"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
+    <v-data-table :headers="headers" :items="tableData" :search="search" @dblclick:row="rowClicked"></v-data-table>
+  </v-card>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
 import state from "@/store/driveStore";
+import { mdiMagnify } from "@mdi/js";
 
 interface TableRow {
   id: string;
@@ -25,6 +39,8 @@ export default class Table extends Vue {
    */
   @Prop({ default: Array() })
   private files!: gapi.client.drive.File[];
+  private search: string = "";
+  private mdiMagnify = mdiMagnify;
 
   private headers = [
     { text: "Name", value: "name" },
