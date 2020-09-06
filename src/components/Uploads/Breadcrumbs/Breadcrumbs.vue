@@ -17,18 +17,20 @@ import state from "@/store/driveStore";
   components: {},
 })
 export default class Breaadcrumbs extends Vue {
-  private items = [
-    {
-      text: "My Drive",
-      disabled: false,
-      href: "https://drive.google.com/drive/my-drive",
-    },
-    {
-      text: "tableandmap.com",
-      disabled: state.folderId === null,
-      href: `https://drive.google.com/drive/folders/${state.folderId}`,
-    },
-  ];
   private mdiChevronRight = mdiChevronRight;
+  private get items() {
+    return [
+      {
+        text: "My Drive",
+        disabled: false,
+        href: "https://drive.google.com/drive/my-drive",
+      },
+      {
+        text: "tableandmap.com",
+        disabled: state.folderId === null,
+        href: `https://drive.google.com/drive/folders/${state.folderId}`,
+      },
+    ];
+  }
 }
 </script>
