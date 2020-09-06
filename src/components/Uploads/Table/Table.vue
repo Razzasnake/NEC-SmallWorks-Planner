@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card elevation="0">
     <v-card-title>
       My Uploads
       <v-spacer></v-spacer>
@@ -9,6 +9,7 @@
         label="Search in Drive"
         single-line
         hide-details
+        clearable
       ></v-text-field>
     </v-card-title>
     <v-data-table :headers="headers" :items="tableData" :search="search" @dblclick:row="rowClicked"></v-data-table>

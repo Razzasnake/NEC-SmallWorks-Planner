@@ -1,17 +1,21 @@
 <template>
-  <v-card class="margin-large">
+  <div class="margin-large">
+    <Breadcrumbs />
+    <v-divider />
     <Table :files="files" @rowClicked="rowClicked" />
-  </v-card>
+  </div>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
 import Table from "./Table/Table.vue";
+import Breadcrumbs from "./Breadcrumbs/Breadcrumbs.vue";
 
 /**
  * Uploads section where a user can manage their documents
  */
 @Component({
   components: {
+    Breadcrumbs,
     Table,
   },
 })
