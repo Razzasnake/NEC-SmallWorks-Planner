@@ -9,6 +9,14 @@ import UploadedFile from "@/entities/UploadedFile";
 import { updateUploadedFile } from "@/store/exploreStore";
 import ParserWorker from "worker-loader!@/components/UploadWorkflow/Upload/Parser.worker";
 
+interface Config {
+  columnSelections: {
+    lat: number;
+    lng: number;
+  };
+  firstRowHeader: boolean;
+}
+
 /**
  * Display all of the users uploads stored in google drive.
  */
@@ -35,22 +43,26 @@ export default class Uploads extends Vue {
     }
   }
 
-  private async rowClicked(file: gapi.client.drive.File) {
-    if (file.id) {
+  private async rowClicked(files: {
+    file: gapi.client.drive.File;
+    configFile: gapi.client.drive.File;
+  }) {
+    if (files.file.id && files.configFile.id) {
       const worker = new ParserWorker();
       worker.postMessage({
-        file: await downloadFile(file.id),
+        file: await downloadFile(files.file.id),
         type: "buffer",
       });
-      worker.onmessage = (event) => {
+      worker.onmessage = async (event) => {
+        const config: Config = JSON.parse(
+          await downloadFile(files.configFile.id!)
+        ) as any;
         const uploadedFile = new UploadedFile({
           data: event.data.data,
-          columnSelections: {
-            lat: 10,
-            lng: 11,
-          },
-          firstRowHeader: true,
+          columnSelections: config.columnSelections,
+          firstRowHeader: config.firstRowHeader,
         });
+        worker.terminate();
         updateUploadedFile(uploadedFile);
         this.$router.push({ name: "Explore" });
       };

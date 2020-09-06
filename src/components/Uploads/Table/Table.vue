@@ -62,15 +62,17 @@ export default class Table extends Vue {
   ];
 
   private get tableData(): TableRow[] {
-    return this.files.map((file) => {
-      return {
-        id: file.id!,
-        name: file.name!,
-        owner: this.formatOwner(file),
-        lastModified: this.formatLastModified(file),
-        fileSize: this.formatFileSize(file),
-      };
-    });
+    return this.files
+      .filter((_) => _.name!.endsWith(".csv"))
+      .map((file) => {
+        return {
+          id: file.id!,
+          name: file.name!,
+          owner: this.formatOwner(file),
+          lastModified: this.formatLastModified(file),
+          fileSize: this.formatFileSize(file),
+        };
+      });
   }
 
   private formatOwner(file: gapi.client.drive.File) {
@@ -121,12 +123,11 @@ export default class Table extends Vue {
     /**
      * Notify parent to download this row and start the tool with it
      *
-     * @type {gapi.client.drive.File}
+     * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File }}
      */
-    this.$emit(
-      "rowClicked",
-      this.files.find((file) => file.id === row.item.id)
-    );
+    const file = this.files.find((file) => file.id === row.item.id)!;
+    const configFile = this.files.find((_) => _.name === `${file.name}.json`);
+    this.$emit("rowClicked", { file, configFile });
     this.loading = true;
   }
 

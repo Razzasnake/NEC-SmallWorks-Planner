@@ -32,13 +32,16 @@ export default class Uploads extends Vue {
   @Prop({ default: [] })
   private files!: gapi.client.drive.File[];
 
-  private rowClicked(file: gapi.client.drive.File) {
+  private rowClicked(files: {
+    file: gapi.client.drive.File;
+    configFile: gapi.client.drive.File;
+  }) {
     /**
      * Notify parent to download this row and start the tool with it
      *
-     * @type {gapi.client.drive.File}
+     * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File }}
      */
-    this.$emit("rowClicked", file);
+    this.$emit("rowClicked", files);
   }
 
   private finish(uploadedFile: UploadedFile) {
