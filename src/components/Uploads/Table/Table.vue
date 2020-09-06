@@ -1,5 +1,6 @@
 <template>
   <v-card elevation="0">
+    <Loading :loading="loading" />
     <v-card-title>
       My Uploads
       <v-spacer></v-spacer>
@@ -25,6 +26,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import state from "@/store/driveStore";
 import { mdiMagnify } from "@mdi/js";
+import Loading from "@/components/Shared/Loading/Loading.vue";
 
 interface TableRow {
   id: string;
@@ -38,7 +40,9 @@ interface TableRow {
  * Display all of the users uploads stored in google drive.
  */
 @Component({
-  components: {},
+  components: {
+    Loading,
+  },
 })
 export default class Table extends Vue {
   /**
@@ -48,6 +52,7 @@ export default class Table extends Vue {
   private files!: gapi.client.drive.File[];
   private search: string = "";
   private mdiMagnify = mdiMagnify;
+  private loading = false;
 
   private headers = [
     { text: "Name", value: "name" },
@@ -122,6 +127,11 @@ export default class Table extends Vue {
       "rowClicked",
       this.files.find((file) => file.id === row.item.id)
     );
+    this.loading = true;
+  }
+
+  private deactivated() {
+    this.loading = false;
   }
 }
 </script>
