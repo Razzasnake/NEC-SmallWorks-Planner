@@ -12,6 +12,8 @@ const _Uploads = () => ({
   template: `
     <Uploads
       :files="filesProp"
+      @rowClicked="rowClicked"
+      @finish="finish"
     ></Uploads>`,
   props: {
     filesProp: {
@@ -25,7 +27,9 @@ const _Uploads = () => ({
     }
   },
   methods: {
-    rowClicked: action('rowClicked')
+    rowClicked: action('rowClicked'),
+    finish: action('finish')
+    
   }
 })
 

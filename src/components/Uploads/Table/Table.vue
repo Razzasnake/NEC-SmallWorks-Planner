@@ -12,7 +12,13 @@
         clearable
       ></v-text-field>
     </v-card-title>
-    <v-data-table :headers="headers" :items="tableData" :search="search" @dblclick:row="rowClicked"></v-data-table>
+    <v-data-table
+      sort-by="name"
+      :headers="headers"
+      :items="tableData"
+      :search="search"
+      @dblclick:row="rowClicked"
+    ></v-data-table>
   </v-card>
 </template>
 <script lang='ts'>

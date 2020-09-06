@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Upload :color="color" @fileUploaded="fileUploaded"></Upload>
+    <Upload :color="color" @fileUploaded="fileUploaded" :small="small"></Upload>
     <v-dialog v-model="visible" @click:outside="reset" max-width="700">
       <Loading
         :loading="loading"
@@ -55,8 +55,13 @@ export default class UploadWorkflow extends Vue {
   /**
    * Color of the upload button
    */
-  @Prop({ default: '#eeeeee' })
+  @Prop({ default: "#eeeeee" })
   private color!: string;
+  /**
+   * Whether or not to wrap options into a dropdown
+   */
+  @Prop({ type: Boolean, default: false })
+  private small!: boolean;
 
   private step: number = 0;
   private uploadedFile: any[][] = [];

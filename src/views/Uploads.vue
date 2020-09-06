@@ -1,5 +1,5 @@
 <template>
-  <UploadsComponent :files="files" @rowClicked="rowClicked" />
+  <UploadsComponent :files="files" @rowClicked="rowClicked" @finish="finish" />
 </template>
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
@@ -40,21 +40,26 @@ export default class Uploads extends Vue {
       const worker = new ParserWorker();
       worker.postMessage({
         file: await downloadFile(file.id),
-        type: 'buffer'
+        type: "buffer",
       });
       worker.onmessage = (event) => {
         const uploadedFile = new UploadedFile({
-          data:event.data.data,
+          data: event.data.data,
           columnSelections: {
             lat: 10,
-            lng: 11
+            lng: 11,
           },
-          firstRowHeader: true
-        })
+          firstRowHeader: true,
+        });
         updateUploadedFile(uploadedFile);
         this.$router.push({ name: "Explore" });
-      }
+      };
     }
+  }
+
+  private finish(uploadedFile: UploadedFile) {
+    updateUploadedFile(uploadedFile);
+    this.$router.push({ name: "Explore" });
   }
 }
 </script>

@@ -1,20 +1,26 @@
 <template>
-  <div class="margin-large">
-    <Breadcrumbs />
-    <v-divider />
-    <Table :files="files" @rowClicked="rowClicked" />
+  <div class="uploads">
+    <Navigation class="margin-large" @finish="finish" />
+    <div class="full-width margin-large">
+      <Breadcrumbs />
+      <v-divider />
+      <Table :files="files" @rowClicked="rowClicked" />
+    </div>
   </div>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
+import Navigation from "./Navigation/Navigation.vue";
 import Table from "./Table/Table.vue";
 import Breadcrumbs from "./Breadcrumbs/Breadcrumbs.vue";
+import UploadedFile from "@/entities/UploadedFile";
 
 /**
  * Uploads section where a user can manage their documents
  */
 @Component({
   components: {
+    Navigation,
     Breadcrumbs,
     Table,
   },
@@ -34,5 +40,21 @@ export default class Uploads extends Vue {
      */
     this.$emit("rowClicked", file);
   }
+
+  private finish(uploadedFile: UploadedFile) {
+    /**
+     * Emit the uploaded file
+     *
+     * @type {UploadedFile}
+     */
+    this.$emit("finish", uploadedFile);
+  }
 }
 </script>
+<style lang="scss" scoped>
+.uploads {
+  display: flex;
+  background-color: white;
+  height: 100%;
+}
+</style>
