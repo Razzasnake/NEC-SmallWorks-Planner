@@ -87,7 +87,7 @@ export const saveUploadedFile = () => {
     });
     const data = arrayToCSV(state.uploadedFile.data.map(_ => _.data));
     uploadFile(data, "text/csv", state.uploadedFile.fileName, (fileId) => {
-      router.push({ name: "Explore", params: { fileId } });
+      router.replace({ name: "Explore", params: { fileId } });
     });
     uploadFile(config, "application/json", `${state.uploadedFile.fileName}.json`);
     state.uploadedFile.toUpload = false;
