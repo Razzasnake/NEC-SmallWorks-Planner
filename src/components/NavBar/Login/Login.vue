@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <div v-show="loggedOut" id="google-signin-button" :class="{'margin-left-medium': !mobile }"></div>
+    <div v-show="loggedOut" id="google-signin-button" :class="loginClass"></div>
     <v-menu v-if="!loggedOut && !mobile" offset-y>
       <template v-slot:activator="{ on }">
         <v-btn v-on="on" x-small fab color="#eeeeee">
@@ -67,6 +67,14 @@ export default class Login extends Vue {
 
   private get loggedOut() {
     return state.user === null;
+  }
+
+  private get loginClass() {
+    if (this.mobile) {
+      return "margin-right-medium margin-left-medium margin-bottom-medium";
+    } else {
+      return "margin-left-medium";
+    }
   }
 
   private get userFirstLetter() {
