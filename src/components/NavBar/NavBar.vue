@@ -6,8 +6,8 @@
           <v-list-item-content>
             <v-list-item-title class="title">
               <v-tooltip bottom>
-                <template v-slot:activator="{ attrs }">
-                  <span v-bind="attrs">{{ fileName }}</span>
+                <template v-slot:activator="{ on, attrs }">
+                  <span v-bind="attrs" v-on="on">{{ fileName }}</span>
                 </template>
                 <span>{{ fileName }}</span>
               </v-tooltip>
