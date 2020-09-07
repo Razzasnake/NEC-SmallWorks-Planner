@@ -43,7 +43,7 @@ export const signOut = () => {
   });
 }
 
-export const refreshFiles = (callback: () => void | undefined) => {
+export const refreshFiles = (callback?: () => void | undefined) => {
   gapi.load("client", () => {
     gapi.client.load("drive", "v3", async () => {
       getTableAndMapFolderId((folderId) => {
