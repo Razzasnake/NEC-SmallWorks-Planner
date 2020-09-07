@@ -54,7 +54,7 @@ export const updateUploadedFile = (uploadedFile: UploadedFile) => {
 export const downloadUserUpload = async (files: {
   file: gapi.client.drive.File;
   configFile: gapi.client.drive.File;
-}, callback?: () => void | undefined) => {
+}) => {
   if (files.file.id && files.configFile.id) {
     const worker = new ParserWorker();
     worker.postMessage({
@@ -73,9 +73,6 @@ export const downloadUserUpload = async (files: {
         firstRowHeader: config.firstRowHeader,
       });
       updateUploadedFile(uploadedFile);
-      if (callback) {
-        callback();
-      }
       worker.terminate();
     };
   }

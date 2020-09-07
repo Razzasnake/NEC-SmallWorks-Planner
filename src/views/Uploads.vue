@@ -38,12 +38,7 @@ export default class Uploads extends Vue {
     file: gapi.client.drive.File;
     configFile: gapi.client.drive.File;
   }) {
-    downloadUserUpload(files, () => {
-      this.$router.push({
-        name: "Explore",
-        params: { fileId: files.file.id! },
-      });
-    });
+    downloadUserUpload(files);
   }
 
   private finish(uploadedFile: UploadedFile) {
