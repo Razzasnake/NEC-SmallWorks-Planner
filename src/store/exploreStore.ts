@@ -86,16 +86,16 @@ export const saveUploadedFile = () => {
     });
     const data = arrayToCSV(state.uploadedFile.data.map(_ => _.data));
     uploadFile(data, "text/csv", state.uploadedFile.fileName, (fileId) => {
-      if (router.currentRoute.params.fileId !== fileId) {
-        router.push({ name: "Explore", params: { fileId } });
-      }
+      router.push({ name: "Explore", params: { fileId } });
     });
     uploadFile(config, "application/json", `${state.uploadedFile.fileName}.json`);
     state.uploadedFile.toUpload = false;
   } else if (state.uploadedFile) {
     const file = driveState.files.find(_ => _.name === state.uploadedFile!.fileName);
-    if (file && router.currentRoute.params.fileId !== file.id) {
-      router.push({ name: "Explore", params: { fileId: file.id! } });
+    if (file) {
+      if (router.currentRoute.params.fileId !== file.id) {
+        router.push({ name: "Explore", params: { fileId: file.id! } });
+      }
     } else {
       router.push({ name: "Explore" });
     }
