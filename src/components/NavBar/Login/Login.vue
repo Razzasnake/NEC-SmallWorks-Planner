@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <div v-show="loggedOut" id="google-signin-button"></div>
+    <div v-show="loggedOut" id="google-signin-button" :class="{'margin-left-medium': !mobile }"></div>
     <v-menu v-if="!loggedOut && !mobile" offset-y>
       <template v-slot:activator="{ on }">
         <v-btn v-on="on" x-small fab color="#eeeeee">
@@ -102,7 +102,7 @@ export default class Login extends Vue {
 <style lang="scss" scoped>
 .login {
   position: relative;
-  top: 8px;
+  top: 7px;
   .first-letter {
     font-size: 18px;
     color: #37474f;
