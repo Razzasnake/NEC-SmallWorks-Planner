@@ -4,6 +4,7 @@
     <v-card-title>
       My Uploads
       <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
         :prepend-icon="mdiMagnify"
@@ -15,6 +16,7 @@
     </v-card-title>
     <v-data-table
       sort-by="name"
+      :no-data-text="noDataText"
       :headers="headers"
       :items="tableData"
       :search="search"
@@ -53,6 +55,7 @@ export default class Table extends Vue {
   private search: string = "";
   private mdiMagnify = mdiMagnify;
   private loading = false;
+  private noDataText = 'You have no uploads. Click "New" to get started.';
 
   private headers = [
     { text: "Name", value: "name" },
