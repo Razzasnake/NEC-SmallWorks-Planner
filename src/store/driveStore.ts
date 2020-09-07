@@ -40,6 +40,9 @@ export const signIn = (id: string) => {
     gapi.auth2.getAuthInstance().currentUser.listen((val) => {
       if (val.getId() === null) {
         /* TODO: there is no user logged in, try and retrieve it. It might be public. */
+        if (router.currentRoute.name === "Explore" && router.currentRoute.params.fileId) {
+          router.push({ name: "Home" });
+        }
       }
     });
   });
