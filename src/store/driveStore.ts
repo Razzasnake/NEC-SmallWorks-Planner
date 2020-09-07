@@ -59,6 +59,36 @@ export const downloadFile = (fileId: string) => {
     });
 }
 
+export const uploadFile = (data: string, mimeType: string, name: string) => {
+  const metadata = {
+    name,
+    mimeType,
+    parents: [state.folderId]
+  };
+  const boundary = "TableAndMap";
+  const delimiter = "\r\n--" + boundary + "\r\n";
+  const closeDelim = "\r\n--" + boundary + "--";
+  const multipartRequestBody =
+    delimiter +
+    "Content-Type: application/json; charset=UTF-8\r\n\r\n" +
+    JSON.stringify(metadata) +
+    delimiter +
+    "Content-Type: " + mimeType + "\r\n\r\n" +
+    data + "\r\n" +
+    closeDelim;
+  gapi.client.request({
+    path: "https://www.googleapis.com/upload/drive/v3/files",
+    method: "POST",
+    params: { uploadType: "multipart" },
+    headers: {
+      "Content-Type": "multipart/related; boundary=" + boundary
+    },
+    body: multipartRequestBody
+  }).execute(() => {
+    refreshFiles();
+  });
+}
+
 const getTableAndMapFolderId = (callback: (folderId: string) => void) => {
   const mimeType = "application/vnd.google-apps.folder";
   const name = "tableandmap.com";

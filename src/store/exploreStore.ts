@@ -5,6 +5,7 @@ import TableLogic from "@/components/TableAndMap/Table/Logic/TableLogic";
 import { OverlayJson } from "@/components/TableAndMap/GoogleMap/Logic/Utils";
 import ShapeParserWorker from "worker-loader!./WebWorkers/ShapeParser.worker";
 import PolygonRelationWorker from "worker-loader!./WebWorkers/PolygonRelation.worker";
+import driveState, { uploadFile } from "./driveStore";
 
 interface ExploreStoreI {
   uploadedFile: UploadedFile | null,
@@ -37,6 +38,50 @@ export const updateUploadedFile = (uploadedFile: UploadedFile) => {
   }
   state.uploadedFile = uploadedFile;
   state.tableLogic = new TableLogic(uploadedFile);
+  saveUploadedFile(uploadedFile);
+}
+
+const saveUploadedFile = (uploadedFile: UploadedFile) => {
+  if (driveState.user && uploadedFile.toUpload) {
+    const config = JSON.stringify({
+      columnSelections: uploadedFile.columnSelections,
+      firstRowHeader: uploadedFile.firstRowHeader
+    });
+    const data = arrayToCSV(uploadedFile.data.map(_ => _.data));
+    uploadFile(data, "text/csv", uploadedFile.fileName);
+    uploadFile(config, "application/json", `${uploadedFile.fileName}.json`);
+  }
+}
+
+const arrayToCSV = (dataArr: any[][]) => {
+  const escapeCol = (col: any) => {
+    if (isNaN(col)) {
+      if (!col) {
+        col = '';
+      } else {
+        col = String(col);
+        if (col.length > 0) {
+          col = col.split('"').join('"' + '"');
+          col = '"' + col + '"';
+        }
+      }
+    }
+    return col;
+  };
+  const arrayToRow = (arr: any[]): any => {
+    const arr2 = arr.slice(0);
+    const ii = arr2.length;
+    for (let i = 0; i < ii; i++) {
+      arr2[i] = escapeCol(arr2[i]);
+    }
+    return arr2.join(",");
+  };
+  const arr2 = dataArr.slice(0);
+  const ii = arr2.length;
+  for (let i = 0; i < ii; i++) {
+    arr2[i] = arrayToRow(arr2[i]);
+  }
+  return arr2.join("\r\n");
 }
 
 export const updateOverlayEventJsons = (overlayEventJsons: OverlayJson[]) => {

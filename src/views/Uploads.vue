@@ -58,6 +58,7 @@ export default class Uploads extends Vue {
           await downloadFile(files.configFile.id!)
         ) as any;
         const uploadedFile = new UploadedFile({
+          toUpload: false,
           fileName: files.file.name!,
           data: event.data.data,
           columnSelections: config.columnSelections,

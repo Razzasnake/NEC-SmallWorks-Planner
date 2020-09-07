@@ -12,6 +12,7 @@ export default {
         worker.postMessage({ file: response.data, type: 'buffer' });
         worker.onmessage = event => {
           resolve(new UploadedFile({
+            toUpload: false,
             fileName: teaser.title,
             data: event.data.data,
             columnSelections: { lat: teaser.lat, lng: teaser.lng },

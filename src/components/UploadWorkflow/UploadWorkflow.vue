@@ -13,7 +13,7 @@
         <v-card-text>
           <SelectColumns
             v-if="step === 1"
-            :value="uploadedFile"
+            :value="uploadedFile.data"
             :columnSelections="columnSelections"
             :firstRowHeader="firstRowHeader"
             @updateSelections="updateSelections"
@@ -148,6 +148,7 @@ export default class UploadWorkflow extends Vue {
       this.handleNoLatLng();
     } else {
       const uploadedFile = new UploadedFile({
+        toUpload: true,
         fileName: this.uploadedFile!.fileName,
         data: this.uploadedFile!.data,
         columnSelections: {
