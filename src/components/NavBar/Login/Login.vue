@@ -3,7 +3,7 @@
     <div v-show="loggedOut" id="google-signin-button" :class="loginClass"></div>
     <v-menu v-if="!loggedOut && !mobile" offset-y>
       <template v-slot:activator="{ on }">
-        <v-btn v-on="on" x-small fab color="#eeeeee">
+        <v-btn v-on="on" x-small fab color="#eeeeee" class="margin-left-medium">
           <div class="first-letter">{{ userFirstLetter }}</div>
         </v-btn>
       </template>
