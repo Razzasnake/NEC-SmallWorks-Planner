@@ -26,11 +26,13 @@ class Row {
 }
 
 export default class UploadedFile {
+  public fileName: string;
   public data: Row[];
   public columnSelections: { lat: number, lng: number };
   public firstRowHeader: boolean;
 
-  constructor(obj: { data: any[][], columnSelections: { lat: number, lng: number }, firstRowHeader: boolean }) {
+  constructor(obj: { fileName: string, data: any[][], columnSelections: { lat: number, lng: number }, firstRowHeader: boolean }) {
+    this.fileName = obj.fileName;
     this.data = obj.data.map((_, index) => new Row(index, _, obj.columnSelections));
     this.columnSelections = obj.columnSelections;
     this.firstRowHeader = obj.firstRowHeader;

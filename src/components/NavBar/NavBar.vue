@@ -2,6 +2,18 @@
   <div>
     <div v-if="drawerAllowed">
       <v-navigation-drawer v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" app>
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title class="title">
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <span v-bind="attrs" v-on="on">{{ fileName }}</span>
+                </template>
+                <span>{{ fileName }}</span>
+              </v-tooltip>
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <NavigationDrawer />
       </v-navigation-drawer>
     </div>
@@ -42,6 +54,7 @@ import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import NavigationDrawer from "./NavigationDrawer.vue";
 import { mdiDotsVertical } from "@mdi/js";
 import Login from "./Login/Login.vue";
+import state from "@/store/exploreStore";
 
 /**
  * Navigation Bar at the top of the website to navigate between sections
@@ -60,6 +73,13 @@ export default class NavBar extends Vue {
   private drawerAllowed!: boolean;
   private drawer: boolean | null = null;
   private mdiDotsVertical = mdiDotsVertical;
+
+  private get fileName() {
+    if (state.uploadedFile) {
+      return state.uploadedFile.fileName;
+    }
+    return "";
+  }
 
   @Watch("drawerAllowed")
   private drawerAllowedUpdated() {

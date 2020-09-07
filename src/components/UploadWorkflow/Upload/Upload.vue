@@ -102,7 +102,12 @@ export default class Upload extends Vue {
     reader.onloadend = (e) => {
       if (e.target) {
         const bstr = e.target.result;
-        this.convert(bstr, "binary");
+        const fileNameArr = file.name.split(".");
+        this.convert(
+          `${fileNameArr.slice(0, fileNameArr.length - 1).join(".")}.csv`,
+          bstr,
+          "binary"
+        );
       }
     };
     reader.readAsBinaryString(file);
@@ -110,6 +115,7 @@ export default class Upload extends Vue {
   }
 
   private convert(
+    fileName: string,
     file: string | ArrayBuffer | null,
     type: "binary" | "buffer"
   ) {
@@ -123,9 +129,9 @@ export default class Upload extends Vue {
         /**
          * File has been uploaded
          *
-         * @type {unknown[]}
+         * @type {{ data: unknown[], fileName: string }}
          */
-        this.$emit("fileUploaded", event.data.data);
+        this.$emit("fileUploaded", { data: event.data.data, fileName });
       }
       this.loading = false;
       worker.terminate();
@@ -133,7 +139,7 @@ export default class Upload extends Vue {
   }
 
   private uploadText(text: string) {
-    this.convert(text, "buffer");
+    this.convert("pasted-dataset.csv", text, "buffer");
   }
 }
 </script>

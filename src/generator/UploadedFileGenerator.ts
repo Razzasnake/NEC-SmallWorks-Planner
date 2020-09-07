@@ -28,6 +28,7 @@ const uploadedFileGenerator = (numRows: number = 1000) => {
     ])
   }
   return new UploadedFile({
+    fileName: "Test",
     data,
     columnSelections: {
       lat: 5,
