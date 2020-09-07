@@ -2,8 +2,8 @@
   <div>
     <Loading :loading="loading" />
     <v-menu v-if="small">
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn large rounded :color="color" v-bind="attrs" v-on="on">
+      <template v-slot:activator="{ on }">
+        <v-btn large rounded :color="color" v-on="on">
           <v-icon class="margin-right-small">{{ mdiPlus }}</v-icon>New
         </v-btn>
       </template>

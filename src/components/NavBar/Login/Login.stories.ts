@@ -9,8 +9,7 @@ export default {
 
 const _Login = () => ({
   components: { Login },
-  template: `
-    <Login :mobile="mobile" @jumpTo="jumpTo"></Login>`,
+  template: '<Login :mobile="mobile" @jumpTo="jumpTo"></Login>',
   props: {
     mobile: {
       default: boolean('mobile', false)

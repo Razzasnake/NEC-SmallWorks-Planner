@@ -6,8 +6,8 @@
           <v-list-item-content>
             <v-list-item-title class="title">
               <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <span v-bind="attrs" v-on="on">{{ fileName }}</span>
+                <template v-slot:activator="{ attrs }">
+                  <span v-bind="attrs">{{ fileName }}</span>
                 </template>
                 <span>{{ fileName }}</span>
               </v-tooltip>
@@ -25,8 +25,8 @@
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-menu offset-y v-if="$vuetify.breakpoint.xs">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn icon color="#eeeeee" v-bind="attrs" v-on="on" aria-label="More Options">
+          <template v-slot:activator="{ on }">
+            <v-btn icon color="#eeeeee" v-on="on" aria-label="More Options">
               <v-icon>{{ mdiDotsVertical }}</v-icon>
             </v-btn>
           </template>

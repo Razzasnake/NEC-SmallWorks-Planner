@@ -26,7 +26,6 @@
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
-import state from "@/store/driveStore";
 import { mdiMagnify } from "@mdi/js";
 import Loading from "@/components/Shared/Loading/Loading.vue";
 

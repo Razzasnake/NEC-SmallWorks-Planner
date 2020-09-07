@@ -29,7 +29,6 @@ const _Uploads = () => ({
   methods: {
     rowClicked: action('rowClicked'),
     finish: action('finish')
-    
   }
 })
 
