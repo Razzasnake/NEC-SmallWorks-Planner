@@ -1,5 +1,6 @@
 import Vue from "vue";
-import exploreState, { saveUploadedFile } from "./exploreStore";
+import exploreState, { saveUploadedFile, downloadUserUpload } from "./exploreStore";
+import router from "@/router";
 
 interface DriveStoreI {
   user: gapi.auth2.GoogleUser | null,
@@ -29,11 +30,28 @@ export const signIn = (id: string) => {
       refreshFiles(() => {
         if (exploreState.uploadedFile && exploreState.uploadedFile.toUpload) {
           saveUploadedFile();
+        } else {
+          directLinkDownloadData();
         }
       });
     }
   });
 };
+
+const directLinkDownloadData = () => {
+  if (router.currentRoute.params.fileId && exploreState.uploadedFile === null) {
+    const file = state.files.find((_) => _.id === router.currentRoute.params.fileId);
+    if (file) {
+      const configFile = state.files.find(
+        (_) => _.name === `${file.name}.json`
+      )!;
+      downloadUserUpload({ file, configFile });
+    } else {
+      /* TODO: Try to download this file even though the user did not create it. */
+      router.push({ name: "404" });
+    }
+  }
+}
 
 export const signOut = () => {
   const auth2 = gapi.auth2.getAuthInstance();
@@ -67,7 +85,7 @@ export const downloadFile = (fileId: string) => {
     });
 }
 
-export const uploadFile = (data: string, mimeType: string, name: string) => {
+export const uploadFile = (data: string, mimeType: string, name: string, callback?: (fileName: string) => void | undefined) => {
   const metadata = {
     name,
     mimeType,
@@ -92,7 +110,10 @@ export const uploadFile = (data: string, mimeType: string, name: string) => {
       "Content-Type": "multipart/related; boundary=" + boundary
     },
     body: multipartRequestBody
-  }).execute(() => {
+  }).execute((resp: any) => {
+    if (callback) {
+      callback(resp.id);
+    }
     refreshFiles();
   });
 }

@@ -11,10 +11,11 @@
       @sortChanged="updateSorting"
       @filterChanged="updateFilters"
     ></TableAndMap>
+    <Loading loading v-else />
   </div>
 </template>
 <script lang='ts'>
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import TableAndMap from "@/components/TableAndMap/TableAndMap.vue";
 import UploadedFile from "@/entities/UploadedFile";
 import TableLogic from "@/components/TableAndMap/Table/Logic/TableLogic";
@@ -24,18 +25,25 @@ import state, {
   updateOverlayEventJsons,
   updateFilters,
   updateSorting,
-  updateUploadedFile,
 } from "@/store/exploreStore";
+import Loading from "@/components/Shared/Loading/Loading.vue";
 
 /**
  * Explore the data that was just uploaded
  */
 @Component({
   components: {
+    Loading,
     TableAndMap,
   },
 })
 export default class Explore extends Vue {
+  /**
+   * id of the google file requested
+   */
+  @Prop({ default: null })
+  private fileId!: string | null;
+
   private get uploadedFile() {
     return state.uploadedFile;
   }
@@ -56,13 +64,10 @@ export default class Explore extends Vue {
     return state.tableLogic;
   }
 
-  private created() {
-    if (this.uploadedFile === null) {
+  private activated() {
+    if (this.fileId === null && state.uploadedFile === null) {
       this.$router.push({ name: "Home" });
     }
-  }
-
-  private activated() {
     document.title = "Table & Map - Explore";
     const title = document.getElementsByName("title");
     if (title.length) {
@@ -73,10 +78,6 @@ export default class Explore extends Vue {
       (description[0] as HTMLMetaElement).content =
         "Visualize your location data in an interactive map. Upload an excel or csv file with addresses or latitudes and longitudes to get started.";
     }
-  }
-
-  private finish(uploadedFile: UploadedFile) {
-    updateUploadedFile(uploadedFile);
   }
 
   private updateOverlayEventJsons(overlayEventJsons: OverlayJson[]) {

@@ -38,14 +38,16 @@ import state, { reset } from "@/store/exploreStore";
 export default class App extends Vue {
   private areYouSureModal = false;
   private pathToLeaveTo: { name: string } | null = null;
-  private drawerAllowed: boolean = false;
+
+  private get drawerAllowed() {
+    return state.uploadedFile !== null && this.$route.name === "Explore";
+  }
 
   @Watch("$route")
   private routerUpdated() {
     if (this.$route.name !== "Explore" && state.uploadedFile) {
       reset();
     }
-    this.drawerAllowed = state.uploadedFile !== null;
   }
 
   private created() {

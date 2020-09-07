@@ -5,7 +5,9 @@ import TableLogic from "@/components/TableAndMap/Table/Logic/TableLogic";
 import { OverlayJson } from "@/components/TableAndMap/GoogleMap/Logic/Utils";
 import ShapeParserWorker from "worker-loader!./WebWorkers/ShapeParser.worker";
 import PolygonRelationWorker from "worker-loader!./WebWorkers/PolygonRelation.worker";
-import driveState, { uploadFile } from "./driveStore";
+import driveState, { uploadFile, downloadFile } from "./driveStore";
+import ParserWorker from "worker-loader!@/components/UploadWorkflow/Upload/Parser.worker";
+import router from "@/router";
 
 interface ExploreStoreI {
   uploadedFile: UploadedFile | null,
@@ -16,6 +18,14 @@ interface ExploreStoreI {
   layers: { id: string, fileName: string, data: object | null }[],
   viewOptions: string[]
 };
+
+interface Config {
+  columnSelections: {
+    lat: number;
+    lng: number;
+  };
+  firstRowHeader: boolean;
+}
 
 const state: ExploreStoreI = Vue.observable({
   uploadedFile: null,
@@ -41,6 +51,36 @@ export const updateUploadedFile = (uploadedFile: UploadedFile) => {
   saveUploadedFile();
 }
 
+export const downloadUserUpload = async (files: {
+  file: gapi.client.drive.File;
+  configFile: gapi.client.drive.File;
+}, callback?: () => void | undefined) => {
+  if (files.file.id && files.configFile.id) {
+    const worker = new ParserWorker();
+    worker.postMessage({
+      file: await downloadFile(files.file.id),
+      type: "buffer",
+    });
+    const config: Config = JSON.parse(
+      await downloadFile(files.configFile.id!)
+    ) as any;
+    worker.onmessage = async (event) => {
+      const uploadedFile = new UploadedFile({
+        toUpload: false,
+        fileName: files.file.name!,
+        data: event.data.data,
+        columnSelections: config.columnSelections,
+        firstRowHeader: config.firstRowHeader,
+      });
+      updateUploadedFile(uploadedFile);
+      if (callback) {
+        callback();
+      }
+      worker.terminate();
+    };
+  }
+}
+
 export const saveUploadedFile = () => {
   if (driveState.user && state.uploadedFile && state.uploadedFile.toUpload) {
     const config = JSON.stringify({
@@ -48,9 +88,22 @@ export const saveUploadedFile = () => {
       firstRowHeader: state.uploadedFile.firstRowHeader
     });
     const data = arrayToCSV(state.uploadedFile.data.map(_ => _.data));
-    uploadFile(data, "text/csv", state.uploadedFile.fileName);
+    uploadFile(data, "text/csv", state.uploadedFile.fileName, (fileId) => {
+      if (router.currentRoute.params.fileId !== fileId) {
+        router.push({ name: "Explore", params: { fileId } });
+      }
+    });
     uploadFile(config, "application/json", `${state.uploadedFile.fileName}.json`);
     state.uploadedFile.toUpload = false;
+  } else if (state.uploadedFile) {
+    const file = driveState.files.find(_ => _.name === state.uploadedFile!.fileName);
+    if (file && router.currentRoute.params.fileId !== file.id) {
+      router.push({ name: "Explore", params: { fileId: file.id! } });
+    } else {
+      router.push({ name: "Explore" });
+    }
+  } else {
+    router.push({ name: "Explore" });
   }
 }
 

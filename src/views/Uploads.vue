@@ -3,19 +3,10 @@
 </template>
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
-import state, { downloadFile } from "@/store/driveStore";
+import state from "@/store/driveStore";
 import UploadsComponent from "@/components/Uploads/Uploads.vue";
 import UploadedFile from "@/entities/UploadedFile";
-import { updateUploadedFile } from "@/store/exploreStore";
-import ParserWorker from "worker-loader!@/components/UploadWorkflow/Upload/Parser.worker";
-
-interface Config {
-  columnSelections: {
-    lat: number;
-    lng: number;
-  };
-  firstRowHeader: boolean;
-}
+import { updateUploadedFile, downloadUserUpload } from "@/store/exploreStore";
 
 /**
  * Display all of the users uploads stored in google drive.
@@ -47,33 +38,16 @@ export default class Uploads extends Vue {
     file: gapi.client.drive.File;
     configFile: gapi.client.drive.File;
   }) {
-    if (files.file.id && files.configFile.id) {
-      const worker = new ParserWorker();
-      worker.postMessage({
-        file: await downloadFile(files.file.id),
-        type: "buffer",
+    downloadUserUpload(files, () => {
+      this.$router.push({
+        name: "Explore",
+        params: { fileId: files.file.id! },
       });
-      worker.onmessage = async (event) => {
-        const config: Config = JSON.parse(
-          await downloadFile(files.configFile.id!)
-        ) as any;
-        const uploadedFile = new UploadedFile({
-          toUpload: false,
-          fileName: files.file.name!,
-          data: event.data.data,
-          columnSelections: config.columnSelections,
-          firstRowHeader: config.firstRowHeader,
-        });
-        worker.terminate();
-        updateUploadedFile(uploadedFile);
-        this.$router.push({ name: "Explore" });
-      };
-    }
+    });
   }
 
   private finish(uploadedFile: UploadedFile) {
     updateUploadedFile(uploadedFile);
-    this.$router.push({ name: "Explore" });
   }
 }
 </script>

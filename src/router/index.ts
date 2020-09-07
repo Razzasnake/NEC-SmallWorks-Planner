@@ -10,9 +10,10 @@ const routes = [
     component: () => import(/* webpackChunkName: "Home" */ '@/views/Home.vue')
   },
   {
-    path: '/explore',
+    path: '/explore/:fileId?',
     name: 'Explore',
-    component: () => import(/* webpackChunkName: "Explore" */ '@/views/Explore.vue')
+    component: () => import(/* webpackChunkName: "Explore" */ '@/views/Explore.vue'),
+    props: true
   },
   {
     path: '/examples',
