@@ -48,6 +48,7 @@ export const updateUploadedFile = (uploadedFile: UploadedFile) => {
   }
   state.uploadedFile = uploadedFile;
   state.tableLogic = new TableLogic(uploadedFile);
+  router.push({ name: "Explore" });
   saveUploadedFile();
 }
 

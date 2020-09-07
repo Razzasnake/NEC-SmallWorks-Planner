@@ -2,7 +2,6 @@
   <div class="full-height">
     <div :id="mapId" :class="sectionClass" v-show="hasMap">
       <GoogleMap
-        v-if="map"
         :uploadedFile="uploadedFile"
         :hiddenMarkerIndices="hiddenMarkerIndices"
         :overlayEvents="overlayEvents"
