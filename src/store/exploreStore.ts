@@ -48,7 +48,6 @@ export const updateUploadedFile = (uploadedFile: UploadedFile) => {
   }
   state.uploadedFile = uploadedFile;
   state.tableLogic = new TableLogic(uploadedFile);
-  router.push({ name: "Explore" });
   saveUploadedFile();
 }
 
@@ -81,6 +80,7 @@ export const downloadUserUpload = async (files: {
 
 export const saveUploadedFile = () => {
   if (driveState.user && state.uploadedFile && state.uploadedFile.toUpload) {
+    router.push({ name: "Explore" });
     const config = JSON.stringify({
       columnSelections: state.uploadedFile.columnSelections,
       firstRowHeader: state.uploadedFile.firstRowHeader
