@@ -15,7 +15,7 @@
   </div>
 </template>
 <script lang='ts'>
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 import TableAndMap from "@/components/TableAndMap/TableAndMap.vue";
 import UploadedFile from "@/entities/UploadedFile";
 import TableLogic from "@/components/TableAndMap/Table/Logic/TableLogic";
