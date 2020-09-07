@@ -36,6 +36,13 @@ export const signIn = (id: string) => {
       });
     }
   });
+  gapi.load("auth2", () => {
+    gapi.auth2.getAuthInstance().currentUser.listen((val) => {
+      if (val.getId() === null) {
+        /* TODO: there is no user logged in, try and retrieve it. It might be public. */
+      }
+    });
+  });
 };
 
 const directLinkDownloadData = () => {
