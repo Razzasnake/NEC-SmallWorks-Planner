@@ -1,4 +1,5 @@
 import Vue from "vue";
+import exploreState, { saveUploadedFile } from "./exploreStore";
 
 interface DriveStoreI {
   user: gapi.auth2.GoogleUser | null,
@@ -25,7 +26,11 @@ export const signIn = (id: string) => {
     width: 100,
     onsuccess: (user) => {
       state.user = user;
-      refreshFiles();
+      refreshFiles(() => {
+        if (exploreState.uploadedFile && exploreState.uploadedFile.toUpload) {
+          saveUploadedFile();
+        }
+      });
     }
   });
 };
@@ -38,13 +43,16 @@ export const signOut = () => {
   });
 }
 
-export const refreshFiles = () => {
+export const refreshFiles = (callback: () => void | undefined) => {
   gapi.load("client", () => {
     gapi.client.load("drive", "v3", async () => {
       getTableAndMapFolderId((folderId) => {
         state.folderId = folderId;
         retrieveAllFilesInFolder(folderId, (result) => {
           state.files = result;
+          if (callback) {
+            callback();
+          }
         });
       });
     });

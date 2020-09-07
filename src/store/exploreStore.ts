@@ -38,18 +38,19 @@ export const updateUploadedFile = (uploadedFile: UploadedFile) => {
   }
   state.uploadedFile = uploadedFile;
   state.tableLogic = new TableLogic(uploadedFile);
-  saveUploadedFile(uploadedFile);
+  saveUploadedFile();
 }
 
-const saveUploadedFile = (uploadedFile: UploadedFile) => {
-  if (driveState.user && uploadedFile.toUpload) {
+export const saveUploadedFile = () => {
+  if (driveState.user && state.uploadedFile && state.uploadedFile.toUpload) {
     const config = JSON.stringify({
-      columnSelections: uploadedFile.columnSelections,
-      firstRowHeader: uploadedFile.firstRowHeader
+      columnSelections: state.uploadedFile.columnSelections,
+      firstRowHeader: state.uploadedFile.firstRowHeader
     });
-    const data = arrayToCSV(uploadedFile.data.map(_ => _.data));
-    uploadFile(data, "text/csv", uploadedFile.fileName);
-    uploadFile(config, "application/json", `${uploadedFile.fileName}.json`);
+    const data = arrayToCSV(state.uploadedFile.data.map(_ => _.data));
+    uploadFile(data, "text/csv", state.uploadedFile.fileName);
+    uploadFile(config, "application/json", `${state.uploadedFile.fileName}.json`);
+    state.uploadedFile.toUpload = false;
   }
 }
 
