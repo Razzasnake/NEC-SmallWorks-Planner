@@ -216,7 +216,6 @@ export const uploadLayer = (file: File) => {
       });
       let messages: number = 0;
       fkWorker.onmessage = (event) => {
-        messages = messages + 1;
         if (state.uploadedFile === null) {
           fkWorker.terminate();
           return;
@@ -234,6 +233,7 @@ export const uploadLayer = (file: File) => {
           index: event.data.index,
           features: polygonIndices.map((index) => features[index]),
         });
+        messages = messages + 1;
         if (messages === state.uploadedFile.data.length) {
           fkWorker.terminate();
         }
