@@ -38,6 +38,7 @@ export default class GoogleMapLogic {
     { fileName: "blueGrey", hash: colors.blueGrey.darken1 },
     { fileName: "grey", hash: colors.grey.darken1 }
   ];
+  public visibleCategories: Set<string> = new Set();
 
   private vueComponent!: Vue;
   private map!: google.maps.Map;
@@ -126,6 +127,7 @@ export default class GoogleMapLogic {
   private addIdleListener() {
     google.maps.event.addListener(this.map, "idle", () => {
       this.map.setOptions({ maxZoom: undefined });
+      const visibleCategories: Set<string> = new Set();
       this.markers.forEach((marker, index) => {
         if (this.hiddenMarkerIndices.has(index)) {
           return;
@@ -134,7 +136,11 @@ export default class GoogleMapLogic {
         if (marker.getVisible() !== newValue) {
           marker.setVisible(newValue);
         }
+        if (newValue && this.groupByKey) {
+          visibleCategories.add((marker as unknown as { row: Row }).row[this.groupByKey]);
+        }
       });
+      this.visibleCategories = visibleCategories;
     });
   }
 
@@ -255,9 +261,17 @@ export default class GoogleMapLogic {
       this.markers.forEach(marker => {
         marker.setMap(null);
       });
+      const newMarkers = this.markers.filter(_ => _.getVisible());
+      if (this.groupByKey) {
+        const visibleCategories: Set<string> = new Set();
+        newMarkers.forEach(marker => {
+          visibleCategories.add((marker as unknown as { row: Row }).row[this.groupByKey!]);
+        });
+        this.visibleCategories = visibleCategories;
+      }
       this.markerCluster = new MarkerClusterer(
         this.map,
-        this.markers.filter(_ => _.getVisible()),
+        newMarkers,
         {
           maxZoom: 12,
           clusterClass: "custom-clustericon",

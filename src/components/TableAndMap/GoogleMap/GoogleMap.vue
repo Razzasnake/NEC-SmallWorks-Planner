@@ -23,7 +23,9 @@
       </v-btn>
     </v-btn-toggle>
     <v-card class="legend" v-if="mapLogic.colorPosition">
-      <template v-for="key in Object.keys(mapLogic.colorPosition)">
+      <template
+        v-for="key in Object.keys(mapLogic.colorPosition).filter(key => mapLogic.visibleCategories.has(key))"
+      >
         <div
           :style="`background-color: ${mapLogic.materialColors[mapLogic.colorPosition[key]].hash};`"
           :key="key"
