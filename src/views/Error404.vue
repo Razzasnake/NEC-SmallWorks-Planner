@@ -2,8 +2,9 @@
   <Error404Component :countdown="countdown" @goHome="goHome" />
 </template>
 <script lang='ts'>
-import { Component, Vue } from "vue-property-decorator";
+import { Component } from "vue-property-decorator";
 import Error404Component from "@/components/Shared/Error404/Error404.vue";
+import _View from "./_View";
 
 /**
  * 404 status page
@@ -13,21 +14,15 @@ import Error404Component from "@/components/Shared/Error404/Error404.vue";
     Error404Component,
   },
 })
-export default class Error404 extends Vue {
+export default class Error404 extends _View {
   private countdown: number = 10;
   private interval: number | null = null;
 
-  private activated() {
-    document.title = "Table & Map - Page Not Found";
-    const title = document.getElementsByName("title");
-    if (title.length) {
-      (title[0] as HTMLMetaElement).content = document.title;
-    }
-    const description = document.getElementsByName("description");
-    if (description.length) {
-      (description[0] as HTMLMetaElement).content =
-        "Page Not Found. The page you are looking for no longer exists.";
-    }
+  protected activated() {
+    super.activated({
+      title: "Table & Map - Page Not Found",
+      content: "Page Not Found. The page you are looking for no longer exists.",
+    });
     this.interval = setInterval(() => {
       this.countdown = this.countdown - 1;
       if (this.countdown === 0) {

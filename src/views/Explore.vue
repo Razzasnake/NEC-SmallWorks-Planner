@@ -27,6 +27,7 @@ import state, {
   updateSorting,
 } from "@/store/exploreStore";
 import Loading from "@/components/Shared/Loading/Loading.vue";
+import _View from "./_View";
 
 /**
  * Explore the data that was just uploaded
@@ -37,7 +38,7 @@ import Loading from "@/components/Shared/Loading/Loading.vue";
     TableAndMap,
   },
 })
-export default class Explore extends Vue {
+export default class Explore extends _View {
   /**
    * id of the google file requested
    */
@@ -64,20 +65,11 @@ export default class Explore extends Vue {
     return state.tableLogic;
   }
 
-  private activated() {
+  protected activated() {
     if (this.fileId === null && state.uploadedFile === null) {
       this.$router.push({ name: "Home" });
     }
-    document.title = "Table & Map - Explore";
-    const title = document.getElementsByName("title");
-    if (title.length) {
-      (title[0] as HTMLMetaElement).content = document.title;
-    }
-    const description = document.getElementsByName("description");
-    if (description.length) {
-      (description[0] as HTMLMetaElement).content =
-        "Visualize your location data in an interactive map. Upload an excel or csv file with addresses or latitudes and longitudes to get started.";
-    }
+    super.activated({ title: "Table & Map - Explore" });
   }
 
   private updateOverlayEventJsons(overlayEventJsons: OverlayJson[]) {

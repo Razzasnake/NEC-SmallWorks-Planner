@@ -2,10 +2,11 @@
   <Page v-if="story" :blok="story.content" @learnMore="learnMore"></Page>
 </template>
 <script lang='ts'>
-import { Component, Vue } from "vue-property-decorator";
+import { Component } from "vue-property-decorator";
 import storyapi from "@/api/storyblok";
 import Page from "@/components/Features/Page/Page.vue";
 import StoryI from "@/entities/storyblok/Story";
+import _View from "./_View";
 
 /**
  * Storyblok blog landing page
@@ -15,7 +16,7 @@ import StoryI from "@/entities/storyblok/Story";
     Page,
   },
 })
-export default class Features extends Vue {
+export default class Features extends _View {
   private story: StoryI | null = null;
 
   private created() {
@@ -34,17 +35,11 @@ export default class Features extends Vue {
     });
   }
 
-  private activated() {
-    document.title = "Table & Map - Features";
-    const title = document.getElementsByName("title");
-    if (title.length) {
-      (title[0] as HTMLMetaElement).content = document.title;
-    }
-    const description = document.getElementsByName("description");
-    if (description.length) {
-      (description[0] as HTMLMetaElement).content =
-        "Learn more about the many features offered by Table & Map.";
-    }
+  protected activated() {
+    super.activated({
+      title: "Table & Map - Features",
+      content: "Learn more about the many features offered by Table & Map.",
+    });
   }
 
   private learnMore(blok: any) {

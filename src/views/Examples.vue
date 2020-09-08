@@ -5,7 +5,7 @@
   </div>
 </template>
 <script lang='ts'>
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component } from "vue-property-decorator";
 import { updateUploadedFile } from "@/store/exploreStore";
 import Loading from "@/components/Shared/Loading/Loading.vue";
 import Page from "@/components/Examples/Page/Page.vue";
@@ -13,6 +13,7 @@ import storyapi from "@/api/storyblok";
 import StoryI from "@/entities/storyblok/Story";
 import ExampleTeaserI from "@/entities/storyblok/ExampleTeaser";
 import exampleApi from "@/api/example";
+import _View from "./_View";
 
 /**
  * All examples
@@ -23,7 +24,7 @@ import exampleApi from "@/api/example";
     Loading,
   },
 })
-export default class Examples extends Vue {
+export default class Examples extends _View {
   private story: StoryI | null = null;
   private loading: boolean = false;
 
@@ -43,17 +44,12 @@ export default class Examples extends Vue {
     });
   }
 
-  private activated() {
-    document.title = "Table & Map - Examples";
-    const title = document.getElementsByName("title");
-    if (title.length) {
-      (title[0] as HTMLMetaElement).content = document.title;
-    }
-    const description = document.getElementsByName("description");
-    if (description.length) {
-      (description[0] as HTMLMetaElement).content =
-        "See how Table & Map can add value by trying one of our datasets.";
-    }
+  protected activated() {
+    super.activated({
+      title: "Table & Map - Examples",
+      content:
+        "See how Table & Map can add value by trying one of our datasets.",
+    });
   }
 
   private async preview(teaser: ExampleTeaserI) {
