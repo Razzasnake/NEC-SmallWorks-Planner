@@ -69,12 +69,20 @@ export default class Table extends Vue {
       .map((file) => {
         return {
           id: file.id!,
-          name: file.name!,
+          name: this.formatName(file),
           owner: this.formatOwner(file),
           lastModified: this.formatLastModified(file),
           fileSize: this.formatFileSize(file),
         };
       });
+  }
+
+  private formatName(file: gapi.client.drive.File) {
+    if (file.name) {
+      const fileNameArr = file.name.split(".");
+      return fileNameArr.slice(0, fileNameArr.length - 2).join(".") + ".csv";
+    }
+    return "";
   }
 
   private formatOwner(file: gapi.client.drive.File) {

@@ -76,7 +76,8 @@ export default class NavBar extends Vue {
 
   private get fileName() {
     if (state.uploadedFile) {
-      return state.uploadedFile.fileName;
+      const fileNameArr = state.uploadedFile.fileName.split(".");
+      return fileNameArr.slice(0, fileNameArr.length - 2).join(".") + ".csv";
     }
     return "";
   }
