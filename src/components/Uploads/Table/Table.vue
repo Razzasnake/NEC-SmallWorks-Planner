@@ -17,7 +17,7 @@
     <v-data-table
       sort-by="name"
       :no-data-text="noDataText"
-      :headers="$vuetify.breakpoint.smAndDown ? mobileHeaders : headers"
+      :headers="headers"
       :items="tableData"
       :search="search"
       :mobile-breakpoint="0"
@@ -57,14 +57,25 @@ export default class Table extends Vue {
   private loading = false;
   private noDataText = 'You have no uploads. Click "New" to get started.';
 
-  private headers = [
-    { text: "Name", value: "name" },
-    { text: "Owner", value: "owner", width: 150 },
-    { text: "Last modified", value: "lastModified", width: 150 },
-    { text: "File size", value: "fileSize", width: 150 },
-  ];
-
-  private mobileHeaders = [{ text: "Name", value: "name" }];
+  private get headers() {
+    const headers: {
+      text: string;
+      value: string;
+      width?: number | undefined;
+    }[] = [{ text: "Name", value: "name" }];
+    if (this.$vuetify.breakpoint.smAndUp) {
+      headers.push({ text: "Owner", value: "owner", width: 150 });
+      headers.push({
+        text: "Last modified",
+        value: "lastModified",
+        width: 150,
+      });
+    }
+    if (this.$vuetify.breakpoint.mdAndUp) {
+      headers.push({ text: "File size", value: "fileSize", width: 100 });
+    }
+    return headers;
+  }
 
   private get tableData(): TableRow[] {
     return this.files
