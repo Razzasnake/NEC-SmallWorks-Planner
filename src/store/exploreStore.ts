@@ -61,10 +61,10 @@ export const downloadUserUpload = async (files: {
       file: await downloadFile(files.file.id),
       type: "buffer",
     });
-    const config: Config = JSON.parse(
-      await downloadFile(files.configFile.id!)
-    ) as any;
     worker.onmessage = async (event) => {
+      const config: Config = JSON.parse(
+        await downloadFile(files.configFile.id!)
+      ) as any;
       const uploadedFile = new UploadedFile({
         toUpload: false,
         fileName: files.file.name!,
