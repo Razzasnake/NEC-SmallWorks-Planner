@@ -3,7 +3,15 @@
     <Loading :loading="loading" />
     <v-menu v-if="small">
       <template v-slot:activator="{ on }">
-        <v-btn large rounded :color="color" v-on="on">
+        <v-btn
+          large
+          :absolute="$vuetify.breakpoint.xs"
+          :bottom="$vuetify.breakpoint.xs"
+          :right="$vuetify.breakpoint.xs"
+          rounded
+          :color="color"
+          v-on="on"
+        >
           <v-icon class="margin-right-small">{{ mdiPlus }}</v-icon>New
         </v-btn>
       </template>
@@ -104,7 +112,9 @@ export default class Upload extends Vue {
         const bstr = e.target.result;
         const fileNameArr = file.name.split(".");
         this.convert(
-          `${fileNameArr.slice(0, fileNameArr.length - 1).join(".")}.${Math.random().toString(36).substring(7)}.csv`,
+          `${fileNameArr
+            .slice(0, fileNameArr.length - 1)
+            .join(".")}.${Math.random().toString(36).substring(7)}.csv`,
           bstr,
           "binary"
         );
@@ -139,7 +149,11 @@ export default class Upload extends Vue {
   }
 
   private uploadText(text: string) {
-    this.convert(`pasted-dataset.${Math.random().toString(36).substring(7)}.csv`, text, "buffer");
+    this.convert(
+      `pasted-dataset.${Math.random().toString(36).substring(7)}.csv`,
+      text,
+      "buffer"
+    );
   }
 }
 </script>

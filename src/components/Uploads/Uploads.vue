@@ -1,6 +1,6 @@
 <template>
   <div class="uploads">
-    <Navigation class="margin-large" @finish="finish" />
+    <Navigation :class="{'margin-large': !$vuetify.breakpoint.xs}" @finish="finish" />
     <div class="full-width margin-large">
       <Breadcrumbs />
       <v-divider />

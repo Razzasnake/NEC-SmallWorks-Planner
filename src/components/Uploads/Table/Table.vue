@@ -17,9 +17,10 @@
     <v-data-table
       sort-by="name"
       :no-data-text="noDataText"
-      :headers="headers"
+      :headers="$vuetify.breakpoint.smAndDown ? mobileHeaders : headers"
       :items="tableData"
       :search="search"
+      :mobile-breakpoint="0"
       @dblclick:row="rowClicked"
     ></v-data-table>
   </v-card>
@@ -62,6 +63,8 @@ export default class Table extends Vue {
     { text: "Last modified", value: "lastModified", width: 150 },
     { text: "File size", value: "fileSize", width: 150 },
   ];
+
+  private mobileHeaders = [{ text: "Name", value: "name" }];
 
   private get tableData(): TableRow[] {
     return this.files
