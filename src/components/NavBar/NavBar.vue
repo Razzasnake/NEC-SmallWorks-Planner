@@ -7,7 +7,10 @@
             <v-list-item-title class="title">
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
-                  <span v-bind="attrs" v-on="on">{{ fileName }}</span>
+                  <span v-bind="attrs" v-on="on">
+                    <a v-if="fileWebViewLink" :href="fileWebViewLink" target="_blank">{{ fileName }}</a>
+                    <span v-else>{{ fileName }}</span>
+                  </span>
                 </template>
                 <span>{{ fileName }}</span>
               </v-tooltip>
@@ -55,6 +58,7 @@ import NavigationDrawer from "./NavigationDrawer.vue";
 import { mdiDotsVertical } from "@mdi/js";
 import Login from "./Login/Login.vue";
 import state from "@/store/exploreStore";
+import driveState from "@/store/driveStore";
 
 /**
  * Navigation Bar at the top of the website to navigate between sections
@@ -82,6 +86,18 @@ export default class NavBar extends Vue {
     return "";
   }
 
+  private get fileWebViewLink() {
+    if (state.uploadedFile) {
+      const file = driveState.files.find(
+        (file) => file.name === state.uploadedFile!.fileName
+      );
+      if (file) {
+        return file.webViewLink;
+      }
+    }
+    return null;
+  }
+
   @Watch("drawerAllowed")
   private drawerAllowedUpdated() {
     if (!this.drawerAllowed) {
@@ -106,5 +122,8 @@ export default class NavBar extends Vue {
 <style lang="scss" scoped>
 .appbar-title {
   color: #eeeeee;
+}
+a {
+  text-decoration: none;
 }
 </style>
