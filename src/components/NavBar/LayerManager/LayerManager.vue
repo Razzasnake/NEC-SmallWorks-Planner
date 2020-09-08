@@ -3,7 +3,7 @@
     <v-card>
       <v-card-title class="headline">GeoJSON and Shapefile Layers</v-card-title>
       <v-card-subtitle>Upload a geojson (.json, .geojson) or shapefile (.zip) and see where your markers fall in relation to the uploaded shapes.</v-card-subtitle>
-      <v-card-text>
+      <v-card-text class="card-text-area">
         <div id="shape-drop-area" @click="openUpload">
           <v-icon x-large>{{ mdiUpload }}</v-icon>
           <div>Drop files here or click to upload</div>
@@ -100,20 +100,24 @@ export default class LayerManager extends Vue {
 }
 </script>
 <style lang="scss" scoped>
-#shape-drop-area {
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  height: 200px;
-  border: 2px dashed #eeeeee;
-  &.highlight,
-  &:hover {
-    border: 2px dashed #bdbdbd;
+.card-text-area {
+  max-height: calc(100vh - 184px);
+  overflow: auto;
+  #shape-drop-area {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100px;
+    border: 2px dashed #eeeeee;
+    &.highlight,
+    &:hover {
+      border: 2px dashed #bdbdbd;
+    }
   }
-}
-.upload-input {
-  display: none;
+  .upload-input {
+    display: none;
+  }
 }
 </style>
