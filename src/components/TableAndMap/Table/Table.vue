@@ -54,12 +54,12 @@ export default class Table extends Vue {
   /**
    * An object used to apply previous filters
    */
-  @Prop({ default: () => {} })
+  @Prop({ default: Object() })
   private filters!: { [colId: string]: any };
   /**
    * An array of objects to apply previous sorting
    */
-  @Prop({ default: () => [] })
+  @Prop({ default: Array() })
   private sorting!: { colId: string; sort: string }[];
   /**
    * Config for the table, must specify the columns
@@ -69,7 +69,7 @@ export default class Table extends Vue {
   /**
    * All of the polygons that have been drawn on the map
    */
-  @Prop({ default: () => [] })
+  @Prop({ default: Array() })
   private overlayEvents!: google.maps.drawing.OverlayCompleteEvent[];
   /**
    * Whether or not to show the footer rows

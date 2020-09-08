@@ -2,6 +2,18 @@
   <div>
     <div v-if="drawerAllowed">
       <v-navigation-drawer v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" app>
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title class="title">
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <span v-bind="attrs" v-on="on">{{ fileName }}</span>
+                </template>
+                <span>{{ fileName }}</span>
+              </v-tooltip>
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <NavigationDrawer />
       </v-navigation-drawer>
     </div>
@@ -13,8 +25,8 @@
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-menu offset-y v-if="$vuetify.breakpoint.xs">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn icon color="#eeeeee" v-bind="attrs" v-on="on" aria-label="More Options">
+          <template v-slot:activator="{ on }">
+            <v-btn icon color="#eeeeee" v-on="on" aria-label="More Options">
               <v-icon>{{ mdiDotsVertical }}</v-icon>
             </v-btn>
           </template>
@@ -25,11 +37,13 @@
             <v-list-item @click="jumpTo({ name: 'Examples' })">
               <v-list-item-title>Examples</v-list-item-title>
             </v-list-item>
+            <Login mobile @jumpTo="jumpTo" />
           </v-list>
         </v-menu>
         <template v-else>
           <v-btn text color="#eeeeee" @click="jumpTo({ name: 'Features' })">Features</v-btn>
           <v-btn text color="#eeeeee" @click="jumpTo({ name: 'Examples' })">Examples</v-btn>
+          <Login @jumpTo="jumpTo" />
         </template>
       </v-toolbar-items>
     </v-app-bar>
@@ -39,20 +53,33 @@
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import NavigationDrawer from "./NavigationDrawer.vue";
 import { mdiDotsVertical } from "@mdi/js";
+import Login from "./Login/Login.vue";
+import state from "@/store/exploreStore";
 
 /**
  * Navigation Bar at the top of the website to navigate between sections
  */
 @Component({
   components: {
+    Login,
     NavigationDrawer,
   },
 })
 export default class NavBar extends Vue {
+  /**
+   * Whether or not to display the drawer
+   */
   @Prop({ type: Boolean, default: false })
   private drawerAllowed!: boolean;
   private drawer: boolean | null = null;
   private mdiDotsVertical = mdiDotsVertical;
+
+  private get fileName() {
+    if (state.uploadedFile) {
+      return state.uploadedFile.fileName;
+    }
+    return "";
+  }
 
   @Watch("drawerAllowed")
   private drawerAllowedUpdated() {
@@ -65,7 +92,7 @@ export default class NavBar extends Vue {
     /**
      * User wants to jump to a different location
      *
-     * @type {{location: {name: string}}}
+     * @type {{ name: string }}
      */
     this.$emit("jumpTo", location);
   }

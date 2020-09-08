@@ -44,6 +44,8 @@ export default class Teaser extends Vue {
   private onClick() {
     /**
      * Click on the teaser
+     *
+     * @type {TeaserI}
      */
     this.$emit("onClick", this.blok);
   }

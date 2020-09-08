@@ -18,7 +18,6 @@ import { updateUploadedFile } from "@/store/exploreStore";
 export default class Home extends Vue {
   private finish(uploadedFile: UploadedFile) {
     updateUploadedFile(uploadedFile);
-    this.$router.push({ name: "Explore" });
   }
 
   private activated() {

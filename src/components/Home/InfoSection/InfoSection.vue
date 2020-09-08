@@ -50,7 +50,7 @@ export default class InfoSection extends Vue {
   /**
    * Cards of information, essentially bullet points to include
    */
-  @Prop({ default: () => [] })
+  @Prop({ default: Array() })
   private cards!: {
     title: string;
     description: string;

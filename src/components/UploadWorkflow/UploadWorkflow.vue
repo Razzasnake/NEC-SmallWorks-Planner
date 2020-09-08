@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Upload :color="color" @fileUploaded="fileUploaded"></Upload>
+    <Upload :color="color" @fileUploaded="fileUploaded" :small="small"></Upload>
     <v-dialog v-model="visible" @click:outside="reset" max-width="700">
       <Loading
         :loading="loading"
@@ -13,7 +13,7 @@
         <v-card-text>
           <SelectColumns
             v-if="step === 1"
-            :value="uploadedFile"
+            :value="uploadedFile.data"
             :columnSelections="columnSelections"
             :firstRowHeader="firstRowHeader"
             @updateSelections="updateSelections"
@@ -55,11 +55,16 @@ export default class UploadWorkflow extends Vue {
   /**
    * Color of the upload button
    */
-  @Prop({ default: '#eeeeee' })
+  @Prop({ default: "#eeeeee" })
   private color!: string;
+  /**
+   * Whether or not to wrap options into a dropdown
+   */
+  @Prop({ type: Boolean, default: false })
+  private small!: boolean;
 
   private step: number = 0;
-  private uploadedFile: any[][] = [];
+  private uploadedFile: { data: any[][]; fileName: string } | null = null;
   private columnSelections: {
     lat: null | number;
     lng: null | number;
@@ -86,10 +91,10 @@ export default class UploadWorkflow extends Vue {
   }
   private set visible(newValue: boolean) {}
 
-  private fileUploaded(data: any[][]) {
+  private fileUploaded(data: { data: any[][]; fileName: string }) {
     this.uploadedFile = data;
-    this.columnSelections = UploadWorkflowLogic.guessColumnTypes(data);
-    this.firstRowHeader = UploadWorkflowLogic.guessFirstRowHeader(data);
+    this.columnSelections = UploadWorkflowLogic.guessColumnTypes(data.data);
+    this.firstRowHeader = UploadWorkflowLogic.guessFirstRowHeader(data.data);
     if (
       this.columnSelections.lat !== null &&
       this.columnSelections.lng !== null
@@ -129,7 +134,7 @@ export default class UploadWorkflow extends Vue {
     longitude: number;
   }) {
     const offset = this.firstRowHeader ? 1 : 0;
-    const row = this.uploadedFile[payload.index + offset];
+    const row = this.uploadedFile!.data[payload.index + offset];
     row[this.columnSelections.lat!] = payload.latitude;
     row[this.columnSelections.lng!] = payload.longitude;
     this.numberGeocoded = this.numberGeocoded + 1;
@@ -143,7 +148,9 @@ export default class UploadWorkflow extends Vue {
       this.handleNoLatLng();
     } else {
       const uploadedFile = new UploadedFile({
-        data: this.uploadedFile,
+        toUpload: true,
+        fileName: this.uploadedFile!.fileName,
+        data: this.uploadedFile!.data,
         columnSelections: {
           lat: this.columnSelections.lat!,
           lng: this.columnSelections.lng!,
@@ -167,18 +174,20 @@ export default class UploadWorkflow extends Vue {
       this.columnSelections.state,
       this.columnSelections.zip,
     ].filter((_) => _ !== null) as number[];
-    this.uploadedFile.forEach((row, index) => {
-      this.uploadedFile[index] = row.concat(["", ""]);
+    this.uploadedFile!.data.forEach((row, index) => {
+      this.uploadedFile!.data[index] = row.concat(["", ""]);
     });
     if (this.firstRowHeader) {
-      this.uploadedFile[0][this.uploadedFile[0].length - 2] = "Latitude";
-      this.uploadedFile[0][this.uploadedFile[0].length - 1] = "Longitude";
+      this.uploadedFile!.data[0][this.uploadedFile!.data[0].length - 2] =
+        "Latitude";
+      this.uploadedFile!.data[0][this.uploadedFile!.data[0].length - 1] =
+        "Longitude";
     }
     const offset = this.firstRowHeader ? 1 : 0;
-    this.columnSelections.lat = this.uploadedFile[0].length - 2;
-    this.columnSelections.lng = this.uploadedFile[0].length - 1;
+    this.columnSelections.lat = this.uploadedFile!.data[0].length - 2;
+    this.columnSelections.lng = this.uploadedFile!.data[0].length - 1;
     /* When addresses is updated, the geocoder is going to start. */
-    this.addresses = this.uploadedFile.slice(offset).map((row) => {
+    this.addresses = this.uploadedFile!.data.slice(offset).map((row) => {
       return selections.map((i) => row[i]).join(" ");
     });
     this.loading = true;
@@ -186,7 +195,7 @@ export default class UploadWorkflow extends Vue {
 
   private reset() {
     this.step = 0;
-    this.uploadedFile = [];
+    this.uploadedFile = null;
     this.columnSelections = {
       lat: null,
       lng: null,

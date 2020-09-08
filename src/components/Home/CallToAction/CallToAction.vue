@@ -26,6 +26,8 @@ export default class CallToAction extends Vue {
   private finish(uploadedFile: UploadedFile) {
     /**
      * Emit the uploaded file
+     *
+     * @type {UploadedFile}
      */
     this.$emit("finish", uploadedFile);
   }

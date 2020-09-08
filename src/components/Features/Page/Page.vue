@@ -21,6 +21,7 @@
 import { Component, Vue, Prop } from "vue-property-decorator";
 import Teaser from "@/components/Shared/Teaser/Teaser.vue";
 import PageI from "@/entities/storyblok/Page";
+import TeaserI from "@/entities/storyblok/Teaser";
 import BasePage from "@/components/Shared/Page/Page.vue";
 
 /**
@@ -39,9 +40,11 @@ export default class Page extends Vue {
   @Prop()
   private blok!: PageI;
 
-  private learnMore(blok: any) {
+  private learnMore(blok: TeaserI) {
     /**
      * Learn more about this teaser
+     *
+     * @type {TeaserI}
      */
     this.$emit("learnMore", blok);
   }

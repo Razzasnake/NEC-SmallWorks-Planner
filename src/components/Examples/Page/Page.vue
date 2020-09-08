@@ -68,6 +68,8 @@ export default class Page extends Vue {
   private preview(teaser: ExampleTeaserI) {
     /**
      * Open the selected teaser in the tool
+     *
+     * @type {ExampleTeaserI}
      */
     this.$emit("preview", teaser);
   }

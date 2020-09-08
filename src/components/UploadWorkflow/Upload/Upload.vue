@@ -1,19 +1,42 @@
 <template>
   <div>
     <Loading :loading="loading" />
-    <v-btn :accept="accept" :color="color" @click="openUpload">
-      <v-icon>{{ mdiUpload }}</v-icon>
-      <span class="margin-left-small">Upload a dataset</span>
-      <input
-        :accept="accept"
-        ref="input"
-        type="file"
-        class="upload-input"
-        @change="fileUploaded($event.target.files[0])"
-      />
-    </v-btn>
-    <span class="margin-right-small margin-left-small">or</span>
-    <a class="paste" @click="displayPasteModal = true">Paste</a>
+    <v-menu v-if="small">
+      <template v-slot:activator="{ on }">
+        <v-btn large rounded :color="color" v-on="on">
+          <v-icon class="margin-right-small">{{ mdiPlus }}</v-icon>New
+        </v-btn>
+      </template>
+      <v-list>
+        <v-list-item @click="openUpload">
+          <v-list-item-icon>
+            <v-icon>{{ mdiUpload }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Upload a dataset</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="displayPasteModal = true">
+          <v-list-item-icon>
+            <v-icon>{{ mdiContentPaste }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Paste a dataset</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+    <div v-else>
+      <v-btn :color="color" @click="openUpload">
+        <v-icon>{{ mdiUpload }}</v-icon>
+        <span class="margin-left-small">Upload a dataset</span>
+      </v-btn>
+      <span class="margin-right-small margin-left-small">or</span>
+      <a class="paste" @click="displayPasteModal = true">Paste</a>
+    </div>
+    <input
+      :accept="accept"
+      ref="input"
+      type="file"
+      class="upload-input"
+      @change="fileUploaded($event.target.files[0])"
+    />
     <PasteModal
       v-if="displayPasteModal"
       @closeModal="displayPasteModal = false"
@@ -29,7 +52,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import PasteModal from "./PasteModal/PasteModal.vue";
 import ParserWorker from "worker-loader!./Parser.worker";
 import Loading from "@/components/Shared/Loading/Loading.vue";
-import { mdiUpload } from "@mdi/js";
+import { mdiUpload, mdiPlus, mdiContentPaste } from "@mdi/js";
 import UploadLogic from "./UploadLogic";
 
 /**
@@ -47,12 +70,19 @@ export default class Upload extends Vue {
    */
   @Prop({ default: "#eeeeee" })
   private color!: string;
+  /**
+   * Whether or not to wrap options into a dropdown
+   */
+  @Prop({ type: Boolean, default: false })
+  private small!: boolean;
 
   private accept: string = ".xls,.xlr,.xlt,.xlsx,.xlsm,.xlsb,.csv";
   private loading: boolean = false;
   private displayPasteModal: boolean = false;
   private snackbar: boolean = false;
   private mdiUpload = mdiUpload;
+  private mdiPlus = mdiPlus;
+  private mdiContentPaste = mdiContentPaste;
 
   private mounted() {
     UploadLogic.initDropZone(
@@ -72,7 +102,12 @@ export default class Upload extends Vue {
     reader.onloadend = (e) => {
       if (e.target) {
         const bstr = e.target.result;
-        this.convert(bstr, "binary");
+        const fileNameArr = file.name.split(".");
+        this.convert(
+          `${fileNameArr.slice(0, fileNameArr.length - 1).join(".")}.csv`,
+          bstr,
+          "binary"
+        );
       }
     };
     reader.readAsBinaryString(file);
@@ -80,6 +115,7 @@ export default class Upload extends Vue {
   }
 
   private convert(
+    fileName: string,
     file: string | ArrayBuffer | null,
     type: "binary" | "buffer"
   ) {
@@ -93,9 +129,9 @@ export default class Upload extends Vue {
         /**
          * File has been uploaded
          *
-         * @type {unknown[]}
+         * @type {{ data: unknown[], fileName: string }}
          */
-        this.$emit("fileUploaded", event.data.data);
+        this.$emit("fileUploaded", { data: event.data.data, fileName });
       }
       this.loading = false;
       worker.terminate();
@@ -103,7 +139,7 @@ export default class Upload extends Vue {
   }
 
   private uploadText(text: string) {
-    this.convert(text, "buffer");
+    this.convert("pasted-dataset.csv", text, "buffer");
   }
 }
 </script>

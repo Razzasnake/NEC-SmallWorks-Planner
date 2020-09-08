@@ -59,7 +59,6 @@ export default class Examples extends Vue {
   private async preview(teaser: ExampleTeaserI) {
     this.loading = true;
     updateUploadedFile(await exampleApi.getExample(teaser));
-    this.$router.push({ name: "Explore" });
     this.loading = false;
   }
 }

@@ -5,6 +5,9 @@ import TableLogic from "@/components/TableAndMap/Table/Logic/TableLogic";
 import { OverlayJson } from "@/components/TableAndMap/GoogleMap/Logic/Utils";
 import ShapeParserWorker from "worker-loader!./WebWorkers/ShapeParser.worker";
 import PolygonRelationWorker from "worker-loader!./WebWorkers/PolygonRelation.worker";
+import driveState, { uploadFile, downloadFile } from "./driveStore";
+import ParserWorker from "worker-loader!@/components/UploadWorkflow/Upload/Parser.worker";
+import router from "@/router";
 
 interface ExploreStoreI {
   uploadedFile: UploadedFile | null,
@@ -15,6 +18,14 @@ interface ExploreStoreI {
   layers: { id: string, fileName: string, data: object | null }[],
   viewOptions: string[]
 };
+
+interface Config {
+  columnSelections: {
+    lat: number;
+    lng: number;
+  };
+  firstRowHeader: boolean;
+}
 
 const state: ExploreStoreI = Vue.observable({
   uploadedFile: null,
@@ -37,6 +48,92 @@ export const updateUploadedFile = (uploadedFile: UploadedFile) => {
   }
   state.uploadedFile = uploadedFile;
   state.tableLogic = new TableLogic(uploadedFile);
+  saveUploadedFile();
+}
+
+export const downloadUserUpload = async (files: {
+  file: gapi.client.drive.File;
+  configFile: gapi.client.drive.File;
+}) => {
+  if (files.file.id && files.configFile.id) {
+    const worker = new ParserWorker();
+    worker.postMessage({
+      file: await downloadFile(files.file.id),
+      type: "buffer",
+    });
+    const config: Config = JSON.parse(
+      await downloadFile(files.configFile.id!)
+    ) as any;
+    worker.onmessage = async (event) => {
+      const uploadedFile = new UploadedFile({
+        toUpload: false,
+        fileName: files.file.name!,
+        data: event.data.data,
+        columnSelections: config.columnSelections,
+        firstRowHeader: config.firstRowHeader,
+      });
+      updateUploadedFile(uploadedFile);
+      worker.terminate();
+    };
+  }
+}
+
+export const saveUploadedFile = () => {
+  if (driveState.user && state.uploadedFile && state.uploadedFile.toUpload) {
+    router.push({ name: "Explore" });
+    const config = JSON.stringify({
+      columnSelections: state.uploadedFile.columnSelections,
+      firstRowHeader: state.uploadedFile.firstRowHeader
+    });
+    const data = arrayToCSV(state.uploadedFile.data.map(_ => _.data));
+    uploadFile(data, "text/csv", state.uploadedFile.fileName, (fileId) => {
+      router.replace({ name: "Explore", params: { fileId } });
+    });
+    uploadFile(config, "application/json", `${state.uploadedFile.fileName}.json`);
+    state.uploadedFile.toUpload = false;
+  } else if (state.uploadedFile) {
+    const file = driveState.files.find(_ => _.name === state.uploadedFile!.fileName);
+    if (file) {
+      if (router.currentRoute.params.fileId !== file.id) {
+        router.push({ name: "Explore", params: { fileId: file.id! } });
+      }
+    } else {
+      router.push({ name: "Explore" });
+    }
+  } else {
+    router.push({ name: "Explore" });
+  }
+}
+
+const arrayToCSV = (dataArr: any[][]) => {
+  const escapeCol = (col: any) => {
+    if (isNaN(col)) {
+      if (!col) {
+        col = '';
+      } else {
+        col = String(col);
+        if (col.length > 0) {
+          col = col.split('"').join('"' + '"');
+          col = '"' + col + '"';
+        }
+      }
+    }
+    return col;
+  };
+  const arrayToRow = (arr: any[]): any => {
+    const arr2 = arr.slice(0);
+    const ii = arr2.length;
+    for (let i = 0; i < ii; i++) {
+      arr2[i] = escapeCol(arr2[i]);
+    }
+    return arr2.join(",");
+  };
+  const arr2 = dataArr.slice(0);
+  const ii = arr2.length;
+  for (let i = 0; i < ii; i++) {
+    arr2[i] = arrayToRow(arr2[i]);
+  }
+  return arr2.join("\r\n");
 }
 
 export const updateOverlayEventJsons = (overlayEventJsons: OverlayJson[]) => {

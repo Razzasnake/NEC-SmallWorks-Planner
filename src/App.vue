@@ -9,7 +9,7 @@
         <v-dialog v-model="areYouSureModal" max-width="400" @click:outside="cancelLeave">
           <v-card>
             <v-card-title class="headline">Are you sure you want to leave?</v-card-title>
-            <v-card-text>You will lose all uploaded markers, shapefiles, filters and sortings.</v-card-text>
+            <v-card-text>{{ areYouSureMessage }}</v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="primary" text @click="cancelLeave">Cancel</v-btn>
@@ -26,6 +26,7 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import NavBar from "@/components/NavBar/NavBar.vue";
 import state, { reset } from "@/store/exploreStore";
+import driveState from "@/store/driveStore";
 
 /**
  * Root of project
@@ -38,14 +39,24 @@ import state, { reset } from "@/store/exploreStore";
 export default class App extends Vue {
   private areYouSureModal = false;
   private pathToLeaveTo: { name: string } | null = null;
-  private drawerAllowed: boolean = false;
+
+  private get drawerAllowed() {
+    return state.uploadedFile !== null && this.$route.name === "Explore";
+  }
+
+  private get areYouSureMessage() {
+    if (driveState.user) {
+      return "You will lose all uploaded shapefiles, filters and sortings.";
+    } else {
+      return 'You will lose all uploaded markers, shapefiles, filters and sortings. Click "Sign in" to save your data to Google Drive.';
+    }
+  }
 
   @Watch("$route")
   private routerUpdated() {
     if (this.$route.name !== "Explore" && state.uploadedFile) {
       reset();
     }
-    this.drawerAllowed = state.uploadedFile !== null;
   }
 
   private created() {

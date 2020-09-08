@@ -1,6 +1,6 @@
 import UploadWorkflow from './UploadWorkflow.vue'
 import { action } from '@storybook/addon-actions'
-import { text } from '@storybook/addon-knobs'
+import { text, boolean } from '@storybook/addon-knobs'
 
 export default {
   component: UploadWorkflow,
@@ -12,11 +12,15 @@ const _UploadWorkflow = () => ({
   template: `
     <UploadWorkflow
       :color="color"
+      :small="small"
       @finish="finish"
     ></UploadWorkflow>`,
   props: {
     color: {
       default: text('color', '#eeeeee')
+    },
+    small: {
+      default: boolean('small', false)
     }
   },
   methods: {

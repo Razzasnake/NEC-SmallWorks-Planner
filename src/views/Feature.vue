@@ -85,7 +85,6 @@ export default class Feature extends Vue {
 
   private finish(uploadedFile: UploadedFile) {
     updateUploadedFile(uploadedFile);
-    this.$router.push({ name: "Explore" });
   }
 
   private previewExamples() {
