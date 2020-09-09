@@ -20,7 +20,7 @@ export default class Utils {
       });
     }
     return loader;
-  } 
+  }
 
   public static overlayEventsToJson(arr: google.maps.drawing.OverlayCompleteEvent[]) {
     return arr.map(event => {
