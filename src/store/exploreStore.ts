@@ -262,7 +262,7 @@ export const reset = () => {
   };
   state.tableLogic = null;
   state.layers = [];
-  state.viewOptions = ["map", "map:markers", "table"];
+  state.viewOptions = ["map", "map:markers", "table", "table:footer", "table:footer:avg"];
 }
 
 export default state;
