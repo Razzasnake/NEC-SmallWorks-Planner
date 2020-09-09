@@ -7,9 +7,7 @@ export default {
 
 const _ComingSoon = () => ({
   components: { ComingSoon },
-  template: `
-    <ComingSoon
-    ></ComingSoon>`,
+  template: '<ComingSoon />',
   methods: {
   }
 })
