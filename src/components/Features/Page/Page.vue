@@ -12,7 +12,6 @@
         :blok="item"
         buttonText="Learn More"
         class="ma-2"
-        @onClick="learnMore"
       ></Teaser>
     </v-row>
   </BasePage>
@@ -39,14 +38,5 @@ export default class Page extends Vue {
    */
   @Prop()
   private blok!: PageI;
-
-  private learnMore(blok: TeaserI) {
-    /**
-     * Learn more about this teaser
-     *
-     * @type {TeaserI}
-     */
-    this.$emit("learnMore", blok);
-  }
 }
 </script>

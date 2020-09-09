@@ -3,7 +3,6 @@
     v-if="story"
     :blok="story.content"
     @finish="finish"
-    @previewExamples="previewExamples"
   />
 </template>
 <script lang='ts'>
@@ -81,10 +80,6 @@ export default class Feature extends _View {
 
   private finish(uploadedFile: UploadedFile) {
     updateUploadedFile(uploadedFile);
-  }
-
-  private previewExamples() {
-    this.$router.push({ name: "Examples" });
   }
 }
 </script>

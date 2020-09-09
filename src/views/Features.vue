@@ -1,5 +1,5 @@
 <template>
-  <Page v-if="story" :blok="story.content" @learnMore="learnMore"></Page>
+  <Page v-if="story" :blok="story.content"></Page>
 </template>
 <script lang='ts'>
 import { Component } from "vue-property-decorator";
@@ -40,10 +40,6 @@ export default class Features extends _View {
       title: "Table & Map - Features",
       content: "Learn more about the many features offered by Table & Map.",
     });
-  }
-
-  private learnMore(blok: any) {
-    this.$router.push(blok.feature.cached_url);
   }
 }
 </script>
