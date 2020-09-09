@@ -13,7 +13,6 @@ const _Feature = () => ({
     <Feature
       :blok="blok"
       @finish="finish"
-      @previewExamples="previewExamples"
     ></Feature>`,
   props: {
     blok: {
@@ -21,8 +20,7 @@ const _Feature = () => ({
     }
   },
   methods: {
-    finish: action('finish'),
-    previewExamples: action('previewExamples')
+    finish: action('finish')
   }
 })
 
