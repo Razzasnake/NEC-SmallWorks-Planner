@@ -69,7 +69,7 @@ export default class TableLogic {
       headerName: '',
       field: 'preview',
       pinned: 'left',
-      width: 50,
+      width: 92,
       suppressMenu: true,
       sortable: false,
       cellRenderer: undefined,

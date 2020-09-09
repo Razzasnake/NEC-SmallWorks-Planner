@@ -37,7 +37,7 @@ const state: ExploreStoreI = Vue.observable({
   },
   tableLogic: null,
   layers: [],
-  viewOptions: ["map", "map:markers", "table"]
+  viewOptions: ["map", "map:markers", "table", "table:footer", "table:footer:avg"]
 });
 
 export const updateUploadedFile = (uploadedFile: UploadedFile) => {

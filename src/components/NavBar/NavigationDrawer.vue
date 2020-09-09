@@ -110,20 +110,8 @@ export default class NavigationDrawer extends Vue {
           key: "table",
         },
         {
-          label: "Footer Min",
-          key: "table:footer:min",
-        },
-        {
-          label: "Footer Max",
-          key: "table:footer:max",
-        },
-        {
-          label: "Footer Avg",
-          key: "table:footer:avg",
-        },
-        {
-          label: "Footer Total",
-          key: "table:footer:total",
+          label: "Footer",
+          key: "table:footer",
         },
       ],
     },
@@ -169,12 +157,18 @@ export default class NavigationDrawer extends Vue {
           newOptions.push("map:clusters");
         }
       }
+      if (selection.key === "table:footer") {
+        newOptions = newOptions.filter((_) => !_.startsWith("table:footer"));
+      }
     } else {
       newOptions = this.viewOptions.concat(selection.key);
       if (selection.key === "map:heat") {
         newOptions = newOptions.filter(
           (_) => ["map:markers", "map:clusters"].indexOf(_) < 0
         );
+      }
+      if (selection.key === "table:footer") {
+        newOptions.push("table:footer:avg");
       }
     }
     if (!newOptions.includes("map") && !newOptions.includes("table")) {
