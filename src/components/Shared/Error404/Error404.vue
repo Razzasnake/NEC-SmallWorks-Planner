@@ -9,7 +9,7 @@
         <div class="text-h2">404 - Page Not Found</div>
         <div class="text-subtitle-1">The page you are looking for no longer exists.</div>
         <div class="text-h6 margin-top-large">
-          <a @click="goHome" class="go-home">Back home</a>
+        <router-link to="/">Back home</router-link>
           in {{ time }}
         </div>
       </div>
@@ -39,13 +39,6 @@ export default class Error404 extends Vue {
     }
     return `00:00:${time}`;
   }
-
-  private goHome() {
-    /**
-     * Notify parent that the user wants to be navigated home now.
-     */
-    this.$emit("goHome");
-  }
 }
 </script>
 <style lang="scss" scoped>
@@ -64,7 +57,8 @@ export default class Error404 extends Vue {
       width: 100%;
     }
   }
-  .go-home {
+  a {
+    text-decoration: none;
     color: #eeeeee;
   }
 }

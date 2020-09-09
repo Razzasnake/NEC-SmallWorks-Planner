@@ -1,5 +1,5 @@
 <template>
-  <Error404Component :countdown="countdown" @goHome="goHome" />
+  <Error404Component :countdown="countdown" />
 </template>
 <script lang='ts'>
 import { Component } from "vue-property-decorator";
@@ -26,7 +26,7 @@ export default class Error404 extends _View {
     this.interval = setInterval(() => {
       this.countdown = this.countdown - 1;
       if (this.countdown === 0) {
-        this.goHome();
+        this.$router.push({ name: "Home" });
       }
     }, 1000);
   }
@@ -36,10 +36,6 @@ export default class Error404 extends _View {
     if (this.interval) {
       clearInterval(this.interval);
     }
-  }
-
-  private goHome() {
-    this.$router.push({ name: "Home" });
   }
 }
 </script>
