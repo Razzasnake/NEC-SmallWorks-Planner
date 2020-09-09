@@ -80,8 +80,11 @@ export default class NavBar extends Vue {
 
   private get fileName() {
     if (state.uploadedFile) {
-      const fileNameArr = state.uploadedFile.fileName.split(".");
-      return fileNameArr.slice(0, fileNameArr.length - 2).join(".") + ".csv";
+      if (state.uploadedFile.fileName.indexOf(".") > -1) {
+        const fileNameArr = state.uploadedFile.fileName.split(".");
+        return fileNameArr.slice(0, fileNameArr.length - 2).join(".") + ".csv";
+      }
+      return state.uploadedFile.fileName;
     }
     return "";
   }
