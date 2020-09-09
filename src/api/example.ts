@@ -13,7 +13,7 @@ export default {
         worker.onmessage = event => {
           resolve(new UploadedFile({
             toUpload: false,
-            fileName: teaser.title,
+            fileName: teaser.title + ".example.csv",
             data: event.data.data,
             columnSelections: { lat: teaser.lat, lng: teaser.lng },
             firstRowHeader: teaser.firstRowHeader
