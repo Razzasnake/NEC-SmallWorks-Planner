@@ -257,18 +257,18 @@ export default class GoogleMapLogic {
       this.markerCluster.clearMarkers();
       this.markerCluster = null;
     }
+    const newMarkers = this.markers.filter(_ => _.getVisible());
+    if (this.groupByKey) {
+      const visibleCategories: Set<string> = new Set();
+      newMarkers.forEach(marker => {
+        visibleCategories.add((marker as unknown as { row: Row }).row[this.groupByKey!]);
+      });
+      this.visibleCategories = visibleCategories;
+    }
     if (this.displayClusters) {
       this.markers.forEach(marker => {
         marker.setMap(null);
       });
-      const newMarkers = this.markers.filter(_ => _.getVisible());
-      if (this.groupByKey) {
-        const visibleCategories: Set<string> = new Set();
-        newMarkers.forEach(marker => {
-          visibleCategories.add((marker as unknown as { row: Row }).row[this.groupByKey!]);
-        });
-        this.visibleCategories = visibleCategories;
-      }
       this.markerCluster = new MarkerClusterer(
         this.map,
         newMarkers,
