@@ -5,15 +5,15 @@
     <v-row class="margin-top-large" justify="center">
       <v-card :width="cardWidth" v-for="(c, index) in cards" :key="index" class="ma-2">
         <v-card-title>
-          <a v-if="c.learnMorePath" @click="$router.push(c.learnMorePath)">{{ c.title }}</a>
-          <div v-else @click="$router.push(c.learnMorePath)">{{ c.title }}</div>
+          <router-link v-if="c.learnMorePath" :to="c.learnMorePath">{{ c.title }}</router-link>
+          <div v-else>{{ c.title }}</div>
         </v-card-title>
         <v-card-text>
           <div>{{ c.description }}</div>
           <div v-if="c.learnMorePath" class="info-description"></div>
           <div v-if="c.learnMorePath" class="card-actions">
             <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="$router.push(c.learnMorePath)">Learn More</v-btn>
+            <v-btn color="primary" text :to="c.learnMorePath">Learn More</v-btn>
           </div>
         </v-card-text>
       </v-card>
@@ -26,15 +26,12 @@
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
-import Teaser from "@/components/Shared/Teaser/Teaser.vue";
 
 /**
  * Generic component to use when creating info sections
  */
 @Component({
-  components: {
-    Teaser,
-  },
+  components: {},
 })
 export default class InfoSection extends Vue {
   /**
@@ -78,7 +75,10 @@ export default class InfoSection extends Vue {
   .card-actions {
     position: absolute;
     bottom: 8px;
-    right: 0px;
+    right: 8px;
   }
+}
+a {
+  text-decoration: none;
 }
 </style>
