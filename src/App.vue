@@ -46,9 +46,9 @@ export default class App extends Vue {
 
   private get areYouSureMessage() {
     if (driveState.user) {
-      return "You will lose all uploaded shapefiles and drawn shapes.";
+      return "You will lose all uploaded shapefiles.";
     } else {
-      return 'You will lose all uploaded markers, shapefiles, filters, drawn shapes and sortings. Click "Sign in" to save your data to Google Drive.';
+      return 'You will lose all uploaded markers, shapefiles, drawn shapes, filters, and sortings. Click "Sign in" to save your data to Google Drive.';
     }
   }
 
