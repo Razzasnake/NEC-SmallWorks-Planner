@@ -1,6 +1,5 @@
 import Vue from "vue";
 import UploadedFile from "@/entities/UploadedFile";
-import { TableAndMapMap } from "@/components/TableAndMap/Types";
 import TableLogic from "@/components/TableAndMap/Table/Logic/TableLogic";
 import { OverlayJson } from "@/components/TableAndMap/GoogleMap/Logic/Utils";
 import ShapeParserWorker from "worker-loader!./WebWorkers/ShapeParser.worker";
@@ -13,7 +12,7 @@ interface ExploreStoreI {
   uploadedFile: UploadedFile | null,
   filters: { [colId: string]: any },
   sorting: { colId: string; sort: string }[],
-  map: TableAndMapMap,
+  overlayEventJsons: OverlayJson[],
   tableLogic: TableLogic | null,
   layers: { id: string, fileName: string, data: object | null }[],
   viewOptions: string[]
@@ -28,16 +27,14 @@ interface Config {
   filters: { [colId: string]: any };
   sorting: { colId: string; sort: string }[];
   viewOptions: string[];
+  overlayEventJsons: OverlayJson[];
 }
 
 const state: ExploreStoreI = Vue.observable({
   uploadedFile: null,
   filters: {},
   sorting: [],
-  map: {
-    overlayEventJsons: [],
-    infoWindowKeys: []
-  },
+  overlayEventJsons: [],
   tableLogic: null,
   layers: [],
   viewOptions: ["map", "map:markers", "table", "table:footer", "table:footer:avg"]
@@ -85,6 +82,9 @@ export const downloadUserUpload = async (files: {
       if (config.viewOptions) {
         state.viewOptions = config.viewOptions;
       }
+      if (config.overlayEventJsons) {
+        state.overlayEventJsons = config.overlayEventJsons;
+      }
       worker.terminate();
     };
   }
@@ -120,7 +120,8 @@ const updateConfigFile = () => {
       firstRowHeader: state.uploadedFile.firstRowHeader,
       viewOptions: state.viewOptions,
       sorting: state.sorting,
-      filters: state.filters
+      filters: state.filters,
+      overlayEventJsons: state.overlayEventJsons
     });
     uploadFile(config, "application/json", `${state.uploadedFile!.fileName}.json`);
   }
@@ -158,7 +159,8 @@ const arrayToCSV = (dataArr: any[][]) => {
 }
 
 export const updateOverlayEventJsons = (overlayEventJsons: OverlayJson[]) => {
-  state.map.overlayEventJsons = overlayEventJsons;
+  state.overlayEventJsons = overlayEventJsons;
+  updateConfigFile();
 }
 
 export const updateSorting = (sorting: { colId: string; sort: string }[]) => {
@@ -286,10 +288,7 @@ export const reset = () => {
   state.uploadedFile = null;
   state.filters = {};
   state.sorting = [];
-  state.map = {
-    overlayEventJsons: [],
-    infoWindowKeys: []
-  };
+  state.overlayEventJsons = [];
   state.tableLogic = null;
   state.layers = [];
   state.viewOptions = ["map", "map:markers", "table", "table:footer", "table:footer:avg"];

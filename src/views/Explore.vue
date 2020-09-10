@@ -1,11 +1,11 @@
 <template>
   <div class="explore">
     <TableAndMap
-      v-if="uploadedFile"
+      v-if="uploadedFile && googleMapsLibrary"
       :uploadedFile="uploadedFile"
       :filters="filters"
       :sorting="sorting"
-      :map="map"
+      :overlayEventJsons="overlayEventJsons"
       :tableLogic="tableLogic"
       @updateOverlayEventJsons="updateOverlayEventJsons"
       @sortChanged="updateSorting"
@@ -20,7 +20,6 @@ import TableAndMap from "@/components/TableAndMap/TableAndMap.vue";
 import UploadedFile from "@/entities/UploadedFile";
 import TableLogic from "@/components/TableAndMap/Table/Logic/TableLogic";
 import { OverlayJson } from "@/components/TableAndMap/GoogleMap/Logic/Utils";
-import { TableAndMapMap } from "@/components/TableAndMap/Types";
 import state, {
   updateOverlayEventJsons,
   updateFilters,
@@ -28,6 +27,7 @@ import state, {
 } from "@/store/exploreStore";
 import Loading from "@/components/Shared/Loading/Loading.vue";
 import _View from "./_View";
+import GoogleMapUtils from "@/components/TableAndMap/GoogleMap/Logic/Utils";
 
 /**
  * Explore the data that was just uploaded
@@ -44,6 +44,7 @@ export default class Explore extends _View {
    */
   @Prop({ default: null })
   private fileId!: string | null;
+  private googleMapsLibrary: boolean = false;
 
   private get uploadedFile() {
     return state.uploadedFile;
@@ -57,8 +58,8 @@ export default class Explore extends _View {
     return state.sorting;
   }
 
-  private get map() {
-    return state.map;
+  private get overlayEventJsons() {
+    return state.overlayEventJsons;
   }
 
   private get tableLogic() {
@@ -70,6 +71,16 @@ export default class Explore extends _View {
       this.$router.push({ name: "Home" });
     }
     super.activated({ title: "Table & Map - Explore" });
+  }
+
+  private created() {
+    GoogleMapUtils.injectGoogleMapsLibrary([
+      "drawing",
+      "visualization",
+      "geometry",
+    ]).then(() => {
+      this.googleMapsLibrary = true;
+    });
   }
 
   private updateOverlayEventJsons(overlayEventJsons: OverlayJson[]) {

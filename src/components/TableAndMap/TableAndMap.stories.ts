@@ -18,7 +18,7 @@ const _TableAndMap = () => ({
         :uploadedFile="uploadedFile"
         :filters="filters"
         :sorting="sorting"
-        :map="map"
+        :overlayEventJsons="overlayEventJsons"
         :tableLogic="tableLogic"
         :viewOptions="viewOptions"
         @updateOverlayEventJsons="updateOverlayEventJsons"
@@ -45,10 +45,7 @@ const _TableAndMap = () => ({
   },
   data() {
     return {
-      map: {
-        overlayEventJsons: [],
-        infoWindowKeys: []
-      }
+      overlayEventJsons: []
     }
   },
   methods: {

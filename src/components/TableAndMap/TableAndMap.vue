@@ -45,11 +45,11 @@ import Table from "./Table/Table.vue";
 import PreviewCard from "./PreviewCard/PreviewCard.vue";
 import GoogleMap from "./GoogleMap/GoogleMap.vue";
 import Split from "split.js";
-import { TableAndMapMap } from "./Types";
 import Utils from "./GoogleMap/Logic/Utils";
 import TableLogic from "./Table/Logic/TableLogic";
 import UploadedFile, { Row } from "@/entities/UploadedFile";
 import state from "@/store/exploreStore";
+import { OverlayJson } from "@/components/TableAndMap/GoogleMap/Logic/Utils";
 
 interface Split {
   destroy: () => void;
@@ -81,10 +81,10 @@ export default class TableAndMap extends Vue {
   @Prop({ default: Array() })
   private sorting!: { colId: string; sort: string }[];
   /**
-   * Config for the map
+   * All of the overlay jsons
    */
-  @Prop({ default: null })
-  private map!: TableAndMapMap | null;
+  @Prop({ default: Array() })
+  private overlayEventJsons!: OverlayJson[];
   /**
    * Config for the table, must specify the columns
    */
@@ -140,10 +140,7 @@ export default class TableAndMap extends Vue {
   }
 
   private get overlayEvents(): google.maps.drawing.OverlayCompleteEvent[] {
-    if (this.map) {
-      return Utils.jsonToOverlayEvents(this.map.overlayEventJsons);
-    }
-    return [];
+    return Utils.jsonToOverlayEvents(this.overlayEventJsons);
   }
 
   @Watch("uploadedFile")
