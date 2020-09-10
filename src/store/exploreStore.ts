@@ -25,6 +25,9 @@ interface Config {
     lng: number;
   };
   firstRowHeader: boolean;
+  filters: { [colId: string]: any };
+  sorting: { colId: string; sort: string }[];
+  viewOptions: string[];
 }
 
 const state: ExploreStoreI = Vue.observable({
@@ -73,6 +76,15 @@ export const downloadUserUpload = async (files: {
         firstRowHeader: config.firstRowHeader,
       });
       updateUploadedFile(uploadedFile);
+      if (config.filters) {
+        state.filters = config.filters;
+      }
+      if (config.sorting) {
+        state.sorting = config.sorting;
+      }
+      if (config.viewOptions) {
+        state.viewOptions = config.viewOptions;
+      }
       worker.terminate();
     };
   }
@@ -81,15 +93,11 @@ export const downloadUserUpload = async (files: {
 export const saveUploadedFile = () => {
   if (driveState.user && state.uploadedFile && state.uploadedFile.toUpload) {
     router.push({ name: "Explore" });
-    const config = JSON.stringify({
-      columnSelections: state.uploadedFile.columnSelections,
-      firstRowHeader: state.uploadedFile.firstRowHeader
-    });
     const data = arrayToCSV(state.uploadedFile.data.map(_ => _.data));
     uploadFile(data, "text/csv", state.uploadedFile.fileName, (fileId) => {
       router.replace({ name: "Explore", params: { fileId } });
     });
-    uploadFile(config, "application/json", `${state.uploadedFile.fileName}.json`);
+    updateConfigFile();
     state.uploadedFile.toUpload = false;
   } else if (state.uploadedFile) {
     const file = driveState.files.find(_ => _.name === state.uploadedFile!.fileName);
@@ -102,6 +110,19 @@ export const saveUploadedFile = () => {
     }
   } else {
     router.push({ name: "Explore" });
+  }
+}
+
+const updateConfigFile = () => {
+  if (state.uploadedFile) {
+    const config = JSON.stringify({
+      columnSelections: state.uploadedFile.columnSelections,
+      firstRowHeader: state.uploadedFile.firstRowHeader,
+      viewOptions: state.viewOptions,
+      sorting: state.sorting,
+      filters: state.filters
+    });
+    uploadFile(config, "application/json", `${state.uploadedFile!.fileName}.json`);
   }
 }
 
@@ -141,15 +162,24 @@ export const updateOverlayEventJsons = (overlayEventJsons: OverlayJson[]) => {
 }
 
 export const updateSorting = (sorting: { colId: string; sort: string }[]) => {
-  state.sorting = sorting;
+  if (JSON.stringify(state.sorting) !== JSON.stringify(sorting)) {
+    state.sorting = sorting;
+    updateConfigFile();
+  }
 }
 
 export const updateFilters = (filters: { [colId: string]: any }) => {
-  state.filters = filters;
+  if (JSON.stringify(state.filters) !== JSON.stringify(filters)) {
+    state.filters = filters;
+    updateConfigFile();
+  }
 }
 
 export const updateViewOptions = (viewOptions: string[]) => {
-  state.viewOptions = viewOptions;
+  if (JSON.stringify(state.viewOptions) !== JSON.stringify(viewOptions)) {
+    state.viewOptions = viewOptions;
+    updateConfigFile();
+  }
 }
 
 export const exportToCsv = () => {

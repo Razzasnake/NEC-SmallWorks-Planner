@@ -641,7 +641,7 @@ export default class GoogleMapLogic {
         this.markers[index].setVisible(false);
       }
     });
-    if (newVals.size || oldVals.size) {
+    if ((newVals.size || oldVals.size) && this.markers.length) {
       this.displayHeatmapChanged();
       this.displayClustersChanged();
     }

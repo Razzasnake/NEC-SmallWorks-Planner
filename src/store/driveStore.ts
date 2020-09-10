@@ -115,7 +115,7 @@ export const uploadFile = (data: string, mimeType: string, name: string, callbac
   gapi.client.request({
     path: "https://www.googleapis.com/upload/drive/v3/files",
     method: "POST",
-    params: { uploadType: "multipart" },
+    params: { uploadType: "multipart", fields: "*" },
     headers: {
       "Content-Type": "multipart/related; boundary=" + boundary
     },
@@ -124,7 +124,15 @@ export const uploadFile = (data: string, mimeType: string, name: string, callbac
     if (callback) {
       callback(resp.id);
     }
-    refreshFiles();
+    const existingFiles = state.files.filter(_ => _.name === name);
+    if (existingFiles.length) {
+      existingFiles.forEach(existingFile => {
+        gapi.client.drive.files.delete({
+          fileId: existingFile.id!
+        }).execute(() => null);
+      });
+    }
+    state.files = state.files.filter(_ => _.name !== resp.name).concat(resp);
   });
 }
 
