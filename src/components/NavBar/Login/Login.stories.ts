@@ -1,5 +1,4 @@
 import Login from './Login.vue'
-import { boolean } from '@storybook/addon-knobs'
 import { action } from '@storybook/addon-actions'
 
 export default {
@@ -9,12 +8,7 @@ export default {
 
 const _Login = () => ({
   components: { Login },
-  template: '<Login :mobile="mobile" @jumpTo="jumpTo"></Login>',
-  props: {
-    mobile: {
-      default: boolean('mobile', false)
-    }
-  },
+  template: '<Login @jumpTo="jumpTo"></Login>',
   methods: {
     jumpTo: action('jumpTo')
   }

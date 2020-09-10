@@ -40,14 +40,13 @@
             <v-list-item @click="jumpTo({ name: 'Examples' })">
               <v-list-item-title>Examples</v-list-item-title>
             </v-list-item>
-            <Login mobile @jumpTo="jumpTo" />
           </v-list>
         </v-menu>
         <template v-else>
           <v-btn text color="#eeeeee" @click="jumpTo({ name: 'Features' })">Features</v-btn>
           <v-btn text color="#eeeeee" @click="jumpTo({ name: 'Examples' })">Examples</v-btn>
-          <Login @jumpTo="jumpTo" />
         </template>
+        <Login @jumpTo="jumpTo" />
       </v-toolbar-items>
     </v-app-bar>
   </div>

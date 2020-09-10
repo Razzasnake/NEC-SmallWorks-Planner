@@ -1,7 +1,7 @@
 <template>
   <div class="login">
-    <div v-show="loggedOut" id="google-signin-button" :class="loginClass"></div>
-    <v-menu v-if="!loggedOut && !mobile" offset-y>
+    <div v-show="loggedOut" id="google-signin-button" class="margin-left-medium"></div>
+    <v-menu v-if="!loggedOut" offset-y>
       <template v-slot:activator="{ on }">
         <v-btn v-on="on" x-small fab color="#eeeeee" class="margin-left-medium">
           <div class="first-letter">{{ userFirstLetter }}</div>
@@ -26,22 +26,6 @@
         </v-list-item>
       </v-list>
     </v-menu>
-    <v-list-item @click="openMyUploads" v-if="mobile && !loggedOut">
-      <v-list-item-icon>
-        <v-icon>{{ mdiFileDocumentMultiple }}</v-icon>
-      </v-list-item-icon>
-      <v-list-item-content>
-        <v-list-item-title>My Uploads</v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
-    <v-list-item @click="signOut" v-if="mobile && !loggedOut">
-      <v-list-item-icon>
-        <v-icon>{{ mdiLogout }}</v-icon>
-      </v-list-item-icon>
-      <v-list-item-content>
-        <v-list-item-title>Sign out</v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
   </div>
 </template>
 <script lang='ts'>
@@ -56,25 +40,11 @@ import { mdiFileDocumentMultiple, mdiLogout } from "@mdi/js";
   components: {},
 })
 export default class Login extends Vue {
-  /**
-   * Whether or not we are in mobile view or not
-   */
-  @Prop({ type: Boolean, default: false })
-  private mobile!: boolean;
-
   private mdiFileDocumentMultiple = mdiFileDocumentMultiple;
   private mdiLogout = mdiLogout;
 
   private get loggedOut() {
     return state.user === null;
-  }
-
-  private get loginClass() {
-    if (this.mobile) {
-      return "margin-right-medium margin-left-medium margin-bottom-medium";
-    } else {
-      return "margin-left-medium";
-    }
   }
 
   private get userFirstLetter() {
