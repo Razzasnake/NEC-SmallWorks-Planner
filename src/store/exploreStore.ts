@@ -185,8 +185,11 @@ export const updateViewOptions = (viewOptions: string[]) => {
 }
 
 export const exportToCsv = () => {
-  if (state.tableLogic && state.tableLogic.api) {
-    state.tableLogic.api.exportDataAsCsv();
+  if (state.tableLogic && state.tableLogic.api && state.uploadedFile) {
+    state.tableLogic.api.exportDataAsCsv({
+      columnKeys: state.uploadedFile.data[0].data.map((_, index) => index.toString()),
+      skipPinnedBottom: true
+    });
   }
 }
 
