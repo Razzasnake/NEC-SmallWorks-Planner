@@ -1,6 +1,7 @@
 import Vue from "vue";
 import exploreState, { saveUploadedFile, downloadUserUpload } from "./exploreStore";
 import router from "@/router";
+import slackApi from "@/api/slack";
 
 interface DriveStoreI {
   user: gapi.auth2.GoogleUser | null,
@@ -27,6 +28,10 @@ export const signIn = (id: string) => {
     width: 100,
     onsuccess: (user) => {
       state.user = user;
+      const profile = user.getBasicProfile();
+      if (profile) {
+        slackApi.login(profile.getName(), profile.getEmail());
+      }
       refreshFiles(() => {
         if (exploreState.uploadedFile && exploreState.uploadedFile.toUpload) {
           saveUploadedFile();
