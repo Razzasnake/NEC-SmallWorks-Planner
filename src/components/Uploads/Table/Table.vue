@@ -147,11 +147,12 @@ export default class Table extends Vue {
     /**
      * Notify parent to download this row and start the tool with it
      *
-     * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File }}
+     * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
      */
     const file = this.files.find((file) => file.id === row.item.id)!;
     const configFile = this.files.find((_) => _.name === `${file.name}.json`);
-    this.$emit("rowClicked", { file, configFile });
+    const geojsonFile = this.files.find((_) => _.name === `${file.name}.geojson.json`);
+    this.$emit("rowClicked", { file, configFile, geojsonFile });
     this.loading = true;
   }
 

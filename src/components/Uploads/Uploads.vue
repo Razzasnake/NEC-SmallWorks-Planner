@@ -35,11 +35,12 @@ export default class Uploads extends Vue {
   private rowClicked(files: {
     file: gapi.client.drive.File;
     configFile: gapi.client.drive.File;
+    geojsonFile: gapi.client.drive.File | undefined;
   }) {
     /**
      * Notify parent to download this row and start the tool with it
      *
-     * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File }}
+     * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
      */
     this.$emit("rowClicked", files);
   }

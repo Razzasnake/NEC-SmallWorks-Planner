@@ -60,7 +60,10 @@ const directLinkDownloadData = () => {
       const configFile = state.files.find(
         (_) => _.name === `${file.name}.json`
       )!;
-      downloadUserUpload({ file, configFile });
+      const geojsonFile = state.files.find(
+        (_) => _.name === `${file.name}.geojson.json`
+      )!;
+      downloadUserUpload({ file, configFile, geojsonFile });
     } else {
       /* TODO: Try to download this file even though the user did not create it. */
       router.push({ name: "404" });

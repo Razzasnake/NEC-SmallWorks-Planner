@@ -9,7 +9,7 @@
         <v-dialog v-model="areYouSureModal" max-width="400" @click:outside="cancelLeave">
           <v-card>
             <v-card-title class="headline">Are you sure you want to leave?</v-card-title>
-            <v-card-text>{{ areYouSureMessage }}</v-card-text>
+            <v-card-text>You will lose all uploaded markers, shapefiles, drawn shapes, filters, and sortings. Click "Sign in" to save your data to Google Drive.</v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="primary" text @click="cancelLeave">Cancel</v-btn>
@@ -44,14 +44,6 @@ export default class App extends Vue {
     return state.uploadedFile !== null && this.$route.name === "Explore";
   }
 
-  private get areYouSureMessage() {
-    if (driveState.user) {
-      return "You will lose all uploaded shapefiles.";
-    } else {
-      return 'You will lose all uploaded markers, shapefiles, drawn shapes, filters, and sortings. Click "Sign in" to save your data to Google Drive.';
-    }
-  }
-
   @Watch("$route")
   private routerUpdated() {
     if (this.$route.name !== "Explore" && state.uploadedFile) {
@@ -65,7 +57,7 @@ export default class App extends Vue {
 
   private jumpTo(location: { name: string }) {
     if (location.name !== this.$route.name) {
-      if (this.$route.name === "Explore") {
+      if (this.$route.name === "Explore" && !driveState.user) {
         this.areYouSureModal = true;
         this.pathToLeaveTo = location;
       } else {

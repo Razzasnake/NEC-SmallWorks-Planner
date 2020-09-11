@@ -29,6 +29,7 @@ export default class Uploads extends _View {
   private async rowClicked(files: {
     file: gapi.client.drive.File;
     configFile: gapi.client.drive.File;
+    geojsonFile: gapi.client.drive.File | undefined;
   }) {
     downloadUserUpload(files);
   }

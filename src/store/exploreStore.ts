@@ -54,6 +54,7 @@ export const updateUploadedFile = (uploadedFile: UploadedFile) => {
 export const downloadUserUpload = async (files: {
   file: gapi.client.drive.File;
   configFile: gapi.client.drive.File;
+  geojsonFile: gapi.client.drive.File | undefined;
 }) => {
   if (files.file.id && files.configFile.id) {
     const worker = new ParserWorker();
@@ -84,6 +85,14 @@ export const downloadUserUpload = async (files: {
       }
       if (config.overlayEventJsons) {
         state.overlayEventJsons = config.overlayEventJsons;
+      }
+      if (files.geojsonFile && files.geojsonFile.id) {
+        downloadFile(files.geojsonFile.id).then((layers) => {
+          state.layers = JSON.parse(layers);
+          state.layers.forEach(layer => {
+            processUploadedLayer(layer);
+          });
+        });
       }
       worker.terminate();
     };
@@ -124,6 +133,13 @@ const updateConfigFile = () => {
       overlayEventJsons: state.overlayEventJsons
     });
     uploadFile(config, "application/json", `${state.uploadedFile!.fileName}.json`);
+  }
+}
+
+const updateGeojsonFile = () => {
+  if (state.uploadedFile) {
+    const config = JSON.stringify(state.layers);
+    uploadFile(config, "application/json", `${state.uploadedFile!.fileName}.geojson.json`);
   }
 }
 
@@ -236,45 +252,52 @@ export const uploadLayer = (file: File) => {
     });
     newLayer.data = event.data;
     state.layers = state.layers.filter(_ => _.id !== newLayer.id).concat(newLayer);
-    if (state.uploadedFile) {
-      createFeature(newLayer);
-      const fkWorker = new PolygonRelationWorker();
-      fkWorker.postMessage({
-        markers: state.uploadedFile.data.map((_) => {
-          if (_.lng && _.lat) {
-            return [_.lng, _.lat];
-          } else {
-            return [null, null];
-          }
-        }),
-        features,
-      });
-      let messages: number = 0;
-      fkWorker.onmessage = (event) => {
-        if (state.uploadedFile === null) {
-          fkWorker.terminate();
-          return;
-        }
-        const polygonIndices: number[] = event.data.polygonIndices;
-        const featureIndex = state.uploadedFile.data[0].features.findIndex(
-          (_) => _.id === newLayer.id
-        );
-        if (featureIndex < 0) {
-          fkWorker.terminate();
-          return;
-        }
-        updateFeature({
-          featureIndex,
-          index: event.data.index,
-          features: polygonIndices.map((index) => features[index]),
-        });
-        messages = messages + 1;
-        if (messages === state.uploadedFile.data.length) {
-          fkWorker.terminate();
-        }
-      };
-    }
+    updateGeojsonFile();
+    processUploadedLayer(newLayer);
     worker.terminate();
+  };
+}
+
+const processUploadedLayer = (layer: { id: string, fileName: string, data: object | null }) => {
+  if (!state.uploadedFile) {
+    return;
+  }
+  createFeature(layer);
+  const fkWorker = new PolygonRelationWorker();
+  const features = (layer.data as any).features;
+  fkWorker.postMessage({
+    markers: state.uploadedFile.data.map((_) => {
+      if (_.lng && _.lat) {
+        return [_.lng, _.lat];
+      } else {
+        return [null, null];
+      }
+    }),
+    features,
+  });
+  let messages: number = 0;
+  fkWorker.onmessage = (event) => {
+    if (state.uploadedFile === null) {
+      fkWorker.terminate();
+      return;
+    }
+    const polygonIndices: number[] = event.data.polygonIndices;
+    const featureIndex = state.uploadedFile.data[0].features.findIndex(
+      (_) => _.id === layer.id
+    );
+    if (featureIndex < 0) {
+      fkWorker.terminate();
+      return;
+    }
+    updateFeature({
+      featureIndex,
+      index: event.data.index,
+      features: polygonIndices.map((index) => features[index]),
+    });
+    messages = messages + 1;
+    if (messages === state.uploadedFile.data.length) {
+      fkWorker.terminate();
+    }
   };
 }
 
@@ -285,6 +308,7 @@ export const removeLayer = (item: { id: string, fileName: string; data: object |
     });
   }
   state.layers = state.layers.filter(_ => _.id !== item.id);
+  updateGeojsonFile();
 }
 
 export const reset = () => {
