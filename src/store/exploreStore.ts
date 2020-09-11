@@ -138,7 +138,7 @@ const updateConfigFile = () => {
 
 const updateGeojsonFile = () => {
   if (state.uploadedFile) {
-    const config = JSON.stringify(state.layers);
+    const config = JSON.stringify(state.layers.filter(_ => _.data !== null));
     uploadFile(config, "application/json", `${state.uploadedFile!.fileName}.geojson.json`);
   }
 }
