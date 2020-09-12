@@ -107,6 +107,7 @@ export const saveUploadedFile = () => {
       router.replace({ name: "Explore", params: { fileId } });
     });
     updateConfigFile();
+    updateGeojsonFile();
     state.uploadedFile.toUpload = false;
   } else if (state.uploadedFile) {
     const file = driveState.files.find(_ => _.name === state.uploadedFile!.fileName);
