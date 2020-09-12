@@ -124,7 +124,7 @@ export const saveUploadedFile = () => {
 }
 
 const updateConfigFile = () => {
-  if (state.uploadedFile) {
+  if (state.uploadedFile && state.uploadedFile.fileName.endsWith(".csv")) {
     const config = JSON.stringify({
       columnSelections: state.uploadedFile.columnSelections,
       firstRowHeader: state.uploadedFile.firstRowHeader,
@@ -138,7 +138,7 @@ const updateConfigFile = () => {
 }
 
 const updateGeojsonFile = () => {
-  if (state.uploadedFile) {
+  if (state.uploadedFile && state.uploadedFile.fileName.endsWith(".csv")) {
     const config = JSON.stringify(state.layers.filter(_ => _.data !== null));
     uploadFile(config, "application/json", `${state.uploadedFile!.fileName}.geojson.json`);
   }
