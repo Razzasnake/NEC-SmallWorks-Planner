@@ -4,7 +4,7 @@
       <g transform="matrix(0.973, 0, 0, 1.050, 7, -34)">
         <image :href="require('@/assets/app.jpg')" height="100%" width="100%" />
       </g>
-      <g transform="matrix(0.726111, 0, 0, 0.726111, -203.982904, -3.269498)">
+      <g transform="matrix(0.726111, 0, 0, 0.726111, -203.982904, 0)">
         <path
           d="M 570.200012 464.600006 H 688.600014 V 538.500008 H 570.200012 V 464.600006 Z"
           class="st322"
