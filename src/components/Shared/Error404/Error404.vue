@@ -1,7 +1,7 @@
 <template>
   <v-img
     class="image-header"
-    src="https://a.storyblok.com/f/89733/2545x1253/653593bd7d/app.jpg"
+    src="https://a.storyblok.com/f/89733/2546x1252/200e33e9cf/app.jpg"
     gradient="to top, rgba(38, 50, 56, .75), rgba(38, 50, 56, .75)"
   >
     <div class="section-header">
