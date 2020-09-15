@@ -257,10 +257,9 @@ export default class GoogleMapLogic {
       this.markerCluster.clearMarkers();
       this.markerCluster = null;
     }
-    const newMarkers = this.markers.filter(_ => _.getVisible());
     if (this.groupByKey) {
       const visibleCategories: Set<string> = new Set();
-      newMarkers.forEach(marker => {
+      this.markers.filter(_ => _.getVisible()).forEach(marker => {
         visibleCategories.add((marker as unknown as { row: Row }).row[this.groupByKey!]);
       });
       this.visibleCategories = visibleCategories;
@@ -271,7 +270,7 @@ export default class GoogleMapLogic {
       });
       this.markerCluster = new MarkerClusterer(
         this.map,
-        newMarkers,
+        this.markers,
         {
           maxZoom: 12,
           clusterClass: "custom-clustericon",
