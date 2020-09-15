@@ -32,11 +32,16 @@
     </v-menu>
     <div v-else>
       <v-btn :color="color" @click="openUpload">
-        <v-icon>{{ mdiUpload }}</v-icon>
-        <span class="margin-left-small">Upload a dataset</span>
+        <span>Upload a dataset</span>
       </v-btn>
-      <span class="margin-right-small margin-left-small">or</span>
-      <a class="paste" @click="displayPasteModal = true">Paste</a>
+      <v-btn
+        class="margin-left-medium"
+        outlined
+        :color="color"
+        @click="displayPasteModal = true"
+      >
+        <span>Paste</span>
+      </v-btn>
     </div>
     <input
       :accept="accept"

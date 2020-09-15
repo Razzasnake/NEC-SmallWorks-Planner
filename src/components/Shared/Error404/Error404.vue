@@ -2,7 +2,7 @@
   <v-img
     class="image-header"
     src="https://a.storyblok.com/f/89733/2546x1252/200e33e9cf/app.jpg"
-    gradient="to top, rgba(38, 50, 56, .75), rgba(38, 50, 56, .75)"
+    gradient="to top, rgba(38, 50, 56, .80), rgba(38, 50, 56, .80)"
   >
     <div class="section-header">
       <div class="section">
