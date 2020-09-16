@@ -12,11 +12,8 @@
     <div class="section">
       <Features />
     </div>
-    <div class="section" style="background-color: #ECEFF1">
-      <div
-        class="text-h4 align-center"
-        style="max-width: 800px; margin: auto;"
-      >Over 10,000 companies rely on Table & Map to find insight in their location data</div>
+    <div class="section " style="background-color: #eceff1;">
+      <GoogleDriveIntegration />
     </div>
     <v-img
       class="section image-footer align-center"
@@ -39,6 +36,7 @@ import { Component, Vue } from "vue-property-decorator";
 import UploadedFile from "@/entities/UploadedFile";
 import CallToAction from "@/components/Home/CallToAction/CallToAction.vue";
 import Features from "@/components/Home/Features/Features.vue";
+import GoogleDriveIntegration from "@/components/Home/GoogleDriveIntegration/GoogleDriveIntegration.vue";
 import Footer from "@/components/Home/Footer/Footer.vue";
 
 /**
@@ -48,6 +46,7 @@ import Footer from "@/components/Home/Footer/Footer.vue";
   components: {
     CallToAction,
     Features,
+    GoogleDriveIntegration,
     Footer,
   },
 })
