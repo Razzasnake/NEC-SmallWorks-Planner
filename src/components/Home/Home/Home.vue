@@ -58,30 +58,21 @@ export default class Home extends Vue {}
   display: flex;
   align-items: center;
   height: 650px;
-  width: 100%;
-  .section-header {
-    width: 1215px;
-    margin: auto;
-    color: #eeeeee;
-  }
-  @media (max-width: 1215px) {
-    .section-header {
-      width: 100%;
-    }
-  }
 }
 .image-footer {
-  display: flex;
-  align-items: center;
   height: 250px;
-  width: 100%;
-  div {
-    color: #eeeeee;
-    margin: auto;
-    width: 1215px;
-  }
 }
 
+.section-header {
+  width: 1215px;
+  margin: auto;
+  color: #eeeeee;
+}
+@media (max-width: 1215px) {
+  .section-header {
+    width: 100%;
+  }
+}
 #upload-drop-area {
   margin: auto;
   display: flex;
@@ -89,16 +80,9 @@ export default class Home extends Vue {}
   border: 2px solid transparent;
   height: calc(100vh - 88px);
   width: calc(100vw - 40px);
-
   &.highlight {
     border: 2px dashed #eeeeee;
     border-radius: 4px;
-  }
-  .scroll-down {
-    color: #eeeeee;
-    position: absolute;
-    bottom: 40px;
-    border: 1px solid #eeeeee;
   }
 }
 </style>
