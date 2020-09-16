@@ -1,9 +1,11 @@
 <template>
   <div>
-    <div class="margin-bottom-large">
-      <h2 class="text-h2">Table &amp; Map</h2>
-      <h6 class="text-h6 tagline">{{ tagline }}</h6>
-    </div>
+    <slot>
+      <div class="margin-bottom-large">
+        <h2 class="text-h2">Table &amp; Map</h2>
+        <h6 class="text-h6 tagline">{{ tagline }}</h6>
+      </div>
+    </slot>
     <UploadWorkflow @finish="finish"></UploadWorkflow>
   </div>
 </template>

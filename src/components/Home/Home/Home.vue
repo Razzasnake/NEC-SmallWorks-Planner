@@ -7,17 +7,30 @@
     >
       <div id="upload-drop-area">
         <CallToAction class="section-header section" @finish="$emit('finish', $event)"></CallToAction>
-        <v-btn icon fab @click="scrollDown" small class="scroll-down" aria-label="Scroll down">
-          <v-icon large>{{ mdiChevronDown }}</v-icon>
-        </v-btn>
       </div>
     </v-img>
     <div class="section">
       <Features />
     </div>
-    <div class="section">
-      <ComingSoon />
+
+    <div class="section" style="background-color: #ECEFF1">
+      <div
+        class="text-h4 align-center"
+        style="max-width: 800px; margin: auto;"
+      >Over 750,000 companies rely on Table & Map to find insight in their location data</div>
     </div>
+
+    <v-img
+      class="section image-footer align-center"
+      gradient="to top, rgba(38, 50, 56, .80), rgba(38, 50, 56, .80)"
+      src="https://a.storyblok.com/f/89733/2000x400/c4eaec5cab/mapwithmarkers.jpg"
+    >
+      <CallToAction class="section-header section slot" @finish="$emit('finish', $event)">
+        <div class="margin-bottom-large">
+          <h3 class="text-h3">Visualize Your Location Data</h3>
+        </div>
+      </CallToAction>
+    </v-img>
     <div class="section">
       <Footer />
     </div>
@@ -28,9 +41,7 @@ import { Component, Vue } from "vue-property-decorator";
 import UploadedFile from "@/entities/UploadedFile";
 import CallToAction from "@/components/Home/CallToAction/CallToAction.vue";
 import Features from "@/components/Home/Features/Features.vue";
-import ComingSoon from "@/components/Home/ComingSoon/ComingSoon.vue";
 import Footer from "@/components/Home/Footer/Footer.vue";
-import { mdiChevronDown } from "@mdi/js";
 
 /**
  * Root most component for the home page
@@ -39,28 +50,16 @@ import { mdiChevronDown } from "@mdi/js";
   components: {
     CallToAction,
     Features,
-    ComingSoon,
     Footer,
   },
 })
-export default class Home extends Vue {
-
-  private mdiChevronDown = mdiChevronDown;
-
-  private scrollDown() {
-    window.scroll({
-      top: window.innerHeight - 48,
-      left: 0,
-      behavior: "smooth",
-    });
-  }
-}
+export default class Home extends Vue {}
 </script>
 <style lang='scss' scoped>
 .image-header {
   display: flex;
   align-items: center;
-  height: calc(100vh - 48px);
+  height: 650px;
   width: 100%;
   .section-header {
     width: 1215px;
@@ -71,6 +70,17 @@ export default class Home extends Vue {
     .section-header {
       width: 100%;
     }
+  }
+}
+.image-footer {
+  display: flex;
+  align-items: center;
+  height: 250px;
+  width: 100%;
+  div {
+    color: #eeeeee;
+    margin: auto;
+    width: 1215px;
   }
 }
 
