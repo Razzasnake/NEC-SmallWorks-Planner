@@ -12,14 +12,12 @@
     <div class="section">
       <Features />
     </div>
-
     <div class="section" style="background-color: #ECEFF1">
       <div
         class="text-h4 align-center"
         style="max-width: 800px; margin: auto;"
-      >Over 750,000 companies rely on Table & Map to find insight in their location data</div>
+      >Over 10,000 companies rely on Table & Map to find insight in their location data</div>
     </div>
-
     <v-img
       class="section image-footer align-center"
       gradient="to top, rgba(38, 50, 56, .80), rgba(38, 50, 56, .80)"
