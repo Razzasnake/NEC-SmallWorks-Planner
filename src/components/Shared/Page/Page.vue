@@ -8,8 +8,12 @@
       <div class="section">
         <div class="section-header">
           <div>
-            <h2 :class="titleClass">{{ title }}</h2>
-            <h6 class="text-h6">{{ subtitle }}</h6>
+            <h2 :class="titleClass">
+              {{ title }}
+            </h2>
+            <h6 class="text-h6">
+              {{ subtitle }}
+            </h6>
           </div>
         </div>
       </div>
@@ -17,7 +21,7 @@
     <div class="content section">
       <div class="feature">
         <!-- @slot What to put in the content -->
-        <slot></slot>
+        <slot />
       </div>
     </div>
     <div class="section">

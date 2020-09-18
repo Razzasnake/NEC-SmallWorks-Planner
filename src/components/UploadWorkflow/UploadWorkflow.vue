@@ -1,7 +1,15 @@
 <template>
   <div>
-    <Upload :color="color" @fileUploaded="fileUploaded" :small="small"></Upload>
-    <v-dialog v-model="visible" @click:outside="reset" max-width="700">
+    <Upload
+      :color="color"
+      :small="small"
+      @fileUploaded="fileUploaded"
+    />
+    <v-dialog
+      v-model="visible"
+      max-width="700"
+      @click:outside="reset"
+    >
       <Loading
         :loading="loading"
         :value="numberGeocoded"
@@ -9,23 +17,42 @@
         label="Geocoding"
       />
       <v-card>
-        <v-card-title class="headline">Select Columns</v-card-title>
+        <v-card-title class="headline">
+          Select Columns
+        </v-card-title>
         <v-card-text>
           <SelectColumns
             v-if="step === 1"
             :value="uploadedFile.data"
-            :columnSelections="columnSelections"
-            :firstRowHeader="firstRowHeader"
+            :column-selections="columnSelections"
+            :first-row-header="firstRowHeader"
             @updateSelections="updateSelections"
             @updateFirstRowHeader="updateFirstRowHeader"
             @updateIsComplete="updateIsComplete"
-          ></SelectColumns>
-          <Geocoder :addresses="addresses" @updateLocation="updateLocation" @finish="finish" />
+          />
+          <Geocoder
+            :addresses="addresses"
+            @updateLocation="updateLocation"
+            @finish="finish"
+          />
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn text color="primary" @click="reset">Cancel</v-btn>
-          <v-btn text color="primary" @click="finish" :disabled="finishIsDisabled">Confirm</v-btn>
+          <v-spacer />
+          <v-btn
+            text
+            color="primary"
+            @click="reset"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+            text
+            color="primary"
+            :disabled="finishIsDisabled"
+            @click="finish"
+          >
+            Confirm
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

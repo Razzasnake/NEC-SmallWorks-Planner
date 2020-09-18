@@ -1,42 +1,50 @@
 <template>
   <div class="full-height">
-    <div :id="mapId" :class="sectionClass" v-show="hasMap">
+    <div
+      v-show="hasMap"
+      :id="mapId"
+      :class="sectionClass"
+    >
       <GoogleMap
-        :uploadedFile="uploadedFile"
-        :hiddenMarkerIndices="hiddenMarkerIndices"
-        :overlayEvents="overlayEvents"
-        :createInfoWindow="createInfoWindow"
-        :displayHeatmap="displayHeatmap"
-        :displayMarkers="displayMarkers"
-        :displayClusters="displayClusters"
-        :clickedMarker="clickedMarker"
-        :groupByKey="groupByKey"
+        :uploaded-file="uploadedFile"
+        :hidden-marker-indices="hiddenMarkerIndices"
+        :overlay-events="overlayEvents"
+        :create-info-window="createInfoWindow"
+        :display-heatmap="displayHeatmap"
+        :display-markers="displayMarkers"
+        :display-clusters="displayClusters"
+        :clicked-marker="clickedMarker"
+        :group-by-key="groupByKey"
         @markerSelected="markerSelected"
         @updateOverlayEvents="updateOverlayEvents"
-      ></GoogleMap>
+      />
     </div>
-    <div :id="tableId" :class="sectionClass" v-show="hasTable">
+    <div
+      v-show="hasTable"
+      :id="tableId"
+      :class="sectionClass"
+    >
       <Table
         ref="Table"
-        :rowData="rowData"
+        :row-data="rowData"
         :filters="filters"
         :sorting="sorting"
-        :tableLogic="tableLogic"
-        :overlayEvents="overlayEvents"
-        :viewOptions="viewOptions"
-        :clickedMarker="clickedMarker"
+        :table-logic="tableLogic"
+        :overlay-events="overlayEvents"
+        :view-options="viewOptions"
+        :clicked-marker="clickedMarker"
         @sortChanged="sortChanged"
         @filterChanged="filterChanged"
         @hiddenMarkerIndicesChanged="hiddenMarkerIndicesChanged"
         @markerSelected="markerSelected"
-      ></Table>
+      />
     </div>
     <PreviewCard
       v-if="clickedMarker"
-      :clickedMarker="clickedMarker"
-      :uploadedFile="uploadedFile"
+      :clicked-marker="clickedMarker"
+      :uploaded-file="uploadedFile"
       @close="close"
-    ></PreviewCard>
+    />
   </div>
 </template>
 <script lang='ts'>

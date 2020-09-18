@@ -1,18 +1,25 @@
 <template>
-  <v-overlay v-if="loading" :z-index="203">
+  <v-overlay
+    v-if="loading"
+    :z-index="203"
+  >
     <span v-if="max !== null && value !== null">
       <v-progress-circular
         :size="105"
         :max="max"
         :value="Math.round(value / max * 100)"
       >
-      <div class="loading-text">
-        <div v-if="label">{{ label }}</div>
-        <div>{{ value.toLocaleString() }} / {{ max.toLocaleString() }}</div>
-      </div>
+        <div class="loading-text">
+          <div v-if="label">{{ label }}</div>
+          <div>{{ value.toLocaleString() }} / {{ max.toLocaleString() }}</div>
+        </div>
       </v-progress-circular>
     </span>
-    <v-progress-circular v-else :size="50" indeterminate />
+    <v-progress-circular
+      v-else
+      :size="50"
+      indeterminate
+    />
   </v-overlay>
 </template>
 <script lang='ts'>

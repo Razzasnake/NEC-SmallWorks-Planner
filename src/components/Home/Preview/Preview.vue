@@ -1,8 +1,15 @@
 <template>
   <v-lazy transition="fade-transition">
-    <svg viewBox="0 0 500 390.3" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      viewBox="0 0 500 390.3"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <g transform="matrix(0.973, 0, 0, 1.050, 7, -34)">
-        <image :href="require('@/assets/app.jpg')" height="100%" width="100%" />
+        <image
+          :href="require('@/assets/app.jpg')"
+          height="100%"
+          width="100%"
+        />
       </g>
       <g transform="matrix(0.726111, 0, 0, 0.726111, -203.982904, 0)">
         <path

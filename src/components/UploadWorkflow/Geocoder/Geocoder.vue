@@ -1,5 +1,5 @@
 <template>
-  <div id="hiddenMap"></div>
+  <div id="hiddenMap" />
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";

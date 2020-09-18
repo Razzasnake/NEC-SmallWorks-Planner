@@ -1,5 +1,9 @@
 <template>
-  <UploadsComponent :files="files" @rowClicked="rowClicked" @finish="finish" />
+  <UploadsComponent
+    :files="files"
+    @rowClicked="rowClicked"
+    @finish="finish"
+  />
 </template>
 <script lang='ts'>
 import { Component } from "vue-property-decorator";

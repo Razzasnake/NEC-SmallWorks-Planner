@@ -1,5 +1,8 @@
 <template>
-  <v-breadcrumbs :items="items" large>
+  <v-breadcrumbs
+    :items="items"
+    large
+  >
     <template v-slot:divider>
       <v-icon>{{ mdiChevronRight }}</v-icon>
     </template>

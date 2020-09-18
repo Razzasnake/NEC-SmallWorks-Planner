@@ -1,19 +1,40 @@
 <template>
   <div id="app">
     <v-app>
-      <NavBar :drawerAllowed="drawerAllowed" @jumpTo="jumpTo"></NavBar>
+      <NavBar
+        :drawer-allowed="drawerAllowed"
+        @jumpTo="jumpTo"
+      />
       <v-main>
         <keep-alive>
-          <router-view></router-view>
+          <router-view />
         </keep-alive>
-        <v-dialog v-model="areYouSureModal" max-width="400" @click:outside="cancelLeave">
+        <v-dialog
+          v-model="areYouSureModal"
+          max-width="400"
+          @click:outside="cancelLeave"
+        >
           <v-card>
-            <v-card-title class="headline">Are you sure you want to leave?</v-card-title>
+            <v-card-title class="headline">
+              Are you sure you want to leave?
+            </v-card-title>
             <v-card-text>You will lose all uploaded markers, shapefiles, drawn shapes, filters, and sortings. Click "Sign in" to save your data to Google Drive.</v-card-text>
             <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="primary" text @click="cancelLeave">Cancel</v-btn>
-              <v-btn color="primary" text @click="confirmLeave">Confirm</v-btn>
+              <v-spacer />
+              <v-btn
+                color="primary"
+                text
+                @click="cancelLeave"
+              >
+                Cancel
+              </v-btn>
+              <v-btn
+                color="primary"
+                text
+                @click="confirmLeave"
+              >
+                Confirm
+              </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>

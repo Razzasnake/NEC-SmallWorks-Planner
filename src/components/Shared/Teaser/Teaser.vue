@@ -1,11 +1,14 @@
 <template>
-  <v-card width="397px" v-editable="blok">
+  <v-card
+    v-editable="blok"
+    width="397px"
+  >
     <v-img
       v-if="blok.preview && blok.preview.filename"
       class="align-end"
       height="200px"
       :src="blok.preview.filename"
-    ></v-img>
+    />
     <v-card-title>
       <a
         v-if="buttonText && blok.feature.cached_url.startsWith('http')"
@@ -14,26 +17,34 @@
       <router-link
         v-else-if="$router && buttonText"
         :to="$router ? blok.feature.cached_url: ''"
-      >{{ blok.title }}</router-link>
-      <div v-else>{{ blok.title }}</div>
+      >
+        {{ blok.title }}
+      </router-link>
+      <div v-else>
+        {{ blok.title }}
+      </div>
     </v-card-title>
     <v-card-text>
       <div>{{ blok.description }}</div>
     </v-card-text>
     <v-card-actions v-if="buttonText">
-      <v-spacer></v-spacer>
+      <v-spacer />
       <v-btn
         v-if="buttonText && blok.feature.cached_url.startsWith('http')"
         color="primary"
         text
         @click="onClick"
-      >{{ buttonText }}</v-btn>
+      >
+        {{ buttonText }}
+      </v-btn>
       <v-btn
         v-else
         color="primary"
         text
         :to="$router ? blok.feature.cached_url: ''"
-      >{{ buttonText }}</v-btn>
+      >
+        {{ buttonText }}
+      </v-btn>
     </v-card-actions>
   </v-card>
 </template>

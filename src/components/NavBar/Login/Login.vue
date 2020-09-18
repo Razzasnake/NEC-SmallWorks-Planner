@@ -1,10 +1,25 @@
 <template>
   <div class="login">
-    <div v-show="loggedOut" id="google-signin-button" class="margin-left-medium"></div>
-    <v-menu v-if="!loggedOut" offset-y>
+    <div
+      v-show="loggedOut"
+      id="google-signin-button"
+      class="margin-left-medium"
+    />
+    <v-menu
+      v-if="!loggedOut"
+      offset-y
+    >
       <template v-slot:activator="{ on }">
-        <v-btn v-on="on" x-small fab color="#eeeeee" class="margin-left-medium">
-          <div class="first-letter">{{ userFirstLetter }}</div>
+        <v-btn
+          x-small
+          fab
+          color="#eeeeee"
+          class="margin-left-medium"
+          v-on="on"
+        >
+          <div class="first-letter">
+            {{ userFirstLetter }}
+          </div>
         </v-btn>
       </template>
       <v-list>

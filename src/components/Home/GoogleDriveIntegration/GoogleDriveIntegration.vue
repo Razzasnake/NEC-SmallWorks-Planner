@@ -1,22 +1,37 @@
 <template>
   <div>
     <template v-if="$vuetify.breakpoint.xs">
-      <v-img :src="require('@/assets/google_drive_logo.png')"></v-img>
-      <h6 class="text-h6 margin-medium" v-for="(s, index) in steps" :key="index">
-        <div class="google-drive-circle margin-right-small">{{ index + 1 }}</div>
+      <v-img :src="require('@/assets/google_drive_logo.png')" />
+      <h6
+        v-for="(s, index) in steps"
+        :key="index"
+        class="text-h6 margin-medium"
+      >
+        <div class="google-drive-circle margin-right-small">
+          {{ index + 1 }}
+        </div>
         {{ s }}
       </h6>
     </template>
     <template v-else>
       <v-row>
         <v-col>
-          <h6 class="text-h6 margin-medium" v-for="(s, index) in steps" :key="index">
-            <div class="google-drive-circle margin-right-small">{{ index + 1 }}</div>
+          <h6
+            v-for="(s, index) in steps"
+            :key="index"
+            class="text-h6 margin-medium"
+          >
+            <div class="google-drive-circle margin-right-small">
+              {{ index + 1 }}
+            </div>
             {{ s }}
           </h6>
         </v-col>
-        <v-col cols="5" style="margin: auto;">
-          <v-img :src="require('@/assets/google_drive_logo.png')"></v-img>
+        <v-col
+          cols="5"
+          style="margin: auto;"
+        >
+          <v-img :src="require('@/assets/google_drive_logo.png')" />
         </v-col>
       </v-row>
     </template>

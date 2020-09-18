@@ -1,8 +1,12 @@
 <template>
   <div class="info-section">
     <template v-if="$vuetify.breakpoint.smAndDown">
-      <h4 class="text-h4 align-center">{{ title }}</h4>
-      <div class="margin-top-medium align-center text-subtitle-1 small-title">{{ subtitle }}</div>
+      <h4 class="text-h4 align-center">
+        {{ title }}
+      </h4>
+      <div class="margin-top-medium align-center text-subtitle-1 small-title">
+        {{ subtitle }}
+      </div>
       <Preview class="margin-top-large" />
     </template>
     <template v-else>
@@ -12,30 +16,59 @@
         </v-col>
         <v-col class="not-small-title">
           <div>
-            <h4 class="text-h4">{{ title }}</h4>
-            <div class="margin-top-medium text-subtitle-1">{{ subtitle }}</div>
+            <h4 class="text-h4">
+              {{ title }}
+            </h4>
+            <div class="margin-top-medium text-subtitle-1">
+              {{ subtitle }}
+            </div>
           </div>
         </v-col>
       </v-row>
     </template>
-    <v-row class="margin-top-large" justify="center">
-      <v-card :width="cardWidth" v-for="(c, index) in cards" :key="index" class="ma-2">
+    <v-row
+      class="margin-top-large"
+      justify="center"
+    >
+      <v-card
+        v-for="(c, index) in cards"
+        :key="index"
+        :width="cardWidth"
+        class="ma-2"
+      >
         <v-card-title>
-          <router-link v-if="$router" :to="$router ? c.learnMorePath: ''">{{ c.title }}</router-link>
+          <router-link
+            v-if="$router"
+            :to="$router ? c.learnMorePath: ''"
+          >
+            {{ c.title }}
+          </router-link>
           <a v-else>{{ c.title }}</a>
         </v-card-title>
         <v-card-text>
           <div>{{ c.description }}</div>
-          <div class="info-description"></div>
+          <div class="info-description" />
           <div class="card-actions">
-            <v-spacer></v-spacer>
-            <v-btn color="primary" text :to="$router ? c.learnMorePath: ''">Learn More</v-btn>
+            <v-spacer />
+            <v-btn
+              color="primary"
+              text
+              :to="$router ? c.learnMorePath: ''"
+            >
+              Learn More
+            </v-btn>
           </div>
         </v-card-text>
       </v-card>
     </v-row>
     <div class="margin-top-large align-center">
-      <v-btn color="primary" outlined :to="$router ? '/features': ''">See All Features</v-btn>
+      <v-btn
+        color="primary"
+        outlined
+        :to="$router ? '/features': ''"
+      >
+        See All Features
+      </v-btn>
     </div>
   </div>
 </template>

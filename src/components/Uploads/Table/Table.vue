@@ -3,8 +3,8 @@
     <Loading :loading="loading" />
     <v-card-title>
       Uploads
-      <v-spacer></v-spacer>
-      <v-spacer></v-spacer>
+      <v-spacer />
+      <v-spacer />
       <v-text-field
         v-model="search"
         :prepend-icon="mdiMagnify"
@@ -12,7 +12,7 @@
         single-line
         hide-details
         clearable
-      ></v-text-field>
+      />
     </v-card-title>
     <v-data-table
       sort-by="name"
@@ -22,7 +22,7 @@
       :search="search"
       :mobile-breakpoint="0"
       @dblclick:row="rowClicked"
-    ></v-data-table>
+    />
   </v-card>
 </template>
 <script lang='ts'>

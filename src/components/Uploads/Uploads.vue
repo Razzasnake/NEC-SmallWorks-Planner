@@ -1,10 +1,16 @@
 <template>
   <div class="uploads">
-    <Navigation :class="{'margin-large': !$vuetify.breakpoint.xs}" @finish="finish" />
+    <Navigation
+      :class="{'margin-large': !$vuetify.breakpoint.xs}"
+      @finish="finish"
+    />
     <div class="full-width margin-large">
       <Breadcrumbs />
       <v-divider />
-      <Table :files="files" @rowClicked="rowClicked" />
+      <Table
+        :files="files"
+        @rowClicked="rowClicked"
+      />
     </div>
   </div>
 </template>

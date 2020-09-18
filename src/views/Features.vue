@@ -1,5 +1,8 @@
 <template>
-  <Page v-if="story" :blok="story.content"></Page>
+  <Page
+    v-if="story"
+    :blok="story.content"
+  />
 </template>
 <script lang='ts'>
 import { Component } from "vue-property-decorator";

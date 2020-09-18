@@ -2,16 +2,19 @@
   <div class="explore">
     <TableAndMap
       v-if="uploadedFile && googleMapsLibrary"
-      :uploadedFile="uploadedFile"
+      :uploaded-file="uploadedFile"
       :filters="filters"
       :sorting="sorting"
-      :overlayEventJsons="overlayEventJsons"
-      :tableLogic="tableLogic"
+      :overlay-event-jsons="overlayEventJsons"
+      :table-logic="tableLogic"
       @updateOverlayEventJsons="updateOverlayEventJsons"
       @sortChanged="updateSorting"
       @filterChanged="updateFilters"
-    ></TableAndMap>
-    <Loading loading v-else />
+    />
+    <Loading
+      v-else
+      loading
+    />
   </div>
 </template>
 <script lang='ts'>

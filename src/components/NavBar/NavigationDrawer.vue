@@ -8,7 +8,10 @@
       <template v-slot:activator>
         <v-list-item-title>{{ dropdown0.label }}</v-list-item-title>
       </template>
-      <span v-for="(dropdown1, index1) in dropdown0.dropdowns" :key="index1">
+      <span
+        v-for="(dropdown1, index1) in dropdown0.dropdowns"
+        :key="index1"
+      >
         <v-list-item v-if="dropdown1.key === 'map:groupByKey'">
           <v-list-item-content>
             <v-select
@@ -18,10 +21,14 @@
               clearable
               dense
               @change="groupByKeyChange"
-            ></v-select>
+            />
           </v-list-item-content>
         </v-list-item>
-        <v-list-item v-else link @click="updateViewOptions(dropdown1)">
+        <v-list-item
+          v-else
+          link
+          @click="updateViewOptions(dropdown1)"
+        >
           <v-list-item-content>
             <v-list-item-title>{{ keyVisible(dropdown1.key) ? `${activeText}${dropdown1.label}` :`${inactiveText}${dropdown1.label}` }}</v-list-item-title>
           </v-list-item-content>
@@ -34,10 +41,16 @@
       </v-list-item-icon>
       <v-list-item-content>
         <v-list-item-title>Layer Manager</v-list-item-title>
-        <LayerManager v-if="uploadLayerModal" @close="uploadLayerModal = false" />
+        <LayerManager
+          v-if="uploadLayerModal"
+          @close="uploadLayerModal = false"
+        />
       </v-list-item-content>
     </v-list-item>
-    <v-list-item link @click="exportToCsv">
+    <v-list-item
+      link
+      @click="exportToCsv"
+    >
       <v-list-item-icon>
         <v-icon>{{ mdiExport }}</v-icon>
       </v-list-item-icon>

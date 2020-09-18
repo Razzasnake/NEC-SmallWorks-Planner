@@ -1,15 +1,41 @@
 <template>
-  <v-dialog v-model="visible" @click:outside="closeModal" max-width="700">
+  <v-dialog
+    v-model="visible"
+    max-width="700"
+    @click:outside="closeModal"
+  >
     <v-card>
-      <v-card-title class="headline">Paste a dataset</v-card-title>
+      <v-card-title class="headline">
+        Paste a dataset
+      </v-card-title>
       <v-card-text>
-        <div class="margin-bottom-large">{{ description }}</div>
-        <v-textarea outlined flat :placeholder="placeholder" v-model="text"></v-textarea>
+        <div class="margin-bottom-large">
+          {{ description }}
+        </div>
+        <v-textarea
+          v-model="text"
+          outlined
+          flat
+          :placeholder="placeholder"
+        />
       </v-card-text>
       <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn color="primary" text @click="closeModal">Cancel</v-btn>
-        <v-btn color="primary" text @click="uploadText" :disabled="finishIsDisabled">Confirm</v-btn>
+        <v-spacer />
+        <v-btn
+          color="primary"
+          text
+          @click="closeModal"
+        >
+          Cancel
+        </v-btn>
+        <v-btn
+          color="primary"
+          text
+          :disabled="finishIsDisabled"
+          @click="uploadText"
+        >
+          Confirm
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

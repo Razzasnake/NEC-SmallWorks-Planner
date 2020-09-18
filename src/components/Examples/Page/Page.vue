@@ -4,21 +4,41 @@
     subtitle="See how Table & Map can add value by trying one of our datasets."
     img="https://a.storyblok.com/f/89733/2000x400/c4eaec5cab/mapwithmarkers.jpg"
   >
-    <div v-for="key in Object.keys(groupByBloks)" :key="key" class="slide-group-container">
-      <h4 class="text-h4">{{ key }}</h4>
-      <v-row justify="center" v-if="$vuetify.breakpoint.xs">
+    <div
+      v-for="key in Object.keys(groupByBloks)"
+      :key="key"
+      class="slide-group-container"
+    >
+      <h4 class="text-h4">
+        {{ key }}
+      </h4>
+      <v-row
+        v-if="$vuetify.breakpoint.xs"
+        justify="center"
+      >
         <Teaser
-          :blok="item"
-          buttonText="Preview"
-          class="ma-2"
-          @onClick="preview"
           v-for="item in groupByBloks[key]"
           :key="item._uid"
-        ></Teaser>
+          :blok="item"
+          button-text="Preview"
+          class="ma-2"
+          @onClick="preview"
+        />
       </v-row>
-      <v-slide-group show-arrows v-else>
-        <v-slide-item v-for="item in groupByBloks[key]" :key="item._uid">
-          <Teaser :blok="item" buttonText="Preview" class="ma-2" @onClick="preview"></Teaser>
+      <v-slide-group
+        v-else
+        show-arrows
+      >
+        <v-slide-item
+          v-for="item in groupByBloks[key]"
+          :key="item._uid"
+        >
+          <Teaser
+            :blok="item"
+            button-text="Preview"
+            class="ma-2"
+            @onClick="preview"
+          />
         </v-slide-item>
       </v-slide-group>
     </div>

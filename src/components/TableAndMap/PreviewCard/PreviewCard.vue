@@ -1,48 +1,66 @@
 <template>
-  <v-dialog v-model="visible" @click:outside="close" max-width="1600" scrollable>
+  <v-dialog
+    v-model="visible"
+    max-width="1600"
+    scrollable
+    @click:outside="close"
+  >
     <v-card>
-      <div id="street-view"></div>
+      <div id="street-view" />
       <v-card-text class="full-height">
         <v-row>
           <v-col>
-            <h6 class="text-h6">Marker</h6>
+            <h6 class="text-h6">
+              Marker
+            </h6>
             <div>
               <AgGridVue
-                class="ag-theme-balham"
-                domLayout="autoHeight"
-                rowBuffer="9999"
                 v-model="markerData"
-                :columnDefs="tableColumns"
+                class="ag-theme-balham"
+                dom-layout="autoHeight"
+                row-buffer="9999"
+                :column-defs="tableColumns"
                 :modules="modules"
-                :defaultColDef="colDef"
+                :default-col-def="colDef"
+                suppress-menu-hide
+                suppress-column-virtualisation
+                enable-cell-text-selection
                 @gridReady="gridReady"
-                suppressMenuHide
-                suppressColumnVirtualisation
-                enableCellTextSelection
-              ></AgGridVue>
+              />
             </div>
           </v-col>
-          <v-col v-for="(feature, index) in featureTables" :key="index">
-            <h6 class="text-h6">Feature - {{ feature.name }}</h6>
+          <v-col
+            v-for="(feature, index) in featureTables"
+            :key="index"
+          >
+            <h6 class="text-h6">
+              Feature - {{ feature.name }}
+            </h6>
             <AgGridVue
-              class="ag-theme-balham"
-              domLayout="autoHeight"
-              rowBuffer="9999"
               v-model="feature.data"
-              :columnDefs="tableColumns"
+              class="ag-theme-balham"
+              dom-layout="autoHeight"
+              row-buffer="9999"
+              :column-defs="tableColumns"
               :modules="modules"
-              :defaultColDef="colDef"
+              :default-col-def="colDef"
+              suppress-menu-hide
+              suppress-column-virtualisation
+              enable-cell-text-selection
               @gridReady="gridReady"
-              suppressMenuHide
-              suppressColumnVirtualisation
-              enableCellTextSelection
-            ></AgGridVue>
+            />
           </v-col>
         </v-row>
       </v-card-text>
       <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn text @click="$emit('close')" color="primary">Close</v-btn>
+        <v-spacer />
+        <v-btn
+          text
+          color="primary"
+          @click="$emit('close')"
+        >
+          Close
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

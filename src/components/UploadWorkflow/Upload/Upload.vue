@@ -12,7 +12,9 @@
           :color="color"
           v-on="on"
         >
-          <v-icon class="margin-right-small">{{ mdiPlus }}</v-icon>New
+          <v-icon class="margin-right-small">
+            {{ mdiPlus }}
+          </v-icon>New
         </v-btn>
       </template>
       <v-list>
@@ -31,7 +33,10 @@
       </v-list>
     </v-menu>
     <div v-else>
-      <v-btn :color="color" @click="openUpload">
+      <v-btn
+        :color="color"
+        @click="openUpload"
+      >
         <span>Upload a dataset</span>
       </v-btn>
       <v-btn
@@ -44,19 +49,26 @@
       </v-btn>
     </div>
     <input
-      :accept="accept"
       ref="input"
+      :accept="accept"
       type="file"
       class="upload-input"
       @change="fileUploaded($event.target.files[0])"
-    />
+    >
     <PasteModal
       v-if="displayPasteModal"
       @closeModal="displayPasteModal = false"
       @uploadText="uploadText"
-    ></PasteModal>
-    <v-snackbar v-model="snackbar" color="error" top rounded="pill">
-      <div class="align-center">Upload failed. Please try again or upload a different file.</div>
+    />
+    <v-snackbar
+      v-model="snackbar"
+      color="error"
+      top
+      rounded="pill"
+    >
+      <div class="align-center">
+        Upload failed. Please try again or upload a different file.
+      </div>
     </v-snackbar>
   </div>
 </template>

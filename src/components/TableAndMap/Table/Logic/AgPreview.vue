@@ -1,8 +1,18 @@
 <template>
   <div>
-    <v-select v-if="footerValue" v-model="footerAggregationSelection" :items="footerAggregations"></v-select>
-    <a v-else @click="onClick">
-      <v-icon color="primary" small>{{ mdiEye }}</v-icon>
+    <v-select
+      v-if="footerValue"
+      v-model="footerAggregationSelection"
+      :items="footerAggregations"
+    />
+    <a
+      v-else
+      @click="onClick"
+    >
+      <v-icon
+        color="primary"
+        small
+      >{{ mdiEye }}</v-icon>
     </a>
   </div>
 </template>

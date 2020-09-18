@@ -6,10 +6,16 @@
   >
     <div class="section-header">
       <div class="section">
-        <h2 class="text-h2">404 - Page Not Found</h2>
-        <div class="text-subtitle-1">The page you are looking for no longer exists.</div>
+        <h2 class="text-h2">
+          404 - Page Not Found
+        </h2>
+        <div class="text-subtitle-1">
+          The page you are looking for no longer exists.
+        </div>
         <h6 class="text-h6 margin-top-large">
-        <router-link to="/">Back home</router-link>
+          <router-link to="/">
+            Back home
+          </router-link>
           in {{ time }}
         </h6>
       </div>

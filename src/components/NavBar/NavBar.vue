@@ -1,14 +1,25 @@
 <template>
   <div>
     <div v-if="drawerAllowed">
-      <v-navigation-drawer v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" app>
+      <v-navigation-drawer
+        v-model="drawer"
+        :clipped="$vuetify.breakpoint.lgAndUp"
+        app
+      >
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title class="title">
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
-                  <span v-bind="attrs" v-on="on">
-                    <a v-if="fileWebViewLink" :href="fileWebViewLink" target="_blank">{{ fileName }}</a>
+                  <span
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    <a
+                      v-if="fileWebViewLink"
+                      :href="fileWebViewLink"
+                      target="_blank"
+                    >{{ fileName }}</a>
                     <span v-else>{{ fileName }}</span>
                   </span>
                 </template>
@@ -20,14 +31,30 @@
         <NavigationDrawer />
       </v-navigation-drawer>
     </div>
-    <v-app-bar dense color="primary" app :clipped-left="$vuetify.breakpoint.lgAndUp">
-      <v-app-bar-nav-icon v-if="drawerAllowed" @click.stop="toggleDrawer" color="#eeeeee"></v-app-bar-nav-icon>
+    <v-app-bar
+      dense
+      color="primary"
+      app
+      :clipped-left="$vuetify.breakpoint.lgAndUp"
+    >
+      <v-app-bar-nav-icon
+        v-if="drawerAllowed"
+        color="#eeeeee"
+        @click.stop="toggleDrawer"
+      />
       <a @click="jumpTo({ name: 'Home' })">
         <v-toolbar-title class="appbar-title">Table & Map</v-toolbar-title>
       </a>
-      <v-spacer></v-spacer>
+      <v-spacer />
       <v-toolbar-items>
-        <v-btn v-if="loggedIn" text color="#eeeeee" @click="jumpTo({ name: 'Uploads' })">Uploads</v-btn>
+        <v-btn
+          v-if="loggedIn"
+          text
+          color="#eeeeee"
+          @click="jumpTo({ name: 'Uploads' })"
+        >
+          Uploads
+        </v-btn>
         <Login @jumpTo="jumpTo" />
       </v-toolbar-items>
     </v-app-bar>

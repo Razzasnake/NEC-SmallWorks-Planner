@@ -1,5 +1,8 @@
 <template>
-  <UploadWorkflow @finish="finish" small></UploadWorkflow>
+  <UploadWorkflow
+    small
+    @finish="finish"
+  />
 </template>
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";

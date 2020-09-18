@@ -1,19 +1,19 @@
 <template>
   <AgGridVue
-    class="ag-theme-balham full-height"
     v-model="rowData"
-    :columnDefs="tableLogic.columnDefs"
-    :defaultColDef="colDef"
-    :isExternalFilterPresent="isExternalFilterPresent"
-    :doesExternalFilterPass="doesExternalFilterPass"
-    :getRowNodeId="getRowNodeId"
+    class="ag-theme-balham full-height"
+    :column-defs="tableLogic.columnDefs"
+    :default-col-def="colDef"
+    :is-external-filter-present="isExternalFilterPresent"
+    :does-external-filter-pass="doesExternalFilterPass"
+    :get-row-node-id="getRowNodeId"
     :modules="modules"
-    suppressMenuHide
-    enableCellTextSelection
+    suppress-menu-hide
+    enable-cell-text-selection
     @gridReady="gridReady"
     @sortChanged="sortChanged"
     @filterChanged="filterChanged"
-  ></AgGridVue>
+  />
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";

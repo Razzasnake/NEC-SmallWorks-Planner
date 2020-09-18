@@ -2,28 +2,71 @@
   <div class="foot">
     <div v-if="$vuetify.breakpoint.xs">
       <div class="margin-bottom-large">
-        <router-link v-if="$router" to="/">
-          <h4 class="text-h4">Table & Map</h4>
+        <router-link
+          v-if="$router"
+          to="/"
+        >
+          <h4 class="text-h4">
+            Table & Map
+          </h4>
         </router-link>
-        <h4 v-else class="text-h4">Table & Map</h4>
-        <div class="text-subtitle-1">Visualize your location data</div>
+        <h4
+          v-else
+          class="text-h4"
+        >
+          Table & Map
+        </h4>
+        <div class="text-subtitle-1">
+          Visualize your location data
+        </div>
       </div>
     </div>
     <v-row>
-      <v-col cols="6" v-if="$vuetify.breakpoint.smAndUp">
-        <router-link v-if="$router" to="/">
-          <h4 class="text-h4">Table & Map</h4>
+      <v-col
+        v-if="$vuetify.breakpoint.smAndUp"
+        cols="6"
+      >
+        <router-link
+          v-if="$router"
+          to="/"
+        >
+          <h4 class="text-h4">
+            Table & Map
+          </h4>
         </router-link>
-        <h4 v-else class="text-h4">Table & Map</h4>
-        <div class="text-subtitle-1">Visualize your location data</div>
+        <h4
+          v-else
+          class="text-h4"
+        >
+          Table & Map
+        </h4>
+        <div class="text-subtitle-1">
+          Visualize your location data
+        </div>
       </v-col>
-      <v-col v-for="key in Object.keys(links)" :key="key" :cols="$vuetify.breakpoint.xs ? 6 : 3">
+      <v-col
+        v-for="key in Object.keys(links)"
+        :key="key"
+        :cols="$vuetify.breakpoint.xs ? 6 : 3"
+      >
         <div class="footer-links">
           <b>{{ key.toUpperCase() }}</b>
         </div>
-        <div class="footer-links margin-top-small" v-for="l in links[key]" :key="l.label">
-          <router-link v-if="$router" :to="l.link">{{ l.label }}</router-link>
-          <a v-else :to="l.link">{{ l.label }}</a>
+        <div
+          v-for="l in links[key]"
+          :key="l.label"
+          class="footer-links margin-top-small"
+        >
+          <router-link
+            v-if="$router"
+            :to="l.link"
+          >
+            {{ l.label }}
+          </router-link>
+          <a
+            v-else
+            :to="l.link"
+          >{{ l.label }}</a>
         </div>
       </v-col>
     </v-row>

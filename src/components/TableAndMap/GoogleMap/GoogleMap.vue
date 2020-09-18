@@ -1,16 +1,24 @@
 <template>
   <div class="google-map-container">
-    <div class="google-map" :id="mapLogic.mapId" />
-    <v-btn-toggle class="drawing-manager" :value="mapLogic.activeDrawingMode">
+    <div
+      :id="mapLogic.mapId"
+      class="google-map"
+    />
+    <v-btn-toggle
+      class="drawing-manager"
+      :value="mapLogic.activeDrawingMode"
+    >
       <v-btn
         v-for="(d, index) in drawingOptions"
+        :key="index"
         x-small
         fab
         :title="d.title"
         @click="mapLogic.setDrawingManager(index)"
-        :key="index"
       >
-        <v-icon :color="mapLogic.iconColor">{{ d.icon }}</v-icon>
+        <v-icon :color="mapLogic.iconColor">
+          {{ d.icon }}
+        </v-icon>
       </v-btn>
       <v-btn
         v-if="mapLogic.selectedOverlayEvent"
@@ -19,17 +27,24 @@
         title="Delete selected shape"
         @click="deleteSelectedOverlay"
       >
-        <v-icon color="error">{{ mdiDelete }}</v-icon>
+        <v-icon color="error">
+          {{ mdiDelete }}
+        </v-icon>
       </v-btn>
     </v-btn-toggle>
-    <v-card class="legend" v-if="mapLogic.colorPosition">
+    <v-card
+      v-if="mapLogic.colorPosition"
+      class="legend"
+    >
       <template
         v-for="key in Object.keys(mapLogic.colorPosition).filter(key => mapLogic.visibleCategories.has(key))"
       >
         <div
-          :style="`background-color: ${mapLogic.materialColors[mapLogic.colorPosition[key]].hash};`"
           :key="key"
-        >{{ key }}</div>
+          :style="`background-color: ${mapLogic.materialColors[mapLogic.colorPosition[key]].hash};`"
+        >
+          {{ key }}
+        </div>
       </template>
     </v-card>
   </div>

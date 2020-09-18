@@ -1,18 +1,29 @@
 <template>
   <div>
-    <h4 class="align-center text-h4">Try an example dataset</h4>
-    <v-row justify="center" class="margin-top-large">
+    <h4 class="align-center text-h4">
+      Try an example dataset
+    </h4>
+    <v-row
+      justify="center"
+      class="margin-top-large"
+    >
       <Teaser
-        :blok="item"
-        buttonText="Preview"
-        class="ma-2"
-        @onClick="preview"
         v-for="(item, index) in examples"
         :key="index"
-      ></Teaser>
+        :blok="item"
+        button-text="Preview"
+        class="ma-2"
+        @onClick="preview"
+      />
     </v-row>
     <div class="margin-top-large align-center">
-      <v-btn color="primary" outlined :to="$router ? '/examples': ''">See All Examples</v-btn>
+      <v-btn
+        color="primary"
+        outlined
+        :to="$router ? '/examples': ''"
+      >
+        See All Examples
+      </v-btn>
     </div>
     <Loading :loading="loading" />
   </div>

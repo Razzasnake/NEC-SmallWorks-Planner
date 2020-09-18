@@ -1,33 +1,66 @@
 <template>
-  <v-dialog v-model="visible" @click:outside="close" max-width="600">
+  <v-dialog
+    v-model="visible"
+    max-width="600"
+    @click:outside="close"
+  >
     <v-card>
-      <v-card-title class="headline">GeoJSON and Shapefile Layers</v-card-title>
+      <v-card-title class="headline">
+        GeoJSON and Shapefile Layers
+      </v-card-title>
       <v-card-subtitle>Upload a geojson (.json, .geojson) or shapefile (.zip) and see where your markers fall in relation to the uploaded shapes.</v-card-subtitle>
       <v-card-text class="card-text-area">
-        <div id="shape-drop-area" @click="openUpload">
-          <v-icon x-large>{{ mdiUpload }}</v-icon>
+        <div
+          id="shape-drop-area"
+          @click="openUpload"
+        >
+          <v-icon x-large>
+            {{ mdiUpload }}
+          </v-icon>
           <div>Drop files here or click to upload</div>
         </div>
         <input
+          ref="input"
           :accept="accept"
           multiple="multiple"
-          ref="input"
           type="file"
           class="upload-input"
           @change="uploadLayers($event.target.files)"
-        />
-        <v-data-table :headers="headers" :items="tableData" v-if="tableData.length">
+        >
+        <v-data-table
+          v-if="tableData.length"
+          :headers="headers"
+          :items="tableData"
+        >
           <template v-slot:item.actions="{ item }">
             <div class="float-right">
-              <v-progress-circular v-if="item.data === null" indeterminate :size="20" :width="2" />
-              <v-btn v-else text color="error" @click="removeLayer(item)">Delete</v-btn>
+              <v-progress-circular
+                v-if="item.data === null"
+                indeterminate
+                :size="20"
+                :width="2"
+              />
+              <v-btn
+                v-else
+                text
+                color="error"
+                @click="removeLayer(item)"
+              >
+                Delete
+              </v-btn>
             </div>
           </template>
         </v-data-table>
       </v-card-text>
       <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn text color="primary" @click="close">Close</v-btn>
+        <v-spacer />
+        <v-btn
+          text
+          color="primary"
+          @click="close"
+        >
+          Close
+        </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>

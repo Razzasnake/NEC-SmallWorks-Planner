@@ -1,15 +1,21 @@
 <template>
   <div>
-    <v-checkbox v-model="firstRowHeaderAux" label="First Row Header"></v-checkbox>
-    <div v-for="(c, index) in visibleColumns" :key="index">
+    <v-checkbox
+      v-model="firstRowHeaderAux"
+      label="First Row Header"
+    />
+    <div
+      v-for="(c, index) in visibleColumns"
+      :key="index"
+    >
       <v-autocomplete
         v-model="c.search"
         :items="allOptions"
         item-text="value"
         :label="c.label"
-        @input="inputFnc($event, c.key)"
         clearable
-      ></v-autocomplete>
+        @input="inputFnc($event, c.key)"
+      />
     </div>
     <a
       v-if="!showAddressFields"

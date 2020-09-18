@@ -1,7 +1,10 @@
 <template>
   <div>
     <Loading :loading="loading" />
-    <HomeComponent @finish="finish" @preview="preview" />
+    <HomeComponent
+      @finish="finish"
+      @preview="preview"
+    />
   </div>
 </template>
 <script lang='ts'>
