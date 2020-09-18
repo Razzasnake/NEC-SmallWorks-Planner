@@ -1,5 +1,5 @@
 <template>
-  <div class="google-drive-integration">
+  <div>
     <template v-if="$vuetify.breakpoint.xs">
       <v-img :src="require('@/assets/google_drive_logo.png')"></v-img>
       <div class="text-h6 margin-medium" v-for="(s, index) in steps" :key="index">
@@ -48,10 +48,5 @@ export default class GoogleDriveIntegration extends Vue {
   border-radius: 50%;
   text-align: center;
   display: inline-block;
-}
-@media (max-width: 1215px) {
-  .google-drive-integration {
-    width: 100%;
-  }
 }
 </style>
