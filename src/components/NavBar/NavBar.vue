@@ -27,6 +27,7 @@
       </a>
       <v-spacer></v-spacer>
       <v-toolbar-items>
+        <v-btn v-if="loggedIn" text color="#eeeeee" @click="jumpTo({ name: 'Uploads' })">Uploads</v-btn>
         <Login @jumpTo="jumpTo" />
       </v-toolbar-items>
     </v-app-bar>
@@ -55,6 +56,10 @@ export default class NavBar extends Vue {
   @Prop({ type: Boolean, default: false })
   private drawerAllowed!: boolean;
   private drawer: boolean | null = null;
+
+  private get loggedIn() {
+    return driveState.user !== null;
+  }
 
   private get fileName() {
     if (state.uploadedFile) {
