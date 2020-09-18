@@ -22,11 +22,21 @@
       </v-col>
     </v-row>
     <v-divider class="margin-top-large margin-bottom-large" />
-    <div class="footer-links">© {{ currentYear }} Table & Map. All Rights Reserved</div>
+    <div class="footer-links">
+      © {{ currentYear }} Table & Map. All Rights Reserved
+      <a
+        class="float-right"
+        href="https://www.linkedin.com/company/tableandmap"
+        target="_blank"
+      >
+        <v-icon>{{ mdiLinkedin }}</v-icon>
+      </a>
+    </div>
   </div>
 </template>
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
+import { mdiLinkedin } from "@mdi/js";
 
 /**
  * Footer of website
@@ -65,6 +75,7 @@ export default class Footer extends Vue {
       },
     ],
   };
+  private mdiLinkedin = mdiLinkedin;
 
   private get currentYear() {
     return new Date().getFullYear();

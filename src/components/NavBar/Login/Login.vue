@@ -23,7 +23,7 @@
 <script lang='ts'>
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import state, { signIn, signOut } from "@/store/driveStore";
-import { mdiFileDocumentMultiple, mdiLogout } from "@mdi/js";
+import { mdiLogout } from "@mdi/js";
 
 /**
  * Login/Logout of Google
@@ -32,7 +32,6 @@ import { mdiFileDocumentMultiple, mdiLogout } from "@mdi/js";
   components: {},
 })
 export default class Login extends Vue {
-  private mdiFileDocumentMultiple = mdiFileDocumentMultiple;
   private mdiLogout = mdiLogout;
 
   private get loggedOut() {
