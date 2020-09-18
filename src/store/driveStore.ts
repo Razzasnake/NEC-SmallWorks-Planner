@@ -76,6 +76,7 @@ export const signOut = () => {
   auth2.signOut().then(() => {
     state.user = null;
     state.files = [];
+    state.folderId = null;
   });
 }
 
