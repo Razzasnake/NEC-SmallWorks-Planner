@@ -43,15 +43,11 @@ export default class GoogleDriveIntegration extends Vue {
 </script>
 <style lang='scss' scoped>
 .google-drive-circle {
-  border: 2px solid #424242;
+  border: 2px solid;
   width: calc(2rem + 4px);
   border-radius: 50%;
   text-align: center;
   display: inline-block;
-}
-
-.google-drive-integration {
-  color: #424242;
 }
 @media (max-width: 1215px) {
   .google-drive-integration {

@@ -35,7 +35,7 @@
       </v-card>
     </v-row>
     <div class="margin-top-large align-center">
-      <v-btn outlined :to="$router ? '/features': ''">See All Features</v-btn>
+      <v-btn color="primary" outlined :to="$router ? '/features': ''">See All Features</v-btn>
     </div>
   </div>
 </template>
