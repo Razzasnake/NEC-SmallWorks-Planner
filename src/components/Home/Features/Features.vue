@@ -21,15 +21,11 @@
     <v-row class="margin-top-large" justify="center">
       <v-card :width="cardWidth" v-for="(c, index) in cards" :key="index" class="ma-2">
         <v-card-title>
-          <router-link v-if="$router" :to="$router ? c.learnMorePath: ''">
-            <div class="text-h5">{{ c.title }}</div>
-          </router-link>
-          <a v-else>
-            <div class="text-h5">{{ c.title }}</div>
-          </a>
+          <router-link v-if="$router" :to="$router ? c.learnMorePath: ''">{{ c.title }}</router-link>
+          <a v-else>{{ c.title }}</a>
         </v-card-title>
         <v-card-text>
-          <div class="text-subtitle-1">{{ c.description }}</div>
+          <div>{{ c.description }}</div>
           <div class="info-description"></div>
           <div class="card-actions">
             <v-spacer></v-spacer>
