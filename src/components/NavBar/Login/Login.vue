@@ -8,14 +8,6 @@
         </v-btn>
       </template>
       <v-list>
-        <v-list-item @click="openMyUploads">
-          <v-list-item-icon>
-            <v-icon>{{ mdiFileDocumentMultiple }}</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>My Uploads</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
         <v-list-item @click="signOut">
           <v-list-item-icon>
             <v-icon>{{ mdiLogout }}</v-icon>
@@ -31,7 +23,7 @@
 <script lang='ts'>
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import state, { signIn, signOut } from "@/store/driveStore";
-import { mdiFileDocumentMultiple, mdiLogout } from "@mdi/js";
+import { mdiLogout } from "@mdi/js";
 
 /**
  * Login/Logout of Google
@@ -40,7 +32,6 @@ import { mdiFileDocumentMultiple, mdiLogout } from "@mdi/js";
   components: {},
 })
 export default class Login extends Vue {
-  private mdiFileDocumentMultiple = mdiFileDocumentMultiple;
   private mdiLogout = mdiLogout;
 
   private get loggedOut() {

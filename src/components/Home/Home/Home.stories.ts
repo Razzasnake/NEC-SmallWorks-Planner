@@ -11,9 +11,11 @@ const _Home = () => ({
   template: `
     <Home
       @finish="finish"
+      @preview="preview"
     ></Home>`,
   methods: {
-    finish: action('finish')
+    finish: action('finish'),
+    preview: action('preview')
   }
 })
 

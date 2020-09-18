@@ -83,5 +83,6 @@ export default class App extends Vue {
 <style lang='scss' scoped>
 #app {
   background-color: #fafafa;
+  color: #424242;
 }
 </style>

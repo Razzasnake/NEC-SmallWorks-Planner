@@ -2,7 +2,7 @@
   <v-card elevation="0">
     <Loading :loading="loading" />
     <v-card-title>
-      My Uploads
+      Uploads
       <v-spacer></v-spacer>
       <v-spacer></v-spacer>
       <v-text-field

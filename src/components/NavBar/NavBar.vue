@@ -23,29 +23,11 @@
     <v-app-bar dense color="primary" app :clipped-left="$vuetify.breakpoint.lgAndUp">
       <v-app-bar-nav-icon v-if="drawerAllowed" @click.stop="toggleDrawer" color="#eeeeee"></v-app-bar-nav-icon>
       <a @click="jumpTo({ name: 'Home' })">
-        <v-toolbar-title class="appbar-title">Table &amp; Map</v-toolbar-title>
+        <v-toolbar-title class="appbar-title">Table & Map</v-toolbar-title>
       </a>
       <v-spacer></v-spacer>
       <v-toolbar-items>
-        <v-menu offset-y v-if="$vuetify.breakpoint.xs">
-          <template v-slot:activator="{ on }">
-            <v-btn icon color="#eeeeee" v-on="on" aria-label="More Options">
-              <v-icon>{{ mdiDotsVertical }}</v-icon>
-            </v-btn>
-          </template>
-          <v-list>
-            <v-list-item @click="jumpTo({ name: 'Features' })">
-              <v-list-item-title>Features</v-list-item-title>
-            </v-list-item>
-            <v-list-item @click="jumpTo({ name: 'Examples' })">
-              <v-list-item-title>Examples</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-        <template v-else>
-          <v-btn text color="#eeeeee" @click="jumpTo({ name: 'Features' })">Features</v-btn>
-          <v-btn text color="#eeeeee" @click="jumpTo({ name: 'Examples' })">Examples</v-btn>
-        </template>
+        <v-btn v-if="loggedIn" text color="#eeeeee" @click="jumpTo({ name: 'Uploads' })">Uploads</v-btn>
         <Login @jumpTo="jumpTo" />
       </v-toolbar-items>
     </v-app-bar>
@@ -54,7 +36,6 @@
 <script lang='ts'>
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import NavigationDrawer from "./NavigationDrawer.vue";
-import { mdiDotsVertical } from "@mdi/js";
 import Login from "./Login/Login.vue";
 import state from "@/store/exploreStore";
 import driveState from "@/store/driveStore";
@@ -75,7 +56,10 @@ export default class NavBar extends Vue {
   @Prop({ type: Boolean, default: false })
   private drawerAllowed!: boolean;
   private drawer: boolean | null = null;
-  private mdiDotsVertical = mdiDotsVertical;
+
+  private get loggedIn() {
+    return driveState.user !== null;
+  }
 
   private get fileName() {
     if (state.uploadedFile) {

@@ -1,6 +1,5 @@
 import Page from './Page.vue'
 import { action } from '@storybook/addon-actions'
-import { pageGenerator } from '@/generator/storyblok/PageGenerator'
 
 export default {
   component: Page,
@@ -9,16 +8,7 @@ export default {
 
 const _Page = () => ({
   components: { Page },
-  template: `
-    <Page
-      :blok="blok"
-      @preview="preview"
-    ></Page>`,
-  props: {
-    blok: {
-      default: pageGenerator(true)
-    }
-  },
+  template: '<Page @preview="preview" />',
   methods: {
     preview: action('preview')
   }

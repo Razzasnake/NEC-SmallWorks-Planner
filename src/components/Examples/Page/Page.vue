@@ -1,9 +1,8 @@
 <template>
   <BasePage
-    :title="blok.title"
-    :subtitle="blok.subtitle"
-    :img="blok.preview.filename"
-    v-editable="blok"
+    title="Examples"
+    subtitle="See how Table & Map can add value by trying one of our datasets."
+    img="https://a.storyblok.com/f/89733/2000x400/c4eaec5cab/mapwithmarkers.jpg"
   >
     <div v-for="key in Object.keys(groupByBloks)" :key="key" class="slide-group-container">
       <div class="text-h4">{{ key }}</div>
@@ -26,11 +25,11 @@
   </BasePage>
 </template>
 <script lang='ts'>
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import Teaser from "@/components/Shared/Teaser/Teaser.vue";
 import ExampleTeaserI from "@/entities/storyblok/ExampleTeaser";
 import BasePage from "@/components/Shared/Page/Page.vue";
-import PageI from "@/entities/storyblok/Page";
+import { examples } from "@/entities/data";
 
 /**
  * All examples
@@ -42,27 +41,15 @@ import PageI from "@/entities/storyblok/Page";
   },
 })
 export default class Page extends Vue {
-  /**
-   * All of the content for this page
-   */
-  @Prop()
-  private blok!: PageI;
   private groupByBloks: { [key: string]: ExampleTeaserI[] } = {};
 
   private created() {
-    this.computeGroupByBloks();
-  }
-
-  @Watch("blok")
-  private computeGroupByBloks() {
-    const groupBy: { [key: string]: ExampleTeaserI[] } = {};
-    (this.blok.body as ExampleTeaserI[]).forEach((example) => {
-      if (!groupBy[example.type]) {
-        groupBy[example.type] = [];
+    examples.forEach((example) => {
+      if (!this.groupByBloks[example.type]) {
+        this.groupByBloks[example.type] = [];
       }
-      groupBy[example.type].push(example);
+      this.groupByBloks[example.type].push(example);
     });
-    this.groupByBloks = groupBy;
   }
 
   private preview(teaser: ExampleTeaserI) {

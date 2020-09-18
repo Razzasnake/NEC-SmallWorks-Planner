@@ -6,20 +6,31 @@
       gradient="to top, rgba(38, 50, 56, .80), rgba(38, 50, 56, .80)"
     >
       <div id="upload-drop-area">
-        <CallToAction class="section-header section" @finish="$emit('finish', $event)"></CallToAction>
-        <v-btn icon fab @click="scrollDown" small class="scroll-down" aria-label="Scroll down">
-          <v-icon large>{{ mdiChevronDown }}</v-icon>
-        </v-btn>
+        <CallToAction class="section-header" @finish="$emit('finish', $event)"></CallToAction>
       </div>
     </v-img>
     <div class="section">
-      <Features />
+      <Features class="section-container" />
+    </div>
+    <div class="section" style="background-color: #eceff1;">
+      <GoogleDriveIntegration class="section-container" />
     </div>
     <div class="section">
-      <ComingSoon />
+      <Examples @preview="$emit('preview', $event)" />
     </div>
+    <v-img
+      class="section image-footer align-center"
+      gradient="to top, rgba(38, 50, 56, .80), rgba(38, 50, 56, .80)"
+      src="https://a.storyblok.com/f/89733/2000x400/c4eaec5cab/mapwithmarkers.jpg"
+    >
+      <CallToAction class="section-header section slot" @finish="$emit('finish', $event)">
+        <div class="margin-bottom-large">
+          <h3 class="text-h3">Visualize Your Location Data</h3>
+        </div>
+      </CallToAction>
+    </v-img>
     <div class="section">
-      <Footer />
+      <Footer class="section-container" />
     </div>
   </div>
 </template>
@@ -28,9 +39,9 @@ import { Component, Vue } from "vue-property-decorator";
 import UploadedFile from "@/entities/UploadedFile";
 import CallToAction from "@/components/Home/CallToAction/CallToAction.vue";
 import Features from "@/components/Home/Features/Features.vue";
-import ComingSoon from "@/components/Home/ComingSoon/ComingSoon.vue";
+import Examples from "@/components/Home/Examples/Examples.vue";
+import GoogleDriveIntegration from "@/components/Home/GoogleDriveIntegration/GoogleDriveIntegration.vue";
 import Footer from "@/components/Home/Footer/Footer.vue";
-import { mdiChevronDown } from "@mdi/js";
 
 /**
  * Root most component for the home page
@@ -39,41 +50,36 @@ import { mdiChevronDown } from "@mdi/js";
   components: {
     CallToAction,
     Features,
-    ComingSoon,
+    Examples,
+    GoogleDriveIntegration,
     Footer,
   },
 })
-export default class Home extends Vue {
-
-  private mdiChevronDown = mdiChevronDown;
-
-  private scrollDown() {
-    window.scroll({
-      top: window.innerHeight - 48,
-      left: 0,
-      behavior: "smooth",
-    });
-  }
-}
+export default class Home extends Vue {}
 </script>
 <style lang='scss' scoped>
 .image-header {
   display: flex;
   align-items: center;
-  height: calc(100vh - 48px);
-  width: 100%;
+  height: 650px;
+}
+.image-footer {
+  height: 250px;
+}
+.section-container {
+  max-width: 1215px;
+  margin: auto;
+}
+.section-header {
+  width: 1215px;
+  margin: auto;
+  color: #eeeeee;
+}
+@media (max-width: 1215px) {
   .section-header {
-    width: 1215px;
-    margin: auto;
-    color: #eeeeee;
-  }
-  @media (max-width: 1215px) {
-    .section-header {
-      width: 100%;
-    }
+    width: 100%;
   }
 }
-
 #upload-drop-area {
   margin: auto;
   display: flex;
@@ -81,16 +87,9 @@ export default class Home extends Vue {
   border: 2px solid transparent;
   height: calc(100vh - 88px);
   width: calc(100vw - 40px);
-
   &.highlight {
     border: 2px dashed #eeeeee;
     border-radius: 4px;
-  }
-  .scroll-down {
-    color: #eeeeee;
-    position: absolute;
-    bottom: 40px;
-    border: 1px solid #eeeeee;
   }
 }
 </style>
