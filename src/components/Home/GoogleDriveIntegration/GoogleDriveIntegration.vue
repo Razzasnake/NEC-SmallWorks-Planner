@@ -2,17 +2,17 @@
   <div class="google-drive-integration">
     <template v-if="$vuetify.breakpoint.xs">
       <v-img :src="require('@/assets/google_drive_logo.png')"></v-img>
-      <div class="text-h6 margin-medium" v-for="(f, index) in features" :key="index">
+      <div class="text-h6 margin-medium" v-for="(s, index) in steps" :key="index">
         <div class="google-drive-circle margin-right-small">{{ index + 1 }}</div>
-        {{ f }}
+        {{ s }}
       </div>
     </template>
     <template v-else>
       <v-row>
         <v-col>
-          <div class="text-h6 margin-medium" v-for="(f, index) in features" :key="index">
+          <div class="text-h6 margin-medium" v-for="(s, index) in steps" :key="index">
             <div class="google-drive-circle margin-right-small">{{ index + 1 }}</div>
-            {{ f }}
+            {{ s }}
           </div>
         </v-col>
         <v-col cols="5" style="margin: auto;">
@@ -32,11 +32,12 @@ import { Component, Vue } from "vue-property-decorator";
   components: {},
 })
 export default class GoogleDriveIntegration extends Vue {
-  private features = [
-    "Fully integrated with Google Drive",
-    "Visualize your datasets from anywhere on any device.",
-    "All uploaded files are saved to your Google Drive automatically.",
-    "Your data is secure in Google's servers.",
+  private steps = [
+    "Sign in with your Google account",
+    "Upload your files",
+    "Apply filters, draw shapes and upload shapefiles",
+    "Everything is saved to your Google Drive",
+    "View and revist your uploads under My Uploads"
   ];
 }
 </script>
