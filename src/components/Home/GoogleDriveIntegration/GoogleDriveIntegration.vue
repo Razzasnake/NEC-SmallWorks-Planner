@@ -2,18 +2,18 @@
   <div>
     <template v-if="$vuetify.breakpoint.xs">
       <v-img :src="require('@/assets/google_drive_logo.png')"></v-img>
-      <div class="text-h6 margin-medium" v-for="(s, index) in steps" :key="index">
+      <h6 class="text-h6 margin-medium" v-for="(s, index) in steps" :key="index">
         <div class="google-drive-circle margin-right-small">{{ index + 1 }}</div>
         {{ s }}
-      </div>
+      </h6>
     </template>
     <template v-else>
       <v-row>
         <v-col>
-          <div class="text-h6 margin-medium" v-for="(s, index) in steps" :key="index">
+          <h6 class="text-h6 margin-medium" v-for="(s, index) in steps" :key="index">
             <div class="google-drive-circle margin-right-small">{{ index + 1 }}</div>
             {{ s }}
-          </div>
+          </h6>
         </v-col>
         <v-col cols="5" style="margin: auto;">
           <v-img :src="require('@/assets/google_drive_logo.png')"></v-img>

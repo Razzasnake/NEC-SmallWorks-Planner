@@ -1,7 +1,7 @@
 <template>
   <div class="info-section">
     <template v-if="$vuetify.breakpoint.smAndDown">
-      <div class="text-h4 align-center">{{ title }}</div>
+      <h4 class="text-h4 align-center">{{ title }}</h4>
       <div class="margin-top-medium align-center text-subtitle-1 small-title">{{ subtitle }}</div>
       <Preview class="margin-top-large" />
     </template>
@@ -12,7 +12,7 @@
         </v-col>
         <v-col class="not-small-title">
           <div>
-            <div class="text-h4">{{ title }}</div>
+            <h4 class="text-h4">{{ title }}</h4>
             <div class="margin-top-medium text-subtitle-1">{{ subtitle }}</div>
           </div>
         </v-col>

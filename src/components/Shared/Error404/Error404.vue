@@ -6,12 +6,12 @@
   >
     <div class="section-header">
       <div class="section">
-        <div class="text-h2">404 - Page Not Found</div>
+        <h2 class="text-h2">404 - Page Not Found</h2>
         <div class="text-subtitle-1">The page you are looking for no longer exists.</div>
-        <div class="text-h6 margin-top-large">
+        <h6 class="text-h6 margin-top-large">
         <router-link to="/">Back home</router-link>
           in {{ time }}
-        </div>
+        </h6>
       </div>
     </div>
   </v-img>

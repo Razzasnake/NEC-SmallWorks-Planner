@@ -5,7 +5,7 @@
     img="https://a.storyblok.com/f/89733/2000x400/c4eaec5cab/mapwithmarkers.jpg"
   >
     <div v-for="key in Object.keys(groupByBloks)" :key="key" class="slide-group-container">
-      <div class="text-h4">{{ key }}</div>
+      <h4 class="text-h4">{{ key }}</h4>
       <v-row justify="center" v-if="$vuetify.breakpoint.xs">
         <Teaser
           :blok="item"

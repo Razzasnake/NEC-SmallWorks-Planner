@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="align-center text-h4">Try an example dataset</div>
+    <h4 class="align-center text-h4">Try an example dataset</h4>
     <v-row justify="center" class="margin-top-large">
       <Teaser
         :blok="item"

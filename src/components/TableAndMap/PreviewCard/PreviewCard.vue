@@ -5,7 +5,7 @@
       <v-card-text class="full-height">
         <v-row>
           <v-col>
-            <div class="text-h6">Marker</div>
+            <h6 class="text-h6">Marker</h6>
             <div>
               <AgGridVue
                 class="ag-theme-balham"
@@ -23,7 +23,7 @@
             </div>
           </v-col>
           <v-col v-for="(feature, index) in featureTables" :key="index">
-            <div class="text-h6">Feature - {{ feature.name }}</div>
+            <h6 class="text-h6">Feature - {{ feature.name }}</h6>
             <AgGridVue
               class="ag-theme-balham"
               domLayout="autoHeight"

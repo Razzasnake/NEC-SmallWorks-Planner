@@ -8,7 +8,7 @@
       <div class="section">
         <div class="section-header">
           <div>
-            <h1 :class="titleClass">{{ title }}</h1>
+            <h2 :class="titleClass">{{ title }}</h2>
             <h6 class="text-h6">{{ subtitle }}</h6>
           </div>
         </div>
