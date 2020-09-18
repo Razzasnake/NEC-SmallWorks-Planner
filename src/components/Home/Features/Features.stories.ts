@@ -7,11 +7,7 @@ export default {
 
 const _Features = () => ({
   components: { Features },
-  template: `
-    <Features
-    ></Features>`,
-  methods: {
-  }
+  template: '<Features />'
 })
 
 export { _Features }

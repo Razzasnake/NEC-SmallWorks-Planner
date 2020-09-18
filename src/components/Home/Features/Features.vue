@@ -21,22 +21,25 @@
     <v-row class="margin-top-large" justify="center">
       <v-card :width="cardWidth" v-for="(c, index) in cards" :key="index" class="ma-2">
         <v-card-title>
-          <router-link :to="c.learnMorePath">
+          <router-link v-if="$router" :to="$router ? c.learnMorePath: ''">
             <div class="text-h5">{{ c.title }}</div>
           </router-link>
+          <a v-else>
+            <div class="text-h5">{{ c.title }}</div>
+          </a>
         </v-card-title>
         <v-card-text>
           <div class="text-subtitle-1">{{ c.description }}</div>
           <div class="info-description"></div>
           <div class="card-actions">
             <v-spacer></v-spacer>
-            <v-btn color="primary" text :to="c.learnMorePath">Learn More</v-btn>
+            <v-btn color="primary" text :to="$router ? c.learnMorePath: ''">Learn More</v-btn>
           </div>
         </v-card-text>
       </v-card>
     </v-row>
     <div class="margin-top-large align-center">
-      <v-btn outlined to="/features">See All Features</v-btn>
+      <v-btn outlined :to="$router ? '/features': ''">See All Features</v-btn>
     </div>
   </div>
 </template>
@@ -87,8 +90,6 @@ export default class Features extends Vue {
 </script>
 <style lang='scss' scoped>
 .info-section {
-  margin: auto;
-  max-width: 1215px;
   .info-description {
     margin-bottom: 42px;
   }
@@ -99,10 +100,6 @@ export default class Features extends Vue {
   }
   a {
     text-decoration: none;
-  }
-  .theme--light.v-card > .v-card__text,
-  .theme--light.v-card .v-card__subtitle {
-    color: inherit;
   }
   .small-title {
     max-width: 600px;

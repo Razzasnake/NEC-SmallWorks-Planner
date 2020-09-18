@@ -6,14 +6,17 @@
       gradient="to top, rgba(38, 50, 56, .80), rgba(38, 50, 56, .80)"
     >
       <div id="upload-drop-area">
-        <CallToAction class="section-header section" @finish="$emit('finish', $event)"></CallToAction>
+        <CallToAction class="section-header" @finish="$emit('finish', $event)"></CallToAction>
       </div>
     </v-img>
     <div class="section">
-      <Features />
+      <Features class="section-container" />
     </div>
-    <div class="section " style="background-color: #eceff1;">
-      <GoogleDriveIntegration />
+    <div class="section" style="background-color: #eceff1;">
+      <GoogleDriveIntegration class="section-container" />
+    </div>
+    <div class="section">
+      <Examples @preview="$emit('preview', $event)" />
     </div>
     <v-img
       class="section image-footer align-center"
@@ -27,7 +30,7 @@
       </CallToAction>
     </v-img>
     <div class="section">
-      <Footer />
+      <Footer class="section-container" />
     </div>
   </div>
 </template>
@@ -36,6 +39,7 @@ import { Component, Vue } from "vue-property-decorator";
 import UploadedFile from "@/entities/UploadedFile";
 import CallToAction from "@/components/Home/CallToAction/CallToAction.vue";
 import Features from "@/components/Home/Features/Features.vue";
+import Examples from "@/components/Home/Examples/Examples.vue";
 import GoogleDriveIntegration from "@/components/Home/GoogleDriveIntegration/GoogleDriveIntegration.vue";
 import Footer from "@/components/Home/Footer/Footer.vue";
 
@@ -46,6 +50,7 @@ import Footer from "@/components/Home/Footer/Footer.vue";
   components: {
     CallToAction,
     Features,
+    Examples,
     GoogleDriveIntegration,
     Footer,
   },
@@ -61,7 +66,10 @@ export default class Home extends Vue {}
 .image-footer {
   height: 250px;
 }
-
+.section-container {
+  max-width: 1215px;
+  margin: auto;
+}
 .section-header {
   width: 1215px;
   margin: auto;

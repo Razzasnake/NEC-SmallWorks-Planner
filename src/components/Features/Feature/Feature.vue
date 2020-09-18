@@ -38,7 +38,7 @@
           <div>We offer numerous example datasets to help you understand the tool before using your own data.</div>
         </v-card-text>
         <v-card-actions class="card-actions">
-          <v-btn text to="/examples">Preview</v-btn>
+          <v-btn text :to="$router ? '/examples': ''">Preview</v-btn>
         </v-card-actions>
       </v-card>
     </v-row>

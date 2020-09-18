@@ -37,7 +37,7 @@ export default class GoogleDriveIntegration extends Vue {
     "Upload your files",
     "Apply filters, draw shapes and upload shapefiles",
     "Everything is saved to your Google Drive",
-    "View and revist your uploads under My Uploads"
+    "View and revist your uploads under My Uploads",
   ];
 }
 </script>
@@ -51,8 +51,6 @@ export default class GoogleDriveIntegration extends Vue {
 }
 
 .google-drive-integration {
-  width: 1215px;
-  margin: auto;
   color: #424242;
 }
 @media (max-width: 1215px) {
