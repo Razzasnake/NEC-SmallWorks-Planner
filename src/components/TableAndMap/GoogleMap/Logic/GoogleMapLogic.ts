@@ -291,7 +291,8 @@ export default class GoogleMapLogic {
               height: this.groupByKey ? 70 : 50,
               className: this.groupByKey ? undefined : "custom-clustericon-3"
             }
-          ]
+          ],
+          ignoreHidden: true
         }
       );
     } else {
