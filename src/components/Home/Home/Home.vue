@@ -19,7 +19,7 @@
       <Examples @preview="$emit('preview', $event)" />
     </div>
     <v-img
-      class="section image-footer align-center"
+      class="image-footer align-center"
       gradient="to top, rgba(38, 50, 56, .80), rgba(38, 50, 56, .80)"
       src="https://a.storyblok.com/f/89733/2000x400/c4eaec5cab/mapwithmarkers.jpg"
     >
