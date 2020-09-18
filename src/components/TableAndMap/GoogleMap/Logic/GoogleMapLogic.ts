@@ -253,7 +253,7 @@ export default class GoogleMapLogic {
   }
 
   public displayClustersChanged() {
-    if (this.markerCluster) {
+    if (!this.displayClusters && this.markerCluster) {
       this.markerCluster.clearMarkers();
       this.markerCluster = null;
     }
@@ -264,7 +264,9 @@ export default class GoogleMapLogic {
       });
       this.visibleCategories = visibleCategories;
     }
-    if (this.displayClusters) {
+    if (this.markerCluster) {
+      this.markerCluster.repaint();
+    } else if (this.displayClusters) {
       this.markers.forEach(marker => {
         marker.setMap(null);
       });
@@ -623,6 +625,10 @@ export default class GoogleMapLogic {
       this.colorPosition = colorPosition;
     } else {
       this.colorPosition = null;
+    }
+    if (this.markerCluster) {
+      this.markerCluster.clearMarkers();
+      this.markerCluster = null;
     }
     this.displayClustersChanged();
   }
