@@ -2,13 +2,15 @@
   <div class="foot">
     <div v-if="$vuetify.breakpoint.xs">
       <div class="margin-bottom-large">
-        <div class="text-h4">Table & Map</div>
+        <router-link v-if="$router" class="text-h4" to="/">Table & Map</router-link>
+        <div v-else class="text-h4">Table & Map</div>
         <div class="text-subtitle-1">Visualize your location data</div>
       </div>
     </div>
     <v-row>
       <v-col cols="6" v-if="$vuetify.breakpoint.smAndUp">
-        <div class="text-h4">Table & Map</div>
+        <router-link v-if="$router" class="text-h4" to="/">Table & Map</router-link>
+        <div v-else class="text-h4">Table & Map</div>
         <div class="text-subtitle-1">Visualize your location data</div>
       </v-col>
       <v-col v-for="key in Object.keys(links)" :key="key" :cols="$vuetify.breakpoint.xs ? 6 : 3">
