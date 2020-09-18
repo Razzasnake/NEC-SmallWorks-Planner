@@ -35,6 +35,9 @@
         </v-card-text>
       </v-card>
     </v-row>
+    <div class="margin-top-large align-center">
+      <v-btn outlined to="/features">See All Features</v-btn>
+    </div>
   </div>
 </template>
 <script lang='ts'>
