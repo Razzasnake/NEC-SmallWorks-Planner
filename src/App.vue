@@ -78,7 +78,12 @@ export default class App extends Vue {
 
   private jumpTo(location: { name: string }) {
     if (location.name !== this.$route.name) {
-      if (this.$route.name === "Explore" && !driveState.user) {
+      if (
+        this.$route.name === "Explore" &&
+        !driveState.user &&
+        state.uploadedFile &&
+        state.uploadedFile.toUpload
+      ) {
         this.areYouSureModal = true;
         this.pathToLeaveTo = location;
       } else {
