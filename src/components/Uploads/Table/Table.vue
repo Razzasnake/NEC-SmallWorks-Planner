@@ -21,14 +21,74 @@
       :items="tableData"
       :search="search"
       :mobile-breakpoint="0"
+      :loading="vuetifyTableLoading"
+      single-select
       @dblclick:row="rowClicked"
+      @contextmenu:row="openContextMenu"
+      @click:row="activateRow"
     />
+    <v-menu
+      v-model="showMenu"
+      :position-x="x"
+      :position-y="y"
+      absolute
+      offset-y
+    >
+      <v-list dense>
+        <v-list-item @click="open">
+          <v-list-item-icon>
+            <v-icon>{{ mdiEye }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Open</v-list-item-title>
+        </v-list-item>
+        <v-divider />
+        <!-- <v-list-item @click="share">
+          <v-list-item-icon>
+            <v-icon>{{ mdiAccountPlusOutline }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Share</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="getLink">
+          <v-list-item-icon>
+            <v-icon>{{ mdiLink }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Get link</v-list-item-title>
+        </v-list-item> -->
+        <v-list-item @click="rename">
+          <v-list-item-icon>
+            <v-icon>{{ mdiFileEditOutline }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Rename</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="download">
+          <v-list-item-icon>
+            <v-icon>{{ mdiDownloadOutline }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Download</v-list-item-title>
+        </v-list-item>
+        <v-divider />
+        <v-list-item @click="remove">
+          <v-list-item-icon>
+            <v-icon>{{ mdiDeleteOutline }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Remove</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
   </v-card>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { mdiMagnify } from "@mdi/js";
 import Loading from "@/components/Shared/Loading/Loading.vue";
+import {
+  mdiEye,
+  mdiAccountPlusOutline,
+  mdiLink,
+  mdiDownloadOutline,
+  mdiDeleteOutline,
+  mdiFileEditOutline,
+} from "@mdi/js";
 
 interface TableRow {
   id: string;
@@ -52,10 +112,29 @@ export default class Table extends Vue {
    */
   @Prop({ default: Array() })
   private files!: gapi.client.drive.File[];
+  /**
+   * Whether or not we are getting the files
+   */
+  @Prop({ default: false })
+  private tableLoading!: boolean;
   private search: string = "";
   private mdiMagnify = mdiMagnify;
   private loading = false;
   private noDataText = 'You have no uploads. Click "New" to get started.';
+  private showMenu = false;
+  private contextMenuItem: TableRow | null = null;
+  private x: number = 0;
+  private y: number = 0;
+  private mdiEye = mdiEye;
+  private mdiAccountPlusOutline = mdiAccountPlusOutline;
+  private mdiLink = mdiLink;
+  private mdiDownloadOutline = mdiDownloadOutline;
+  private mdiDeleteOutline = mdiDeleteOutline;
+  private mdiFileEditOutline = mdiFileEditOutline;
+
+  private get vuetifyTableLoading() {
+    return this.tableLoading ? "primary" : false;
+  }
 
   private get headers() {
     const headers: {
@@ -143,17 +222,105 @@ export default class Table extends Vue {
     return "";
   }
 
-  private rowClicked(event: MouseEvent, row: { item: TableRow }) {
+  private collectFiles(item: TableRow) {
+    const file = this.files.find((file) => file.id === item.id)!;
+    const configFile = this.files.find((_) => _.name === `${file.name}.json`);
+    const geojsonFile = this.files.find(
+      (_) => _.name === `${file.name}.geojson.json`
+    );
+    return { file, configFile, geojsonFile };
+  }
+
+  private rowClicked(event: MouseEvent | undefined, row: { item: TableRow }) {
     /**
      * Notify parent to download this row and start the tool with it
      *
      * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
      */
-    const file = this.files.find((file) => file.id === row.item.id)!;
-    const configFile = this.files.find((_) => _.name === `${file.name}.json`);
-    const geojsonFile = this.files.find((_) => _.name === `${file.name}.geojson.json`);
-    this.$emit("rowClicked", { file, configFile, geojsonFile });
+    this.$emit("rowClicked", this.collectFiles(row.item));
     this.loading = true;
+  }
+
+  private openContextMenu(
+    event: MouseEvent,
+    row: { item: TableRow; select: (val: boolean) => void }
+  ) {
+    event.preventDefault();
+    this.showMenu = false;
+    this.contextMenuItem = row.item;
+    this.activateRow(event, row);
+    this.x = event.clientX;
+    this.y = event.clientY;
+    this.$nextTick(() => {
+      this.showMenu = true;
+    });
+  }
+
+  private activateRow(
+    event: MouseEvent,
+    row: { item: TableRow; select: (val: boolean) => void }
+  ) {
+    row.select(true);
+  }
+
+  private open() {
+    if (this.contextMenuItem) {
+      this.$emit("rowClicked", this.collectFiles(this.contextMenuItem));
+      this.loading = true;
+    }
+  }
+
+  private share() {
+    if (this.contextMenuItem) {
+      /**
+       * Notify parent to share this file
+       *
+       * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
+       */
+      this.$emit("share", this.collectFiles(this.contextMenuItem));
+    }
+  }
+
+  private getLink() {
+    if (this.contextMenuItem) {
+      /**
+       * Notify parent to get the link of this file
+       *
+       * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
+       */
+      this.$emit("getLink", this.collectFiles(this.contextMenuItem));
+    }
+  }
+
+  private rename() {
+    if (this.contextMenuItem) {
+      /**
+       * Notify parent to rename this file
+       *
+       * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
+       */
+      this.$emit("rename", this.collectFiles(this.contextMenuItem));
+    }
+  }
+
+  private download() {
+    if (this.contextMenuItem) {
+      const files = this.collectFiles(this.contextMenuItem);
+      if (files.file.webContentLink) {
+        window.location.href = files.file.webContentLink;
+      }
+    }
+  }
+
+  private remove() {
+    if (this.contextMenuItem) {
+      /**
+       * Notify parent to remove this file
+       *
+       * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
+       */
+      this.$emit("remove", this.collectFiles(this.contextMenuItem));
+    }
   }
 
   private deactivated() {

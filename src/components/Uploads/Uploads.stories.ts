@@ -1,5 +1,6 @@
 import Uploads from './Uploads.vue'
 import GoogleFileGenerator from '@/generator/GoogleFileGenerator'
+import { boolean } from '@storybook/addon-knobs'
 import { action } from '@storybook/addon-actions'
 
 export default {
@@ -12,7 +13,12 @@ const _Uploads = () => ({
   template: `
     <Uploads
       :files="filesProp"
+      :tableLoading="tableLoading"
       @rowClicked="rowClicked"
+      @share="share"
+      @getLink="getLink"
+      @rename="rename"
+      @remove="remove"
       @finish="finish"
     ></Uploads>`,
   props: {
@@ -24,10 +30,17 @@ const _Uploads = () => ({
         GoogleFileGenerator(),
         GoogleFileGenerator()
       ]
+    },
+    tableLoading: {
+      default: boolean('tableLoading', false)
     }
   },
   methods: {
     rowClicked: action('rowClicked'),
+    share: action('share'),
+    getLink: action('getLink'),
+    rename: action('rename'),
+    remove: action('remove'),
     finish: action('finish')
   }
 })

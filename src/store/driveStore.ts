@@ -6,13 +6,15 @@ import slackApi from "@/api/slack";
 interface DriveStoreI {
   user: gapi.auth2.GoogleUser | null,
   files: gapi.client.drive.File[],
-  folderId: string | null
+  folderId: string | null,
+  refreshFilesLoading: boolean
 };
 
 const state: DriveStoreI = Vue.observable({
   user: null,
   files: [],
-  folderId: null
+  folderId: null,
+  refreshFilesLoading: true
 });
 
 export const signIn = (id: string) => {
@@ -77,16 +79,19 @@ export const signOut = () => {
     state.user = null;
     state.files = [];
     state.folderId = null;
+    state.refreshFilesLoading = true;
   });
 }
 
 export const refreshFiles = (callback?: () => void | undefined) => {
+  state.refreshFilesLoading = true;
   gapi.load("client", () => {
     gapi.client.load("drive", "v3", async () => {
       getTableAndMapFolderId((folderId) => {
         state.folderId = folderId;
         retrieveAllFilesInFolder(folderId, (result) => {
           state.files = result;
+          state.refreshFilesLoading = false;
           if (callback) {
             callback();
           }
@@ -141,8 +146,21 @@ export const uploadFile = (data: string, mimeType: string, name: string, callbac
         }).execute(() => null);
       });
     }
-    state.files = state.files.filter(_ => _.name !== resp.name).concat(resp);
+    state.files = state.files.filter(_ => _.name !== name).concat(resp);
   });
+}
+
+export const moveToTrashFile = (fileId: string) => {
+  gapi.client.drive.files.update({ fileId, resource: { trashed: true } }).then(() => null);
+  state.files = state.files.filter(_ => _.id !== fileId);
+}
+
+export const renameFile = (fileId: string, fileName: string) => {
+  gapi.client.drive.files.update({ fileId, resource: { name: fileName } }).then(() => null);
+  const file = state.files.find(_ => _.id === fileId);
+  if (file) {
+    file.name = fileName;
+  }
 }
 
 const getTableAndMapFolderId = (callback: (folderId: string) => void) => {
