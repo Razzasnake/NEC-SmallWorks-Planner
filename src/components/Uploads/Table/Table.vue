@@ -21,7 +21,7 @@
       :items="tableData"
       :search="search"
       :mobile-breakpoint="0"
-      :loading="tableLoading"
+      :loading="vuetifyTableLoading"
       single-select
       @dblclick:row="rowClicked"
       @contextmenu:row="openContextMenu"
@@ -131,6 +131,10 @@ export default class Table extends Vue {
   private mdiDownloadOutline = mdiDownloadOutline;
   private mdiDelete = mdiDelete;
   private mdiFileEditOutline = mdiFileEditOutline;
+
+  private get vuetifyTableLoading() {
+    return this.tableLoading ? 'primary' : false;
+  }
 
   private get headers() {
     const headers: {
