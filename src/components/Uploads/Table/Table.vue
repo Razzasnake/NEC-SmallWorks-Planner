@@ -42,7 +42,7 @@
           <v-list-item-title>Open</v-list-item-title>
         </v-list-item>
         <v-divider />
-        <v-list-item @click="share">
+        <!-- <v-list-item @click="share">
           <v-list-item-icon>
             <v-icon>{{ mdiAccountPlusOutline }}</v-icon>
           </v-list-item-icon>
@@ -53,7 +53,7 @@
             <v-icon>{{ mdiLink }}</v-icon>
           </v-list-item-icon>
           <v-list-item-title>Get link</v-list-item-title>
-        </v-list-item>
+        </v-list-item> -->
         <v-list-item @click="rename">
           <v-list-item-icon>
             <v-icon>{{ mdiFileEditOutline }}</v-icon>
