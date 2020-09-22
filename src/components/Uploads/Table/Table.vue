@@ -69,7 +69,7 @@
         <v-divider />
         <v-list-item @click="remove">
           <v-list-item-icon>
-            <v-icon>{{ mdiDelete }}</v-icon>
+            <v-icon>{{ mdiDeleteOutline }}</v-icon>
           </v-list-item-icon>
           <v-list-item-title>Remove</v-list-item-title>
         </v-list-item>
@@ -86,7 +86,7 @@ import {
   mdiAccountPlusOutline,
   mdiLink,
   mdiDownloadOutline,
-  mdiDelete,
+  mdiDeleteOutline,
   mdiFileEditOutline,
 } from "@mdi/js";
 
@@ -129,7 +129,7 @@ export default class Table extends Vue {
   private mdiAccountPlusOutline = mdiAccountPlusOutline;
   private mdiLink = mdiLink;
   private mdiDownloadOutline = mdiDownloadOutline;
-  private mdiDelete = mdiDelete;
+  private mdiDeleteOutline = mdiDeleteOutline;
   private mdiFileEditOutline = mdiFileEditOutline;
 
   private get vuetifyTableLoading() {
