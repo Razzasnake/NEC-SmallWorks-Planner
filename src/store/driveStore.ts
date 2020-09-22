@@ -155,6 +155,14 @@ export const moveToTrashFile = (fileId: string) => {
   state.files = state.files.filter(_ => _.id !== fileId);
 }
 
+export const renameFile = (fileId: string, fileName: string) => {
+  gapi.client.drive.files.update({ fileId, resource: { name: fileName } }).then(() => null);
+  const file = state.files.find(_ => _.id === fileId);
+  if (file) {
+    file.name = fileName;
+  }
+}
+
 const getTableAndMapFolderId = (callback: (folderId: string) => void) => {
   const mimeType = "application/vnd.google-apps.folder";
   const name = "tableandmap.com";

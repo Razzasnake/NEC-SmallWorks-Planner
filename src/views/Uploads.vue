@@ -12,7 +12,7 @@
 </template>
 <script lang='ts'>
 import { Component } from "vue-property-decorator";
-import state, { moveToTrashFile } from "@/store/driveStore";
+import state, { moveToTrashFile, renameFile } from "@/store/driveStore";
 import UploadsComponent from "@/components/Uploads/Uploads.vue";
 import UploadedFile from "@/entities/UploadedFile";
 import { updateUploadedFile, downloadUserUpload } from "@/store/exploreStore";
@@ -63,12 +63,31 @@ export default class Uploads extends _View {
     // TODO
   }
 
-  private rename(files: {
-    file: gapi.client.drive.File;
-    configFile: gapi.client.drive.File;
-    geojsonFile: gapi.client.drive.File | undefined;
+  private rename(payload: {
+    files: {
+      file: gapi.client.drive.File;
+      configFile: gapi.client.drive.File;
+      geojsonFile: gapi.client.drive.File | undefined;
+    };
+    rename: string;
   }) {
-    // TODO
+    const configFileName = payload.files.configFile.name!.replace(
+      payload.files.file.name!,
+      payload.rename
+    );
+    renameFile(payload.files.configFile.id!, configFileName);
+    if (payload.files.geojsonFile) {
+      const geojsonFileName = payload.files.geojsonFile.name!.replace(
+        payload.files.file.name!,
+        payload.rename
+      );
+      renameFile(payload.files.geojsonFile.id!, geojsonFileName);
+    }
+    const fileName = payload.files.file.name!.replace(
+      payload.files.file.name!,
+      payload.rename
+    );
+    renameFile(payload.files.file.id!, fileName);
   }
 
   private remove(files: {
