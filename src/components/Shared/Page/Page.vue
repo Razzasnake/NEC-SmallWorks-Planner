@@ -82,6 +82,9 @@ export default class Page extends Vue {
 }
 </script>
 <style lang='scss' scoped>
+.image-footer {
+  height: 250px;
+}
 .image-header {
   display: flex;
   align-items: center;

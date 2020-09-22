@@ -30,7 +30,7 @@
       src="https://a.storyblok.com/f/89733/2000x400/c4eaec5cab/mapwithmarkers.jpg"
     >
       <CallToAction
-        class="section-header section slot"
+        class="section-header section"
         @finish="$emit('finish', $event)"
       >
         <div class="margin-bottom-large">
