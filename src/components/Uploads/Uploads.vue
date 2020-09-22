@@ -9,7 +9,13 @@
       <v-divider />
       <Table
         :files="files"
+        :table-loading="tableLoading"
         @rowClicked="rowClicked"
+        @share="share"
+        @getLink="getLink"
+        @rename="rename"
+        @download="download"
+        @remove="remove"
       />
     </div>
   </div>
@@ -37,6 +43,11 @@ export default class Uploads extends Vue {
    */
   @Prop({ default: [] })
   private files!: gapi.client.drive.File[];
+  /**
+   * Whether or not we are getting the files
+   */
+  @Prop({ default: false })
+  private tableLoading!: boolean
 
   private rowClicked(files: {
     file: gapi.client.drive.File;
@@ -49,6 +60,71 @@ export default class Uploads extends Vue {
      * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
      */
     this.$emit("rowClicked", files);
+  }
+
+  private share(files: {
+    file: gapi.client.drive.File;
+    configFile: gapi.client.drive.File;
+    geojsonFile: gapi.client.drive.File | undefined;
+  }) {
+    /**
+     * Notify parent to share this file
+     *
+     * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
+     */
+    this.$emit("share", files);
+  }
+
+  private getLink(files: {
+    file: gapi.client.drive.File;
+    configFile: gapi.client.drive.File;
+    geojsonFile: gapi.client.drive.File | undefined;
+  }) {
+    /**
+     * Notify parent to get the link of this file
+     *
+     * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
+     */
+    this.$emit("getLink", files);
+  }
+
+  private rename(files: {
+    file: gapi.client.drive.File;
+    configFile: gapi.client.drive.File;
+    geojsonFile: gapi.client.drive.File | undefined;
+  }) {
+    /**
+     * Notify parent to rename this file
+     *
+     * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
+     */
+    this.$emit("rename", files);
+  }
+
+  private download(files: {
+    file: gapi.client.drive.File;
+    configFile: gapi.client.drive.File;
+    geojsonFile: gapi.client.drive.File | undefined;
+  }) {
+    /**
+     * Notify parent to download this file
+     *
+     * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
+     */
+    this.$emit("download", files);
+  }
+
+  private remove(files: {
+    file: gapi.client.drive.File;
+    configFile: gapi.client.drive.File;
+    geojsonFile: gapi.client.drive.File | undefined;
+  }) {
+    /**
+     * Notify parent to remove this file
+     *
+     * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
+     */
+    this.$emit("remove", files);
   }
 
   private finish(uploadedFile: UploadedFile) {

@@ -1,7 +1,13 @@
 <template>
   <UploadsComponent
     :files="files"
+    :table-loading="tableLoading"
     @rowClicked="rowClicked"
+    @share="share"
+    @getLink="getLink"
+    @rename="rename"
+    @download="download"
+    @remove="remove"
     @finish="finish"
   />
 </template>
@@ -26,6 +32,10 @@ export default class Uploads extends _View {
     return state.files;
   }
 
+  private get tableLoading() {
+    return state.refreshFilesLoading;
+  }
+
   protected activated() {
     super.activated({ title: "Table & Map - Uploads" });
   }
@@ -36,6 +46,46 @@ export default class Uploads extends _View {
     geojsonFile: gapi.client.drive.File | undefined;
   }) {
     downloadUserUpload(files);
+  }
+
+  private async share(files: {
+    file: gapi.client.drive.File;
+    configFile: gapi.client.drive.File;
+    geojsonFile: gapi.client.drive.File | undefined;
+  }) {
+    // TODO
+  }
+
+  private async getLink(files: {
+    file: gapi.client.drive.File;
+    configFile: gapi.client.drive.File;
+    geojsonFile: gapi.client.drive.File | undefined;
+  }) {
+    // TODO
+  }
+
+  private async rename(files: {
+    file: gapi.client.drive.File;
+    configFile: gapi.client.drive.File;
+    geojsonFile: gapi.client.drive.File | undefined;
+  }) {
+    // TODO
+  }
+
+  private async download(files: {
+    file: gapi.client.drive.File;
+    configFile: gapi.client.drive.File;
+    geojsonFile: gapi.client.drive.File | undefined;
+  }) {
+    // TODO
+  }
+
+  private async remove(files: {
+    file: gapi.client.drive.File;
+    configFile: gapi.client.drive.File;
+    geojsonFile: gapi.client.drive.File | undefined;
+  }) {
+    // TODO
   }
 
   private finish(uploadedFile: UploadedFile) {

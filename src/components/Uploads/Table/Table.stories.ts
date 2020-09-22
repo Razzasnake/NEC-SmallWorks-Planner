@@ -1,5 +1,6 @@
 import Table from './Table.vue'
 import GoogleFileGenerator from '@/generator/GoogleFileGenerator'
+import { boolean } from '@storybook/addon-knobs'
 import { action } from '@storybook/addon-actions'
 
 export default {
@@ -12,6 +13,13 @@ const _Table = () => ({
   template: `
     <Table
       :files="filesProp"
+      :tableLoading="tableLoading"
+      @rowClicked="rowClicked"
+      @share="share"
+      @getLink="getLink"
+      @rename="rename"
+      @download="download"
+      @remove="remove"
     ></Table>`,
   props: {
     filesProp: {
@@ -22,10 +30,18 @@ const _Table = () => ({
         GoogleFileGenerator(),
         GoogleFileGenerator()
       ]
+    },
+    tableLoading: {
+      default: boolean('tableLoading', false)
     }
   },
   methods: {
-    rowClicked: action('rowClicked')
+    rowClicked: action('rowClicked'),
+    share: action('share'),
+    getLink: action('getLink'),
+    rename: action('rename'),
+    download: action('download'),
+    remove: action('remove')
   }
 })
 

@@ -21,6 +21,7 @@
       :items="tableData"
       :search="search"
       :mobile-breakpoint="0"
+      :loading="tableLoading"
       single-select
       @dblclick:row="rowClicked"
       @contextmenu:row="openContextMenu"
@@ -111,6 +112,11 @@ export default class Table extends Vue {
    */
   @Prop({ default: Array() })
   private files!: gapi.client.drive.File[];
+  /**
+   * Whether or not we are getting the files
+   */
+  @Prop({ default: false })
+  private tableLoading!: boolean
   private search: string = "";
   private mdiMagnify = mdiMagnify;
   private loading = false;
@@ -212,18 +218,22 @@ export default class Table extends Vue {
     return "";
   }
 
+  private collectFiles(item: TableRow) {
+    const file = this.files.find((file) => file.id === item.id)!;
+    const configFile = this.files.find((_) => _.name === `${file.name}.json`);
+    const geojsonFile = this.files.find(
+      (_) => _.name === `${file.name}.geojson.json`
+    );
+    return { file, configFile, geojsonFile };
+  }
+
   private rowClicked(event: MouseEvent | undefined, row: { item: TableRow }) {
     /**
      * Notify parent to download this row and start the tool with it
      *
      * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
      */
-    const file = this.files.find((file) => file.id === row.item.id)!;
-    const configFile = this.files.find((_) => _.name === `${file.name}.json`);
-    const geojsonFile = this.files.find(
-      (_) => _.name === `${file.name}.geojson.json`
-    );
-    this.$emit("rowClicked", { file, configFile, geojsonFile });
+    this.$emit("rowClicked", this.collectFiles(row.item));
     this.loading = true;
   }
 
@@ -251,37 +261,63 @@ export default class Table extends Vue {
 
   private preview() {
     if (this.contextMenuItem) {
-      this.rowClicked(undefined, { item: this.contextMenuItem });
+      this.$emit("rowClicked", this.collectFiles(this.contextMenuItem));
+      this.loading = true;
     }
   }
 
   private share() {
     if (this.contextMenuItem) {
-      // TODO
+      /**
+       * Notify parent to share this file
+       *
+       * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
+       */
+      this.$emit("share", this.collectFiles(this.contextMenuItem));
     }
   }
 
   private getLink() {
     if (this.contextMenuItem) {
-      // TODO
+      /**
+       * Notify parent to get the link of this file
+       *
+       * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
+       */
+      this.$emit("getLink", this.collectFiles(this.contextMenuItem));
     }
   }
 
   private rename() {
     if (this.contextMenuItem) {
-      // TODO
+      /**
+       * Notify parent to rename this file
+       *
+       * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
+       */
+      this.$emit("rename", this.collectFiles(this.contextMenuItem));
     }
   }
 
   private download() {
     if (this.contextMenuItem) {
-      // TODO
+      /**
+       * Notify parent to download this file
+       *
+       * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
+       */
+      this.$emit("download", this.collectFiles(this.contextMenuItem));
     }
   }
 
   private remove() {
     if (this.contextMenuItem) {
-      // TODO
+      /**
+       * Notify parent to remove this file
+       *
+       * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
+       */
+      this.$emit("remove", this.collectFiles(this.contextMenuItem));
     }
   }
 
