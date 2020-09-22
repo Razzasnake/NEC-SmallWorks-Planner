@@ -1,7 +1,10 @@
 <template>
   <div>
     <Loading :loading="loading" />
-    <Page @preview="preview" />
+    <Page
+      @preview="preview"
+      @finish="finish"
+    />
   </div>
 </template>
 <script lang='ts'>
@@ -12,6 +15,7 @@ import Page from "@/components/Examples/Page/Page.vue";
 import ExampleTeaserI from "@/entities/storyblok/ExampleTeaser";
 import exampleApi from "@/api/example";
 import _View from "./_View";
+import UploadedFile from "@/entities/UploadedFile";
 
 /**
  * All examples
@@ -37,6 +41,10 @@ export default class Examples extends _View {
     this.loading = true;
     updateUploadedFile(await exampleApi.getExample(teaser));
     this.loading = false;
+  }
+
+  private finish(uploadedFile: UploadedFile) {
+    updateUploadedFile(uploadedFile);
   }
 }
 </script>

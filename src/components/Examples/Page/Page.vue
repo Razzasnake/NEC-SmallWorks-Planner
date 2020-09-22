@@ -3,6 +3,7 @@
     title="Examples"
     subtitle="See how Table & Map can add value by trying one of our datasets."
     img="https://a.storyblok.com/f/89733/2000x400/c4eaec5cab/mapwithmarkers.jpg"
+    @finish="finish"
   >
     <div
       v-for="key in Object.keys(groupByBloks)"
@@ -50,6 +51,7 @@ import Teaser from "@/components/Shared/Teaser/Teaser.vue";
 import ExampleTeaserI from "@/entities/storyblok/ExampleTeaser";
 import BasePage from "@/components/Shared/Page/Page.vue";
 import { examples } from "@/entities/data";
+import UploadedFile from "@/entities/UploadedFile";
 
 /**
  * All examples
@@ -79,6 +81,15 @@ export default class Page extends Vue {
      * @type {ExampleTeaserI}
      */
     this.$emit("preview", teaser);
+  }
+
+  private finish(uploadedFile: UploadedFile) {
+    /**
+     * Emit the uploaded file
+     *
+     * @type {UploadedFile}
+     */
+    this.$emit("finish", uploadedFile);
   }
 }
 </script>

@@ -1,5 +1,6 @@
 import Page from './Page.vue'
 import { text } from '@storybook/addon-knobs'
+import { action } from '@storybook/addon-actions'
 
 export default {
   component: Page,
@@ -9,7 +10,7 @@ export default {
 const _Page = () => ({
   components: { Page },
   template: `
-    <Page :title="title" :subtitle="subtitle" :img="img">
+    <Page :title="title" :subtitle="subtitle" :img="img" @finish="finish">
       <div>Content goes here</div>
     </Page>`,
   props: {
@@ -22,6 +23,9 @@ const _Page = () => ({
     img: {
       default: require('@/assets/examples/covid19/covid19.jpg')
     }
+  },
+  methods: {
+    finish: action('finish')
   }
 })
 

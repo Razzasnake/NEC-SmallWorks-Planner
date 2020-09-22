@@ -4,6 +4,7 @@
     :title="blok.title"
     :subtitle="blok.subtitle"
     :img="blok.preview.filename"
+    @finish="finish"
   >
     <v-row justify="center">
       <Teaser
@@ -22,6 +23,7 @@ import Teaser from "@/components/Shared/Teaser/Teaser.vue";
 import PageI from "@/entities/storyblok/Page";
 import TeaserI from "@/entities/storyblok/Teaser";
 import BasePage from "@/components/Shared/Page/Page.vue";
+import UploadedFile from "@/entities/UploadedFile";
 
 /**
  * Storyblok page component
@@ -38,5 +40,14 @@ export default class Page extends Vue {
    */
   @Prop()
   private blok!: PageI;
+
+  private finish(uploadedFile: UploadedFile) {
+    /**
+     * Emit the uploaded file
+     *
+     * @type {UploadedFile}
+     */
+    this.$emit("finish", uploadedFile);
+  }
 }
 </script>

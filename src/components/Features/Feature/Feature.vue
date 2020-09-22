@@ -4,6 +4,7 @@
     :title="blok.title"
     :subtitle="blok.subtitle"
     :img="blok.preview.filename"
+    @finish="finish"
   >
     <!-- eslint-disable vue/no-v-html -->
     <template v-if="blok.abstract">
@@ -18,62 +19,13 @@
       v-html="createHtml(blok.content)"
     />
     <!--eslint-enable-->
-    <iframe
-      v-if="blok.youtubeUrl.url"
-      width="100%"
-      height="500"
-      :src="blok.youtubeUrl.url"
-      frameborder="0"
-    />
-    <v-divider />
-    <v-row class="margin-top-large margin-bottom-large">
-      <v-card
-        :width="cardWidth"
-        class="ma-2"
-      >
-        <v-card-title>
-          <div>Get Started Today</div>
-        </v-card-title>
-        <v-card-text class="info-description">
-          <div>Visualize your location data in an interactive map. Upload an excel or csv file to get started.</div>
-        </v-card-text>
-        <v-card-actions class="card-actions">
-          <UploadWorkflow
-            color="primary"
-            @finish="finish"
-          />
-        </v-card-actions>
-      </v-card>
-      <v-card
-        :width="cardWidth"
-        class="ma-2"
-      >
-        <v-card-title>
-          <div>Try an Example Dataset</div>
-        </v-card-title>
-        <v-card-text class="info-description">
-          <div>We offer numerous example datasets to help you understand the tool before using your own data.</div>
-        </v-card-text>
-        <v-card-actions class="card-actions">
-          <v-btn
-            text
-            :to="$router ? '/examples': ''"
-          >
-            Preview
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-row>
-    <v-divider />
   </BasePage>
 </template>
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
 import StoryblokClient from "storyblok-js-client";
-import Footer from "@/components/Home/Footer/Footer.vue";
 import FeatureI from "@/entities/storyblok/Feature";
 import BasePage from "@/components/Shared/Page/Page.vue";
-import UploadWorkflow from "@/components/UploadWorkflow/UploadWorkflow.vue";
 import UploadedFile from "@/entities/UploadedFile";
 
 const Storyblok = new StoryblokClient({
@@ -86,8 +38,6 @@ const Storyblok = new StoryblokClient({
 @Component({
   components: {
     BasePage,
-    Footer,
-    UploadWorkflow,
   },
 })
 export default class Feature extends Vue {
@@ -96,13 +46,6 @@ export default class Feature extends Vue {
    */
   @Prop()
   private blok!: FeatureI;
-
-  private get cardWidth() {
-    if (this.$vuetify.breakpoint.name === "xs") {
-      return "100%";
-    }
-    return "calc(50% - 20px)";
-  }
 
   private createHtml(richText: object) {
     return Storyblok.richTextResolver.render(richText);

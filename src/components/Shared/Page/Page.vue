@@ -24,6 +24,22 @@
         <slot />
       </div>
     </div>
+    <v-img
+      class="image-footer align-center"
+      gradient="to top, rgba(38, 50, 56, .80), rgba(38, 50, 56, .80)"
+      src="https://a.storyblok.com/f/89733/2000x400/c4eaec5cab/mapwithmarkers.jpg"
+    >
+      <CallToAction
+        class="section-header section"
+        @finish="$emit('finish', $event)"
+      >
+        <div class="margin-bottom-large">
+          <h3 class="text-h3">
+            Visualize Your Location Data
+          </h3>
+        </div>
+      </CallToAction>
+    </v-img>
     <div class="section">
       <Footer />
     </div>
@@ -32,6 +48,7 @@
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
 import Footer from "@/components/Home/Footer/Footer.vue";
+import CallToAction from "@/components/Home/CallToAction/CallToAction.vue";
 
 /**
  * Generic Page component
@@ -39,6 +56,7 @@ import Footer from "@/components/Home/Footer/Footer.vue";
 @Component({
   components: {
     Footer,
+    CallToAction
   },
 })
 export default class Page extends Vue {
@@ -69,15 +87,15 @@ export default class Page extends Vue {
   align-items: center;
   height: calc(200px + 6rem);
   width: 100%;
+}
+.section-header {
+  max-width: 1215px;
+  margin: auto;
+  color: #eeeeee;
+}
+@media (max-width: 1215px) {
   .section-header {
-    max-width: 1215px;
-    margin: auto;
-    color: #eeeeee;
-  }
-  @media (max-width: 1215px) {
-    .section-header {
-      width: 100%;
-    }
+    width: 100%;
   }
 }
 .feature {

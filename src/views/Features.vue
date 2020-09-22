@@ -2,6 +2,7 @@
   <Page
     v-if="story"
     :blok="story.content"
+    @finish="finish"
   />
 </template>
 <script lang='ts'>
@@ -9,6 +10,8 @@ import { Component } from "vue-property-decorator";
 import storyapi from "@/api/storyblok";
 import Page from "@/components/Features/Page/Page.vue";
 import StoryI from "@/entities/storyblok/Story";
+import UploadedFile from "@/entities/UploadedFile";
+import { updateUploadedFile } from "@/store/exploreStore";
 import _View from "./_View";
 
 /**
@@ -43,6 +46,10 @@ export default class Features extends _View {
       title: "Table & Map - Features",
       content: "Learn more about the many features offered by Table & Map.",
     });
+  }
+
+  private finish(uploadedFile: UploadedFile) {
+    updateUploadedFile(uploadedFile);
   }
 }
 </script>
