@@ -13,7 +13,7 @@
 </template>
 <script lang='ts'>
 import { Component } from "vue-property-decorator";
-import state from "@/store/driveStore";
+import state, { moveToTrashFile } from "@/store/driveStore";
 import UploadsComponent from "@/components/Uploads/Uploads.vue";
 import UploadedFile from "@/entities/UploadedFile";
 import { updateUploadedFile, downloadUserUpload } from "@/store/exploreStore";
@@ -40,7 +40,7 @@ export default class Uploads extends _View {
     super.activated({ title: "Table & Map - Uploads" });
   }
 
-  private async rowClicked(files: {
+  private rowClicked(files: {
     file: gapi.client.drive.File;
     configFile: gapi.client.drive.File;
     geojsonFile: gapi.client.drive.File | undefined;
@@ -48,7 +48,7 @@ export default class Uploads extends _View {
     downloadUserUpload(files);
   }
 
-  private async share(files: {
+  private share(files: {
     file: gapi.client.drive.File;
     configFile: gapi.client.drive.File;
     geojsonFile: gapi.client.drive.File | undefined;
@@ -56,7 +56,7 @@ export default class Uploads extends _View {
     // TODO
   }
 
-  private async getLink(files: {
+  private getLink(files: {
     file: gapi.client.drive.File;
     configFile: gapi.client.drive.File;
     geojsonFile: gapi.client.drive.File | undefined;
@@ -64,7 +64,7 @@ export default class Uploads extends _View {
     // TODO
   }
 
-  private async rename(files: {
+  private rename(files: {
     file: gapi.client.drive.File;
     configFile: gapi.client.drive.File;
     geojsonFile: gapi.client.drive.File | undefined;
@@ -72,7 +72,7 @@ export default class Uploads extends _View {
     // TODO
   }
 
-  private async download(files: {
+  private download(files: {
     file: gapi.client.drive.File;
     configFile: gapi.client.drive.File;
     geojsonFile: gapi.client.drive.File | undefined;
@@ -80,12 +80,16 @@ export default class Uploads extends _View {
     // TODO
   }
 
-  private async remove(files: {
+  private remove(files: {
     file: gapi.client.drive.File;
     configFile: gapi.client.drive.File;
     geojsonFile: gapi.client.drive.File | undefined;
   }) {
-    // TODO
+    moveToTrashFile(files.file.id!);
+    moveToTrashFile(files.configFile.id!);
+    if (files.geojsonFile) {
+      moveToTrashFile(files.geojsonFile.id!);
+    }
   }
 
   private finish(uploadedFile: UploadedFile) {

@@ -138,21 +138,21 @@ export const uploadFile = (data: string, mimeType: string, name: string, callbac
     if (callback) {
       callback(resp.id);
     }
-    deleteFile(name);
-    state.files.push(resp);
+    const existingFiles = state.files.filter(_ => _.name === name);
+    if (existingFiles.length) {
+      existingFiles.forEach(existingFile => {
+        gapi.client.drive.files.delete({
+          fileId: existingFile.id!
+        }).execute(() => null);
+      });
+    }
+    state.files = state.files.filter(_ => _.name !== name).concat(resp);
   });
 }
 
-export const deleteFile = (name: string, callbackFnc?: (() => void) | undefined) => {
-  const existingFiles = state.files.filter(_ => _.name === name);
-  if (existingFiles.length) {
-    existingFiles.forEach(existingFile => {
-      gapi.client.drive.files.delete({
-        fileId: existingFile.id!
-      }).execute(() => null);
-    });
-  }
-  state.files = state.files.filter(_ => _.name !== name);
+export const moveToTrashFile = (fileId: string) => {
+  gapi.client.drive.files.update({ fileId, resource: { trashed: true } }).then(() => null);
+  state.files = state.files.filter(_ => _.id !== fileId);
 }
 
 const getTableAndMapFolderId = (callback: (folderId: string) => void) => {
