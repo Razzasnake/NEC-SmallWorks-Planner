@@ -22,7 +22,7 @@
           </div>
         </v-btn>
       </template>
-      <v-list>
+      <v-list dense>
         <v-list-item @click="signOut">
           <v-list-item-icon>
             <v-icon>{{ mdiLogout }}</v-icon>

@@ -21,14 +21,73 @@
       :items="tableData"
       :search="search"
       :mobile-breakpoint="0"
+      single-select
       @dblclick:row="rowClicked"
+      @contextmenu:row="openContextMenu"
+      @click:row="activateRow"
     />
+    <v-menu
+      v-model="showMenu"
+      :position-x="x"
+      :position-y="y"
+      absolute
+      offset-y
+    >
+      <v-list dense>
+        <v-list-item @click="preview">
+          <v-list-item-icon>
+            <v-icon>{{ mdiEye }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Preview</v-list-item-title>
+        </v-list-item>
+        <v-divider />
+        <v-list-item @click="share">
+          <v-list-item-icon>
+            <v-icon>{{ mdiAccountPlusOutline }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Share</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="getLink">
+          <v-list-item-icon>
+            <v-icon>{{ mdiLink }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Get link</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="rename">
+          <v-list-item-icon>
+            <v-icon>{{ mdiFileEditOutline }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Rename</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="download">
+          <v-list-item-icon>
+            <v-icon>{{ mdiDownloadOutline }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Download</v-list-item-title>
+        </v-list-item>
+        <v-divider />
+        <v-list-item @click="remove">
+          <v-list-item-icon>
+            <v-icon>{{ mdiDelete }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Remove</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
   </v-card>
 </template>
 <script lang='ts'>
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { mdiMagnify } from "@mdi/js";
 import Loading from "@/components/Shared/Loading/Loading.vue";
+import {
+  mdiEye,
+  mdiAccountPlusOutline,
+  mdiLink,
+  mdiDownloadOutline,
+  mdiDelete,
+  mdiFileEditOutline,
+} from "@mdi/js";
 
 interface TableRow {
   id: string;
@@ -56,6 +115,16 @@ export default class Table extends Vue {
   private mdiMagnify = mdiMagnify;
   private loading = false;
   private noDataText = 'You have no uploads. Click "New" to get started.';
+  private showMenu = false;
+  private contextMenuItem: TableRow | null = null;
+  private x: number = 0;
+  private y: number = 0;
+  private mdiEye = mdiEye;
+  private mdiAccountPlusOutline = mdiAccountPlusOutline;
+  private mdiLink = mdiLink;
+  private mdiDownloadOutline = mdiDownloadOutline;
+  private mdiDelete = mdiDelete;
+  private mdiFileEditOutline = mdiFileEditOutline;
 
   private get headers() {
     const headers: {
@@ -143,7 +212,7 @@ export default class Table extends Vue {
     return "";
   }
 
-  private rowClicked(event: MouseEvent, row: { item: TableRow }) {
+  private rowClicked(event: MouseEvent | undefined, row: { item: TableRow }) {
     /**
      * Notify parent to download this row and start the tool with it
      *
@@ -151,9 +220,69 @@ export default class Table extends Vue {
      */
     const file = this.files.find((file) => file.id === row.item.id)!;
     const configFile = this.files.find((_) => _.name === `${file.name}.json`);
-    const geojsonFile = this.files.find((_) => _.name === `${file.name}.geojson.json`);
+    const geojsonFile = this.files.find(
+      (_) => _.name === `${file.name}.geojson.json`
+    );
     this.$emit("rowClicked", { file, configFile, geojsonFile });
     this.loading = true;
+  }
+
+  private openContextMenu(
+    event: MouseEvent,
+    row: { item: TableRow; select: (val: boolean) => void }
+  ) {
+    event.preventDefault();
+    this.showMenu = false;
+    this.contextMenuItem = row.item;
+    this.activateRow(event, row);
+    this.x = event.clientX;
+    this.y = event.clientY;
+    this.$nextTick(() => {
+      this.showMenu = true;
+    });
+  }
+
+  private activateRow(
+    event: MouseEvent,
+    row: { item: TableRow; select: (val: boolean) => void }
+  ) {
+    row.select(true);
+  }
+
+  private preview() {
+    if (this.contextMenuItem) {
+      this.rowClicked(undefined, { item: this.contextMenuItem });
+    }
+  }
+
+  private share() {
+    if (this.contextMenuItem) {
+      // TODO
+    }
+  }
+
+  private getLink() {
+    if (this.contextMenuItem) {
+      // TODO
+    }
+  }
+
+  private rename() {
+    if (this.contextMenuItem) {
+      // TODO
+    }
+  }
+
+  private download() {
+    if (this.contextMenuItem) {
+      // TODO
+    }
+  }
+
+  private remove() {
+    if (this.contextMenuItem) {
+      // TODO
+    }
   }
 
   private deactivated() {
