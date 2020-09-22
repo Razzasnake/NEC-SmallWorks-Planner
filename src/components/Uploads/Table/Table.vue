@@ -116,7 +116,7 @@ export default class Table extends Vue {
    * Whether or not we are getting the files
    */
   @Prop({ default: false })
-  private tableLoading!: boolean
+  private tableLoading!: boolean;
   private search: string = "";
   private mdiMagnify = mdiMagnify;
   private loading = false;
@@ -133,7 +133,7 @@ export default class Table extends Vue {
   private mdiFileEditOutline = mdiFileEditOutline;
 
   private get vuetifyTableLoading() {
-    return this.tableLoading ? 'primary' : false;
+    return this.tableLoading ? "primary" : false;
   }
 
   private get headers() {
@@ -305,12 +305,10 @@ export default class Table extends Vue {
 
   private download() {
     if (this.contextMenuItem) {
-      /**
-       * Notify parent to download this file
-       *
-       * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
-       */
-      this.$emit("download", this.collectFiles(this.contextMenuItem));
+      const files = this.collectFiles(this.contextMenuItem);
+      if (files.file.webContentLink) {
+        window.location.href = files.file.webContentLink;
+      }
     }
   }
 

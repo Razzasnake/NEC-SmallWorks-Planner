@@ -6,7 +6,6 @@
     @share="share"
     @getLink="getLink"
     @rename="rename"
-    @download="download"
     @remove="remove"
     @finish="finish"
   />
@@ -65,14 +64,6 @@ export default class Uploads extends _View {
   }
 
   private rename(files: {
-    file: gapi.client.drive.File;
-    configFile: gapi.client.drive.File;
-    geojsonFile: gapi.client.drive.File | undefined;
-  }) {
-    // TODO
-  }
-
-  private download(files: {
     file: gapi.client.drive.File;
     configFile: gapi.client.drive.File;
     geojsonFile: gapi.client.drive.File | undefined;

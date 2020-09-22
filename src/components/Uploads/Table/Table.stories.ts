@@ -18,7 +18,6 @@ const _Table = () => ({
       @share="share"
       @getLink="getLink"
       @rename="rename"
-      @download="download"
       @remove="remove"
     ></Table>`,
   props: {
@@ -40,7 +39,6 @@ const _Table = () => ({
     share: action('share'),
     getLink: action('getLink'),
     rename: action('rename'),
-    download: action('download'),
     remove: action('remove')
   }
 })

@@ -18,7 +18,6 @@ const _Uploads = () => ({
       @share="share"
       @getLink="getLink"
       @rename="rename"
-      @download="download"
       @remove="remove"
       @finish="finish"
     ></Uploads>`,
@@ -41,7 +40,6 @@ const _Uploads = () => ({
     share: action('share'),
     getLink: action('getLink'),
     rename: action('rename'),
-    download: action('download'),
     remove: action('remove'),
     finish: action('finish')
   }
