@@ -35,11 +35,11 @@
       offset-y
     >
       <v-list dense>
-        <v-list-item @click="preview">
+        <v-list-item @click="open">
           <v-list-item-icon>
             <v-icon>{{ mdiEye }}</v-icon>
           </v-list-item-icon>
-          <v-list-item-title>Preview</v-list-item-title>
+          <v-list-item-title>Open</v-list-item-title>
         </v-list-item>
         <v-divider />
         <v-list-item @click="share">
@@ -263,7 +263,7 @@ export default class Table extends Vue {
     row.select(true);
   }
 
-  private preview() {
+  private open() {
     if (this.contextMenuItem) {
       this.$emit("rowClicked", this.collectFiles(this.contextMenuItem));
       this.loading = true;
