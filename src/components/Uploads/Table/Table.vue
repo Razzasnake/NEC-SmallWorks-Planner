@@ -75,6 +75,18 @@
         </v-list-item>
       </v-list>
     </v-menu>
+    <v-snackbar
+      v-model="configMissingSnackbar"
+      bottom
+      color="error"
+    >
+      <div>
+        Configuration file cannot be found in <a
+          :href="driveFolderUrl"
+          target="_blank"
+        >Google Drive</a>
+      </div>
+    </v-snackbar>
   </v-card>
 </template>
 <script lang='ts'>
@@ -89,6 +101,7 @@ import {
   mdiDeleteOutline,
   mdiFileEditOutline,
 } from "@mdi/js";
+import state from "@/store/driveStore";
 
 interface TableRow {
   id: string;
@@ -131,6 +144,11 @@ export default class Table extends Vue {
   private mdiDownloadOutline = mdiDownloadOutline;
   private mdiDeleteOutline = mdiDeleteOutline;
   private mdiFileEditOutline = mdiFileEditOutline;
+  private configMissingSnackbar = false;
+
+  private get driveFolderUrl() {
+    return `https://drive.google.com/drive/folders/${state.folderId}`
+  }
 
   private get vuetifyTableLoading() {
     return this.tableLoading ? "primary" : false;
@@ -237,8 +255,13 @@ export default class Table extends Vue {
      *
      * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
      */
-    this.$emit("rowClicked", this.collectFiles(row.item));
-    this.loading = true;
+    const collectedFiles = this.collectFiles(row.item);
+    if (collectedFiles.configFile) {
+      this.$emit("rowClicked", this.collectFiles(row.item));
+      this.loading = true;
+    } else {
+      this.configMissingSnackbar = true;
+    }
   }
 
   private openContextMenu(
@@ -265,8 +288,13 @@ export default class Table extends Vue {
 
   private open() {
     if (this.contextMenuItem) {
-      this.$emit("rowClicked", this.collectFiles(this.contextMenuItem));
-      this.loading = true;
+      const collectedFiles = this.collectFiles(this.contextMenuItem);
+      if (collectedFiles.configFile) {
+        this.$emit("rowClicked", this.collectFiles(this.contextMenuItem));
+        this.loading = true;
+      } else {
+        this.configMissingSnackbar = true;
+      }
     }
   }
 

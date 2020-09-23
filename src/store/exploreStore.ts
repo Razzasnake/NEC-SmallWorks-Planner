@@ -53,10 +53,10 @@ export const updateUploadedFile = (uploadedFile: UploadedFile) => {
 
 export const downloadUserUpload = async (files: {
   file: gapi.client.drive.File;
-  configFile: gapi.client.drive.File;
+  configFile: gapi.client.drive.File | undefined;
   geojsonFile: gapi.client.drive.File | undefined;
 }) => {
-  if (files.file.id && files.configFile.id) {
+  if (files.file.id && files.configFile && files.configFile.id) {
     const worker = new ParserWorker();
     worker.postMessage({
       file: await downloadFile(files.file.id),
@@ -64,7 +64,7 @@ export const downloadUserUpload = async (files: {
     });
     worker.onmessage = async (event) => {
       const config: Config = JSON.parse(
-        await downloadFile(files.configFile.id!)
+        await downloadFile(files.configFile!.id!)
       ) as any;
       const uploadedFile = new UploadedFile({
         toUpload: false,
