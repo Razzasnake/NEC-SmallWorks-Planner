@@ -15,10 +15,7 @@
     <div class="section">
       <Features class="section-container" />
     </div>
-    <div
-      class="section"
-      style="background-color: #eceff1;"
-    >
+    <div class="section b">
       <GoogleDriveIntegration class="section-container" />
     </div>
     <div class="section">
@@ -76,6 +73,9 @@ export default class Home extends Vue {}
 }
 .image-footer {
   height: 250px;
+}
+.section.b {
+  background-color: #eceff1;
 }
 .section-container {
   max-width: 1215px;

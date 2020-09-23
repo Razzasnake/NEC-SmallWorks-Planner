@@ -29,7 +29,7 @@
         </v-col>
         <v-col
           cols="5"
-          style="margin: auto;"
+          class="auto-margin"
         >
           <v-img :src="require('@/assets/google_drive_logo.png')" />
         </v-col>
@@ -63,5 +63,8 @@ export default class GoogleDriveIntegration extends Vue {
   border-radius: 50%;
   text-align: center;
   display: inline-block;
+}
+.auto-margin {
+  margin: auto;
 }
 </style>
