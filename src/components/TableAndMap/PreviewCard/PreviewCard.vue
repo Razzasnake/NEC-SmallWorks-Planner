@@ -73,6 +73,8 @@ import { GridApi, ColDef, ColumnApi } from "@ag-grid-community/core";
 import Utils from "@/components/TableAndMap/GoogleMap/Logic/Utils";
 import { defaultColDef } from "../Table/Logic/TableLogic";
 import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
+import state, { updateFeature } from "@/store/exploreStore";
+import PolygonRelationWorker from "worker-loader!@/store/WebWorkers/PolygonRelation.worker";
 
 /**
  * Display a preview of the marker/row that has been clicked.
@@ -155,6 +157,22 @@ export default class PreviewCard extends Vue {
   private created() {
     Utils.injectGoogleMapsLibrary([]).then((google) => {
       this.updatePanorama();
+      this.clickedMarker.features.forEach((feature) => {
+        if (feature.features === null) {
+          const features = (state.layers.find((_) => _.id === feature.id)!
+            .data as any).features;
+          const fkWorker = new PolygonRelationWorker();
+          fkWorker.postMessage({
+            markers: [[this.clickedMarker.lng, this.clickedMarker.lat]],
+            features,
+          });
+          fkWorker.onmessage = (event) => {
+            const polygonIndices: number[] = event.data.polygonIndices;
+            feature.features = polygonIndices.map((index) => features[index]);
+            fkWorker.terminate();
+          };
+        }
+      });
     });
   }
 
