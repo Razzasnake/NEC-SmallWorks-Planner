@@ -42,20 +42,40 @@
         color="#eeeeee"
         @click.stop="toggleDrawer"
       />
-      <a @click="jumpTo({ name: 'Home' })">
+      <router-link
+        v-if="$router"
+        to="/"
+      >
+        <v-toolbar-title class="appbar-title">
+          Table & Map
+        </v-toolbar-title>
+      </router-link>
+      <a
+        v-else
+        href="/"
+      >
         <v-toolbar-title class="appbar-title">Table & Map</v-toolbar-title>
       </a>
       <v-spacer />
       <v-toolbar-items>
         <v-btn
-          v-if="loggedIn"
+          v-if="loggedIn && $router"
           text
           color="#eeeeee"
-          @click="jumpTo({ name: 'Uploads' })"
+          to="/uploads"
         >
           Uploads
         </v-btn>
-        <Login @jumpTo="jumpTo" />
+        <v-btn
+          v-else-if="loggedIn"
+          text
+          color="#eeeeee"
+          href="/uploads"
+          active-class
+        >
+          Uploads
+        </v-btn>
+        <Login />
       </v-toolbar-items>
     </v-app-bar>
   </div>
@@ -116,15 +136,6 @@ export default class NavBar extends Vue {
     if (!this.drawerAllowed) {
       this.drawer = null;
     }
-  }
-
-  private jumpTo(location: { name: string }) {
-    /**
-     * User wants to jump to a different location
-     *
-     * @type {{ name: string }}
-     */
-    this.$emit("jumpTo", location);
   }
 
   private toggleDrawer() {

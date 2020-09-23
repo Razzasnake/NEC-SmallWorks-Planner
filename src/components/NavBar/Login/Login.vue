@@ -72,15 +72,6 @@ export default class Login extends Vue {
   private signOut() {
     signOut();
   }
-
-  private openMyUploads() {
-    /**
-     * Navigate to the user uploads page
-     *
-     * @type {{ name: string }}
-     */
-    this.$emit("jumpTo", { name: "Uploads" });
-  }
 }
 </script>
 <style lang="scss" scoped>

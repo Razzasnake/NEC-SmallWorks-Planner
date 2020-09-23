@@ -1,53 +1,20 @@
 <template>
   <div id="app">
     <v-app>
-      <NavBar
-        :drawer-allowed="drawerAllowed"
-        @jumpTo="jumpTo"
-      />
+      <NavBar :drawer-allowed="drawerAllowed" />
       <v-main>
         <keep-alive>
           <router-view />
         </keep-alive>
-        <v-dialog
-          v-model="areYouSureModal"
-          max-width="400"
-          @click:outside="cancelLeave"
-        >
-          <v-card>
-            <v-card-title class="headline">
-              Are you sure you want to leave?
-            </v-card-title>
-            <v-card-text>You will lose all uploaded markers, shapefiles, drawn shapes, filters, and sortings. Click "Sign in" to save your data to Google Drive.</v-card-text>
-            <v-card-actions>
-              <v-spacer />
-              <v-btn
-                color="primary"
-                text
-                @click="cancelLeave"
-              >
-                Cancel
-              </v-btn>
-              <v-btn
-                color="primary"
-                text
-                @click="confirmLeave"
-              >
-                Confirm
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
       </v-main>
     </v-app>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import NavBar from "@/components/NavBar/NavBar.vue";
-import state, { reset } from "@/store/exploreStore";
-import driveState from "@/store/driveStore";
+import state from "@/store/exploreStore";
 
 /**
  * Root of project
@@ -58,51 +25,8 @@ import driveState from "@/store/driveStore";
   },
 })
 export default class App extends Vue {
-  private areYouSureModal = false;
-  private pathToLeaveTo: { name: string } | null = null;
-
   private get drawerAllowed() {
     return state.uploadedFile !== null && this.$route.name === "Explore";
-  }
-
-  @Watch("$route")
-  private routerUpdated() {
-    if (this.$route.name !== "Explore" && state.uploadedFile) {
-      reset();
-    }
-  }
-
-  private created() {
-    this.routerUpdated();
-  }
-
-  private jumpTo(location: { name: string }) {
-    if (location.name !== this.$route.name) {
-      if (
-        this.$route.name === "Explore" &&
-        !driveState.user &&
-        state.uploadedFile &&
-        state.uploadedFile.toUpload
-      ) {
-        this.areYouSureModal = true;
-        this.pathToLeaveTo = location;
-      } else {
-        this.$router.push(location);
-      }
-    }
-  }
-
-  private confirmLeave() {
-    if (this.pathToLeaveTo) {
-      this.$router.push(this.pathToLeaveTo);
-    }
-    this.cancelLeave();
-    reset();
-  }
-
-  private cancelLeave() {
-    this.areYouSureModal = false;
-    this.pathToLeaveTo = null;
   }
 }
 </script>

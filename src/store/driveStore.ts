@@ -80,6 +80,9 @@ export const signOut = () => {
     state.files = [];
     state.folderId = null;
     state.refreshFilesLoading = true;
+    if (router.currentRoute.name === 'Uploads') {
+      router.push({ name: 'Home' });
+    }
   });
 }
 

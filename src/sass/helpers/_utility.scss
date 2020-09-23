@@ -68,3 +68,7 @@
 .v-card {
   position: none;
 }
+
+.theme--light.v-btn--active::before {
+  opacity: 0;
+}

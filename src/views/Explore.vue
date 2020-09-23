@@ -15,6 +15,35 @@
       v-else
       loading
     />
+    <v-dialog
+      v-model="areYouSureModal"
+      max-width="400"
+      @click:outside="cancelLeave"
+    >
+      <v-card>
+        <v-card-title class="headline">
+          Are you sure you want to leave?
+        </v-card-title>
+        <v-card-text>You will lose all uploaded markers, shapefiles, drawn shapes, filters, and sortings. Click "Sign in" to save your data to Google Drive.</v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            color="primary"
+            text
+            @click="cancelLeave"
+          >
+            Cancel
+          </v-btn>
+          <v-btn
+            color="primary"
+            text
+            @click="confirmLeave"
+          >
+            Confirm
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script lang='ts'>
@@ -24,6 +53,7 @@ import UploadedFile from "@/entities/UploadedFile";
 import TableLogic from "@/components/TableAndMap/Table/Logic/TableLogic";
 import { OverlayJson } from "@/components/TableAndMap/GoogleMap/Logic/Utils";
 import state, {
+  reset,
   updateOverlayEventJsons,
   updateFilters,
   updateSorting,
@@ -31,6 +61,10 @@ import state, {
 import Loading from "@/components/Shared/Loading/Loading.vue";
 import _View from "./_View";
 import GoogleMapUtils from "@/components/TableAndMap/GoogleMap/Logic/Utils";
+import { Route, NavigationGuardNext } from "vue-router";
+import driveState from "@/store/driveStore";
+
+Component.registerHooks(["beforeRouteLeave"]);
 
 /**
  * Explore the data that was just uploaded
@@ -48,6 +82,8 @@ export default class Explore extends _View {
   @Prop({ default: null })
   private fileId!: string | null;
   private googleMapsLibrary: boolean = false;
+  private areYouSureModal = false;
+  private pathToLeaveTo: { name: string } | null = null;
 
   private get uploadedFile() {
     return state.uploadedFile;
@@ -96,6 +132,36 @@ export default class Explore extends _View {
 
   private updateFilters(filters: { [colId: string]: any }) {
     updateFilters(filters);
+  }
+
+  private beforeRouteLeave(to: Route, from: Route, next: NavigationGuardNext) {
+    if (to.name !== this.$route.name) {
+      if (
+        this.$route.name === "Explore" &&
+        !driveState.user &&
+        state.uploadedFile &&
+        state.uploadedFile.toUpload
+      ) {
+        this.areYouSureModal = true;
+        this.pathToLeaveTo = { name: to.name! };
+        next(false);
+      } else {
+        next();
+      }
+    }
+  }
+
+  private confirmLeave() {
+    if (this.pathToLeaveTo) {
+      reset();
+      this.$router.push(this.pathToLeaveTo);
+    }
+    this.cancelLeave();
+  }
+
+  private cancelLeave() {
+    this.areYouSureModal = false;
+    this.pathToLeaveTo = null;
   }
 }
 </script>
