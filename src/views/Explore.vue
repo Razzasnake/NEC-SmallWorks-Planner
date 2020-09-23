@@ -24,7 +24,7 @@
         <v-card-title class="headline">
           Are you sure you want to leave?
         </v-card-title>
-        <v-card-text>You will lose all uploaded markers, shapefiles, drawn shapes, filters, and sortings. Click "Sign in" to save your data to Google Drive.</v-card-text>
+        <v-card-text>You will lose all uploaded markers, shapefiles, drawn shapes, filters, and sortings. Click <b>"Sign in"</b> to save your data to Google Drive.</v-card-text>
         <v-card-actions>
           <v-spacer />
           <v-btn
