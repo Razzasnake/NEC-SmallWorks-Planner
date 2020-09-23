@@ -146,6 +146,7 @@ export default class Explore extends _View {
         this.pathToLeaveTo = { name: to.name! };
         next(false);
       } else {
+        reset();
         next();
       }
     }
