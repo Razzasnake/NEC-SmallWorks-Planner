@@ -5,7 +5,7 @@
       :key="index0"
       :prepend-icon="dropdown0.icon"
     >
-      <template v-slot:activator>
+      <template #activator>
         <v-list-item-title>{{ dropdown0.label }}</v-list-item-title>
       </template>
       <span

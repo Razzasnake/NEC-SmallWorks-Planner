@@ -32,7 +32,8 @@
           :headers="headers"
           :items="tableData"
         >
-          <template v-slot:item.actions="{ item }">
+          <!-- eslint-disable vue/valid-v-slot -->
+          <template #item.actions="{ item }">
             <div class="float-right">
               <v-progress-circular
                 v-if="item.data === null"
@@ -50,6 +51,7 @@
               </v-btn>
             </div>
           </template>
+          <!--eslint-enable-->
         </v-data-table>
       </v-card-text>
       <v-card-actions>

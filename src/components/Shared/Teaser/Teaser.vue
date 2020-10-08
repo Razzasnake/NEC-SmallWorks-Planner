@@ -76,7 +76,7 @@ export default class Teaser extends Vue {
      *
      * @type {TeaserI}
      */
-    this.$emit("onClick", this.blok);
+    this.$emit("on-click", this.blok);
   }
 }
 </script>

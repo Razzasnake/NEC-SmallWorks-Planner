@@ -12,7 +12,7 @@ const _Teaser = () => ({
   template: `
     <Teaser
       :blok="blok"
-      @onClick="onClick"
+      @on-click="onClick"
     ></Teaser>`,
   props: {
     blok: {

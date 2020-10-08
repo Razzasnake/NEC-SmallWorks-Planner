@@ -1,5 +1,4 @@
 import Login from './Login.vue'
-import { action } from '@storybook/addon-actions'
 
 export default {
   component: Login,
@@ -8,10 +7,7 @@ export default {
 
 const _Login = () => ({
   components: { Login },
-  template: '<Login @jumpTo="jumpTo"></Login>',
-  methods: {
-    jumpTo: action('jumpTo')
-  }
+  template: '<Login />'
 })
 
 export { _Login }

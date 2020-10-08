@@ -10,9 +10,9 @@
       <Table
         :files="files"
         :table-loading="tableLoading"
-        @rowClicked="rowClicked"
+        @row-clicked="rowClicked"
         @share="share"
-        @getLink="getLink"
+        @get-link="getLink"
         @rename="rename"
         @remove="remove"
       />
@@ -71,7 +71,7 @@ export default class Uploads extends Vue {
      *
      * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
      */
-    this.$emit("rowClicked", files);
+    this.$emit("row-clicked", files);
   }
 
   private share(files: {
@@ -97,7 +97,7 @@ export default class Uploads extends Vue {
      *
      * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
      */
-    this.$emit("getLink", files);
+    this.$emit("get-link", files);
   }
 
   private rename(files: {

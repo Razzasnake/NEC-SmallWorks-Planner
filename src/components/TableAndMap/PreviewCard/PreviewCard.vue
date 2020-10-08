@@ -25,7 +25,7 @@
                 suppress-menu-hide
                 suppress-column-virtualisation
                 enable-cell-text-selection
-                @gridReady="gridReady"
+                @grid-ready="gridReady"
               />
             </div>
           </v-col>
@@ -47,7 +47,7 @@
               suppress-menu-hide
               suppress-column-virtualisation
               enable-cell-text-selection
-              @gridReady="gridReady"
+              @grid-ready="gridReady"
             />
           </v-col>
         </v-row>

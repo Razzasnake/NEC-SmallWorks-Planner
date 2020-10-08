@@ -58,7 +58,7 @@ export default class AgGridLink extends Vue {
      *
      * @type {string}
      */
-    this.$parent.$parent.$emit("markerSelected", this.params.data.id);
+    this.$parent.$parent.$emit("marker-selected", this.params.data.id);
   }
 }
 </script>

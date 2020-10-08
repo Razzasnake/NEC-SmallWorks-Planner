@@ -3,7 +3,7 @@
     <Upload
       :color="color"
       :small="small"
-      @fileUploaded="fileUploaded"
+      @file-uploaded="fileUploaded"
     />
     <v-dialog
       v-model="visible"
@@ -26,13 +26,13 @@
             :value="uploadedFile.data"
             :column-selections="columnSelections"
             :first-row-header="firstRowHeader"
-            @updateSelections="updateSelections"
-            @updateFirstRowHeader="updateFirstRowHeader"
-            @updateIsComplete="updateIsComplete"
+            @update-selections="updateSelections"
+            @update-first-row-header="updateFirstRowHeader"
+            @update-is-complete="updateIsComplete"
           />
           <Geocoder
             :addresses="addresses"
-            @updateLocation="updateLocation"
+            @update-location="updateLocation"
             @finish="finish"
           />
         </v-card-text>
