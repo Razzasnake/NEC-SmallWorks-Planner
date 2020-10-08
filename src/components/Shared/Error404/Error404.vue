@@ -13,9 +13,18 @@
           The page you are looking for no longer exists.
         </div>
         <h6 class="text-h6 margin-top-large">
-          <router-link to="/">
+          <router-link
+            v-if="$router"
+            to="/"
+          >
             Back home
           </router-link>
+          <a
+            v-else
+            href="/"
+          >
+            Back home
+          </a>
           in {{ time }}
         </h6>
       </div>

@@ -9,7 +9,7 @@
       v-if="!loggedOut"
       offset-y
     >
-      <template v-slot:activator="{ on }">
+      <template #activator="{ on }">
         <v-btn
           x-small
           fab

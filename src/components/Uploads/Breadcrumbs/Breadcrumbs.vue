@@ -3,7 +3,7 @@
     :items="items"
     large
   >
-    <template v-slot:divider>
+    <template #divider>
       <v-icon>{{ mdiChevronRight }}</v-icon>
     </template>
   </v-breadcrumbs>

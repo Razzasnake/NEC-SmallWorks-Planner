@@ -2,7 +2,7 @@
   <div>
     <Loading :loading="loading" />
     <v-menu v-if="small">
-      <template v-slot:activator="{ on }">
+      <template #activator="{ on }">
         <v-btn
           large
           :absolute="$vuetify.breakpoint.xs"

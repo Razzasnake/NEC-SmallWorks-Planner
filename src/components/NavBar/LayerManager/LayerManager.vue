@@ -32,7 +32,7 @@
           :headers="headers"
           :items="tableData"
         >
-          <template v-slot:item.actions="{ item }">
+          <template #item.actions="{ item }">
             <div class="float-right">
               <v-progress-circular
                 v-if="item.data === null"
