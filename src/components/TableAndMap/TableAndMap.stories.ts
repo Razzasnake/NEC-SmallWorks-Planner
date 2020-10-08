@@ -21,9 +21,9 @@ const _TableAndMap = () => ({
         :overlayEventJsons="overlayEventJsons"
         :tableLogic="tableLogic"
         :viewOptions="viewOptions"
-        @updateOverlayEventJsons="updateOverlayEventJsons"
-        @sortChanged="sortChanged"
-        @filterChanged="filterChanged"
+        @update-overlay-event-jsons="updateOverlayEventJsons"
+        @sort-changed="sortChanged"
+        @filter-changed="filterChanged"
       ></TableAndMap>
     </div>`,
   props: {
@@ -50,7 +50,7 @@ const _TableAndMap = () => ({
   },
   methods: {
     updateOverlayEventJsons(newJsons: any) {
-      (this as any).$data.map.overlayEventJsons = newJsons
+      (this as any).$data.overlayEventJsons = newJsons
     },
     sortChanged: action('sortChanged'),
     filterChanged: action('filterChanged')

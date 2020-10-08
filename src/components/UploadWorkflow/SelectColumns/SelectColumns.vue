@@ -132,7 +132,7 @@ export default class SelectColumns extends Vue {
      * 
      * @type {boolean}
      */
-    this.$emit("updateFirstRowHeader", newVal);
+    this.$emit("update-first-row-header", newVal);
   }
 
   private get allOptions(): {
@@ -232,18 +232,18 @@ export default class SelectColumns extends Vue {
         zip: null | number;
       }}
      */
-    this.$emit("updateSelections", toReturn);
+    this.$emit("update-selections", toReturn);
     /**
      * Notify parent is the selections needed are done
      * 
      * @type {boolean}
      */
-    this.$emit("updateIsComplete", this.isComplete);
+    this.$emit("update-is-complete", this.isComplete);
   }
 
   private toggleAddressFields() {
     this.showAddressFields = !this.showAddressFields;
-    this.$emit("updateIsComplete", this.isComplete);
+    this.$emit("update-is-complete", this.isComplete);
   }
 }
 </script>

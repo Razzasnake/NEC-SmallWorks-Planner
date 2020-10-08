@@ -10,8 +10,8 @@ const _PasteModal = () => ({
   components: { PasteModal },
   template: `
     <PasteModal
-      @uploadText="uploadText"
-      @closeModal="closeModal"
+      @upload-text="uploadText"
+      @close-modal="closeModal"
     ></PasteModal>`,
   props: {
   },

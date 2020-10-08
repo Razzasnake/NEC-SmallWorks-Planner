@@ -11,7 +11,7 @@ const _Geocoder = () => ({
   template: `
     <Geocoder
       :addresses="addresses"
-      @updateLocation="updateLocation"
+      @update-location="updateLocation"
       @finish="finish"
     ></Geocoder>`,
   props: {

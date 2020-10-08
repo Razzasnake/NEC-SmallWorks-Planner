@@ -15,8 +15,8 @@
         :display-clusters="displayClusters"
         :clicked-marker="clickedMarker"
         :group-by-key="groupByKey"
-        @markerSelected="markerSelected"
-        @updateOverlayEvents="updateOverlayEvents"
+        @marker-selected="markerSelected"
+        @update-overlay-events="updateOverlayEvents"
       />
     </div>
     <div
@@ -33,10 +33,10 @@
         :overlay-events="overlayEvents"
         :view-options="viewOptions"
         :clicked-marker="clickedMarker"
-        @sortChanged="sortChanged"
-        @filterChanged="filterChanged"
-        @hiddenMarkerIndicesChanged="hiddenMarkerIndicesChanged"
-        @markerSelected="markerSelected"
+        @sort-changed="sortChanged"
+        @filter-changed="filterChanged"
+        @hidden-marker-indices-changed="hiddenMarkerIndicesChanged"
+        @marker-selected="markerSelected"
       />
     </div>
     <PreviewCard
@@ -234,7 +234,7 @@ export default class TableAndMap extends Vue {
      *
      * @type {OverlayJson[]}
      */
-    this.$emit("updateOverlayEventJsons", overlayEventJsons);
+    this.$emit("update-overlay-event-jsons", overlayEventJsons);
     this.$nextTick(() => {
       (this.$refs.Table as Table).onFilterChanged();
     });
@@ -246,7 +246,7 @@ export default class TableAndMap extends Vue {
      *
      * @type {{ colId: string, sort: string }[]}
      */
-    this.$emit("sortChanged", sorting);
+    this.$emit("sort-changed", sorting);
   }
 
   private filterChanged(filters: { [colId: string]: any }) {
@@ -255,7 +255,7 @@ export default class TableAndMap extends Vue {
      *
      * @type {{ [colId: string]: any }}
      */
-    this.$emit("filterChanged", filters);
+    this.$emit("filter-changed", filters);
   }
 
   private hiddenMarkerIndicesChanged(hiddenMarkerIndices: Set<number>) {

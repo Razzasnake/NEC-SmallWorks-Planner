@@ -14,9 +14,9 @@ const _Uploads = () => ({
     <Uploads
       :files="filesProp"
       :tableLoading="tableLoading"
-      @rowClicked="rowClicked"
+      @row-clicked="rowClicked"
       @share="share"
-      @getLink="getLink"
+      @get-link="getLink"
       @rename="rename"
       @remove="remove"
       @finish="finish"

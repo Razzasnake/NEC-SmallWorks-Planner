@@ -182,7 +182,7 @@ export default class GoogleMapLogic {
              *
              * @type {string}
              */
-            this.vueComponent.$emit("markerSelected", row.id);
+            this.vueComponent.$emit("marker-selected", row.id);
           }
         });
         this.addInfoWindow(newMarker, row);
@@ -477,7 +477,7 @@ export default class GoogleMapLogic {
        * @type {google.maps.drawing.OverlayCompleteEvent[]}
        */
       this.vueComponent.$emit(
-        "updateOverlayEvents",
+        "update-overlay-events",
         this.overlayEvents.concat(newEvent)
       );
     }
@@ -494,20 +494,20 @@ export default class GoogleMapLogic {
     newOverlay.addListener("dragend", () => {
       newOverlay.getPaths().forEach(path => {
         google.maps.event.addListener(path, "set_at", () =>
-          this.vueComponent.$emit("updateOverlayEvents", this.overlayEvents)
+          this.vueComponent.$emit("update-overlay-events", this.overlayEvents)
         );
       });
-      this.vueComponent.$emit("updateOverlayEvents", this.overlayEvents);
+      this.vueComponent.$emit("update-overlay-events", this.overlayEvents);
     });
     newOverlay.getPaths().forEach(path => {
       google.maps.event.addListener(path, "insert_at", () =>
-        this.vueComponent.$emit("updateOverlayEvents", this.overlayEvents)
+        this.vueComponent.$emit("update-overlay-events", this.overlayEvents)
       );
       google.maps.event.addListener(path, "set_at", () =>
-        this.vueComponent.$emit("updateOverlayEvents", this.overlayEvents)
+        this.vueComponent.$emit("update-overlay-events", this.overlayEvents)
       );
       google.maps.event.addListener(path, "remove_at", () =>
-        this.vueComponent.$emit("updateOverlayEvents", this.overlayEvents)
+        this.vueComponent.$emit("update-overlay-events", this.overlayEvents)
       );
     });
   }
@@ -518,12 +518,12 @@ export default class GoogleMapLogic {
     });
     newOverlay.addListener("dragend", () => {
       newOverlay.addListener("bounds_changed", () =>
-        this.vueComponent.$emit("updateOverlayEvents", this.overlayEvents)
+        this.vueComponent.$emit("update-overlay-events", this.overlayEvents)
       );
-      this.vueComponent.$emit("updateOverlayEvents", this.overlayEvents);
+      this.vueComponent.$emit("update-overlay-events", this.overlayEvents);
     });
     newOverlay.addListener("bounds_changed", () =>
-      this.vueComponent.$emit("updateOverlayEvents", this.overlayEvents)
+      this.vueComponent.$emit("update-overlay-events", this.overlayEvents)
     );
   }
 
@@ -533,15 +533,15 @@ export default class GoogleMapLogic {
     });
     newOverlay.addListener("dragend", () => {
       newOverlay.addListener("center_changed", () =>
-        this.vueComponent.$emit("updateOverlayEvents", this.overlayEvents)
+        this.vueComponent.$emit("update-overlay-events", this.overlayEvents)
       );
-      this.vueComponent.$emit("updateOverlayEvents", this.overlayEvents);
+      this.vueComponent.$emit("update-overlay-events", this.overlayEvents);
     });
     newOverlay.addListener("center_changed", () =>
-      this.vueComponent.$emit("updateOverlayEvents", this.overlayEvents)
+      this.vueComponent.$emit("update-overlay-events", this.overlayEvents)
     );
     newOverlay.addListener("radius_changed", () =>
-      this.vueComponent.$emit("updateOverlayEvents", this.overlayEvents)
+      this.vueComponent.$emit("update-overlay-events", this.overlayEvents)
     );
   }
 
@@ -563,7 +563,7 @@ export default class GoogleMapLogic {
         const newOverlayEvents = this.overlayEvents
           .slice(0, overlayIndex)
           .concat(this.overlayEvents.slice(overlayIndex + 1));
-        this.vueComponent.$emit("updateOverlayEvents", newOverlayEvents);
+        this.vueComponent.$emit("update-overlay-events", newOverlayEvents);
         this.selectedOverlayEvent.overlay.setMap(null);
         this.selectedOverlayEvent = null;
       }

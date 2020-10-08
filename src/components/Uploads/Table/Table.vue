@@ -257,7 +257,7 @@ export default class Table extends Vue {
      */
     const collectedFiles = this.collectFiles(row.item);
     if (collectedFiles.configFile) {
-      this.$emit("rowClicked", this.collectFiles(row.item));
+      this.$emit("row-clicked", this.collectFiles(row.item));
       this.loading = true;
     } else {
       this.configMissingSnackbar = true;
@@ -290,7 +290,7 @@ export default class Table extends Vue {
     if (this.contextMenuItem) {
       const collectedFiles = this.collectFiles(this.contextMenuItem);
       if (collectedFiles.configFile) {
-        this.$emit("rowClicked", this.collectFiles(this.contextMenuItem));
+        this.$emit("row-clicked", this.collectFiles(this.contextMenuItem));
         this.loading = true;
       } else {
         this.configMissingSnackbar = true;
@@ -316,7 +316,7 @@ export default class Table extends Vue {
        *
        * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
        */
-      this.$emit("getLink", this.collectFiles(this.contextMenuItem));
+      this.$emit("get-link", this.collectFiles(this.contextMenuItem));
     }
   }
 

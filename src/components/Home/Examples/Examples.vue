@@ -13,7 +13,7 @@
         :blok="item"
         button-text="Preview"
         class="ma-2"
-        @onClick="preview"
+        @on-click="preview"
       />
     </v-row>
     <div class="margin-top-large align-center">

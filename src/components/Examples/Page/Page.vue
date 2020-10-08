@@ -23,7 +23,7 @@
           :blok="item"
           button-text="Preview"
           class="ma-2"
-          @onClick="preview"
+          @on-click="preview"
         />
       </v-row>
       <v-slide-group
@@ -38,7 +38,7 @@
             :blok="item"
             button-text="Preview"
             class="ma-2"
-            @onClick="preview"
+            @on-click="preview"
           />
         </v-slide-item>
       </v-slide-group>

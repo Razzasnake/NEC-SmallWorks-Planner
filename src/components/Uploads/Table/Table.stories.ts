@@ -14,9 +14,9 @@ const _Table = () => ({
     <Table
       :files="filesProp"
       :tableLoading="tableLoading"
-      @rowClicked="rowClicked"
+      @row-clicked="rowClicked"
       @share="share"
-      @getLink="getLink"
+      @get-link="getLink"
       @rename="rename"
       @remove="remove"
     ></Table>`,

@@ -2,9 +2,9 @@
   <UploadsComponent
     :files="files"
     :table-loading="tableLoading"
-    @rowClicked="rowClicked"
+    @row-clicked="rowClicked"
     @share="share"
-    @getLink="getLink"
+    @get-link="getLink"
     @rename="rename"
     @remove="remove"
     @finish="finish"

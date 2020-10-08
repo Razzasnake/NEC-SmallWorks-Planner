@@ -25,8 +25,8 @@ const _GoogleMap = () => ({
         :displayMarkers="displayMarkers"
         :displayClusters="displayClusters"
         :groupByKey="groupByKey"
-        @markerSelected="markerSelected"
-        @updateOverlayEvents="updateOverlayEvents"
+        @marker-selected="markerSelected"
+        @update-overlay-events="updateOverlayEvents"
       ></GoogleMap>
     </div>`,
   props: {

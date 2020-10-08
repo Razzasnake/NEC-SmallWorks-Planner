@@ -13,7 +13,7 @@ const _Upload = () => ({
     <Upload
       :color="color"
       :small="small"
-      @fileUploaded="fileUploaded"
+      @file-uploaded="fileUploaded"
     ></Upload>`,
   props: {
     color: {

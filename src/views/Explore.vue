@@ -7,9 +7,9 @@
       :sorting="sorting"
       :overlay-event-jsons="overlayEventJsons"
       :table-logic="tableLogic"
-      @updateOverlayEventJsons="updateOverlayEventJsons"
-      @sortChanged="updateSorting"
-      @filterChanged="updateFilters"
+      @update-overlay-event-jsons="updateOverlayEventJsons"
+      @sort-changed="updateSorting"
+      @filter-changed="updateFilters"
     />
     <Loading
       v-else

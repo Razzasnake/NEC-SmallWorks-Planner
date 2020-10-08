@@ -10,9 +10,9 @@
     :modules="modules"
     suppress-menu-hide
     enable-cell-text-selection
-    @gridReady="gridReady"
-    @sortChanged="sortChanged"
-    @filterChanged="filterChanged"
+    @grid-ready="gridReady"
+    @sort-changed="sortChanged"
+    @filter-changed="filterChanged"
   />
 </template>
 <script lang='ts'>
@@ -200,7 +200,7 @@ export default class Table extends Vue {
      *
      * @type {{ colId: string, sort: string }[]}
      */
-    this.$emit("sortChanged", this.gridApi.getSortModel());
+    this.$emit("sort-changed", this.gridApi.getSortModel());
   }
 
   private filterChanged() {
@@ -209,7 +209,7 @@ export default class Table extends Vue {
      *
      * @type {{ [colId: string]: any }}
      */
-    this.$emit("filterChanged", this.gridApi.getFilterModel());
+    this.$emit("filter-changed", this.gridApi.getFilterModel());
     this.updateVisibleRows();
   }
 
@@ -230,7 +230,7 @@ export default class Table extends Vue {
      *
      * @type {Set<number>}
      */
-    this.$emit("hiddenMarkerIndicesChanged", hiddenMarkerIndices);
+    this.$emit("hidden-marker-indices-changed", hiddenMarkerIndices);
   }
 
   private getRowNodeId(data: Row): string {

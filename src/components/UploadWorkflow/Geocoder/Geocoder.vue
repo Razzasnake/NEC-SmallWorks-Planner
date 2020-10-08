@@ -78,10 +78,10 @@ export default class Geocoder extends Vue {
              *
              * @type {{index: number, latitude: number | null, longitude: number | null}}
              */
-            this.$emit("updateLocation", { index, latitude, longitude });
+            this.$emit("update-location", { index, latitude, longitude });
             this.completedAux += 1;
           } else {
-            this.$emit("updateLocation", {
+            this.$emit("update-location", {
               index,
               latitude: null,
               longitude: null,

@@ -65,7 +65,7 @@ export default class PasteModal extends Vue {
     /**
      * Close the modal
      */
-    this.$emit("closeModal");
+    this.$emit("close-modal");
   }
 
   private uploadText() {
@@ -74,7 +74,7 @@ export default class PasteModal extends Vue {
      *
      * @type {{string}}
      */
-    this.$emit("uploadText", this.text);
+    this.$emit("upload-text", this.text);
     this.closeModal();
   }
 

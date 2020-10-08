@@ -22,10 +22,10 @@ const _Table = () => ({
         :overlayEvents="overlayEvents"
         :viewOptions="viewOptions"
         :clickedMarker="clickedMarker"
-        @sortChanged="sortChanged"
-        @filterChanged="filterChanged"
-        @hiddenMarkerIndicesChanged="hiddenMarkerIndicesChanged"
-        @markerSelected="markerSelected"
+        @sort-changed="sortChanged"
+        @filter-changed="filterChanged"
+        @hidden-marker-indices-changed="hiddenMarkerIndicesChanged"
+        @marker-selected="markerSelected"
       ></Table>
     </div>`,
   props: {

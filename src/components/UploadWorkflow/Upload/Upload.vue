@@ -57,8 +57,8 @@
     >
     <PasteModal
       v-if="displayPasteModal"
-      @closeModal="displayPasteModal = false"
-      @uploadText="uploadText"
+      @close-modal="displayPasteModal = false"
+      @upload-text="uploadText"
     />
     <v-snackbar
       v-model="snackbar"
@@ -158,7 +158,7 @@ export default class Upload extends Vue {
          *
          * @type {{ data: unknown[], fileName: string }}
          */
-        this.$emit("fileUploaded", { data: event.data.data, fileName });
+        this.$emit("file-uploaded", { data: event.data.data, fileName });
       }
       this.loading = false;
       worker.terminate();
