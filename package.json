@@ -53,7 +53,7 @@
     "eslint": "^7.10.0",
     "eslint-plugin-vue": "^7.0.1",
     "sass": "^1.27.0",
-    "sass-loader": "^10.0.2",
+    "sass-loader": "^10.0.3",
     "sitemap-webpack-plugin": "^0.8.1",
     "storyblok-vue": "^1.0.5",
     "storybook": "^6.0.26",
@@ -62,7 +62,7 @@
     "vue-template-compiler": "^2.6.12",
     "vuetify-loader": "^1.6.0",
     "webpack-bundle-analyzer": "^3.9.0",
-    "worker-loader": "^3.0.3"
+    "worker-loader": "^3.0.4"
   },
   "lint-staged": {
     "*.ts": [
