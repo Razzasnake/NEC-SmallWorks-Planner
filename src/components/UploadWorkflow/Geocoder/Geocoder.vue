@@ -33,6 +33,7 @@ export default class Geocoder extends Vue {
        * All geocodes are done, notify parent that we can finish.
        */
       this.$emit("finish");
+      this.completed = 0;
     }
   }
 
