@@ -57,6 +57,30 @@
         <v-toolbar-title class="appbar-title">Table & Map</v-toolbar-title>
       </a>
       <v-spacer />
+      <v-menu
+        bottom
+        offset-y
+        open-on-hover
+      >
+        <template #activator="{ on, attrs }">
+          <v-btn
+            color="#eeeeee"
+            text
+            v-bind="attrs"
+            v-on="on"
+          >
+            Learn<v-icon>{{ mdiMenuDown }}</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item to="/features">
+            <v-list-item-title>Features</v-list-item-title>
+          </v-list-item>
+          <v-list-item to="/examples">
+            <v-list-item-title>Examples</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
       <v-toolbar-items>
         <v-btn
           v-if="loggedIn && $router"
@@ -71,7 +95,6 @@
           text
           color="#eeeeee"
           href="/uploads"
-          active-class
         >
           Uploads
         </v-btn>
@@ -86,6 +109,7 @@ import NavigationDrawer from "./NavigationDrawer.vue";
 import Login from "./Login/Login.vue";
 import state from "@/store/exploreStore";
 import driveState from "@/store/driveStore";
+import { mdiMenuDown } from "@mdi/js";
 
 /**
  * Navigation Bar at the top of the website to navigate between sections
@@ -103,6 +127,7 @@ export default class NavBar extends Vue {
   @Prop({ type: Boolean, default: false })
   private drawerAllowed!: boolean;
   private drawer: boolean | null = null;
+  private mdiMenuDown = mdiMenuDown;
 
   private get loggedIn() {
     return driveState.user !== null;
