@@ -1,5 +1,4 @@
 import Teaser from './Teaser.vue'
-import { action } from '@storybook/addon-actions'
 import { teaserGenerator } from '@/generator/storyblok/TeaserGenerator'
 
 export default {
@@ -12,15 +11,11 @@ const _Teaser = () => ({
   template: `
     <Teaser
       :blok="blok"
-      @on-click="onClick"
     ></Teaser>`,
   props: {
     blok: {
       default: teaserGenerator()
     }
-  },
-  methods: {
-    onClick: action('onClick')
   }
 })
 

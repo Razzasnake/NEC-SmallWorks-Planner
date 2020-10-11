@@ -8,9 +8,8 @@ export default {
 
 const _Page = () => ({
   components: { Page },
-  template: '<Page @preview="preview" @finish="finish" />',
+  template: '<Page @finish="finish" />',
   methods: {
-    preview: action('preview'),
     finish: action('finish')
   }
 })

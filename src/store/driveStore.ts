@@ -2,6 +2,7 @@ import Vue from "vue";
 import exploreState, { saveUploadedFile, downloadUserUpload } from "./exploreStore";
 import router from "@/router";
 import slackApi from "@/api/slack";
+import { examples } from "@/entities/data";
 
 interface DriveStoreI {
   user: gapi.auth2.GoogleUser | null,
@@ -47,7 +48,8 @@ export const signIn = (id: string) => {
     gapi.auth2.getAuthInstance().currentUser.listen((val) => {
       if (val.getId() === null) {
         /* TODO: there is no user logged in, try and retrieve it. It might be public. */
-        if (router.currentRoute.name === "Explore" && router.currentRoute.params.fileId) {
+        const exampleDataset = examples.find(e => e.title.toLowerCase().replaceAll(" ", "-") === router.currentRoute.params.fileId);
+        if (router.currentRoute.name === "Explore" && !exampleDataset) {
           router.push({ name: "Home" });
         }
       }
@@ -68,7 +70,10 @@ const directLinkDownloadData = () => {
       downloadUserUpload({ file, configFile, geojsonFile });
     } else {
       /* TODO: Try to download this file even though the user did not create it. */
-      router.push({ name: "404" });
+      const exampleDataset = examples.find(e => e.title.toLowerCase().replaceAll(" ", "-") === router.currentRoute.params.fileId);
+      if (!exampleDataset) {
+        router.push({ name: "404" });
+      }
     }
   }
 }

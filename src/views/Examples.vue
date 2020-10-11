@@ -1,19 +1,10 @@
 <template>
-  <div>
-    <Loading :loading="loading" />
-    <Page
-      @preview="preview"
-      @finish="finish"
-    />
-  </div>
+  <Page @finish="finish" />
 </template>
 <script lang='ts'>
 import { Component } from "vue-property-decorator";
 import { updateUploadedFile } from "@/store/exploreStore";
-import Loading from "@/components/Shared/Loading/Loading.vue";
 import Page from "@/components/Examples/Page/Page.vue";
-import ExampleTeaserI from "@/entities/storyblok/ExampleTeaser";
-import exampleApi from "@/api/example";
 import _View from "./_View";
 import UploadedFile from "@/entities/UploadedFile";
 
@@ -23,7 +14,6 @@ import UploadedFile from "@/entities/UploadedFile";
 @Component({
   components: {
     Page,
-    Loading,
   },
 })
 export default class Examples extends _View {
@@ -35,12 +25,6 @@ export default class Examples extends _View {
       content:
         "See how Table & Map can add value by trying one of our datasets.",
     });
-  }
-
-  private async preview(teaser: ExampleTeaserI) {
-    this.loading = true;
-    updateUploadedFile(await exampleApi.getExample(teaser));
-    this.loading = false;
   }
 
   private finish(uploadedFile: UploadedFile) {

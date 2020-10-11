@@ -57,12 +57,15 @@ import state, {
   updateOverlayEventJsons,
   updateFilters,
   updateSorting,
+  updateUploadedFile
 } from "@/store/exploreStore";
 import Loading from "@/components/Shared/Loading/Loading.vue";
 import _View from "./_View";
 import GoogleMapUtils from "@/components/TableAndMap/GoogleMap/Logic/Utils";
 import { Route, NavigationGuardNext } from "vue-router";
 import driveState from "@/store/driveStore";
+import { examples } from "@/entities/data";
+import exampleApi from "@/api/example";
 
 Component.registerHooks(["beforeRouteLeave"]);
 
@@ -106,6 +109,12 @@ export default class Explore extends _View {
   }
 
   protected activated() {
+    examples.forEach(async example => {
+      const slug = example.title.toLowerCase().replaceAll(" ", "-");
+      if (slug === this.fileId) {
+        updateUploadedFile(await exampleApi.getExample(example));
+      }
+    });
     if (this.fileId === null && state.uploadedFile === null) {
       this.$router.push({ name: "Home" });
     }

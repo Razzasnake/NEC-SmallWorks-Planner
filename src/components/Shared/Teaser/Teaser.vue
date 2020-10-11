@@ -10,12 +10,8 @@
       :src="blok.preview.filename"
     />
     <v-card-title>
-      <a
-        v-if="buttonText && blok.feature.cached_url.startsWith('http')"
-        @click="onClick"
-      >{{ blok.title }}</a>
       <router-link
-        v-else-if="$router && buttonText"
+        v-if="$router && buttonText"
         :to="$router ? blok.feature.cached_url: ''"
       >
         {{ blok.title }}
@@ -30,15 +26,6 @@
     <v-card-actions v-if="buttonText">
       <v-spacer />
       <v-btn
-        v-if="buttonText && blok.feature.cached_url.startsWith('http')"
-        color="primary"
-        text
-        @click="onClick"
-      >
-        {{ buttonText }}
-      </v-btn>
-      <v-btn
-        v-else
         color="primary"
         text
         :to="$router ? blok.feature.cached_url: ''"
@@ -69,15 +56,6 @@ export default class Teaser extends Vue {
    */
   @Prop({ default: null })
   private buttonText!: string;
-
-  private onClick() {
-    /**
-     * Click on the teaser, only fires if url is not on this domain
-     *
-     * @type {TeaserI}
-     */
-    this.$emit("on-click", this.blok);
-  }
 }
 </script>
 <style lang="scss" scoped>

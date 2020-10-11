@@ -8,7 +8,7 @@ export default {
   getExample(teaser: ExampleTeaserI): Promise<UploadedFile> {
     return new Promise((resolve) => {
       const worker = new ParserWorker();
-      axios.get(teaser.feature.url).then(response => {
+      axios.get(teaser.github.url).then(response => {
         worker.postMessage({ file: response.data, type: 'buffer' });
         worker.onmessage = event => {
           resolve(new UploadedFile({

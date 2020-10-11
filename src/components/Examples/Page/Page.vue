@@ -23,7 +23,6 @@
           :blok="item"
           button-text="Preview"
           class="ma-2"
-          @on-click="preview"
         />
       </v-row>
       <v-slide-group
@@ -38,7 +37,6 @@
             :blok="item"
             button-text="Preview"
             class="ma-2"
-            @on-click="preview"
           />
         </v-slide-item>
       </v-slide-group>
@@ -72,15 +70,6 @@ export default class Page extends Vue {
       }
       this.groupByBloks[example.type].push(example);
     });
-  }
-
-  private preview(teaser: ExampleTeaserI) {
-    /**
-     * Open the selected teaser in the tool
-     *
-     * @type {ExampleTeaserI}
-     */
-    this.$emit("preview", teaser);
   }
 
   private finish(uploadedFile: UploadedFile) {

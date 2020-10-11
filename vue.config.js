@@ -14,7 +14,13 @@ const paths = [
   '/features/heat-map-layer',
   '/features/categorical-grouping',
   '/features/automation',
-  '/features/helpful-table-footers'
+  '/features/helpful-table-footers',
+  '/explore/us-national-parks',
+  '/explore/us-and-canada-campgrounds',
+  '/explore/glacier-national-park',
+  '/explore/vegan-and-vegetarian-restaurants',
+  '/explore/breweries',
+  '/explore/fast-food-locations',
 ]
 
 module.exports = {

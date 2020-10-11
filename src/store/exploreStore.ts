@@ -101,7 +101,9 @@ export const downloadUserUpload = async (files: {
 
 export const saveUploadedFile = () => {
   if (driveState.user && state.uploadedFile && state.uploadedFile.toUpload) {
-    router.push({ name: "Explore" });
+    if (router.currentRoute.name !== "Explore") {
+      router.push({ name: "Explore" });
+    }
     const data = arrayToCSV(state.uploadedFile.data.map(_ => _.data));
     uploadFile(data, "text/csv", state.uploadedFile.fileName, (fileId) => {
       router.replace({ name: "Explore", params: { fileId } });
@@ -115,10 +117,10 @@ export const saveUploadedFile = () => {
       if (router.currentRoute.params.fileId !== file.id) {
         router.push({ name: "Explore", params: { fileId: file.id! } });
       }
-    } else {
+    } else if (router.currentRoute.name !== "Explore") {
       router.push({ name: "Explore" });
     }
-  } else {
+  } else if (router.currentRoute.name !== "Explore") {
     router.push({ name: "Explore" });
   }
 }
