@@ -58,6 +58,7 @@
       </a>
       <v-spacer />
       <v-menu
+        v-if="$vuetify.breakpoint.smAndUp"
         bottom
         offset-y
         open-on-hover
