@@ -1,5 +1,5 @@
 import Teaser from './Teaser.vue'
-import { teaserGenerator } from '@/generator/storyblok/TeaserGenerator'
+import { features } from '@/entities/data'
 
 export default {
   component: Teaser,
@@ -8,13 +8,10 @@ export default {
 
 const _Teaser = () => ({
   components: { Teaser },
-  template: `
-    <Teaser
-      :blok="blok"
-    ></Teaser>`,
+  template: '<Teaser :blok="blok" />',
   props: {
     blok: {
-      default: teaserGenerator()
+      default: features[0]
     }
   }
 })

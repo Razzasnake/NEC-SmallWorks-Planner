@@ -2,7 +2,7 @@
   <BasePage
     title="Examples"
     subtitle="See how Table & Map can add value by trying one of our datasets."
-    img="https://a.storyblok.com/f/89733/2000x400/c4eaec5cab/mapwithmarkers.jpg"
+    :img="require('@/assets/mapwithmarkers.jpg')"
     @finish="finish"
   >
     <div

@@ -1,5 +1,4 @@
 import Page from './Page.vue'
-import { pageGenerator } from '@/generator/storyblok/PageGenerator'
 import { action } from '@storybook/addon-actions'
 
 export default {
@@ -9,16 +8,7 @@ export default {
 
 const _Page = () => ({
   components: { Page },
-  template: `
-    <Page
-      :blok="blok"
-      @finish="finish"
-    ></Page>`,
-  props: {
-    blok: {
-      default: pageGenerator()
-    }
-  },
+  template: '<Page @finish="finish" />',
   methods: {
     finish: action('finish')
   }
