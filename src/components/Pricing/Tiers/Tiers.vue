@@ -44,6 +44,8 @@ import { Component, Vue } from "vue-property-decorator";
 import { mdiCheck } from "@mdi/js";
 import state from "@/store/driveStore";
 
+let Stripe: any;
+
 /**
  * Pricing tiers
  */
