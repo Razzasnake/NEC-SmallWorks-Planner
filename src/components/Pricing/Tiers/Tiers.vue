@@ -59,7 +59,7 @@ export default class Tiers extends Vue {
     {
       title: "Pro",
       subtitle: "If you have a lot of files to upload.",
-      price: "$99 / month",
+      price: "$9.99 / month",
       options: [
         "Starter Plan",
         "Unlimited Uploads",
