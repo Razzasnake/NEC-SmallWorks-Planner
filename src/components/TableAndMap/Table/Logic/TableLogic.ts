@@ -1,5 +1,5 @@
 import { ColDef, ColGroupDef, GridApi, ICellRendererParams } from "@ag-grid-community/core"
-import UploadedFile, { Row } from "@/entities/UploadedFile"
+import UploadedFile from "@/entities/UploadedFile"
 import AgPreview from "./AgPreview.vue"
 import { max } from "@/logic/Math";
 
