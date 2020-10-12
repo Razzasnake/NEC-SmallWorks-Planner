@@ -12,7 +12,7 @@
     <v-card-title>
       <router-link
         v-if="$router && buttonText"
-        :to="$router ? blok.feature.cached_url: ''"
+        :to="$router ? blok.feature.url: ''"
       >
         {{ blok.title }}
       </router-link>
@@ -28,7 +28,7 @@
       <v-btn
         color="primary"
         text
-        :to="$router ? blok.feature.cached_url: ''"
+        :to="$router ? blok.feature.url: ''"
       >
         {{ buttonText }}
       </v-btn>

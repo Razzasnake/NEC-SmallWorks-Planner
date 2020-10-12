@@ -85,14 +85,7 @@ const featureGenerator = (): FeatureI => {
       ]
     },
     preview: {
-      id: 1278733,
-      alt: null,
-      name: "",
-      focus: null,
-      title: null,
-      filename: require("@/assets/examples/covid19/covid19.jpg"),
-      copyright: null,
-      fieldtype: "asset"
+      filename: require("@/assets/examples/nationalparks.jpg")
     },
     abstract: {
       type: "doc",
@@ -124,11 +117,7 @@ const featureGenerator = (): FeatureI => {
     subtitle: "Easily draw shapes around markers to filter the table and display only the markers you want to see.",
     component: "feature",
     youtubeUrl: {
-      id: "",
-      url: "",
-      linktype: "story",
-      fieldtype: "multilink",
-      cached_url: ""
+      url: ""
     }
   }
 }
