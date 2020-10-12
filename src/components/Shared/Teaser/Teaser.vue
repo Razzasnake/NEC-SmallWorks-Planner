@@ -1,6 +1,5 @@
 <template>
   <v-card
-    v-editable="teaser"
     width="397px"
   >
     <v-img
