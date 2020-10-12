@@ -98,6 +98,7 @@ export const refreshFiles = (callback?: () => void | undefined) => {
       getTableAndMapFolderId((folderId) => {
         state.folderId = folderId;
         retrieveAllFilesInFolder(folderId, (result) => {
+          /* TODO: Only display the first five uploads if the user is not on the Pro plan. */
           state.files = result;
           state.refreshFilesLoading = false;
           if (callback) {
