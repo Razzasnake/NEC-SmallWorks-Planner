@@ -1,10 +1,10 @@
 <template>
   <v-row class="tiers">
     <v-col
-      v-for="t in tiers"
+      v-for="(t, index) in tiers"
       :key="t.title"
     >
-      <v-card>
+      <v-card :class="{ active: index === activeTier }">
         <v-card-title class="center">
           {{ t.title }}
         </v-card-title>
@@ -23,6 +23,18 @@
             <v-icon>{{ mdiCheck }}</v-icon> {{ o }}
           </div>
         </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn
+            color="primary"
+            class="full-width"
+            :outlined="index === activeTier"
+            :disabled="index === activeTier"
+            @click="t.action.action"
+          >
+            {{ t.action.title }}
+          </v-btn>
+        </v-card-actions>
       </v-card>
     </v-col>
   </v-row>
@@ -30,6 +42,7 @@
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
 import { mdiCheck } from "@mdi/js";
+import state from "@/store/driveStore";
 
 /**
  * Pricing tiers
@@ -39,34 +52,72 @@ import { mdiCheck } from "@mdi/js";
 })
 export default class Tiers extends Vue {
   private mdiCheck = mdiCheck;
-  private tiers = [
-    {
-      title: "Starter",
-      subtitle: "If you have a few files to upload.",
-      price: "Free",
-      options: [
-        "5 Uploads",
-        "Unlimited Rows",
-        "Unlimited, Fast Geocoding",
-        "Google Drive Integration",
-        "Heat Map Layer",
-        "Groupings",
-        "GeoJSON and Shapefile Support",
-        "Street View Integration",
-        "Export",
-      ],
-    },
-    {
-      title: "Pro",
-      subtitle: "If you have a lot of files to upload.",
-      price: "$9.99 / month",
-      options: [
-        "Starter Plan",
-        "Unlimited Uploads",
-        "Guaranteed Access to Future Features"
-      ],
-    },
-  ];
+
+  private get user() {
+    return state.user;
+  }
+
+  private get activeTier() {
+    return state.tier;
+  }
+
+  private get tiers() {
+    return [
+      {
+        title: "Starter",
+        subtitle: "If you have a few files to upload.",
+        price: "Free",
+        options: [
+          "5 Uploads",
+          "Unlimited Rows",
+          "Unlimited, Fast Geocoding",
+          "Google Drive Integration",
+          "Heat Map Layer",
+          "Groupings",
+          "GeoJSON and Shapefile Support",
+          "Street View Integration",
+          "Export",
+        ],
+        action: {
+          title: this.activeTier === 0 ? "Current Plan" : "Get Started",
+          action: () => {
+            if (this.$router) {
+              if (this.$router.currentRoute.name !== "Home") {
+                this.$router.push({ name: "Home" });
+              } else {
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+              }
+            }
+          },
+        },
+      },
+      {
+        title: "Pro",
+        subtitle: "If you have a lot of files to upload.",
+        price: "$9.99 / month",
+        options: [
+          "Starter Plan",
+          "Unlimited Uploads",
+          "Guaranteed Access to Future Features",
+        ],
+        action: {
+          title: this.user ? ( this.activeTier === 1 ? "Current Plan" : "Upgrade" ) : "Sign in to upgrade",
+          action: () => {
+            if (this.user) {
+              // TODO: Upgrade them.
+            } else {
+              const el = document.getElementById("google-signin-button");
+              if (el) {
+                const child = el.children[0] as HTMLElement;
+                child.click();
+              }
+            }
+          },
+        },
+      },
+    ];
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -76,6 +127,9 @@ export default class Tiers extends Vue {
   .center {
     display: flex;
     justify-content: center;
+  }
+  .active {
+    box-shadow: 0px 0px 0px 3px #37474f;
   }
 }
 </style>
