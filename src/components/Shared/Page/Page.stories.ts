@@ -21,7 +21,7 @@ const _Page = () => ({
       default: text('subtitle', 'Subtitle')
     },
     img: {
-      default: require('@/assets/examples/covid19/covid19.jpg')
+      default: require('@/assets/examples/nationalparks.jpg')
     }
   },
   methods: {

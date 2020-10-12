@@ -1,21 +1,20 @@
 <template>
   <FeatureComponent
-    v-if="story"
-    :blok="story.content"
+    :feature="feature"
     @finish="finish"
   />
 </template>
 <script lang='ts'>
 import { Component, Prop, Watch } from "vue-property-decorator";
 import FeatureComponent from "@/components/Features/Feature/Feature.vue";
-import storyapi from "@/api/storyblok";
-import StoryI from "@/entities/storyblok/Story";
 import UploadedFile from "@/entities/UploadedFile";
 import { updateUploadedFile } from "@/store/exploreStore";
+import { features } from "@/entities/data";
+import TeaserI from '@/entities/Teaser';
 import _View from "./_View";
 
 /**
- * Storyblok blog full content page
+ * Feature full content page
  */
 @Component({
   components: {
@@ -29,36 +28,18 @@ export default class Feature extends _View {
   @Prop()
   private slug!: string;
 
-  private story: StoryI | null = null;
+  private feature: TeaserI | null = null;
 
   @Watch("slug")
   private slugChanged() {
-    this.story = null;
-    storyblok.init({
-      accessToken: process.env.VUE_APP_STORYBLOK_TOKEN,
-    });
-    storyblok.on("change", async () => {
-      this.story = await storyapi.getStory(this.url, "draft");
-      if (this.story === null) {
-        this.$router.push({ name: "404" });
-      }
-      this.updateTitleDescription();
-    });
-    storyblok.pingEditor(async () => {
-      if (storyblok.isInEditor()) {
-        this.story = await storyapi.getStory(this.url, "draft");
-      } else {
-        this.story = await storyapi.getStory(this.url, "published");
-      }
-      if (this.story === null) {
-        this.$router.push({ name: "404" });
-      }
-      this.updateTitleDescription();
-    });
-  }
-
-  private get url() {
-    return "features/" + this.slug;
+    this.feature = null;
+    const feature = features.find(feature => feature.feature.url === `features/${this.slug}`);
+    if (feature) {
+      this.feature = feature;
+    } else {
+      this.$router.push({ name: "404" });
+    }
+    this.updateTitleDescription();
   }
 
   private created() {
@@ -70,10 +51,10 @@ export default class Feature extends _View {
   }
 
   private updateTitleDescription() {
-    if (this.story) {
+    if (this.feature) {
       super.activated({
-        title: `Table & Map - ${this.story.content.title}`,
-        content: this.story.content.subtitle,
+        title: `Table & Map - ${this.feature.title}`,
+        content: this.feature.description,
       });
     }
   }

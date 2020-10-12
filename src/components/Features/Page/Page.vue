@@ -1,16 +1,15 @@
 <template>
   <BasePage
-    v-editable="blok"
-    :title="blok.title"
-    :subtitle="blok.subtitle"
-    :img="blok.preview.filename"
+    title="Features"
+    subtitle="Learn more about how Table & Map helps you understand your location data."
+    :img="require('@/assets/mapwithmarkers.jpg')"
     @finish="finish"
   >
     <v-row justify="center">
       <Teaser
-        v-for="item in blok.body"
-        :key="item._uid"
-        :blok="item"
+        v-for="feature in features"
+        :key="feature.feature.url"
+        :teaser="feature"
         button-text="Learn More"
         class="ma-2"
       />
@@ -18,15 +17,14 @@
   </BasePage>
 </template>
 <script lang='ts'>
-import { Component, Vue, Prop } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import Teaser from "@/components/Shared/Teaser/Teaser.vue";
-import PageI from "@/entities/storyblok/Page";
-import TeaserI from "@/entities/storyblok/Teaser";
 import BasePage from "@/components/Shared/Page/Page.vue";
 import UploadedFile from "@/entities/UploadedFile";
+import { features } from "@/entities/data";
 
 /**
- * Storyblok page component
+ * Features page component
  */
 @Component({
   components: {
@@ -35,11 +33,7 @@ import UploadedFile from "@/entities/UploadedFile";
   },
 })
 export default class Page extends Vue {
-  /**
-   * All of the content for this page
-   */
-  @Prop()
-  private blok!: PageI;
+  private features = features;
 
   private finish(uploadedFile: UploadedFile) {
     /**

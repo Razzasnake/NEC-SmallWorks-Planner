@@ -2,7 +2,7 @@
   <div>
     <v-img
       class="image-header"
-      src="https://a.storyblok.com/f/89733/2546x1252/200e33e9cf/app.jpg"
+      :src="require('@/assets/app2.jpg')"
       gradient="to top, rgba(38, 50, 56, .80), rgba(38, 50, 56, .80)"
     >
       <div id="upload-drop-area">
@@ -24,7 +24,7 @@
     <v-img
       class="image-footer align-center"
       gradient="to top, rgba(38, 50, 56, .80), rgba(38, 50, 56, .80)"
-      src="https://a.storyblok.com/f/89733/2000x400/c4eaec5cab/mapwithmarkers.jpg"
+      :src="require('@/assets/mapwithmarkers.jpg')"
     >
       <CallToAction
         class="section-header section"

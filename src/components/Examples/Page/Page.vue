@@ -2,11 +2,11 @@
   <BasePage
     title="Examples"
     subtitle="See how Table & Map can add value by trying one of our datasets."
-    img="https://a.storyblok.com/f/89733/2000x400/c4eaec5cab/mapwithmarkers.jpg"
+    :img="require('@/assets/mapwithmarkers.jpg')"
     @finish="finish"
   >
     <div
-      v-for="key in Object.keys(groupByBloks)"
+      v-for="key in Object.keys(groupByTeasers)"
       :key="key"
       class="slide-group-container"
     >
@@ -18,9 +18,9 @@
         justify="center"
       >
         <Teaser
-          v-for="item in groupByBloks[key]"
+          v-for="item in groupByTeasers[key]"
           :key="item._uid"
-          :blok="item"
+          :teaser="item"
           button-text="Preview"
           class="ma-2"
         />
@@ -30,11 +30,11 @@
         show-arrows
       >
         <v-slide-item
-          v-for="item in groupByBloks[key]"
+          v-for="item in groupByTeasers[key]"
           :key="item._uid"
         >
           <Teaser
-            :blok="item"
+            :teaser="item"
             button-text="Preview"
             class="ma-2"
           />
@@ -46,7 +46,7 @@
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
 import Teaser from "@/components/Shared/Teaser/Teaser.vue";
-import ExampleTeaserI from "@/entities/storyblok/ExampleTeaser";
+import ExampleTeaserI from "@/entities/ExampleTeaser";
 import BasePage from "@/components/Shared/Page/Page.vue";
 import { examples } from "@/entities/data";
 import UploadedFile from "@/entities/UploadedFile";
@@ -61,14 +61,14 @@ import UploadedFile from "@/entities/UploadedFile";
   },
 })
 export default class Page extends Vue {
-  private groupByBloks: { [key: string]: ExampleTeaserI[] } = {};
+  private groupByTeasers: { [key: string]: ExampleTeaserI[] } = {};
 
   private created() {
     examples.forEach((example) => {
-      if (!this.groupByBloks[example.type]) {
-        this.groupByBloks[example.type] = [];
+      if (!this.groupByTeasers[example.type]) {
+        this.groupByTeasers[example.type] = [];
       }
-      this.groupByBloks[example.type].push(example);
+      this.groupByTeasers[example.type].push(example);
     });
   }
 
