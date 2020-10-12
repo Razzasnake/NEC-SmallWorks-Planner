@@ -45,7 +45,7 @@ export default class Tiers extends Vue {
       subtitle: "If you have a few files to upload.",
       price: "Free",
       options: [
-        "10 Uploads",
+        "5 Uploads",
         "Unlimited Rows",
         "Unlimited, Fast Geocoding",
         "Google Drive Integration",
