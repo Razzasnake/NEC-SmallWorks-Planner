@@ -1,39 +1,21 @@
 <template>
   <BasePage
-    v-editable="blok"
-    :title="blok.title"
-    :subtitle="blok.subtitle"
-    :img="blok.preview.filename"
+    :title="feature.title"
+    :subtitle="feature.description"
+    :img="feature.preview.filename"
     @finish="finish"
   >
-    <!-- eslint-disable vue/no-v-html -->
-    <template v-if="blok.abstract">
-      <h5
-        class="text-h5"
-        v-html="createHtml(blok.abstract)"
-      />
-      <v-divider class="margin-bottom-large margin-top-large" />
-    </template>
-    <div
-      class="margin-bottom-large"
-      v-html="createHtml(blok.content)"
-    />
-    <!--eslint-enable-->
+    TODO
   </BasePage>
 </template>
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
-import StoryblokClient from "storyblok-js-client";
-import FeatureI from "@/entities/storyblok/Feature";
 import BasePage from "@/components/Shared/Page/Page.vue";
 import UploadedFile from "@/entities/UploadedFile";
-
-const Storyblok = new StoryblokClient({
-  accessToken: process.env.VUE_APP_STORYBLOK_TOKEN,
-});
+import TeaserI from '@/entities/storyblok/Teaser';
 
 /**
- * Storyblok feature component
+ * Feature component with content
  */
 @Component({
   components: {
@@ -42,14 +24,10 @@ const Storyblok = new StoryblokClient({
 })
 export default class Feature extends Vue {
   /**
-   * All of the content for this feature
+   * Teaser content for this feature
    */
   @Prop()
-  private blok!: FeatureI;
-
-  private createHtml(richText: object) {
-    return Storyblok.richTextResolver.render(richText);
-  }
+  private feature!: TeaserI;
 
   private finish(uploadedFile: UploadedFile) {
     /**
@@ -61,13 +39,3 @@ export default class Feature extends Vue {
   }
 }
 </script>
-<style lang="scss" scoped>
-.info-description {
-  margin-bottom: 42px;
-}
-.card-actions {
-  position: absolute;
-  bottom: 8px;
-  right: 0px;
-}
-</style>

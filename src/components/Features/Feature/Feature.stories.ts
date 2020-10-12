@@ -1,5 +1,5 @@
 import Feature from './Feature.vue'
-import { featureGenerator } from '@/generator/storyblok/FeatureGenerator'
+import { features } from '@/entities/data'
 import { action } from '@storybook/addon-actions'
 
 export default {
@@ -11,12 +11,12 @@ const _Feature = () => ({
   components: { Feature },
   template: `
     <Feature
-      :blok="blok"
+      :feature="feature"
       @finish="finish"
     ></Feature>`,
   props: {
-    blok: {
-      default: featureGenerator()
+    feature: {
+      default: features[0]
     }
   },
   methods: {
