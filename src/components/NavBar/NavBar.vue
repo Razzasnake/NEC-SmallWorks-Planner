@@ -80,6 +80,9 @@
           <v-list-item to="/examples">
             <v-list-item-title>Examples</v-list-item-title>
           </v-list-item>
+          <v-list-item to="/pricing">
+            <v-list-item-title>Pricing</v-list-item-title>
+          </v-list-item>
         </v-list>
       </v-menu>
       <v-toolbar-items>

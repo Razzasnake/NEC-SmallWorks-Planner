@@ -100,6 +100,7 @@ export default class Footer extends Vue {
       { label: "Features", link: "/features" },
       { label: "Examples", link: "/examples" },
       { label: "Uploads", link: "/uploads" },
+      { label: "Pricing", link: "/pricing" },
     ],
     features: features.map((feature) => {
       return {

@@ -12,14 +12,20 @@
         />
       </div>
     </v-img>
-    <div class="section">
+    <div class="section b">
       <Features class="section-container" />
     </div>
-    <div class="section b">
+    <div class="section">
       <GoogleDriveIntegration class="section-container" />
     </div>
-    <div class="section">
+    <div class="section b">
       <Examples @preview="$emit('preview', $event)" />
+    </div>
+    <div class="section">
+      <h4 class="text-h4 align-center margin-bottom-large">
+        Pricing
+      </h4>
+      <Tiers />
     </div>
     <v-img
       class="image-footer align-center"
@@ -50,6 +56,7 @@ import Features from "@/components/Home/Features/Features.vue";
 import Examples from "@/components/Home/Examples/Examples.vue";
 import GoogleDriveIntegration from "@/components/Home/GoogleDriveIntegration/GoogleDriveIntegration.vue";
 import Footer from "@/components/Home/Footer/Footer.vue";
+import Tiers from "@/components/Pricing/Tiers/Tiers.vue";
 
 /**
  * Root most component for the home page
@@ -59,6 +66,7 @@ import Footer from "@/components/Home/Footer/Footer.vue";
     CallToAction,
     Features,
     Examples,
+    Tiers,
     GoogleDriveIntegration,
     Footer,
   },
