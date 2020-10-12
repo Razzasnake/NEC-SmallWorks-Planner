@@ -1,6 +1,6 @@
 <template>
   <div class="foot">
-    <div v-if="$vuetify.breakpoint.xs">
+    <div v-if="$vuetify.breakpoint.smAndDown">
       <div class="margin-bottom-large">
         <router-link
           v-if="$router"
@@ -23,7 +23,7 @@
     </div>
     <v-row>
       <v-col
-        v-if="$vuetify.breakpoint.smAndUp"
+        v-if="$vuetify.breakpoint.mdAndUp"
         cols="6"
       >
         <router-link
@@ -47,7 +47,7 @@
       <v-col
         v-for="key in Object.keys(links)"
         :key="key"
-        :cols="$vuetify.breakpoint.xs ? 6 : 3"
+        :cols="$vuetify.breakpoint.smAndDown ? 4 : 2"
       >
         <div class="footer-links">
           <b>{{ key.toUpperCase() }}</b>
@@ -86,6 +86,7 @@
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
 import { mdiLinkedin } from "@mdi/js";
+import { features, examples } from "@/entities/data";
 
 /**
  * Footer of website
@@ -100,29 +101,18 @@ export default class Footer extends Vue {
       { label: "Examples", link: "/examples" },
       { label: "Uploads", link: "/uploads" },
     ],
-    features: [
-      {
-        label: "Map Your Location Data",
-        link: "/features/map-your-location-data",
-      },
-      { label: "Filterable", link: "/features/filterable" },
-      { label: "Unlimited Geocoding", link: "/features/unlimited-geocoding" },
-      {
-        label: "GeoJSON and Shapefile Layers",
-        link: "/features/geojson-and-shapefile-layers",
-      },
-      {
-        label: "Supports Many Markers",
-        link: "/features/supports-many-markers",
-      },
-      { label: "Heat Map Layer", link: "/features/heat-map-layer" },
-      { label: "Categorical Grouping", link: "/features/categorical-grouping" },
-      { label: "Automation", link: "/features/automation" },
-      {
-        label: "Helpful Table Footers",
-        link: "/features/helpful-table-footers",
-      },
-    ],
+    features: features.map((feature) => {
+      return {
+        label: feature.title,
+        link: feature.feature.url,
+      };
+    }),
+    examples: examples.map((feature) => {
+      return {
+        label: feature.title,
+        link: feature.feature.url,
+      };
+    }),
   };
   private mdiLinkedin = mdiLinkedin;
 
