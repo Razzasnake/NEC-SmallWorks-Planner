@@ -14,7 +14,7 @@ import UploadedFile from "@/entities/UploadedFile";
 import { updateUploadedFile } from "@/store/exploreStore";
 import _View from "./_View";
 import exampleApi from "@/api/example";
-import ExampleTeaserI from "@/entities/storyblok/ExampleTeaser";
+import ExampleTeaserI from "@/entities/ExampleTeaser";
 import Loading from "@/components/Shared/Loading/Loading.vue";
 
 /**

@@ -5,14 +5,14 @@
     :img="feature.preview.filename"
     @finish="finish"
   >
-    TODO
+    <component :is="Content" />
   </BasePage>
 </template>
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
 import BasePage from "@/components/Shared/Page/Page.vue";
 import UploadedFile from "@/entities/UploadedFile";
-import TeaserI from '@/entities/storyblok/Teaser';
+import TeaserI from '@/entities/Teaser';
 
 /**
  * Feature component with content
@@ -20,6 +20,15 @@ import TeaserI from '@/entities/storyblok/Teaser';
 @Component({
   components: {
     BasePage,
+    Automation: () => import("./Content/Automation.vue"),
+    GeoJSONandShapefileLayers: () => import("./Content/GeoJSONandShapefileLayers.vue"),
+    MapYourLocationData: () => import("./Content/MapYourLocationData.vue"),
+    CategoricalGrouping: () => import("./Content/CategoricalGrouping.vue"),
+    HeatMapLayer: () => import("./Content/HeatMapLayer.vue"),
+    SupportsManyMarkers: () => import("./Content/SupportsManyMarkers.vue"),
+    Filterable: () => import("./Content/Filterable.vue"),
+    HelpfulTableFooters: () => import("./Content/HelpfulTableFooters.vue"),
+    UnlimitedGeocoding: () => import("./Content/UnlimitedGeocoding.vue"),
   },
 })
 export default class Feature extends Vue {
@@ -28,6 +37,10 @@ export default class Feature extends Vue {
    */
   @Prop()
   private feature!: TeaserI;
+
+  private get Content() {
+    return `${this.feature.title.replaceAll(" ", "")}`;
+  }
 
   private finish(uploadedFile: UploadedFile) {
     /**

@@ -9,7 +9,7 @@
       <Teaser
         v-for="feature in features"
         :key="feature.feature.url"
-        :blok="feature"
+        :teaser="feature"
         button-text="Learn More"
         class="ma-2"
       />
@@ -24,7 +24,7 @@ import UploadedFile from "@/entities/UploadedFile";
 import { features } from "@/entities/data";
 
 /**
- * Storyblok page component
+ * Features page component
  */
 @Component({
   components: {

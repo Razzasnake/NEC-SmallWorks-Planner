@@ -1,6 +1,6 @@
 import axios from 'axios';
 import ParserWorker from "worker-loader!@/components/UploadWorkflow/Upload/Parser.worker";
-import ExampleTeaserI from "@/entities/storyblok/ExampleTeaser";
+import ExampleTeaserI from "@/entities/ExampleTeaser";
 import UploadedFile from "@/entities/UploadedFile";
 
 

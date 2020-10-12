@@ -10,7 +10,7 @@
       <Teaser
         v-for="(item, index) in examples"
         :key="index"
-        :blok="item"
+        :teaser="item"
         button-text="Preview"
         class="ma-2"
         @on-click="preview"
@@ -32,7 +32,7 @@
 import { Component, Vue } from "vue-property-decorator";
 import Teaser from "@/components/Shared/Teaser/Teaser.vue";
 import Loading from "@/components/Shared/Loading/Loading.vue";
-import ExampleTeaserI from "@/entities/storyblok/ExampleTeaser";
+import ExampleTeaserI from "@/entities/ExampleTeaser";
 import { examples } from "@/entities/data";
 
 /**

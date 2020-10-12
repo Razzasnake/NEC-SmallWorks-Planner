@@ -8,9 +8,9 @@ export default {
 
 const _Teaser = () => ({
   components: { Teaser },
-  template: '<Teaser :blok="blok" />',
+  template: '<Teaser :teaser="teaser" />',
   props: {
-    blok: {
+    teaser: {
       default: features[0]
     }
   }

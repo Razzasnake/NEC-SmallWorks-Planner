@@ -1,34 +1,34 @@
 <template>
   <v-card
-    v-editable="blok"
+    v-editable="teaser"
     width="397px"
   >
     <v-img
-      v-if="blok.preview && blok.preview.filename"
+      v-if="teaser.preview && teaser.preview.filename"
       class="align-end"
       height="200px"
-      :src="blok.preview.filename"
+      :src="teaser.preview.filename"
     />
     <v-card-title>
       <router-link
         v-if="$router && buttonText"
-        :to="$router ? blok.feature.url: ''"
+        :to="$router ? teaser.feature.url: ''"
       >
-        {{ blok.title }}
+        {{ teaser.title }}
       </router-link>
       <div v-else>
-        {{ blok.title }}
+        {{ teaser.title }}
       </div>
     </v-card-title>
     <v-card-text>
-      <div>{{ blok.description }}</div>
+      <div>{{ teaser.description }}</div>
     </v-card-text>
     <v-card-actions v-if="buttonText">
       <v-spacer />
       <v-btn
         color="primary"
         text
-        :to="$router ? blok.feature.url: ''"
+        :to="$router ? teaser.feature.url: ''"
       >
         {{ buttonText }}
       </v-btn>
@@ -37,10 +37,10 @@
 </template>
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
-import TeaserI from "@/entities/storyblok/Teaser";
+import TeaserI from "@/entities/Teaser";
 
 /**
- * Generic storyblok teaser component
+ * Generic teaser component
  */
 @Component({
   components: {},
@@ -50,7 +50,7 @@ export default class Teaser extends Vue {
    * Teaser content to display
    */
   @Prop()
-  private blok!: TeaserI;
+  private teaser!: TeaserI;
   /**
    * Button text
    */

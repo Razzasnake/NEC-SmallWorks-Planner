@@ -1,5 +1,3 @@
-export type RichText = object;
-
 export interface Asset {
   filename: string
 }

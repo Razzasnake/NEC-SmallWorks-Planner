@@ -1,5 +1,5 @@
-import ExampleTeaserI from '@/entities/storyblok/ExampleTeaser';
-import TeaserI from '@/entities/storyblok/Teaser';
+import ExampleTeaserI from '@/entities/ExampleTeaser';
+import TeaserI from '@/entities/Teaser';
 
 export const examples: ExampleTeaserI[] = [
   {

@@ -10,11 +10,11 @@ import FeatureComponent from "@/components/Features/Feature/Feature.vue";
 import UploadedFile from "@/entities/UploadedFile";
 import { updateUploadedFile } from "@/store/exploreStore";
 import { features } from "@/entities/data";
-import TeaserI from '@/entities/storyblok/Teaser';
+import TeaserI from '@/entities/Teaser';
 import _View from "./_View";
 
 /**
- * Storyblok blog full content page
+ * Feature full content page
  */
 @Component({
   components: {
