@@ -3,6 +3,7 @@ import exploreState, { saveUploadedFile, downloadUserUpload } from "./exploreSto
 import router from "@/router";
 import slackApi from "@/api/slack";
 import { examples } from "@/entities/data";
+import stripeApi from "@/api/stripe";
 
 interface DriveStoreI {
   user: gapi.auth2.GoogleUser | null,
@@ -33,7 +34,9 @@ export const signIn = (id: string) => {
     width: 100,
     onsuccess: (user) => {
       state.user = user;
-      state.tier = 0; /* TODO: Set this to be the correct tier. */
+      stripeApi.getCustomerTier(user.getBasicProfile().getEmail()).then(tier => {
+        state.tier = tier;
+      })
       const profile = user.getBasicProfile();
       if (profile && process.env.NODE_ENV === "production") {
         slackApi.login(profile.getName(), profile.getEmail());
