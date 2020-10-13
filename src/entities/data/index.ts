@@ -11,7 +11,7 @@ export const examples: ExampleTeaserI[] = [
       url: "https://gist.githubusercontent.com/tjgambs/9d274cbacf4bfe9b08a440499512e6f7/raw/0269ecf1117475871d0d504a67ac195facc9b588/national_parks.csv"
     },
     feature: {
-      url: "explore/us-national-parks"
+      url: "/explore/us-national-parks"
     },
     preview: {
       filename: require("@/assets/examples/nationalparks.jpg")
@@ -28,7 +28,7 @@ export const examples: ExampleTeaserI[] = [
       url: "https://gist.githubusercontent.com/tjgambs/b5db1dcdc4e6f387a99d17823ee2c480/raw/6e7eb3a91936af4c07ba62f30a18f2b3248bb38c/uscanadacampgrounds.csv"
     },
     feature: {
-      url: "explore/us-and-canada-campgrounds"
+      url: "/explore/us-and-canada-campgrounds"
     },
     preview: {
       filename: require("@/assets/examples/campgrounds.jpg")
@@ -45,7 +45,7 @@ export const examples: ExampleTeaserI[] = [
       url: "https://gist.githubusercontent.com/tjgambs/d0ea5a0554e9b32a166143fcc03b6fad/raw/bbcbe700d4342ed108f5445eb547f52f8011fc66/glacier_poi.csv"
     },
     feature: {
-      url: "explore/glacier-national-park"
+      url: "/explore/glacier-national-park"
     },
     preview: {
       filename: require("@/assets/examples/glacier.jpg")
@@ -62,7 +62,7 @@ export const examples: ExampleTeaserI[] = [
       url: "https://gist.githubusercontent.com/tjgambs/e3e3fef726b93cc931d40dad580b8b59/raw/02d216088f950c20857ded375b36e04a177eba0d/vegetarian_restaurants.csv"
     },
     feature: {
-      url: "explore/vegan-and-vegetarian-restaurants"
+      url: "/explore/vegan-and-vegetarian-restaurants"
     },
     preview: {
       filename: require("@/assets/examples/vegan.jpg")
@@ -79,7 +79,7 @@ export const examples: ExampleTeaserI[] = [
       url: "https://gist.githubusercontent.com/tjgambs/cc790ce4aca21f7f97195d2edd91c5f3/raw/ebc99abf4a0cf302f97ec00f3a6648b0adacabc1/breweries.csv"
     },
     feature: {
-      url: "explore/breweries"
+      url: "/explore/breweries"
     },
     preview: {
       filename: require("@/assets/examples/breweries.jpg")
@@ -96,7 +96,7 @@ export const examples: ExampleTeaserI[] = [
       url: "https://gist.githubusercontent.com/tjgambs/3c00b0a9d78b96fe1429e31966823b9d/raw/f0a1c745ee097377abf63375b9e727a2c76438a7/fast_food.csv"
     },
     feature: {
-      url: "explore/fast-food-locations"
+      url: "/explore/fast-food-locations"
     },
     preview: {
       filename: require("@/assets/examples/fastfood.jpg")
@@ -110,7 +110,7 @@ export const features: TeaserI[] = [
   {
     title: "Map Your Location Data",
     feature: {
-      url: "features/map-your-location-data"
+      url: "/features/map-your-location-data"
     },
     preview: {
       filename: require("@/assets/features/mapexcel.jpg")
@@ -120,7 +120,7 @@ export const features: TeaserI[] = [
   {
     title: "Filterable",
     feature: {
-      url: "features/filterable"
+      url: "/features/filterable"
     },
     preview: {
       filename: require("@/assets/features/drawshapes.jpg")
@@ -130,7 +130,7 @@ export const features: TeaserI[] = [
   {
     title: "Unlimited Geocoding",
     feature: {
-      url: "features/unlimited-geocoding"
+      url: "/features/unlimited-geocoding"
     },
     preview: {
       filename: require("@/assets/features/unlimitedgeocoding.jpg")
@@ -140,7 +140,7 @@ export const features: TeaserI[] = [
   {
     title: "GeoJSON and Shapefile Layers",
     feature: {
-      url: "features/geojson-and-shapefile-layers"
+      url: "/features/geojson-and-shapefile-layers"
     },
     preview: {
       filename: require("@/assets/features/uploadshapes.jpg")
@@ -150,7 +150,7 @@ export const features: TeaserI[] = [
   {
     title: "Supports Many Markers",
     feature: {
-      url: "features/supports-many-markers"
+      url: "/features/supports-many-markers"
     },
     preview: {
       filename: require("@/assets/features/manymarkers.jpg")
@@ -160,7 +160,7 @@ export const features: TeaserI[] = [
   {
     title: "Heat Map Layer",
     feature: {
-      url: "features/heat-map-layer"
+      url: "/features/heat-map-layer"
     },
     preview: {
       filename: require("@/assets/features/heatmap.jpg")
@@ -170,7 +170,7 @@ export const features: TeaserI[] = [
   {
     title: "Categorical Grouping",
     feature: {
-      url: "features/categorical-grouping"
+      url: "/features/categorical-grouping"
     },
     preview: {
       filename: require("@/assets/features/grouping.jpg")
@@ -180,7 +180,7 @@ export const features: TeaserI[] = [
   {
     title: "Automation",
     feature: {
-      url: "features/automation"
+      url: "/features/automation"
     },
     preview: {
       filename: require("@/assets/features/automation.jpg")
@@ -190,7 +190,7 @@ export const features: TeaserI[] = [
   {
     title: "Helpful Table Footers",
     feature: {
-      url: "features/helpful-table-footers"
+      url: "/features/helpful-table-footers"
     },
     preview: {
       filename: require("@/assets/features/tablefooters.jpg")
