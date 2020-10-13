@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="user">
     <div class="content section">
       <div class="feature">
         <v-img
@@ -40,18 +40,27 @@ export default class Account extends Vue {
    * The logged in user
    */
   @Prop()
-  private user!: gapi.auth2.GoogleUser;
+  private user!: gapi.auth2.GoogleUser | null;
 
   private get name() {
-    return this.user.getBasicProfile().getName();
+    if (this.user) {
+      return this.user.getBasicProfile().getName();
+    }
+    return null;
   }
 
   private get email() {
-    return this.user.getBasicProfile().getEmail();
+    if (this.user) {
+      return this.user.getBasicProfile().getEmail();
+    }
+    return null;
   }
 
   private get imageUrl() {
-    return this.user.getBasicProfile().getImageUrl();
+    if (this.user) {
+      return this.user.getBasicProfile().getImageUrl();
+    }
+    return null;
   }
 }
 </script>

@@ -1,6 +1,10 @@
 <template>
   <div>
     <Loading :loading="loading" />
+    <OnUploadUpsell
+      v-if="onUploadUpsell"
+      @close="onUploadUpsell = false"
+    />
     <v-menu v-if="small">
       <template #activator="{ on }">
         <v-btn
@@ -24,7 +28,7 @@
           </v-list-item-icon>
           <v-list-item-title>Upload a dataset</v-list-item-title>
         </v-list-item>
-        <v-list-item @click="displayPasteModal = true">
+        <v-list-item @click="openPaste">
           <v-list-item-icon>
             <v-icon>{{ mdiContentPaste }}</v-icon>
           </v-list-item-icon>
@@ -43,7 +47,7 @@
         class="margin-left-medium"
         outlined
         :color="color"
-        @click="displayPasteModal = true"
+        @click="openPaste"
       >
         <span>Paste</span>
       </v-btn>
@@ -79,6 +83,8 @@ import ParserWorker from "worker-loader!./Parser.worker";
 import Loading from "@/components/Shared/Loading/Loading.vue";
 import { mdiUpload, mdiPlus, mdiContentPaste } from "@mdi/js";
 import UploadLogic from "./UploadLogic";
+import state from "@/store/driveStore";
+import OnUploadUpsell from "@/components/Pricing/Upsell/OnUpload/OnUpload.vue";
 
 /**
  * Accept a csv or excel file
@@ -87,6 +93,7 @@ import UploadLogic from "./UploadLogic";
   components: {
     PasteModal,
     Loading,
+    OnUploadUpsell
   },
 })
 export default class Upload extends Vue {
@@ -108,6 +115,7 @@ export default class Upload extends Vue {
   private mdiUpload = mdiUpload;
   private mdiPlus = mdiPlus;
   private mdiContentPaste = mdiContentPaste;
+  private onUploadUpsell: boolean = false;
 
   private mounted() {
     UploadLogic.initDropZone(
@@ -119,7 +127,19 @@ export default class Upload extends Vue {
   }
 
   private openUpload() {
-    (this.$refs.input as HTMLInputElement).click();
+    if (state.user && state.tier === 0 && state.files.length > 4) {
+      this.onUploadUpsell = true;
+    } else {
+      (this.$refs.input as HTMLInputElement).click();
+    }
+  }
+
+  private openPaste() {
+    if (state.user && state.tier === 0 && state.files.length > 4) {
+      this.onUploadUpsell = true;
+    } else {
+      this.displayPasteModal = true;
+    }
   }
 
   private fileUploaded(file: File) {
