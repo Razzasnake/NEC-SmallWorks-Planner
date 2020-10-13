@@ -33,7 +33,7 @@ export default class Feature extends _View {
   @Watch("slug")
   private slugChanged() {
     this.feature = null;
-    const feature = features.find(feature => feature.feature.url === `features/${this.slug}`);
+    const feature = features.find(feature => feature.feature.url === `/features/${this.slug}`);
     if (feature) {
       this.feature = feature;
     } else {
