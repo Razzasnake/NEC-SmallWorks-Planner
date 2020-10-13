@@ -3,19 +3,22 @@ import exploreState, { saveUploadedFile, downloadUserUpload } from "./exploreSto
 import router from "@/router";
 import slackApi from "@/api/slack";
 import { examples } from "@/entities/data";
+import stripeApi from "@/api/stripe";
 
 interface DriveStoreI {
   user: gapi.auth2.GoogleUser | null,
   files: gapi.client.drive.File[],
   folderId: string | null,
-  refreshFilesLoading: boolean
+  refreshFilesLoading: boolean,
+  tier: number | null
 };
 
 const state: DriveStoreI = Vue.observable({
   user: null,
   files: [],
   folderId: null,
-  refreshFilesLoading: true
+  refreshFilesLoading: true,
+  tier: null
 });
 
 export const signIn = (id: string) => {
@@ -31,6 +34,9 @@ export const signIn = (id: string) => {
     width: 100,
     onsuccess: (user) => {
       state.user = user;
+      stripeApi.getCustomerTier(user.getBasicProfile().getEmail()).then(tier => {
+        state.tier = tier;
+      })
       const profile = user.getBasicProfile();
       if (profile && process.env.NODE_ENV === "production") {
         slackApi.login(profile.getName(), profile.getEmail());
@@ -85,8 +91,9 @@ export const signOut = () => {
     state.files = [];
     state.folderId = null;
     state.refreshFilesLoading = true;
-    if (router.currentRoute.name === 'Uploads') {
-      router.push({ name: 'Home' });
+    state.tier = null;
+    if (router.currentRoute.name === "Uploads" || router.currentRoute.name === "Account") {
+      router.push({ name: "Home" });
     }
   });
 }

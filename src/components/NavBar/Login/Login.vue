@@ -23,6 +23,14 @@
         </v-btn>
       </template>
       <v-list dense>
+        <v-list-item :to="$router ? '/account' : ''">
+          <v-list-item-icon>
+            <v-icon>{{ mdiAccount }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Account</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <v-list-item @click="signOut">
           <v-list-item-icon>
             <v-icon>{{ mdiLogout }}</v-icon>
@@ -38,7 +46,7 @@
 <script lang='ts'>
 import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import state, { signIn, signOut } from "@/store/driveStore";
-import { mdiLogout } from "@mdi/js";
+import { mdiLogout, mdiAccount } from "@mdi/js";
 
 /**
  * Login/Logout of Google
@@ -48,6 +56,7 @@ import { mdiLogout } from "@mdi/js";
 })
 export default class Login extends Vue {
   private mdiLogout = mdiLogout;
+  private mdiAccount = mdiAccount;
 
   private get loggedOut() {
     return state.user === null;

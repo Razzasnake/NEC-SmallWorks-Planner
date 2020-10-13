@@ -39,12 +39,17 @@ const routes = [
   {
     path: '/pricing',
     name: 'Pricing',
-    component: () => import(/* webpackChunkName: "Uploads" */ '@/views/Pricing.vue')
+    component: () => import(/* webpackChunkName: "Pricing" */ '@/views/Pricing.vue')
+  },
+  {
+    path: '/account',
+    name: 'Account',
+    component: () => import(/* webpackChunkName: "Account" */ '@/views/Account.vue')
   },
   {
     path: '/*',
     name: '404',
-    component: () => import(/* webpackChunkName: "Error404" */ '@/views/Error404.vue'),
+    component: () => import(/* webpackChunkName: "Error404" */ '@/views/Error404.vue')
   }
 ]
 

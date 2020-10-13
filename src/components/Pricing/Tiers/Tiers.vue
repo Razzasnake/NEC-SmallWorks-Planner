@@ -1,81 +1,121 @@
 <template>
-  <v-row class="tiers">
-    <v-col
-      v-for="t in tiers"
-      :key="t.title"
+  <div>
+    <v-row
+      v-if="$vuetify.breakpoint.smAndUp"
+      class="tiers"
     >
-      <v-card>
-        <v-card-title class="center">
-          {{ t.title }}
-        </v-card-title>
-        <v-card-subtitle class="center">
-          {{ t.subtitle }}
-        </v-card-subtitle>
-        <v-card-text>
-          <div class="center text-h5 margin-bottom-large">
-            {{ t.price }}
-          </div>
-          <div
-            v-for="o in t.options"
-            :key="o"
-            class="text-subtitle-1"
-          >
-            <v-icon>{{ mdiCheck }}</v-icon> {{ o }}
-          </div>
-        </v-card-text>
-      </v-card>
-    </v-col>
-  </v-row>
+      <v-col
+        v-for="tier in tiers"
+        :key="tier.title"
+      >
+        <Tier :tier="tier" />
+      </v-col>
+    </v-row>
+    <v-row
+      v-for="tier in tiers"
+      v-else
+      :key="tier.title"
+    >
+      <v-col>
+        <Tier :tier="tier" />
+      </v-col>
+    </v-row>
+  </div>
 </template>
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
-import { mdiCheck } from "@mdi/js";
+import state from "@/store/driveStore";
+import Tier from "./Tier.vue";
 
 /**
  * Pricing tiers
  */
 @Component({
-  components: {},
+  components: {
+    Tier,
+  },
 })
 export default class Tiers extends Vue {
-  private mdiCheck = mdiCheck;
-  private tiers = [
-    {
-      title: "Starter",
-      subtitle: "If you have a few files to upload.",
-      price: "Free",
-      options: [
-        "5 Uploads",
-        "Unlimited Rows",
-        "Unlimited, Fast Geocoding",
-        "Google Drive Integration",
-        "Heat Map Layer",
-        "Groupings",
-        "GeoJSON and Shapefile Support",
-        "Street View Integration",
-        "Export",
-      ],
-    },
-    {
-      title: "Pro",
-      subtitle: "If you have a lot of files to upload.",
-      price: "$9.99 / month",
-      options: [
-        "Starter Plan",
-        "Unlimited Uploads",
-        "Guaranteed Access to Future Features"
-      ],
-    },
-  ];
+  private get tiers() {
+    return [
+      {
+        id: 0,
+        title: "Starter",
+        subtitle: "If you have a few files to upload.",
+        price: "Free",
+        options: [
+          "5 Uploads",
+          "Unlimited Rows",
+          "Unlimited, Fast Geocoding",
+          "Google Drive Integration",
+          "Heat Map Layer",
+          "Groupings",
+          "GeoJSON and Shapefile Support",
+          "Street View Integration",
+          "Export",
+        ],
+        action: {
+          title: state.tier === 0 ? "Current Plan" : "Get Started",
+          action: () => {
+            if (this.$router) {
+              if (this.$router.currentRoute.name !== "Home") {
+                this.$router.push({ name: "Home" });
+              } else {
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+              }
+            }
+          },
+        },
+      },
+      {
+        id: 1,
+        title: "Pro",
+        subtitle: "If you have a lot of files to upload.",
+        price: "$9.99 / month",
+        options: [
+          "Starter Plan",
+          "Unlimited Uploads",
+          "Guaranteed Access to Future Features",
+        ],
+        action: {
+          title: state.user
+            ? state.tier === 1
+              ? "Current Plan"
+              : "Upgrade"
+            : "Sign in to upgrade",
+          action: () => {
+            if (state.user) {
+              const stripe = Stripe(process.env.VUE_APP_STRIPE_PRODUCT_ID);
+              stripe.redirectToCheckout({
+                lineItems: [
+                  {
+                    price: process.env.VUE_APP_STRIPE_PRICE_ID,
+                    quantity: 1,
+                  },
+                ],
+                mode: "subscription",
+                successUrl: process.env.VUE_APP_BASE_URL + "/account",
+                cancelUrl: process.env.VUE_APP_BASE_URL + this.$route.path,
+                customerEmail: state.user.getBasicProfile().getEmail(),
+              });
+            } else {
+              const el = document.getElementById("google-signin-button");
+              if (el) {
+                const child = el.children[0] as HTMLElement;
+                child.click();
+              }
+            }
+          },
+        },
+      },
+    ];
+  }
 }
 </script>
 <style lang="scss" scoped>
 .tiers {
-  width: 842px;
+  max-width: 842px;
   margin: auto;
-  .center {
-    display: flex;
-    justify-content: center;
-  }
 }
 </style>
