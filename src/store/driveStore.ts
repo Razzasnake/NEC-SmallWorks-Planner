@@ -32,11 +32,11 @@ export const signIn = (id: string) => {
   gapi.signin2.render(id, {
     scope: scope.join(" "),
     width: 100,
-    onsuccess: (user) => {
+    onsuccess: async (user) => {
       state.user = user;
-      stripeApi.getCustomerTier(user.getBasicProfile().getEmail()).then(tier => {
+      await stripeApi.getCustomerTier(user.getBasicProfile().getEmail()).then(tier => {
         state.tier = tier;
-      })
+      });
       const profile = user.getBasicProfile();
       if (profile && process.env.NODE_ENV === "production") {
         slackApi.login(profile.getName(), profile.getEmail());
@@ -105,8 +105,14 @@ export const refreshFiles = (callback?: () => void | undefined) => {
       getTableAndMapFolderId((folderId) => {
         state.folderId = folderId;
         retrieveAllFilesInFolder(folderId, (result) => {
-          /* TODO: Only display the first five uploads if the user is not on the Pro plan. */
-          state.files = result;
+          if (state.tier === 0) {
+            const ids = new Set(result.filter(r => r.name!.endsWith(".csv"))
+              .slice(0, 5)
+              .map(r => r.name!.split(".")[r.name!.split(".").length - 2]));
+            state.files = result.filter(r => ids.has(r.name!.split(".")[r.name!.split(".").length - 2]));
+          } else {
+            state.files = result;
+          }
           state.refreshFilesLoading = false;
           if (callback) {
             callback();
