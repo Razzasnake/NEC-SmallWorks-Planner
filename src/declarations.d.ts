@@ -7,3 +7,4 @@ declare module "worker-loader!*" {
   export default WebpackWorker;
 }
 declare module "shpjs";
+declare var Stripe: any;

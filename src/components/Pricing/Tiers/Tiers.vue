@@ -44,8 +44,6 @@ import { Component, Vue } from "vue-property-decorator";
 import { mdiCheck } from "@mdi/js";
 import state from "@/store/driveStore";
 
-let Stripe: any;
-
 /**
  * Pricing tiers
  */
@@ -107,10 +105,10 @@ export default class Tiers extends Vue {
           title: this.user ? ( this.activeTier === 1 ? "Current Plan" : "Upgrade" ) : "Sign in to upgrade",
           action: () => {
             if (this.user) {
-              const stripe = Stripe(process.env.VUE_STRIPE_PRODUCT_ID);
+              const stripe = Stripe(process.env.VUE_APP_STRIPE_PRODUCT_ID);
               stripe.redirectToCheckout({
                 lineItems: [{
-                  price: process.env.VUE_STRIPE_PRICE_ID,
+                  price: process.env.VUE_APP_STRIPE_PRICE_ID,
                   quantity: 1,
                 }],
                 mode: "subscription",
