@@ -69,6 +69,6 @@ export default class Tier extends Vue {
   justify-content: center;
 }
 .active {
-  box-shadow: 0px 0px 0px 3px #37474f;
+  box-shadow: 0px 0px 0px 3px #37474f !important;
 }
 </style>
