@@ -127,7 +127,9 @@ export default class Upload extends Vue {
   }
 
   private openUpload() {
-    if (state.user && state.tier === 0 && state.files.length > 4) {
+    const ids = new Set(state.files.filter(r => r.name!.endsWith(".csv"))
+      .map(r => r.name!.split(".")[r.name!.split(".").length - 2]));
+    if (state.user && state.tier === 0 && ids.size > 4) {
       this.onUploadUpsell = true;
     } else {
       (this.$refs.input as HTMLInputElement).click();
@@ -135,7 +137,9 @@ export default class Upload extends Vue {
   }
 
   private openPaste() {
-    if (state.user && state.tier === 0 && state.files.length > 4) {
+    const ids = new Set(state.files.filter(r => r.name!.endsWith(".csv"))
+      .map(r => r.name!.split(".")[r.name!.split(".").length - 2]));
+    if (state.user && state.tier === 0 && ids.size > 4) {
       this.onUploadUpsell = true;
     } else {
       this.displayPasteModal = true;
