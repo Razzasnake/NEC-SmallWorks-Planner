@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build && npm run lambda-build",
+    "lambda-serve": "netlify-lambda serve lambda-src",
+    "lambda-build": "netlify-lambda build lambda-src",
     "lint": "vue-cli-service lint",
     "build-storybook": "build-storybook",
     "generate": "node ./scripts/generate.js",
@@ -51,6 +53,7 @@
     "babel-preset-vue": "^2.0.2",
     "eslint": "^7.11.0",
     "eslint-plugin-vue": "^7.0.1",
+    "netlify-lambda": "^2.0.1",
     "sass": "^1.27.0",
     "sass-loader": "^10.0.3",
     "sitemap-webpack-plugin": "^0.8.1",
