@@ -33,7 +33,7 @@ export const signIn = (id: string) => {
     width: 100,
     onsuccess: (user) => {
       state.user = user;
-      state.tier = 0;
+      state.tier = 1;
       const profile = user.getBasicProfile();
       if (profile && process.env.NODE_ENV === "production") {
         slackApi.login(profile.getName(), profile.getEmail());
