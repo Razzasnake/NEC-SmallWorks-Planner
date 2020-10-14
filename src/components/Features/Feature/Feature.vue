@@ -13,6 +13,15 @@ import { Component, Vue, Prop } from "vue-property-decorator";
 import BasePage from "@/components/Shared/Page/Page.vue";
 import UploadedFile from "@/entities/UploadedFile";
 import TeaserI from '@/entities/Teaser';
+import Automation from "./Content/Automation.vue";
+import GeoJSONandShapefileLayers from "./Content/GeoJSONandShapefileLayers.vue";
+import MapYourLocationData from "./Content/MapYourLocationData.vue";
+import CategoricalGrouping from "./Content/CategoricalGrouping.vue";
+import HeatMapLayer from "./Content/HeatMapLayer.vue";
+import SupportsManyMarkers from "./Content/SupportsManyMarkers.vue";
+import Filterable from "./Content/Filterable.vue";
+import HelpfulTableFooters from "./Content/HelpfulTableFooters.vue";
+import UnlimitedGeocoding from "./Content/UnlimitedGeocoding.vue";
 
 /**
  * Feature component with content
@@ -20,15 +29,15 @@ import TeaserI from '@/entities/Teaser';
 @Component({
   components: {
     BasePage,
-    Automation: () => import("./Content/Automation.vue"),
-    GeoJSONandShapefileLayers: () => import("./Content/GeoJSONandShapefileLayers.vue"),
-    MapYourLocationData: () => import("./Content/MapYourLocationData.vue"),
-    CategoricalGrouping: () => import("./Content/CategoricalGrouping.vue"),
-    HeatMapLayer: () => import("./Content/HeatMapLayer.vue"),
-    SupportsManyMarkers: () => import("./Content/SupportsManyMarkers.vue"),
-    Filterable: () => import("./Content/Filterable.vue"),
-    HelpfulTableFooters: () => import("./Content/HelpfulTableFooters.vue"),
-    UnlimitedGeocoding: () => import("./Content/UnlimitedGeocoding.vue"),
+    Automation,
+    GeoJSONandShapefileLayers,
+    MapYourLocationData,
+    CategoricalGrouping,
+    HeatMapLayer,
+    SupportsManyMarkers,
+    Filterable,
+    HelpfulTableFooters,
+    UnlimitedGeocoding,
   },
 })
 export default class Feature extends Vue {
