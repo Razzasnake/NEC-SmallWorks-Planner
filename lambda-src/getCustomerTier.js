@@ -1,23 +1,47 @@
 const axios = require("axios");
 
-exports.handler = (event, context, callback) => {
+const STRIPE_PRIVATE_KEY = process.env.NETLIFY === "true" ? "***REMOVED***" : "***REMOVED***";
+const headers = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "Content-Type"
+}
+
+exports.handler = async (event, context) => {
+  console.log(process.env.NETLIFY)
+  if (event.httpMethod === "OPTIONS") {
+    return {
+      statusCode: 200,
+      body: "Success",
+      headers
+    };
+  }
   const data = JSON.parse(event.body);
   const url = "https://api.stripe.com/v1/customers";
-  axios.get(url, {
+  return axios.get(url, {
     headers: {
-      Authorization: "Bearer ***REMOVED***"
+      Authorization: `Bearer ${STRIPE_PRIVATE_KEY}`
     }
   }).then((resp) => {
-    if (resp.data.data.find(u => u.email === data.email)) {
-      callback(null, {
+    const user = resp.data.data.find(u => u.email === data.email)
+    if (user && user.subscriptions.data.length && user.subscriptions.data[0].status === "active") {
+      console.log(user.subscriptions.data[0].status)
+      return {
         statusCode: 200,
         body: "1",
-      });
+        headers
+      };
     } else {
-      callback(null, {
+      return {
         statusCode: 200,
         body: "0",
-      });
+        headers
+      };
     }
+  }).catch((err) => {
+    return {
+      statusCode: err.response.status,
+      body: err.response.statusText,
+      headers
+    };
   });
 };
