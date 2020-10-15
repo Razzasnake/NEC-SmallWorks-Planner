@@ -15,6 +15,8 @@
         :label="c.label"
         clearable
         @input="inputFnc($event, c.key)"
+        name="notASearchField"
+        autocomplete="notASearchField"
       />
     </div>
     <a
