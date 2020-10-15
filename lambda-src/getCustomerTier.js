@@ -1,13 +1,12 @@
 const axios = require("axios");
 
-const STRIPE_PRIVATE_KEY = process.env.NETLIFY === "true" ? "***REMOVED***" : "***REMOVED***";
+const STRIPE_PRIVATE_KEY ="***REMOVED***"; // "***REMOVED***"
 const headers = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "Content-Type"
 }
 
 exports.handler = async (event, context) => {
-  console.log(process.env.NETLIFY)
   if (event.httpMethod === "OPTIONS") {
     return {
       statusCode: 200,
