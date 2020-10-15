@@ -14,7 +14,7 @@ interface DriveStoreI {
   tier: number | null
 };
 
-declare var _gs;
+declare const _gs: any;
 
 const state: DriveStoreI = Vue.observable({
   user: null,
