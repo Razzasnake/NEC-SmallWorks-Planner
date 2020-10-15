@@ -24,7 +24,11 @@
         <v-card-title class="headline">
           Are you sure you want to leave?
         </v-card-title>
-        <v-card-text>You will lose all uploaded markers, shapefiles, drawn shapes, filters, and sortings. Click <b>"Sign in"</b> to save your data to Google Drive.</v-card-text>
+        <v-card-text>
+          You will lose all uploaded markers, shapefiles, drawn shapes,
+          filters, and sortings. Click <b>"Sign in"</b> to save your data to
+          Google Drive.
+        </v-card-text>
         <v-card-actions>
           <v-spacer />
           <v-btn
@@ -57,7 +61,7 @@ import state, {
   updateOverlayEventJsons,
   updateFilters,
   updateSorting,
-  updateUploadedFile
+  updateUploadedFile,
 } from "@/store/exploreStore";
 import Loading from "@/components/Shared/Loading/Loading.vue";
 import _View from "./_View";
@@ -109,16 +113,27 @@ export default class Explore extends _View {
   }
 
   protected activated() {
-    examples.forEach(async example => {
+    examples.forEach(async (example) => {
       const slug = example.title.toLowerCase().replaceAll(" ", "-");
       if (slug === this.fileId) {
         updateUploadedFile(await exampleApi.getExample(example));
+        super.activated({
+          title: `${example.title} - Table & Map`,
+          content: example.description,
+        });
       }
     });
     if (this.fileId === null && state.uploadedFile === null) {
       this.$router.push({ name: "Home" });
+    } else if (state.uploadedFile) {
+      const fileNameSplit = state.uploadedFile.fileName.split(".");
+      super.activated({
+        title: `${state.uploadedFile.fileName
+          .split(".")
+          .slice(0, fileNameSplit.length - 2)
+          .join(".")} - Table & Map`,
+      });
     }
-    super.activated({ title: "Table & Map - Explore" });
   }
 
   private created() {

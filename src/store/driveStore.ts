@@ -111,10 +111,17 @@ export const refreshFiles = (callback?: () => void | undefined) => {
         state.folderId = folderId;
         retrieveAllFilesInFolder(folderId, (result) => {
           if (state.tier === 0) {
-            const ids = new Set(result.filter(r => r.name!.endsWith(".csv"))
+            const ids = result.filter(r => r.name!.endsWith(".csv"))
               .slice(0, 5)
-              .map(r => r.name!.split(".")[r.name!.split(".").length - 2]));
-            state.files = result.filter(r => ids.has(r.name!.split(".")[r.name!.split(".").length - 2]));
+              .map(r => r.name!.split(".")[r.name!.split(".").length - 2]);
+            state.files = result.filter(r => {
+              for (const id of ids) {
+                if (r.name!.indexOf(id) > -1) {
+                  return true;
+                }
+              }
+              return false;
+            });
           } else {
             state.files = result;
           }
