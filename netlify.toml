@@ -1,4 +1,2 @@
 [build]
-  command = "npm run build -- --mode prod"
-  publish = "dist"
   functions = "lambda"
