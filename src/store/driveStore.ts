@@ -37,10 +37,11 @@ export const signIn = (id: string) => {
     onsuccess: async (user) => {
       state.user = user;
       state.loggedIn = true;
-      await stripeApi.getCustomerTier(user.getBasicProfile().getEmail()).then(tier => {
+      const profile = user.getBasicProfile();
+      _gs("identify", { email: profile.getEmail(), first_name: profile.getGivenName(), last_name: profile.getFamilyName() });
+      await stripeApi.getCustomerTier(profile.getEmail()).then(tier => {
         state.tier = tier;
       });
-      const profile = user.getBasicProfile();
       if (profile && process.env.NODE_ENV === "production") {
         slackApi.login(profile.getName(), profile.getEmail());
       }
