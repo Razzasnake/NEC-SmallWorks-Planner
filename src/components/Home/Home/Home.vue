@@ -104,7 +104,7 @@ export default class Home extends Vue {}
   display: flex;
   justify-content: center;
   border: 2px solid transparent;
-  height: calc(100vh - 88px);
+  height: 610px;
   width: calc(100vw - 40px);
   &.highlight {
     border: 2px dashed #eeeeee;

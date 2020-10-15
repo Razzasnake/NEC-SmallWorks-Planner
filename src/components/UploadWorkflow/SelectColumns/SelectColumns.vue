@@ -14,9 +14,9 @@
         item-text="value"
         :label="c.label"
         clearable
-        @input="inputFnc($event, c.key)"
         name="notASearchField"
         autocomplete="notASearchField"
+        @input="inputFnc($event, c.key)"
       />
     </div>
     <a

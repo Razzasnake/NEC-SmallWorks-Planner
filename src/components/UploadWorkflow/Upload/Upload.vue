@@ -117,6 +117,12 @@ export default class Upload extends Vue {
   private mdiContentPaste = mdiContentPaste;
   private onUploadUpsell: boolean = false;
 
+  private get exceedLimit() {
+    const ids = new Set(state.files.filter(r => r.name!.endsWith(".csv"))
+      .map(r => r.name!.split(".")[r.name!.split(".").length - 2]));
+    return ids.size > 4;
+  }
+
   private mounted() {
     UploadLogic.initDropZone(
       "upload-drop-area",
@@ -127,9 +133,7 @@ export default class Upload extends Vue {
   }
 
   private openUpload() {
-    const ids = new Set(state.files.filter(r => r.name!.endsWith(".csv"))
-      .map(r => r.name!.split(".")[r.name!.split(".").length - 2]));
-    if (state.user && state.tier === 0 && ids.size > 4) {
+    if (state.user && state.tier === 0 && this.exceedLimit) {
       this.onUploadUpsell = true;
     } else {
       (this.$refs.input as HTMLInputElement).click();
@@ -137,9 +141,7 @@ export default class Upload extends Vue {
   }
 
   private openPaste() {
-    const ids = new Set(state.files.filter(r => r.name!.endsWith(".csv"))
-      .map(r => r.name!.split(".")[r.name!.split(".").length - 2]));
-    if (state.user && state.tier === 0 && ids.size > 4) {
+    if (state.user && state.tier === 0 && this.exceedLimit) {
       this.onUploadUpsell = true;
     } else {
       this.displayPasteModal = true;
@@ -147,21 +149,25 @@ export default class Upload extends Vue {
   }
 
   private fileUploaded(file: File) {
-    const reader = new FileReader();
-    reader.onloadend = (e) => {
-      if (e.target) {
-        const bstr = e.target.result;
-        const fileNameArr = file.name.split(".");
-        this.convert(
-          `${fileNameArr
-            .slice(0, fileNameArr.length - 1)
-            .join(".")}.${Math.random().toString(36).substring(7)}.csv`,
-          bstr,
-          "binary"
-        );
-      }
-    };
-    reader.readAsBinaryString(file);
+    if (state.user && state.tier === 0 && this.exceedLimit) {
+      this.onUploadUpsell = true;
+    } else {
+      const reader = new FileReader();
+      reader.onloadend = (e) => {
+        if (e.target) {
+          const bstr = e.target.result;
+          const fileNameArr = file.name.split(".");
+          this.convert(
+            `${fileNameArr
+              .slice(0, fileNameArr.length - 1)
+              .join(".")}.${Math.random().toString(36).substring(7)}.csv`,
+            bstr,
+            "binary"
+          );
+        }
+      };
+      reader.readAsBinaryString(file);
+    }
     (this.$refs.input as HTMLInputElement).value = "";
   }
 
