@@ -11,7 +11,7 @@
       @remove="remove"
       @finish="finish"
     />
-    <SigninToContinue v-else />
+    <SigninToContinue v-else-if="loggedIn === false" />
   </div>
 </template>
 <script lang='ts'>

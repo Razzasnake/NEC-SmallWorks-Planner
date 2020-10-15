@@ -4,7 +4,7 @@
       v-if="loggedIn"
       :user="user"
     />
-    <SigninToContinue v-else />
+    <SigninToContinue v-else-if="loggedIn === false" />
   </div>
 </template>
 <script lang='ts'>
