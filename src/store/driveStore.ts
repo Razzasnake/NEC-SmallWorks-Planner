@@ -7,6 +7,7 @@ import stripeApi from "@/api/stripe";
 
 interface DriveStoreI {
   user: gapi.auth2.GoogleUser | null,
+  loggedIn: boolean | null,
   files: gapi.client.drive.File[],
   folderId: string | null,
   refreshFilesLoading: boolean,
@@ -15,6 +16,7 @@ interface DriveStoreI {
 
 const state: DriveStoreI = Vue.observable({
   user: null,
+  loggedIn: null,
   files: [],
   folderId: null,
   refreshFilesLoading: true,
@@ -34,6 +36,7 @@ export const signIn = (id: string) => {
     width: 100,
     onsuccess: async (user) => {
       state.user = user;
+      state.loggedIn = true;
       await stripeApi.getCustomerTier(user.getBasicProfile().getEmail()).then(tier => {
         state.tier = tier;
       });
@@ -54,6 +57,7 @@ export const signIn = (id: string) => {
     gapi.auth2.getAuthInstance().currentUser.listen((val) => {
       if (val.getId() === null) {
         /* TODO: there is no user logged in, try and retrieve it. It might be public. */
+        state.loggedIn = false;
         const exampleDataset = examples.find(e => e.title.toLowerCase().replaceAll(" ", "-") === router.currentRoute.params.fileId);
         if (router.currentRoute.name === "Explore" && !exampleDataset) {
           router.push({ name: "Home" });
@@ -88,6 +92,7 @@ export const signOut = () => {
   const auth2 = gapi.auth2.getAuthInstance();
   auth2.signOut().then(() => {
     state.user = null;
+    state.loggedIn = false;
     state.files = [];
     state.folderId = null;
     state.refreshFilesLoading = true;

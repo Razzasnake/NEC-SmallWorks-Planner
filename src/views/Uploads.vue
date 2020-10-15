@@ -1,14 +1,18 @@
 <template>
-  <UploadsComponent
-    :files="files"
-    :table-loading="tableLoading"
-    @row-clicked="rowClicked"
-    @share="share"
-    @get-link="getLink"
-    @rename="rename"
-    @remove="remove"
-    @finish="finish"
-  />
+  <div class="full-height">
+    <UploadsComponent
+      v-if="loggedIn"
+      :files="files"
+      :table-loading="tableLoading"
+      @row-clicked="rowClicked"
+      @share="share"
+      @get-link="getLink"
+      @rename="rename"
+      @remove="remove"
+      @finish="finish"
+    />
+    <SigninToContinue v-else />
+  </div>
 </template>
 <script lang='ts'>
 import { Component } from "vue-property-decorator";
@@ -17,6 +21,7 @@ import UploadsComponent from "@/components/Uploads/Uploads.vue";
 import UploadedFile from "@/entities/UploadedFile";
 import { updateUploadedFile, downloadUserUpload } from "@/store/exploreStore";
 import _View from "./_View";
+import SigninToContinue from "@/components/Shared/SigninToContinue/SigninToContinue.vue";
 
 /**
  * Display all of the users uploads stored in google drive.
@@ -24,9 +29,14 @@ import _View from "./_View";
 @Component({
   components: {
     UploadsComponent,
+    SigninToContinue
   },
 })
 export default class Uploads extends _View {
+  private get loggedIn() {
+    return state.loggedIn;
+  }
+
   private get files() {
     return state.files;
   }
