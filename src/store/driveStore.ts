@@ -14,7 +14,7 @@ interface DriveStoreI {
   tier: number | null
 };
 
-declare const _gs: any;
+declare const $crisp: any;
 
 const state: DriveStoreI = Vue.observable({
   user: null,
@@ -40,8 +40,9 @@ export const signIn = (id: string) => {
       state.user = user;
       state.loggedIn = true;
       const profile = user.getBasicProfile();
-      if (_gs) {
-        _gs("identify", { email: profile.getEmail(), first_name: profile.getGivenName(), last_name: profile.getFamilyName() });
+      if ($crisp) {
+        $crisp.push(["set", "user:email", [profile.getEmail()]]);
+        $crisp.push(["set", "user:nickname", [profile.getName()]]);
       }
       await stripeApi.getCustomerTier(profile.getEmail()).then(tier => {
         state.tier = tier;

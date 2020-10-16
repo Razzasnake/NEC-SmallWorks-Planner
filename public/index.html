@@ -6,7 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <meta name="title" content="Table & Map - Visualize your location data">
-  <meta name="description" content="Visualize your location data in an interactive map. Upload an excel or csv file with addresses or latitudes and longitudes to get started.">
+  <meta name="description"
+    content="Visualize your location data in an interactive map. Upload an excel or csv file with addresses or latitudes and longitudes to get started.">
   <meta name="google-signin-client_id" content="<%= VUE_APP_GOOGLE_CLIENT_ID %>">
 
   <link rel="icon" href="<%= BASE_URL %>favicon.ico">
@@ -22,14 +23,16 @@
   </script>
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
   <script src="https://js.stripe.com/v3/"></script>
-  <script>
-    !function(g,s,q,r,d){r=g[r]=g[r]||function(){(r.q=r.q||[]).push(
-    arguments)};d=s.createElement(q);q=s.getElementsByTagName(q)[0];
-    d.src='//d1l6p2sc9645hc.cloudfront.net/tracker.js';q.parentNode.
-    insertBefore(d,q)}(window,document,'script','_gs');
-
-    _gs('GSN-051997-G');
-    _gs('set', 'anonymizeIP', true);
+  <script type="text/javascript">
+    window.$crisp = [];
+    window.CRISP_WEBSITE_ID = "***REMOVED***";
+    (function () {
+      d = document;
+      s = d.createElement("script");
+      s.src = "https://client.crisp.chat/l.js";
+      s.async = 1;
+      d.getElementsByTagName("head")[0].appendChild(s);
+    })();
   </script>
 </head>
 
