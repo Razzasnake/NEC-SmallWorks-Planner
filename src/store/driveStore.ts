@@ -40,7 +40,9 @@ export const signIn = (id: string) => {
       state.user = user;
       state.loggedIn = true;
       const profile = user.getBasicProfile();
-      _gs("identify", { email: profile.getEmail(), first_name: profile.getGivenName(), last_name: profile.getFamilyName() });
+      if (_gs) {
+        _gs("identify", { email: profile.getEmail(), first_name: profile.getGivenName(), last_name: profile.getFamilyName() });
+      }
       await stripeApi.getCustomerTier(profile.getEmail()).then(tier => {
         state.tier = tier;
       });
