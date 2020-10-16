@@ -4,6 +4,7 @@ import router from "@/router";
 import slackApi from "@/api/slack";
 import { examples } from "@/entities/data";
 import stripeApi from "@/api/stripe";
+import LogRocket from "logrocket";
 
 interface DriveStoreI {
   user: gapi.auth2.GoogleUser | null,
@@ -40,14 +41,19 @@ export const signIn = (id: string) => {
       state.user = user;
       state.loggedIn = true;
       const profile = user.getBasicProfile();
-      if ($crisp) {
-        $crisp.push(["set", "user:email", [profile.getEmail()]]);
-        $crisp.push(["set", "user:nickname", [profile.getName()]]);
-      }
       await stripeApi.getCustomerTier(profile.getEmail()).then(tier => {
         state.tier = tier;
       });
-      if (profile && process.env.NODE_ENV === "production") {
+      if ($crisp) {
+        $crisp.push(["set", "user:email", [profile.getEmail()]]);
+        $crisp.push(["set", "user:nickname", [profile.getName()]]);
+        $crisp.push(["set", "user:avatar", [profile.getImageUrl()]]);
+      }
+      if (process.env.NODE_ENV === "production") {
+        LogRocket.identify(profile.getId(), {
+          name: profile.getName(),
+          email: profile.getEmail()
+        });
         slackApi.login(profile.getName(), profile.getEmail());
       }
       refreshFiles(() => {

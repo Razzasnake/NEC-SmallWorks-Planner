@@ -1,5 +1,6 @@
 import { addDecorator } from '@storybook/vue'
 import { config } from '@/setups/vuetify'
+import "@/setups/logrocket"
 
 import Vue from 'vue'
 import Vuetify from "vuetify"

@@ -5,6 +5,7 @@ import router from './router'
 Vue.config.productionTip = false
 
 import vuetify from '@/setups/vuetify'
+import "@/setups/logrocket"
 
 new Vue({
   router,
