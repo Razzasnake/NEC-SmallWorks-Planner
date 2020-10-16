@@ -115,12 +115,11 @@ export default class Explore extends _View {
   @Watch("uploadedFile")
   private uploadedFileChanged() {
     if (state.uploadedFile) {
-      const fileNameSplit = state.uploadedFile.fileName.split(".");
       super.activated({
-        title: `${state.uploadedFile.fileName
-          .split(".")
-          .slice(0, fileNameSplit.length - 2)
-          .join(".")} - Table & Map`,
+        title: `${
+          state.uploadedFile.fileName.split(".").slice(0, -2).join(".") ||
+          state.uploadedFile.fileName
+        } - Table & Map`,
       });
     }
   }

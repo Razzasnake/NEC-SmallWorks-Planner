@@ -62,13 +62,11 @@ export default class RenameModal extends Vue {
   }
 
   private created() {
-    const fileNameArr = this.name.split(".");
-    this.value = fileNameArr.slice(0, fileNameArr.length - 2).join(".");
+    this.value = this.name.split(".").slice(0, -2).join(".");
   }
 
   private confirm() {
-    const fileNameArr = this.name.split(".");
-    const suffix = fileNameArr.slice(fileNameArr.length - 2).join(".");
+    const suffix = this.name.split(".").slice(-2).join(".");
     /**
      * Update the file name
      *
