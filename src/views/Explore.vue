@@ -25,9 +25,9 @@
           Are you sure you want to leave?
         </v-card-title>
         <v-card-text>
-          You will lose all uploaded markers, shapefiles, drawn shapes,
-          filters, and sortings. Click <b>"Sign in"</b> to save your data to
-          Google Drive.
+          You will lose all uploaded markers, shapefiles, drawn shapes, filters,
+          and sortings. Click <b>"Sign in"</b> to save your data to Google
+          Drive.
         </v-card-text>
         <v-card-actions>
           <v-spacer />
@@ -51,7 +51,7 @@
   </div>
 </template>
 <script lang='ts'>
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import TableAndMap from "@/components/TableAndMap/TableAndMap.vue";
 import UploadedFile from "@/entities/UploadedFile";
 import TableLogic from "@/components/TableAndMap/Table/Logic/TableLogic";
@@ -112,6 +112,19 @@ export default class Explore extends _View {
     return state.tableLogic;
   }
 
+  @Watch("uploadedFile")
+  private uploadedFileChanged() {
+    if (state.uploadedFile) {
+      const fileNameSplit = state.uploadedFile.fileName.split(".");
+      super.activated({
+        title: `${state.uploadedFile.fileName
+          .split(".")
+          .slice(0, fileNameSplit.length - 2)
+          .join(".")} - Table & Map`,
+      });
+    }
+  }
+
   protected activated() {
     examples.forEach(async (example) => {
       const slug = example.title.toLowerCase().replaceAll(" ", "-");
@@ -126,13 +139,7 @@ export default class Explore extends _View {
     if (this.fileId === null && state.uploadedFile === null) {
       this.$router.push({ name: "Home" });
     } else if (state.uploadedFile) {
-      const fileNameSplit = state.uploadedFile.fileName.split(".");
-      super.activated({
-        title: `${state.uploadedFile.fileName
-          .split(".")
-          .slice(0, fileNameSplit.length - 2)
-          .join(".")} - Table & Map`,
-      });
+      this.uploadedFileChanged();
     }
   }
 

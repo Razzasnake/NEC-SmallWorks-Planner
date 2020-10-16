@@ -28,6 +28,10 @@ interface Config {
   sorting: { colId: string; sort: string }[];
   viewOptions: string[];
   overlayEventJsons: OverlayJson[];
+  ids: {
+    file: string | null;
+    geojsonFile: string | null;
+  };
 }
 
 const state: ExploreStoreI = Vue.observable({
@@ -104,18 +108,20 @@ export const saveUploadedFile = () => {
     if (router.currentRoute.name !== "Explore") {
       router.push({ name: "Explore" });
     }
-    const data = arrayToCSV(state.uploadedFile.data.map(_ => _.data));
-    uploadFile(data, "text/csv", state.uploadedFile.fileName, undefined, (fileId) => {
-      router.replace({ name: "Explore", params: { fileId } });
+    updateGeojsonFile(() => {
+      const data = arrayToCSV(state.uploadedFile!.data.map(_ => _.data));
+      uploadFile(data, "text/csv", state.uploadedFile!.fileName, undefined, () => {
+        updateConfigFile((configFile) => {
+          router.replace({ name: "Explore", params: { fileId: configFile.id! } });
+        });
+      });
     });
-    updateConfigFile();
-    updateGeojsonFile();
     state.uploadedFile.toUpload = false;
   } else if (state.uploadedFile) {
-    const file = driveState.files.find(_ => _.name === state.uploadedFile!.fileName);
-    if (file) {
-      if (router.currentRoute.params.fileId !== file.id) {
-        router.push({ name: "Explore", params: { fileId: file.id! } });
+    const configFile = driveState.files.find(_ => _.name === `${state.uploadedFile!.fileName}.json`);
+    if (configFile) {
+      if (router.currentRoute.params.fileId !== configFile.id) {
+        router.push({ name: "Explore", params: { fileId: configFile.id! } });
       }
     } else if (router.currentRoute.name !== "Explore") {
       router.push({ name: "Explore" });
@@ -125,14 +131,14 @@ export const saveUploadedFile = () => {
   }
 }
 
-const updateConfigFile = () => {
+const updateConfigFile = (callback?: (file: gapi.client.drive.File) => void | undefined) => {
   if (state.uploadedFile && state.uploadedFile.fileName.endsWith(".csv")) {
     const files = {
       file: driveState.files.find(_ => _.name === state.uploadedFile!.fileName),
       configFile: driveState.files.find(_ => _.name === `${state.uploadedFile!.fileName}.json`),
       geojsonFile: driveState.files.find(_ => _.name === `${state.uploadedFile!.fileName}.geojson.json`)
     };
-    const config = JSON.stringify({
+    const configObj: Config = {
       columnSelections: state.uploadedFile.columnSelections,
       firstRowHeader: state.uploadedFile.firstRowHeader,
       viewOptions: state.viewOptions,
@@ -140,20 +146,20 @@ const updateConfigFile = () => {
       filters: state.filters,
       overlayEventJsons: state.overlayEventJsons,
       ids: {
-        file: files.file ? files.file.id : null,
-        configFile: files.configFile ? files.configFile.id : null,
-        geojsonFile: files.geojsonFile ? files.geojsonFile.id : null
+        file: files.file ? files.file.id! : null,
+        geojsonFile: files.geojsonFile ? files.geojsonFile.id! : null
       }
-    });
-    uploadFile(config, "application/json", `${state.uploadedFile!.fileName}.json`, files.configFile ? files.configFile.id : undefined);
+    };
+    const config = JSON.stringify(configObj);
+    uploadFile(config, "application/json", `${state.uploadedFile!.fileName}.json`, files.configFile ? files.configFile.id : undefined, callback);
   }
 }
 
-const updateGeojsonFile = () => {
+const updateGeojsonFile = (callback?: (file: gapi.client.drive.File) => void | undefined) => {
   if (state.uploadedFile && state.uploadedFile.fileName.endsWith(".csv")) {
     const config = JSON.stringify(state.layers.filter(_ => _.data !== null));
     const existingConfigFile = driveState.files.find(_ => _.name === `${state.uploadedFile!.fileName}.geojson.json`);
-    uploadFile(config, "application/json", `${state.uploadedFile!.fileName}.geojson.json`, existingConfigFile ? existingConfigFile.id : undefined);
+    uploadFile(config, "application/json", `${state.uploadedFile!.fileName}.geojson.json`, existingConfigFile ? existingConfigFile.id : undefined, callback);
   }
 }
 

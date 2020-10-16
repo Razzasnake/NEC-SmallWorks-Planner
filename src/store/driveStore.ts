@@ -69,45 +69,53 @@ export const signIn = (id: string) => {
     gapi.auth2.getAuthInstance().currentUser.listen((val) => {
       if (val.getId() === null) {
         state.loggedIn = false;
-      }
-      const fileId = router.currentRoute.params.fileId;
-      if (fileId) {
-        const exampleDataset = examples.find(e => e.title.toLowerCase().replaceAll(" ", "-") === fileId);
-        if (router.currentRoute.name === "Explore" && !exampleDataset) {
-          console.log(fileId)
-          // router.push({ name: "Home" });
-          gapi.load("client", () => {
-            gapi.client.setApiKey(process.env.VUE_APP_LOGGED_OUT_USER_API_KEY);
-            gapi.client.load("drive", "v3", async () => {
-              downloadFile(fileId).then(resp => {
-                console.log(resp)
-              })
-            });
-          });
-
-
-        }
+        directLinkDownloadData();
       }
     });
   });
 };
 
 const directLinkDownloadData = () => {
-  if (router.currentRoute.params.fileId && exploreState.uploadedFile === null) {
-    const file = state.files.find((_) => _.id === router.currentRoute.params.fileId);
-    if (file) {
-      const configFile = state.files.find(
-        (_) => _.name === `${file.name}.json`
+  const fileId = router.currentRoute.params.fileId;
+  if (fileId) {
+    const configFile = state.files.find((_) => _.id === fileId);
+    if (configFile) {
+      const file = state.files.find(
+        (_) => _.name === `${configFile.name!.split(".").slice(0, -1).join(".")}`
       )!;
       const geojsonFile = state.files.find(
         (_) => _.name === `${file.name}.geojson.json`
       )!;
       downloadUserUpload({ file, configFile, geojsonFile });
     } else {
-      /* TODO: Try to download this file even though the user did not create it. */
-      const exampleDataset = examples.find(e => e.title.toLowerCase().replaceAll(" ", "-") === router.currentRoute.params.fileId);
+      const exampleDataset = examples.find(e => e.title.toLowerCase().replaceAll(" ", "-") === fileId);
       if (!exampleDataset) {
-        router.push({ name: "404" });
+        gapi.load("client", () => {
+          gapi.client.setApiKey(process.env.VUE_APP_LOGGED_OUT_USER_API_KEY);
+          gapi.client.load("drive", "v3", async () => {
+            downloadFile(fileId).then(resp => {
+              const body = JSON.parse(resp);
+              gapi.client.drive.files.get({
+                fileId: body.ids.file
+              }).execute((resp) => {
+                downloadUserUpload({
+                  file: {
+                    id: body.ids.file,
+                    name: resp.result.name
+                  },
+                  configFile: {
+                    id: fileId
+                  },
+                  geojsonFile: {
+                    id: body.ids.geojsonFile
+                  }
+                });
+              });
+            }).catch(() => {
+              router.push({ name: "404" });
+            });
+          });
+        });
       }
     }
   }
@@ -168,7 +176,7 @@ export const downloadFile = (fileId: string) => {
     });
 }
 
-export const uploadFile = (data: string, mimeType: string, name: string, id?: string | undefined, callback?: (fileName: string) => void | undefined) => {
+export const uploadFile = (data: string, mimeType: string, name: string, id?: string | undefined, callback?: (file: gapi.client.drive.File) => void | undefined) => {
   const metadata: { name: string, mimeType: string, parents?: string[] | undefined } = {
     name,
     mimeType
@@ -188,7 +196,7 @@ export const uploadFile = (data: string, mimeType: string, name: string, id?: st
     data + "\r\n" +
     closeDelim;
   gapi.client.request({
-    path: "https://www.googleapis.com/upload/drive/v3/files" + (id ? `/${id}`: ""),
+    path: "https://www.googleapis.com/upload/drive/v3/files" + (id ? `/${id}` : ""),
     method: id ? "PATCH" : "POST",
     params: { uploadType: "multipart", fields: "*" },
     headers: {
@@ -196,9 +204,6 @@ export const uploadFile = (data: string, mimeType: string, name: string, id?: st
     },
     body: multipartRequestBody
   }).execute((resp: any) => {
-    if (callback) {
-      callback(resp.id);
-    }
     if (!id) {
       const existingFiles = state.files.filter(_ => _.name === name);
       if (existingFiles.length) {
@@ -210,6 +215,9 @@ export const uploadFile = (data: string, mimeType: string, name: string, id?: st
       }
     }
     state.files = state.files.filter(_ => _.name !== name).concat(resp);
+    if (callback) {
+      callback(resp);
+    }
   });
 }
 
