@@ -127,13 +127,23 @@ export const saveUploadedFile = () => {
 
 const updateConfigFile = () => {
   if (state.uploadedFile && state.uploadedFile.fileName.endsWith(".csv")) {
+    const files = {
+      file: driveState.files.find(_ => _.name === state.uploadedFile!.fileName),
+      configFile: driveState.files.find(_ => _.name === `${state.uploadedFile!.fileName}.json`),
+      geojsonFile: driveState.files.find(_ => _.name === `${state.uploadedFile!.fileName}.geojson.json`)
+    };
     const config = JSON.stringify({
       columnSelections: state.uploadedFile.columnSelections,
       firstRowHeader: state.uploadedFile.firstRowHeader,
       viewOptions: state.viewOptions,
       sorting: state.sorting,
       filters: state.filters,
-      overlayEventJsons: state.overlayEventJsons
+      overlayEventJsons: state.overlayEventJsons,
+      ids: {
+        file: files.file ? files.file.id : null,
+        configFile: files.configFile ? files.configFile.id : null,
+        geojsonFile: files.geojsonFile ? files.geojsonFile.id : null
+      }
     });
     uploadFile(config, "application/json", `${state.uploadedFile!.fileName}.json`);
   }
