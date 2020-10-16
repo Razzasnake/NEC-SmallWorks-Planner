@@ -68,11 +68,24 @@ export const signIn = (id: string) => {
   gapi.load("auth2", () => {
     gapi.auth2.getAuthInstance().currentUser.listen((val) => {
       if (val.getId() === null) {
-        /* TODO: there is no user logged in, try and retrieve it. It might be public. */
         state.loggedIn = false;
-        const exampleDataset = examples.find(e => e.title.toLowerCase().replaceAll(" ", "-") === router.currentRoute.params.fileId);
+      }
+      const fileId = router.currentRoute.params.fileId;
+      if (fileId) {
+        const exampleDataset = examples.find(e => e.title.toLowerCase().replaceAll(" ", "-") === fileId);
         if (router.currentRoute.name === "Explore" && !exampleDataset) {
-          router.push({ name: "Home" });
+          console.log(fileId)
+          // router.push({ name: "Home" });
+          gapi.load("client", () => {
+            gapi.client.setApiKey(process.env.VUE_APP_LOGGED_OUT_USER_API_KEY);
+            gapi.client.load("drive", "v3", async () => {
+              downloadFile(fileId).then(resp => {
+                console.log(resp)
+              })
+            });
+          });
+
+
         }
       }
     });
@@ -155,12 +168,14 @@ export const downloadFile = (fileId: string) => {
     });
 }
 
-export const uploadFile = (data: string, mimeType: string, name: string, callback?: (fileName: string) => void | undefined) => {
-  const metadata = {
+export const uploadFile = (data: string, mimeType: string, name: string, id?: string | undefined, callback?: (fileName: string) => void | undefined) => {
+  const metadata: { name: string, mimeType: string, parents?: string[] | undefined } = {
     name,
-    mimeType,
-    parents: [state.folderId]
+    mimeType
   };
+  if (!id) {
+    metadata.parents = [state.folderId!];
+  }
   const boundary = "TableAndMap";
   const delimiter = "\r\n--" + boundary + "\r\n";
   const closeDelim = "\r\n--" + boundary + "--";
@@ -173,8 +188,8 @@ export const uploadFile = (data: string, mimeType: string, name: string, callbac
     data + "\r\n" +
     closeDelim;
   gapi.client.request({
-    path: "https://www.googleapis.com/upload/drive/v3/files",
-    method: "POST",
+    path: "https://www.googleapis.com/upload/drive/v3/files" + (id ? `/${id}`: ""),
+    method: id ? "PATCH" : "POST",
     params: { uploadType: "multipart", fields: "*" },
     headers: {
       "Content-Type": "multipart/related; boundary=" + boundary
@@ -184,13 +199,15 @@ export const uploadFile = (data: string, mimeType: string, name: string, callbac
     if (callback) {
       callback(resp.id);
     }
-    const existingFiles = state.files.filter(_ => _.name === name);
-    if (existingFiles.length) {
-      existingFiles.forEach(existingFile => {
-        gapi.client.drive.files.delete({
-          fileId: existingFile.id!
-        }).execute(() => null);
-      });
+    if (!id) {
+      const existingFiles = state.files.filter(_ => _.name === name);
+      if (existingFiles.length) {
+        existingFiles.forEach(existingFile => {
+          gapi.client.drive.files.delete({
+            fileId: existingFile.id!
+          }).execute(() => null);
+        });
+      }
     }
     state.files = state.files.filter(_ => _.name !== name).concat(resp);
   });

@@ -105,7 +105,7 @@ export const saveUploadedFile = () => {
       router.push({ name: "Explore" });
     }
     const data = arrayToCSV(state.uploadedFile.data.map(_ => _.data));
-    uploadFile(data, "text/csv", state.uploadedFile.fileName, (fileId) => {
+    uploadFile(data, "text/csv", state.uploadedFile.fileName, undefined, (fileId) => {
       router.replace({ name: "Explore", params: { fileId } });
     });
     updateConfigFile();
@@ -145,14 +145,15 @@ const updateConfigFile = () => {
         geojsonFile: files.geojsonFile ? files.geojsonFile.id : null
       }
     });
-    uploadFile(config, "application/json", `${state.uploadedFile!.fileName}.json`);
+    uploadFile(config, "application/json", `${state.uploadedFile!.fileName}.json`, files.configFile ? files.configFile.id : undefined);
   }
 }
 
 const updateGeojsonFile = () => {
   if (state.uploadedFile && state.uploadedFile.fileName.endsWith(".csv")) {
     const config = JSON.stringify(state.layers.filter(_ => _.data !== null));
-    uploadFile(config, "application/json", `${state.uploadedFile!.fileName}.geojson.json`);
+    const existingConfigFile = driveState.files.find(_ => _.name === `${state.uploadedFile!.fileName}.geojson.json`);
+    uploadFile(config, "application/json", `${state.uploadedFile!.fileName}.geojson.json`, existingConfigFile ? existingConfigFile.id : undefined);
   }
 }
 
