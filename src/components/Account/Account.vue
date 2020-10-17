@@ -13,6 +13,9 @@
           <div class="text-subtitle-1">
             {{ email }}
           </div>
+          <div class="text-subtitle-2">
+            {{ numberFiles }} / {{ availableFiles }} files
+          </div>
         </div>
         <v-divider class="margin-top-large margin-bottom-large" />
         <h4 class="text-h4 align-center margin-bottom-large">
@@ -26,6 +29,7 @@
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
 import Tiers from "@/components/Pricing/Tiers/Tiers.vue";
+import state from "@/store/driveStore";
 
 /**
  * Account page with billing
@@ -41,6 +45,14 @@ export default class Account extends Vue {
    */
   @Prop()
   private user!: gapi.auth2.GoogleUser | null;
+
+  private get numberFiles() {
+    return state.files.length.toLocaleString();
+  }
+
+  private get availableFiles() {
+    return state.tier === 0 ? process.env.VUE_APP_STRIPE_MAX_UPLOADS : "Unlimited"
+  }
 
   private get name() {
     if (this.user) {
