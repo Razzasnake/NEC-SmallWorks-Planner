@@ -11,7 +11,7 @@
           large
           :absolute="$vuetify.breakpoint.xs"
           :bottom="$vuetify.breakpoint.xs"
-          :right="$vuetify.breakpoint.xs"
+          :left="$vuetify.breakpoint.xs"
           rounded
           :color="color"
           v-on="on"
