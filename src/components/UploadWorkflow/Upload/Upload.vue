@@ -15,6 +15,7 @@
           rounded
           :color="color"
           v-on="on"
+          style="z-index: 1"
         >
           <v-icon class="margin-right-small">
             {{ mdiPlus }}
