@@ -47,7 +47,7 @@ export default class Account extends Vue {
   private user!: gapi.auth2.GoogleUser | null;
 
   private get numberFiles() {
-    return state.files.length.toLocaleString();
+    return state.files.filter(r => r.name!.endsWith(".csv")).length.toLocaleString();
   }
 
   private get availableFiles() {
