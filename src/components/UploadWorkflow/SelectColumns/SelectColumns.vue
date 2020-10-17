@@ -151,17 +151,16 @@ export default class SelectColumns extends Vue {
           data.push({
             index,
             value: `${
-              this.value[0][index] + (this.value[1] && this.value[1][index]
+              this.value[0][index] +
+              (this.value[1] && this.value[1][index]
                 ? ` (e.g. ${this.value[1][index]})`
-                : ""
-              )}`,
+                : "")
+            }`,
           });
         } else {
           data.push({
             index,
-            value: `Column ${index.toString()} (e.g. ${
-              this.value[0][index]
-            })`,
+            value: `Column ${index.toString()} (e.g. ${this.value[0][index]})`,
           });
         }
       }
@@ -169,9 +168,7 @@ export default class SelectColumns extends Vue {
       for (let index = 0; index < this.value[0].length; index++) {
         data.push({
           index,
-          value: `Column ${index.toString()} (e.g. ${
-            this.value[0][index]
-          })`,
+          value: `Column ${index.toString()} (e.g. ${this.value[0][index]})`,
         });
       }
     }
@@ -205,6 +202,16 @@ export default class SelectColumns extends Vue {
         col.search = this.allOptions[col.selection].value;
       }
     });
+    if (
+      this.columnSelections.lat === null &&
+      this.columnSelections.lng === null
+    ) {
+      this.showAddressFields =
+        this.columnSelections.address !== null ||
+        this.columnSelections.city !== null ||
+        this.columnSelections.state !== null ||
+        this.columnSelections !== null;
+    }
   }
 
   private inputFnc(text: string | undefined, key: string) {
