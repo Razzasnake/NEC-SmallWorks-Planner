@@ -11,8 +11,7 @@
         :files="files"
         :table-loading="tableLoading"
         @row-clicked="rowClicked"
-        @share="share"
-        @get-link="getLink"
+        @update-shared="updateShared"
         @rename="rename"
         @remove="remove"
       />
@@ -74,30 +73,17 @@ export default class Uploads extends Vue {
     this.$emit("row-clicked", files);
   }
 
-  private share(files: {
+  private updateShared(files: {
     file: gapi.client.drive.File;
     configFile: gapi.client.drive.File;
     geojsonFile: gapi.client.drive.File | undefined;
   }) {
     /**
-     * Notify parent to share this file
+     * Notify parent to update the shared settings
      *
      * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
      */
-    this.$emit("share", files);
-  }
-
-  private getLink(files: {
-    file: gapi.client.drive.File;
-    configFile: gapi.client.drive.File;
-    geojsonFile: gapi.client.drive.File | undefined;
-  }) {
-    /**
-     * Notify parent to get the link of this file
-     *
-     * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
-     */
-    this.$emit("get-link", files);
+    this.$emit("update-shared", files);
   }
 
   private rename(files: {

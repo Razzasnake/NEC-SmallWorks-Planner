@@ -168,6 +168,31 @@ export const refreshFiles = (callback?: () => void | undefined) => {
   });
 };
 
+export const updateShared = (files: gapi.client.drive.File[], shared: boolean) => {
+  files.forEach(file => {
+    if (shared) {
+      return gapi.client.drive.permissions.create({
+        resource: {
+          type: "anyone",
+          role: "reader"
+        },
+        fileId: file.id!
+      }).execute(() => null);
+    } else {
+      return gapi.client.drive.permissions.delete({
+        permissionId: "anyoneWithLink",
+        fileId: file.id!
+      }).execute(() => null);
+    }
+  });
+  files.forEach(f => {
+    const file = state.files.find(_ => _.id === f.id);
+    if (file) {
+      file.shared = shared;
+    }
+  });
+}
+
 export const downloadFile = (fileId: string) => {
   return gapi.client.drive.files
     .get({ fileId, alt: "media" })

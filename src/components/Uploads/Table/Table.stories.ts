@@ -15,8 +15,7 @@ const _Table = () => ({
       :files="filesProp"
       :tableLoading="tableLoading"
       @row-clicked="rowClicked"
-      @share="share"
-      @get-link="getLink"
+      @update-shared="updateShared"
       @rename="rename"
       @remove="remove"
     ></Table>`,
@@ -36,8 +35,7 @@ const _Table = () => ({
   },
   methods: {
     rowClicked: action('rowClicked'),
-    share: action('share'),
-    getLink: action('getLink'),
+    updateShared: action('updateShared'),
     rename: action('rename'),
     remove: action('remove')
   }
