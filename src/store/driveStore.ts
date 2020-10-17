@@ -59,7 +59,7 @@ export const signIn = (id: string) => {
       refreshFiles(() => {
         if (exploreState.uploadedFile && exploreState.uploadedFile.toUpload) {
           saveUploadedFile();
-        } else {
+        } else if (exploreState.uploadedFile === null) {
           directLinkDownloadData();
         }
       });
