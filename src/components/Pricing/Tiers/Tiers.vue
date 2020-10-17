@@ -53,6 +53,7 @@ export default class Tiers extends Vue {
           "GeoJSON and Shapefile Support",
           "Street View Integration",
           "Export",
+          "Shareable Links"
         ],
         action: {
           title: state.tier === 0 ? "Current Plan" : "Get Started",
