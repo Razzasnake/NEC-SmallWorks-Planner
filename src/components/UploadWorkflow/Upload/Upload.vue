@@ -14,8 +14,8 @@
           :left="$vuetify.breakpoint.xs"
           rounded
           :color="color"
-          v-on="on"
           style="z-index: 1"
+          v-on="on"
         >
           <v-icon class="margin-right-small">
             {{ mdiPlus }}
