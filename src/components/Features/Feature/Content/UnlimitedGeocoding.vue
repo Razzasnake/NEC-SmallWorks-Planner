@@ -48,10 +48,10 @@
       <p />
       <p>
         In the event that you want to revisit this data in the future, we
-        recommend you export it with the latitude and longitude columns so you
-        can skip the geocoding process next time. To export, click the Export
-        option in the left menu and the contents of the table will be downloaded
-        as a CSV.
+        recommend you sign in with Google or export the data with the latitude
+        and longitude columns so you can skip the geocoding process next time.
+        To export, click the Export option in the left menu and the contents of
+        the table will be downloaded as a CSV.
       </p>
     </div>
   </div>
