@@ -60,48 +60,51 @@ export const downloadUserUpload = async (files: {
   configFile: gapi.client.drive.File | undefined;
   geojsonFile: gapi.client.drive.File | undefined;
 }, toSaveChanges: boolean) => {
-  if (files.file.id && files.configFile && files.configFile.id) {
-    const worker = new ParserWorker();
-    worker.postMessage({
-      file: await downloadFile(files.file.id),
-      type: "buffer",
-    });
-    worker.onmessage = async (event) => {
-      const config: Config = JSON.parse(
-        await downloadFile(files.configFile!.id!)
-      ) as any;
-      const uploadedFile = new UploadedFile({
-        toUpload: false,
-        toSaveChanges,
-        fileName: files.file.name!,
-        data: event.data.data,
-        columnSelections: config.columnSelections,
-        firstRowHeader: config.firstRowHeader,
+  return new Promise(async (resolve) => {
+    if (files.file.id && files.configFile && files.configFile.id) {
+      const worker = new ParserWorker();
+      worker.postMessage({
+        file: await downloadFile(files.file.id),
+        type: "buffer",
       });
-      updateUploadedFile(uploadedFile);
-      if (config.filters) {
-        state.filters = config.filters;
-      }
-      if (config.sorting) {
-        state.sorting = config.sorting;
-      }
-      if (config.viewOptions) {
-        state.viewOptions = config.viewOptions;
-      }
-      if (config.overlayEventJsons) {
-        state.overlayEventJsons = config.overlayEventJsons;
-      }
-      if (files.geojsonFile && files.geojsonFile.id) {
-        downloadFile(files.geojsonFile.id).then((layers) => {
-          state.layers = JSON.parse(layers);
-          state.layers.forEach(layer => {
-            processUploadedLayer(layer);
-          });
+      worker.onmessage = async (event) => {
+        const config: Config = JSON.parse(
+          await downloadFile(files.configFile!.id!)
+        ) as any;
+        const uploadedFile = new UploadedFile({
+          toUpload: false,
+          toSaveChanges,
+          fileName: files.file.name!,
+          data: event.data.data,
+          columnSelections: config.columnSelections,
+          firstRowHeader: config.firstRowHeader,
         });
-      }
-      worker.terminate();
-    };
-  }
+        updateUploadedFile(uploadedFile);
+        if (config.filters) {
+          state.filters = config.filters;
+        }
+        if (config.sorting) {
+          state.sorting = config.sorting;
+        }
+        if (config.viewOptions) {
+          state.viewOptions = config.viewOptions;
+        }
+        if (config.overlayEventJsons) {
+          state.overlayEventJsons = config.overlayEventJsons;
+        }
+        if (files.geojsonFile && files.geojsonFile.id) {
+          await downloadFile(files.geojsonFile.id).then((layers) => {
+            state.layers = JSON.parse(layers);
+            state.layers.forEach(layer => {
+              processUploadedLayer(layer);
+            });
+          });
+        }
+        worker.terminate();
+        resolve();
+      };
+    }
+  });
 }
 
 export const saveUploadedFile = () => {

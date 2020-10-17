@@ -91,6 +91,8 @@ const directLinkDownloadData = () => {
       const exampleDataset = examples.find(e => e.title.toLowerCase().replaceAll(" ", "-") === fileId);
       if (!exampleDataset) {
         gapi.load("client", () => {
+          const token = gapi.client.getToken();
+          gapi.client.setToken(null);
           gapi.client.setApiKey(process.env.VUE_APP_LOGGED_OUT_USER_API_KEY);
           gapi.client.load("drive", "v3", async () => {
             downloadFile(fileId).then(resp => {
@@ -109,7 +111,9 @@ const directLinkDownloadData = () => {
                   geojsonFile: {
                     id: body.ids.geojsonFile
                   }
-                }, false);
+                }, false).then(() => {
+                  gapi.client.setToken(token);
+                });
               });
             }).catch(() => {
               router.push({ name: "404" });
