@@ -52,7 +52,7 @@ export default class GoogleDriveIntegration extends Vue {
     "Upload your files",
     "Apply filters, draw shapes and upload shapefiles",
     "Everything is saved to your Google Drive",
-    "Share with co-workers or revist at a later time",
+    "Share with co-workers and revisit at a later time",
   ];
 }
 </script>
