@@ -53,7 +53,7 @@ export default class Uploads extends _View {
     configFile: gapi.client.drive.File;
     geojsonFile: gapi.client.drive.File | undefined;
   }) {
-    downloadUserUpload(files);
+    downloadUserUpload(files, true);
   }
 
   private updateShared(files: {

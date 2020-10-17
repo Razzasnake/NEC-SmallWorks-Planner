@@ -176,6 +176,7 @@ export default class UploadWorkflow extends Vue {
     } else {
       const uploadedFile = new UploadedFile({
         toUpload: true,
+        toSaveChanges: true,
         fileName: this.uploadedFile!.fileName,
         data: this.uploadedFile!.data,
         columnSelections: {

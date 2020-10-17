@@ -86,7 +86,7 @@ const directLinkDownloadData = () => {
       const geojsonFile = state.files.find(
         (_) => _.name === `${file.name}.geojson.json`
       )!;
-      downloadUserUpload({ file, configFile, geojsonFile });
+      downloadUserUpload({ file, configFile, geojsonFile }, true);
     } else {
       const exampleDataset = examples.find(e => e.title.toLowerCase().replaceAll(" ", "-") === fileId);
       if (!exampleDataset) {
@@ -109,7 +109,7 @@ const directLinkDownloadData = () => {
                   geojsonFile: {
                     id: body.ids.geojsonFile
                   }
-                });
+                }, false);
               });
             }).catch(() => {
               router.push({ name: "404" });

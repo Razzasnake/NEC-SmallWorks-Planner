@@ -59,7 +59,7 @@ export const downloadUserUpload = async (files: {
   file: gapi.client.drive.File;
   configFile: gapi.client.drive.File | undefined;
   geojsonFile: gapi.client.drive.File | undefined;
-}) => {
+}, toSaveChanges: boolean) => {
   if (files.file.id && files.configFile && files.configFile.id) {
     const worker = new ParserWorker();
     worker.postMessage({
@@ -72,6 +72,7 @@ export const downloadUserUpload = async (files: {
       ) as any;
       const uploadedFile = new UploadedFile({
         toUpload: false,
+        toSaveChanges,
         fileName: files.file.name!,
         data: event.data.data,
         columnSelections: config.columnSelections,
@@ -132,7 +133,7 @@ export const saveUploadedFile = () => {
 }
 
 const updateConfigFile = (callback?: (file: gapi.client.drive.File) => void | undefined) => {
-  if (state.uploadedFile && state.uploadedFile.fileName.endsWith(".csv")) {
+  if (state.uploadedFile && state.uploadedFile.toSaveChanges) {
     const files = {
       file: driveState.files.find(_ => _.name === state.uploadedFile!.fileName),
       configFile: driveState.files.find(_ => _.name === `${state.uploadedFile!.fileName}.json`),
@@ -156,7 +157,7 @@ const updateConfigFile = (callback?: (file: gapi.client.drive.File) => void | un
 }
 
 const updateGeojsonFile = (callback?: (file: gapi.client.drive.File) => void | undefined) => {
-  if (state.uploadedFile && state.uploadedFile.fileName.endsWith(".csv")) {
+  if (state.uploadedFile && state.uploadedFile.toSaveChanges) {
     const config = JSON.stringify(state.layers.filter(_ => _.data !== null));
     const existingConfigFile = driveState.files.find(_ => _.name === `${state.uploadedFile!.fileName}.geojson.json`);
     uploadFile(config, "application/json", `${state.uploadedFile!.fileName}.geojson.json`, existingConfigFile ? existingConfigFile.id : undefined, callback);
