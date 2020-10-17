@@ -131,7 +131,7 @@ export default class SelectColumns extends Vue {
   private set firstRowHeaderAux(newVal: boolean) {
     /**
      * Update first row header value
-     * 
+     *
      * @type {boolean}
      */
     this.$emit("update-first-row-header", newVal);
@@ -150,12 +150,16 @@ export default class SelectColumns extends Vue {
         if (this.value[0][index]) {
           data.push({
             index,
-            value: this.value[0][index].toString(),
+            value: `${
+              this.value[0][index] + (this.value[1] && this.value[1][index]
+                ? ` (e.g. ${this.value[1][index]})`
+                : ""
+              )}`,
           });
         } else {
           data.push({
             index,
-            value: `Column ${index.toString()} (Example: ${
+            value: `Column ${index.toString()} (e.g. ${
               this.value[0][index]
             })`,
           });
@@ -165,7 +169,7 @@ export default class SelectColumns extends Vue {
       for (let index = 0; index < this.value[0].length; index++) {
         data.push({
           index,
-          value: `Column ${index.toString()} (Example: ${
+          value: `Column ${index.toString()} (e.g. ${
             this.value[0][index]
           })`,
         });
@@ -237,7 +241,7 @@ export default class SelectColumns extends Vue {
     this.$emit("update-selections", toReturn);
     /**
      * Notify parent is the selections needed are done
-     * 
+     *
      * @type {boolean}
      */
     this.$emit("update-is-complete", this.isComplete);
