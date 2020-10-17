@@ -13,6 +13,7 @@ export default {
         worker.onmessage = event => {
           resolve(new UploadedFile({
             toUpload: false,
+            toSaveChanges: false,
             fileName: teaser.title,
             data: event.data.data,
             columnSelections: { lat: teaser.lat, lng: teaser.lng },

@@ -5,8 +5,7 @@
       :files="files"
       :table-loading="tableLoading"
       @row-clicked="rowClicked"
-      @share="share"
-      @get-link="getLink"
+      @update-shared="updateShared"
       @rename="rename"
       @remove="remove"
       @finish="finish"
@@ -16,7 +15,7 @@
 </template>
 <script lang='ts'>
 import { Component } from "vue-property-decorator";
-import state, { moveToTrashFile, renameFile } from "@/store/driveStore";
+import state, { moveToTrashFile, renameFile, updateShared } from "@/store/driveStore";
 import UploadsComponent from "@/components/Uploads/Uploads.vue";
 import UploadedFile from "@/entities/UploadedFile";
 import { updateUploadedFile, downloadUserUpload } from "@/store/exploreStore";
@@ -54,23 +53,19 @@ export default class Uploads extends _View {
     configFile: gapi.client.drive.File;
     geojsonFile: gapi.client.drive.File | undefined;
   }) {
-    downloadUserUpload(files);
+    downloadUserUpload(files, true);
   }
 
-  private share(files: {
+  private updateShared(files: {
     file: gapi.client.drive.File;
     configFile: gapi.client.drive.File;
     geojsonFile: gapi.client.drive.File | undefined;
   }) {
-    // TODO
-  }
-
-  private getLink(files: {
-    file: gapi.client.drive.File;
-    configFile: gapi.client.drive.File;
-    geojsonFile: gapi.client.drive.File | undefined;
-  }) {
-    // TODO
+    const filteredFiles = Object.values(files).filter(_ => _) as gapi.client.drive.File[];
+    if (filteredFiles.length) {
+      const currentShared = filteredFiles[0].shared!;
+      updateShared(filteredFiles, !currentShared);
+    }
   }
 
   private rename(payload: {

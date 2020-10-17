@@ -26,8 +26,32 @@
       @dblclick:row="rowClicked"
       @contextmenu:row="openContextMenu"
       @click:row="activateRow"
-    />
+    >
+      <!-- eslint-disable vue/valid-v-slot -->
+      <template #item.name="{ item }">
+        <div>
+          <v-tooltip
+            v-if="item.isPublic"
+            bottom
+          >
+            <template #activator="{ on, attrs }">
+              <v-icon
+                v-bind="attrs"
+                class="margin-right-small"
+                v-on="on"
+              >
+                {{ mdiEarth }}
+              </v-icon>
+            </template>
+            <span>Public</span>
+          </v-tooltip>
+          {{ item.name }}
+        </div>
+      </template>
+      <!--eslint-enable-->
+    </v-data-table>
     <v-menu
+      v-if="showMenu"
       v-model="showMenu"
       :position-x="x"
       :position-y="y"
@@ -42,18 +66,30 @@
           <v-list-item-title>Open</v-list-item-title>
         </v-list-item>
         <v-divider />
-        <!-- <v-list-item @click="share">
+        <v-list-item @click="updateShared">
           <v-list-item-icon>
-            <v-icon>{{ mdiAccountPlusOutline }}</v-icon>
+            <v-icon>
+              {{
+                contextMenuItem.isPublic ? mdiAccount : mdiEarth
+              }}
+            </v-icon>
           </v-list-item-icon>
-          <v-list-item-title>Share</v-list-item-title>
+          <v-list-item-title>
+            Make
+            {{
+              contextMenuItem.isPublic ? "Private" : "Public"
+            }}
+          </v-list-item-title>
         </v-list-item>
-        <v-list-item @click="getLink">
+        <v-list-item
+          :disabled="!contextMenuItem.isPublic"
+          @click="copyLink"
+        >
           <v-list-item-icon>
             <v-icon>{{ mdiLink }}</v-icon>
           </v-list-item-icon>
-          <v-list-item-title>Get link</v-list-item-title>
-        </v-list-item> -->
+          <v-list-item-title>Copy link</v-list-item-title>
+        </v-list-item>
         <v-list-item @click="rename">
           <v-list-item-icon>
             <v-icon>{{ mdiFileEditOutline }}</v-icon>
@@ -80,11 +116,20 @@
       bottom
       color="error"
     >
-      <div>
-        Configuration file cannot be found in <a
+      <div class="align-center">
+        Configuration file cannot be found in
+        <a
           :href="driveFolderUrl"
           target="_blank"
         >Google Drive</a>
+      </div>
+    </v-snackbar>
+    <v-snackbar
+      v-model="copyLinkDisplay"
+      bottom
+    >
+      <div class="align-center">
+        Public link copied to clipboard
       </div>
     </v-snackbar>
   </v-card>
@@ -95,11 +140,12 @@ import { mdiMagnify } from "@mdi/js";
 import Loading from "@/components/Shared/Loading/Loading.vue";
 import {
   mdiEye,
-  mdiAccountPlusOutline,
+  mdiEarth,
   mdiLink,
   mdiDownloadOutline,
   mdiDeleteOutline,
   mdiFileEditOutline,
+  mdiAccount,
 } from "@mdi/js";
 import state from "@/store/driveStore";
 
@@ -139,15 +185,17 @@ export default class Table extends Vue {
   private x: number = 0;
   private y: number = 0;
   private mdiEye = mdiEye;
-  private mdiAccountPlusOutline = mdiAccountPlusOutline;
+  private mdiEarth = mdiEarth;
+  private mdiAccount = mdiAccount;
   private mdiLink = mdiLink;
   private mdiDownloadOutline = mdiDownloadOutline;
   private mdiDeleteOutline = mdiDeleteOutline;
   private mdiFileEditOutline = mdiFileEditOutline;
   private configMissingSnackbar = false;
+  private copyLinkDisplay = false;
 
   private get driveFolderUrl() {
-    return `https://drive.google.com/drive/folders/${state.folderId}`
+    return `https://drive.google.com/drive/folders/${state.folderId}`;
   }
 
   private get vuetifyTableLoading() {
@@ -184,14 +232,30 @@ export default class Table extends Vue {
           owner: this.formatOwner(file),
           lastModified: this.formatLastModified(file),
           fileSize: this.formatFileSize(file),
+          isPublic: this.isPublic(file),
         };
       });
   }
 
+  private isPublic(file: gapi.client.drive.File): boolean {
+    const collectedFiles = this.collectFiles({ id: file.id! } as TableRow);
+    if (
+      collectedFiles.file &&
+      collectedFiles.file.shared &&
+      collectedFiles.configFile &&
+      collectedFiles.configFile.shared
+    ) {
+      if (collectedFiles.geojsonFile) {
+        return collectedFiles.geojsonFile.shared!;
+      }
+      return true;
+    }
+    return false;
+  }
+
   private formatName(file: gapi.client.drive.File) {
     if (file.name) {
-      const fileNameArr = file.name.split(".");
-      return fileNameArr.slice(0, fileNameArr.length - 2).join(".") + ".csv";
+      return file.name.split(".").slice(0, -2).join(".") + ".csv";
     }
     return "";
   }
@@ -298,25 +362,30 @@ export default class Table extends Vue {
     }
   }
 
-  private share() {
+  private updateShared() {
     if (this.contextMenuItem) {
       /**
-       * Notify parent to share this file
+       * Notify parent to update the shared settings
        *
        * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
        */
-      this.$emit("share", this.collectFiles(this.contextMenuItem));
+      this.$emit("update-shared", this.collectFiles(this.contextMenuItem));
     }
   }
 
-  private getLink() {
+  private copyLink() {
     if (this.contextMenuItem) {
-      /**
-       * Notify parent to get the link of this file
-       *
-       * @type {{ file: gapi.client.drive.File, configFile: gapi.client.drive.File, geojsonFile: gapi.client.drive.File | undefined }}
-       */
-      this.$emit("get-link", this.collectFiles(this.contextMenuItem));
+      const files = this.collectFiles(this.contextMenuItem);
+      if (files.configFile) {
+        const url = `${process.env.VUE_APP_BASE_URL}/explore/${files.configFile.id}`;
+        const input = document.createElement("input");
+        input.setAttribute("value", url);
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand("copy");
+        document.body.removeChild(input);
+        this.copyLinkDisplay = true;
+      }
     }
   }
 

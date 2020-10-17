@@ -29,6 +29,7 @@ const uploadedFileGenerator = (numRows: number = 1000) => {
   }
   return new UploadedFile({
     toUpload: false,
+    toSaveChanges: false,
     fileName: "Test",
     data,
     columnSelections: {
