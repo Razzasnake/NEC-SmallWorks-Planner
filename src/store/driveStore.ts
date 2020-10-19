@@ -75,7 +75,7 @@ export const signIn = (id: string) => {
   });
 };
 
-const directLinkDownloadData = () => {
+export const directLinkDownloadData = () => {
   const fileId = router.currentRoute.params.fileId;
   if (fileId) {
     const configFile = state.files.find((_) => _.id === fileId);

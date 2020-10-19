@@ -96,7 +96,9 @@ export default class Table extends Vue {
 
   @Watch("viewOptions")
   private viewOptionsUpdated() {
-    this.updatePinnedFooter();
+    if (this.gridApi) {
+      this.updatePinnedFooter();
+    }
   }
 
   @Watch("clickedMarker")

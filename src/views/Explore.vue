@@ -67,7 +67,7 @@ import Loading from "@/components/Shared/Loading/Loading.vue";
 import _View from "./_View";
 import GoogleMapUtils from "@/components/TableAndMap/GoogleMap/Logic/Utils";
 import { Route, NavigationGuardNext } from "vue-router";
-import driveState from "@/store/driveStore";
+import driveState, { directLinkDownloadData } from "@/store/driveStore";
 import { examples } from "@/entities/data";
 import exampleApi from "@/api/example";
 
@@ -146,6 +146,8 @@ export default class Explore extends _View {
       this.$router.push({ name: "Home" });
     } else if (state.uploadedFile) {
       this.uploadedFileNameChanged();
+    } else if (this.fileId) {
+      directLinkDownloadData();
     }
   }
 
