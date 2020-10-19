@@ -11,17 +11,11 @@
             <v-list-item-title class="title">
               <v-tooltip bottom>
                 <template #activator="{ on, attrs }">
-                  <span
+                  <DoubleClickEditText
+                    v-model="fileName"
                     v-bind="attrs"
                     v-on="on"
-                  >
-                    <a
-                      v-if="fileWebViewLink"
-                      :href="fileWebViewLink"
-                      target="_blank"
-                    >{{ fileName }}</a>
-                    <span v-else>{{ fileName }}</span>
-                  </span>
+                  />
                 </template>
                 <span>{{ fileName }}</span>
               </v-tooltip>
@@ -112,8 +106,9 @@ import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import NavigationDrawer from "./NavigationDrawer.vue";
 import Login from "./Login/Login.vue";
 import state from "@/store/exploreStore";
-import driveState from "@/store/driveStore";
-import { mdiMenuDown } from "@mdi/js";
+import driveState, { renameFile } from "@/store/driveStore";
+import { mdiMenuDown, mdiLink } from "@mdi/js";
+import DoubleClickEditText from "@/components/Shared/DoubleClickEditText/DoubleClickEditText.vue";
 
 /**
  * Navigation Bar at the top of the website to navigate between sections
@@ -122,6 +117,7 @@ import { mdiMenuDown } from "@mdi/js";
   components: {
     Login,
     NavigationDrawer,
+    DoubleClickEditText,
   },
 })
 export default class NavBar extends Vue {
@@ -132,6 +128,7 @@ export default class NavBar extends Vue {
   private drawerAllowed!: boolean;
   private drawer: boolean | null = null;
   private mdiMenuDown = mdiMenuDown;
+  private mdiLink = mdiLink;
 
   private get loggedIn() {
     return driveState.user !== null;
@@ -140,13 +137,38 @@ export default class NavBar extends Vue {
   private get fileName() {
     if (state.uploadedFile) {
       if (state.uploadedFile.fileName.indexOf(".") > -1) {
-        return (
-          state.uploadedFile.fileName.split(".").slice(0, -2).join(".") + ".csv"
-        );
+        return state.uploadedFile.fileName.split(".").slice(0, -2).join(".");
       }
       return state.uploadedFile.fileName;
     }
     return "";
+  }
+
+  private set fileName(newValue: string) {
+    const rename = state.uploadedFile!.fileName.replace(
+      this.fileName,
+      newValue
+    );
+    const file = driveState.files.find(
+      (file) => file.name === state.uploadedFile!.fileName
+    )!;
+    const configFile = driveState.files.find(
+      (_) => _.name === `${file.name}.json`
+    )!;
+    const geojsonFile = driveState.files.find(
+      (_) => _.name === `${file.name}.geojson.json`
+    );
+    const configFileName = configFile.name!.replace(file.name!, rename);
+    renameFile(configFile.id!, configFileName);
+    if (geojsonFile) {
+      const geojsonFileName = geojsonFile.name!.replace(file.name!, rename);
+      renameFile(geojsonFile.id!, geojsonFileName);
+    }
+    const fileName = file.name!.replace(file.name!, rename);
+    renameFile(file.id!, fileName);
+    if (state.uploadedFile) {
+      state.uploadedFile.fileName = newValue;
+    }
   }
 
   private get fileWebViewLink() {

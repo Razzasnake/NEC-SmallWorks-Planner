@@ -112,8 +112,15 @@ export default class Explore extends _View {
     return state.tableLogic;
   }
 
-  @Watch("uploadedFile")
-  private uploadedFileChanged() {
+  private get uploadedFileName() {
+    if (state.uploadedFile) {
+      return state.uploadedFile.fileName;
+    }
+    return "";
+  }
+
+  @Watch("uploadedFileName")
+  private uploadedFileNameChanged() {
     if (state.uploadedFile) {
       super.activated({
         title: `${
@@ -138,7 +145,7 @@ export default class Explore extends _View {
     if (this.fileId === null && state.uploadedFile === null) {
       this.$router.push({ name: "Home" });
     } else if (state.uploadedFile) {
-      this.uploadedFileChanged();
+      this.uploadedFileNameChanged();
     }
   }
 

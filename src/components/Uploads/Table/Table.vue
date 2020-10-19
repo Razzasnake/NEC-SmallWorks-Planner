@@ -255,7 +255,7 @@ export default class Table extends Vue {
 
   private formatName(file: gapi.client.drive.File) {
     if (file.name) {
-      return file.name.split(".").slice(0, -2).join(".") + ".csv";
+      return file.name.split(".").slice(0, -2).join(".");
     }
     return "";
   }
