@@ -137,7 +137,7 @@ export default class GoogleMapLogic {
           marker.setVisible(newValue);
         }
         if (newValue && this.groupByKey) {
-          visibleCategories.add((marker as unknown as { row: Row }).row[this.groupByKey]);
+          visibleCategories.add((marker as unknown as { row: Row }).row[this.groupByKey].toString());
         }
       });
       this.visibleCategories = visibleCategories;
