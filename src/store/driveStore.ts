@@ -128,6 +128,10 @@ const directLinkDownloadData = () => {
 export const signOut = () => {
   const auth2 = gapi.auth2.getAuthInstance();
   auth2.signOut().then(() => {
+    if (exploreState.uploadedFile) {
+      exploreState.uploadedFile.toUpload = false;
+      exploreState.uploadedFile.toSaveChanges = false;
+    }
     state.user = null;
     state.loggedIn = false;
     state.files = [];

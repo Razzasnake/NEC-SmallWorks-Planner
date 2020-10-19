@@ -9,7 +9,10 @@
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title class="title">
-              <v-tooltip bottom>
+              <v-tooltip
+                v-if="savesAllowed"
+                bottom
+              >
                 <template #activator="{ on, attrs }">
                   <DoubleClickEditText
                     v-model="fileName"
@@ -19,6 +22,9 @@
                 </template>
                 <span>{{ fileName }}</span>
               </v-tooltip>
+              <div v-else>
+                {{ fileName }}
+              </div>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -132,6 +138,13 @@ export default class NavBar extends Vue {
 
   private get loggedIn() {
     return driveState.user !== null;
+  }
+
+  private get savesAllowed() {
+    if (state.uploadedFile) {
+      return state.uploadedFile.toSaveChanges;
+    }
+    return false;
   }
 
   private get fileName() {
