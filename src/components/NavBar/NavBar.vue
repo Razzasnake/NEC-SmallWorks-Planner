@@ -180,7 +180,7 @@ export default class NavBar extends Vue {
     const fileName = file.name!.replace(file.name!, rename);
     renameFile(file.id!, fileName);
     if (state.uploadedFile) {
-      state.uploadedFile.fileName = newValue;
+      state.uploadedFile.fileName = fileName;
     }
   }
 
