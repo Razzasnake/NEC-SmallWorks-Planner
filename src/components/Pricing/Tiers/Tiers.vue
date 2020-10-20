@@ -76,8 +76,7 @@ export default class Tiers extends Vue {
         price: "$9.99 / month",
         options: [
           "Starter Plan",
-          "Unlimited Uploads",
-          "Guaranteed Access to Future Features",
+          "Unlimited Uploads"
         ],
         action: {
           title: state.user
