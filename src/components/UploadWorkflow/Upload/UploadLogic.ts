@@ -57,7 +57,9 @@ export default class UploadLogic {
                 fnc(file);
               });
             } else {
-              fnc(dt.files[0]);
+              if (dt.files.length) {
+                fnc(dt.files[0]);
+              }
             }
           }
         },
