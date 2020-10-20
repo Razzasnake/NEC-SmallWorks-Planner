@@ -137,7 +137,10 @@ export default class GoogleMapLogic {
           marker.setVisible(newValue);
         }
         if (newValue && this.groupByKey) {
-          visibleCategories.add((marker as unknown as { row: Row }).row[this.groupByKey].toString());
+          const category = (marker as unknown as { row: Row }).row[this.groupByKey];
+          if (category) {
+            visibleCategories.add(category.toString());
+          }
         }
       });
       this.visibleCategories = visibleCategories;
