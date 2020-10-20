@@ -28,7 +28,7 @@
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <NavigationDrawer />
+        <NavigationDrawer @update-shared="updateShared" />
       </v-navigation-drawer>
     </div>
     <v-app-bar
@@ -112,7 +112,7 @@ import { Component, Vue, Prop, Watch } from "vue-property-decorator";
 import NavigationDrawer from "./NavigationDrawer.vue";
 import Login from "./Login/Login.vue";
 import state from "@/store/exploreStore";
-import driveState, { renameFile } from "@/store/driveStore";
+import driveState, { renameFile, updateShared } from "@/store/driveStore";
 import { mdiMenuDown, mdiLink } from "@mdi/js";
 import DoubleClickEditText from "@/components/Shared/DoubleClickEditText/DoubleClickEditText.vue";
 
@@ -205,6 +205,23 @@ export default class NavBar extends Vue {
 
   private toggleDrawer() {
     this.drawer = !this.drawer;
+  }
+
+  private updateShared() {
+    const files = [
+      driveState.files.find((_) => _.name === state.uploadedFile!.fileName),
+      driveState.files.find(
+        (_) => _.name === `${state.uploadedFile!.fileName}.json`
+      ),
+      driveState.files.find(
+        (_) => _.name === `${state.uploadedFile!.fileName}.geojson.json`
+      ),
+    ];
+    const filteredFiles = files.filter((_) => _) as gapi.client.drive.File[];
+    if (filteredFiles.length) {
+      const currentShared = filteredFiles[0].shared!;
+      updateShared(filteredFiles, !currentShared);
+    }
   }
 }
 </script>

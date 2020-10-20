@@ -77,7 +77,7 @@
           <v-list-item-title>
             Make
             {{
-              contextMenuItem.isPublic ? "Private" : "Public"
+              contextMenuItem.isPublic ? "private" : "public"
             }}
           </v-list-item-title>
         </v-list-item>

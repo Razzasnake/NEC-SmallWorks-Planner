@@ -30,11 +30,47 @@
           @click="updateViewOptions(dropdown1)"
         >
           <v-list-item-content>
-            <v-list-item-title>{{ keyVisible(dropdown1.key) ? `${activeText}${dropdown1.label}` :`${inactiveText}${dropdown1.label}` }}</v-list-item-title>
+            <v-list-item-title>{{
+              keyVisible(dropdown1.key)
+                ? `${activeText}${dropdown1.label}`
+                : `${inactiveText}${dropdown1.label}`
+            }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </span>
     </v-list-group>
+    <v-list-group :prepend-icon="mdiSecurity">
+      <template #activator>
+        <v-list-item-title>Permissions</v-list-item-title>
+      </template>
+      <v-list-item
+        link
+        @click="updateShared"
+      >
+        <v-list-item-content>
+          <v-list-item-title>
+            Make
+            {{ isPublic ? "private" : "public" }}
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item
+        link
+        :disabled="!isPublic"
+        @click="copyLink"
+      >
+        <v-list-item-content>
+          <v-list-item-title>
+            Copy link
+            <span
+              v-if="copyLinkDisplay"
+              class="float-right"
+            >Copied</span>
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list-group>
+
     <v-list-item @click="uploadLayerModal = true">
       <v-list-item-icon>
         <v-icon>{{ mdiLayers }}</v-icon>
@@ -63,8 +99,9 @@
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
 import state, { updateViewOptions, exportToCsv } from "@/store/exploreStore";
-import { mdiExport, mdiTable, mdiMap, mdiLayers } from "@mdi/js";
+import { mdiExport, mdiTable, mdiMap, mdiLayers, mdiSecurity } from "@mdi/js";
 import LayerManager from "./LayerManager/LayerManager.vue";
+import driveState from "@/store/driveStore";
 
 /**
  * Table options
@@ -79,10 +116,19 @@ export default class NavigationDrawer extends Vue {
   private inactiveText: string = "Show ";
   private mdiExport = mdiExport;
   private mdiLayers = mdiLayers;
+  private mdiSecurity = mdiSecurity;
   private uploadLayerModal: boolean = false;
+  private copyLinkDisplay = false;
 
   private get viewOptions() {
     return state.viewOptions;
+  }
+
+  private get isPublic() {
+    const file = driveState.files.find(
+      (file) => file.name === state.uploadedFile!.fileName
+    )!;
+    return file ? file.shared : false;
   }
 
   private get groupByKeyItems() {
@@ -202,6 +248,32 @@ export default class NavigationDrawer extends Vue {
       newOptions.push(`map:groupByKey:${value}`);
     }
     updateViewOptions(newOptions);
+  }
+
+  private updateShared() {
+    /**
+     * Update the permissions of this file
+     */
+    this.$emit("update-shared");
+  }
+
+  private copyLink() {
+    const configFile = driveState.files.find(
+      (_) => _.name === `${state.uploadedFile!.fileName}.json`
+    );
+    if (configFile) {
+      const url = `${process.env.VUE_APP_BASE_URL}/explore/${configFile.id}`;
+      const input = document.createElement("input");
+      input.setAttribute("value", url);
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand("copy");
+      document.body.removeChild(input);
+      this.copyLinkDisplay = true;
+      setTimeout(() => {
+        this.copyLinkDisplay = false;
+      }, 2000);
+    }
   }
 
   private exportToCsv() {
