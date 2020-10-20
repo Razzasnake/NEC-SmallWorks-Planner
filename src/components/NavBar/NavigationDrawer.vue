@@ -39,7 +39,10 @@
         </v-list-item>
       </span>
     </v-list-group>
-    <v-list-group :prepend-icon="mdiSecurity">
+    <v-list-group
+      v-if="uploadedFile && uploadedFile.toSaveChanges"
+      :prepend-icon="mdiSecurity"
+    >
       <template #activator>
         <v-list-item-title>Permissions</v-list-item-title>
       </template>
@@ -122,6 +125,10 @@ export default class NavigationDrawer extends Vue {
 
   private get viewOptions() {
     return state.viewOptions;
+  }
+
+  private get uploadedFile() {
+    return state.uploadedFile;
   }
 
   private get isPublic() {
