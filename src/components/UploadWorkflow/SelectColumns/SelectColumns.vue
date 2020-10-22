@@ -212,6 +212,7 @@ export default class SelectColumns extends Vue {
         this.columnSelections.state !== null ||
         this.columnSelections !== null;
     }
+    this.$emit("update-is-complete", this.isComplete);
   }
 
   private inputFnc(text: string | undefined, key: string) {
