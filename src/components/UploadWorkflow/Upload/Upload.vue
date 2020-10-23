@@ -94,7 +94,7 @@ import OnUploadUpsell from "@/components/Pricing/Upsell/OnUpload/OnUpload.vue";
   components: {
     PasteModal,
     Loading,
-    OnUploadUpsell
+    OnUploadUpsell,
   },
 })
 export default class Upload extends Vue {
@@ -119,8 +119,11 @@ export default class Upload extends Vue {
   private onUploadUpsell: boolean = false;
 
   private get exceedLimit() {
-    const ids = new Set(state.files.filter(r => r.name!.endsWith(".csv"))
-      .map(r => r.name!.split(".")[r.name!.split(".").length - 2]));
+    const ids = new Set(
+      state.files
+        .filter((r) => r.name!.endsWith(".csv"))
+        .map((r) => r.name!.split(".")[r.name!.split(".").length - 2])
+    );
     return ids.size > 4;
   }
 
@@ -184,12 +187,20 @@ export default class Upload extends Vue {
       if (event.data.error) {
         this.snackbar = true;
       } else {
-        /**
-         * File has been uploaded
-         *
-         * @type {{ data: unknown[], fileName: string }}
-         */
-        this.$emit("file-uploaded", { data: event.data.data, fileName });
+        if (
+          event.data.data.length <=
+            parseInt(process.env.VUE_APP_STRIPE_MAX_ROWS) ||
+          state.tier === 1
+        ) {
+          /**
+           * File has been uploaded
+           *
+           * @type {{ data: unknown[], fileName: string }}
+           */
+          this.$emit("file-uploaded", { data: event.data.data, fileName });
+        } else {
+          this.onUploadUpsell = true;
+        }
       }
       this.loading = false;
       worker.terminate();

@@ -44,8 +44,8 @@ export default class Tiers extends Vue {
         subtitle: "If you have a few files to upload.",
         price: "Free",
         options: [
-          `${process.env.VUE_APP_STRIPE_MAX_UPLOADS} Uploads`,
-          "Unlimited Rows",
+          `${parseInt(process.env.VUE_APP_STRIPE_MAX_UPLOADS).toLocaleString()} Uploads`,
+          `${parseInt(process.env.VUE_APP_STRIPE_MAX_ROWS).toLocaleString()} Rows`,
           "Unlimited, Fast Geocoding",
           "Google Drive Integration",
           "Heat Map Layer",
@@ -76,6 +76,7 @@ export default class Tiers extends Vue {
         price: "$9.99 / month",
         options: [
           "Starter Plan",
+          "Unlimited Rows",
           "Unlimited Uploads"
         ],
         action: {

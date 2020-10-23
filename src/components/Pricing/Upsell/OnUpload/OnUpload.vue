@@ -5,7 +5,7 @@
   >
     <v-card>
       <v-card-title class="headline center">
-        Upgrade to Pro to unlock unlimited uploads.
+        Upgrade to Pro for unlimited rows and uploads
       </v-card-title>
       <v-card-text>
         <Tiers />
