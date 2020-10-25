@@ -9,8 +9,6 @@
     "lambda-build": "netlify-lambda build lambda-src",
     "lint": "vue-cli-service lint",
     "build-storybook": "build-storybook",
-    "generate": "node ./scripts/generate.js",
-    "lint:fix": "eslint --ext .js,.vue,.ts src --fix",
     "storybook": "vue-cli-service storybook:serve -p 6006 -c .storybook"
   },
   "dependencies": {
