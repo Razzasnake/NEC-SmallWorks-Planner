@@ -58,7 +58,10 @@ export const signIn = (id: string) => {
       }
       refreshFiles(() => {
         if (exploreState.uploadedFile && exploreState.uploadedFile.toUpload) {
-          saveUploadedFile();
+          const ids = state.files.filter(r => r.name!.endsWith(".csv"));
+          if (ids.length < process.env.VUE_APP_STRIPE_MAX_UPLOADS || state.tier === 1) {
+            saveUploadedFile();
+          }
         } else if (exploreState.uploadedFile === null) {
           directLinkDownloadData();
         }

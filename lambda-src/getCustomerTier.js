@@ -23,7 +23,6 @@ exports.handler = async (event, context) => {
   }).then((resp) => {
     const user = resp.data.data.find(u => u.email === data.email)
     if (user && user.subscriptions.data.length && user.subscriptions.data[0].status === "active") {
-      console.log(user.subscriptions.data[0].status)
       return {
         statusCode: 200,
         body: "1",
