@@ -105,7 +105,6 @@ export default class Geocoder extends Vue {
       if (i + numPerWorker > this.addresses.length - 1) {
         geocode(i, this.addresses.length - 1);
       } else {
-        console.log(i, i + numPerWorker)
         geocode(i, i + numPerWorker);
       }
     }
