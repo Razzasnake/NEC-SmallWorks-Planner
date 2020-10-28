@@ -6,6 +6,13 @@
   </a>
 </p>
 
+<p align="center">
+  <img height="100" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1200px-Vue.js_Logo_2.svg.png" />
+  <img height="100" src="https://seeklogo.com/images/V/vuetify-logo-3BCF73C928-seeklogo.com.png" />
+  <img height="100" src="https://ci6.googleusercontent.com/proxy/Ud-khzT51bLnOIwvW6to_TeNlUXx4LSL_akqjv6bQOHBsaanwQpFEJ_0Uwf71osI5CHmlbPeBsAXWB8DOptDGMDmB0qKNIzgNZBrwCMhOSfogpQRebu9WiDTBs5C6AFadiS7haYdKoQ9gjTc8GuI1bvzxS4RxJfb0C6wNpc=s0-d-e1-ft" />
+  <img height="100" src="https://akm-img-a-in.tosshub.com/indiatoday/images/bodyeditor/202002/Maps_Pin_FullColor-x1000.png?p5mE6zsNfbzHgIfhAD8xdamQCvveDfkN" />
+  <img height="100" src="https://pbs.twimg.com/profile_images/1100804485616566273/sOct-Txm_400x400.png" />
+<p>
 [Table & Map](https://tableandmap.com) provides a quick and easy solution for viewing location data on a map. Drag and drop any excel or csv file with addresses or latitudes and longitudes and instantly see where the data falls without any tedious setup.
 
 ![alt text](src/assets/app.jpg)
