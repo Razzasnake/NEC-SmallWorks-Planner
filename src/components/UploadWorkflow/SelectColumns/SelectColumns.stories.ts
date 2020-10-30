@@ -11,8 +11,8 @@ const _SelectColumns = () => ({
   template: `
     <SelectColumns
       :value="value"
-      :columnSelections="columnSelections"
-      :firstRowHeader="firstRowHeader"
+      :column-selections="columnSelections"
+      :first-row-header="firstRowHeader"
       @update-selections="updateSelections"
       @update-first-row-header="updateFirstRowHeader"
       @update-is-complete="updateIsComplete"

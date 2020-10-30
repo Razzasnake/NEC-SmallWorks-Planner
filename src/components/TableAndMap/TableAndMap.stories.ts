@@ -15,12 +15,13 @@ const _TableAndMap = () => ({
   template:
     `<div style="height: 100vh">
       <TableAndMap
-        :uploadedFile="uploadedFile"
+        :uploaded-file="uploadedFile"
         :filters="filters"
         :sorting="sorting"
-        :overlayEventJsons="overlayEventJsons"
-        :tableLogic="tableLogic"
-        :viewOptions="viewOptions"
+        :overlay-event-jsons="overlayEventJsons"
+        :table-logic="tableLogic"
+        :view-options="viewOptions"
+        :layers="layers"
         @update-overlay-event-jsons="updateOverlayEventJsons"
         @sort-changed="sortChanged"
         @filter-changed="filterChanged"
@@ -40,7 +41,10 @@ const _TableAndMap = () => ({
       default: state.tableLogic
     },
     viewOptions: {
-      default: ['table:footer:min', 'table:footer:max', 'table:footer:avg', 'table:footer:total']
+      default: ["map", "map:markers", "table", "table:footer", "table:footer:avg"]
+    },
+    layers: {
+      default: []
     }
   },
   data() {

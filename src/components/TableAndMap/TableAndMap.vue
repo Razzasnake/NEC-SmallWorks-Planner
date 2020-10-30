@@ -15,6 +15,7 @@
         :display-clusters="displayClusters"
         :clicked-marker="clickedMarker"
         :group-by-key="groupByKey"
+        :layers="layers"
         @marker-selected="markerSelected"
         @update-overlay-events="updateOverlayEvents"
       />
@@ -43,6 +44,7 @@
       v-if="clickedMarker"
       :clicked-marker="clickedMarker"
       :uploaded-file="uploadedFile"
+      :layers="layers"
       @close="close"
     />
   </div>
@@ -56,7 +58,6 @@ import Split from "split.js";
 import Utils from "./GoogleMap/Logic/Utils";
 import TableLogic from "./Table/Logic/TableLogic";
 import UploadedFile, { Row } from "@/entities/UploadedFile";
-import state from "@/store/exploreStore";
 import { OverlayJson } from "@/components/TableAndMap/GoogleMap/Logic/Utils";
 
 interface Split {
@@ -98,6 +99,16 @@ export default class TableAndMap extends Vue {
    */
   @Prop()
   private tableLogic!: TableLogic;
+  /**
+   * All of the view options for what to display on the screen
+   */
+  @Prop()
+  private viewOptions!: string[];
+  /**
+   * All of the uploaded geojson and shapefile layers
+   */
+  @Prop()
+  private layers!: { id: string, fileName: string, data: object | null }[];
 
   private mapId = "Map-" + Math.random().toString(36).substring(7);
   private tableId = "Table-" + Math.random().toString(36).substring(7);
@@ -105,10 +116,6 @@ export default class TableAndMap extends Vue {
   private hiddenMarkerIndices: Set<number> = new Set();
   private clickedMarker: Row | null = null;
   private splitInstance: Split | null = null;
-
-  private get viewOptions() {
-    return state.viewOptions;
-  }
 
   private get hasMap(): boolean {
     return this.viewOptions.indexOf("map") > -1;

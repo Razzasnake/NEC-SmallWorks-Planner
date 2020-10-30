@@ -3,6 +3,8 @@
     <AccountComponent
       v-if="loggedIn"
       :user="user"
+      :tier="tier"
+      :number-files="numberFiles"
     />
     <SigninToContinue v-else-if="loggedIn === false" />
   </div>
@@ -30,6 +32,14 @@ export default class Account extends _View {
 
   private get user() {
     return driveState.user;
+  }
+
+  private get tier() {
+    return driveState.tier;
+  }
+
+  private get numberFiles() {
+    return driveState.files.filter(r => r.name!.endsWith(".csv")).length;
   }
 
   protected activated() {

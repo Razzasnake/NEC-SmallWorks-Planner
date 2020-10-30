@@ -7,7 +7,12 @@ export default {
 
 const _Breadcrumbs = () => ({
   components: { Breadcrumbs },
-  template: '<Breadcrumbs />',
+  template: '<Breadcrumbs :folder-id="folderId" />',
+  props: {
+    folderId: {
+      default: null
+    }
+  }
 })
 
 export { _Breadcrumbs }

@@ -137,7 +137,7 @@ export default class Upload extends Vue {
   }
 
   private openUpload() {
-    if (state.user && state.tier === 0 && this.exceedLimit) {
+    if (state.tier === 0 && this.exceedLimit) {
       this.onUploadUpsell = true;
     } else {
       (this.$refs.input as HTMLInputElement).click();
@@ -145,7 +145,7 @@ export default class Upload extends Vue {
   }
 
   private openPaste() {
-    if (state.user && state.tier === 0 && this.exceedLimit) {
+    if (state.tier === 0 && this.exceedLimit) {
       this.onUploadUpsell = true;
     } else {
       this.displayPasteModal = true;
@@ -153,7 +153,7 @@ export default class Upload extends Vue {
   }
 
   private fileUploaded(file: File) {
-    if (state.user && state.tier === 0 && this.exceedLimit) {
+    if (state.tier === 0 && this.exceedLimit) {
       this.onUploadUpsell = true;
     } else {
       const reader = new FileReader();

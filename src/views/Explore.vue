@@ -7,6 +7,8 @@
       :sorting="sorting"
       :overlay-event-jsons="overlayEventJsons"
       :table-logic="tableLogic"
+      :view-options="viewOptions"
+      :layers="layers"
       @update-overlay-event-jsons="updateOverlayEventJsons"
       @sort-changed="updateSorting"
       @filter-changed="updateFilters"
@@ -110,6 +112,14 @@ export default class Explore extends _View {
 
   private get tableLogic() {
     return state.tableLogic;
+  }
+
+  private get viewOptions() {
+    return state.viewOptions;
+  }
+
+  private get layers() {
+    return state.layers;
   }
 
   private get uploadedFileName() {

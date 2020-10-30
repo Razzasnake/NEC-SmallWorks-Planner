@@ -73,7 +73,6 @@ import { GridApi, ColDef, ColumnApi } from "@ag-grid-community/core";
 import Utils from "@/components/TableAndMap/GoogleMap/Logic/Utils";
 import { defaultColDef } from "../Table/Logic/TableLogic";
 import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
-import state, { updateFeature } from "@/store/exploreStore";
 import PolygonRelationWorker from "worker-loader!@/store/WebWorkers/PolygonRelation.worker";
 
 /**
@@ -95,6 +94,12 @@ export default class PreviewCard extends Vue {
    */
   @Prop({ default: null })
   private uploadedFile!: UploadedFile;
+  /**
+   * All of the uploaded geojson and shapefile layers
+   */
+  @Prop({ default: new Array() })
+  private layers!: { id: string, fileName: string, data: object | null }[];
+
   private panorama: google.maps.StreetViewPanorama | null = null;
   private colDef: ColDef = defaultColDef;
   private tableColumns = [
@@ -159,7 +164,7 @@ export default class PreviewCard extends Vue {
       this.updatePanorama();
       this.clickedMarker.features.forEach((feature) => {
         if (feature.features === null) {
-          const features = (state.layers.find((_) => _.id === feature.id)!
+          const features = (this.layers.find((_) => _.id === feature.id)!
             .data as any).features;
           const fkWorker = new PolygonRelationWorker();
           fkWorker.postMessage({

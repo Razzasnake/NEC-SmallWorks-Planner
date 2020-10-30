@@ -1,15 +1,15 @@
 <template>
   <div v-if="user">
-    <div class="content section">
+    <div class="section">
       <div class="feature">
         <v-img
           :src="imageUrl"
           class="image"
         />
         <div class="user-info">
-          <div class="text-h4">
+          <h4 class="text-h4">
             {{ name }}
-          </div>
+          </h4>
           <div class="text-subtitle-1">
             {{ email }}
           </div>
@@ -29,7 +29,6 @@
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
 import Tiers from "@/components/Pricing/Tiers/Tiers.vue";
-import state from "@/store/driveStore";
 
 /**
  * Account page with billing
@@ -43,15 +42,21 @@ export default class Account extends Vue {
   /**
    * The logged in user
    */
-  @Prop()
+  @Prop({ default: null })
   private user!: gapi.auth2.GoogleUser | null;
-
-  private get numberFiles() {
-    return state.files.filter(r => r.name!.endsWith(".csv")).length.toLocaleString();
-  }
+  /**
+   * The number of files uploaded by this user
+   */
+  @Prop({ default: 0 })
+  private numberFiles!: number;
+  /**
+   * The user accounts tier
+   */
+  @Prop({ default: 0 })
+  private tier!: number;
 
   private get availableFiles() {
-    return state.tier === 0 ? process.env.VUE_APP_STRIPE_MAX_UPLOADS : "Unlimited"
+    return this.tier === 0 ? process.env.VUE_APP_STRIPE_MAX_UPLOADS : "Unlimited"
   }
 
   private get name() {

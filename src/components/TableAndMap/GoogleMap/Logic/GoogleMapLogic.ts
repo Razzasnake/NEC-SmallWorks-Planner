@@ -101,6 +101,10 @@ export default class GoogleMapLogic {
     return (this.vueComponent as any).groupByKey;
   }
 
+  private get layers(): { id: string, fileName: string, data: object | null }[] {
+    return (this.vueComponent as any).layers;
+  }
+
   constructor(vueComponent: Vue) {
     this.vueComponent = vueComponent;
   }
@@ -656,8 +660,8 @@ export default class GoogleMapLogic {
     }
   }
 
-  public updateLayers(layers: { id: string, fileName: string, data: object | null }[]) {
-    const doneLayers = layers.filter(_ => _.data !== null);
+  public updateLayers() {
+    const doneLayers = this.layers.filter(_ => _.data !== null);
     const currentIds = new Set(doneLayers.flatMap((layer: any) => layer.data.features).map((feature: any) => feature.properties.Table_Map_Id));
     this.map.data.forEach(layer => {
       const layerId = layer.getId().toString();

@@ -14,8 +14,9 @@ const _PreviewCard = () => ({
   template:
     `<div style="height: 100vh">
       <PreviewCard
-        :uploadedFile="uploadedFile"
-        :clickedMarker="clickedMarker"
+        :uploaded-file="uploadedFile"
+        :clicked-marker="clickedMarker"
+        :layers="layers"
         @close="close"
       ></PreviewCard>
     </div>`,
@@ -25,6 +26,9 @@ const _PreviewCard = () => ({
     },
     clickedMarker: {
       default: uploadedFile.data[1]
+    },
+    layers: {
+      default: []
     }
   },
   methods: {

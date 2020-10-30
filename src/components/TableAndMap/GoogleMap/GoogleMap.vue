@@ -60,7 +60,6 @@ import {
   mdiSquareOutline,
   mdiDelete,
 } from "@mdi/js";
-import state from "@/store/exploreStore";
 
 /**
  * Display the rows that have been uploaded.
@@ -117,6 +116,11 @@ export default class GoogleMap extends Vue {
    */
   @Prop({ default: null })
   private groupByKey!: string | null;
+  /**
+   * All of the uploaded geojson and shapefile layers
+   */
+  @Prop({ default: new Array() })
+  private layers!: { id: string, fileName: string, data: object | null }[];
 
   private mapLogic!: GoogleMapLogic;
 
@@ -127,10 +131,6 @@ export default class GoogleMap extends Vue {
     { title: "Draw a rectangle", icon: mdiSquareOutline },
   ];
   private mdiDelete = mdiDelete;
-
-  private get layers() {
-    return state.layers;
-  }
 
   @Watch("uploadedFile")
   private updateUploadedFile(): void {
@@ -177,7 +177,7 @@ export default class GoogleMap extends Vue {
 
   @Watch("layers")
   private updateLayers() {
-    this.mapLogic.updateLayers(state.layers);
+    this.mapLogic.updateLayers();
   }
 
   private created(): void {

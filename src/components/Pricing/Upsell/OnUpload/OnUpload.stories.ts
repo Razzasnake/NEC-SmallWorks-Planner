@@ -1,4 +1,5 @@
 import OnUpload from './OnUpload.vue'
+import { action } from '@storybook/addon-actions'
 
 export default {
   component: OnUpload,
@@ -7,7 +8,10 @@ export default {
 
 const _OnUpload = () => ({
   components: { OnUpload },
-  template: '<OnUpload />'
+  template: '<OnUpload @close="close" />',
+  methods: {
+    close: action('close')
+  }
 })
 
 export { _OnUpload }

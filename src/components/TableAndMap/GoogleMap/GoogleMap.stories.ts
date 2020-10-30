@@ -16,15 +16,16 @@ const _GoogleMap = () => ({
   template:
     `<div style="height: 100vh">
       <GoogleMap
-        :uploadedFile="uploadedFile"
-        :hiddenMarkerIndices="hiddenMarkerIndices"
-        :overlayEvents="overlayEvents"
-        :createInfoWindow="createInfoWindow"
-        :clickedMarker="clickedMarker"
-        :displayHeatmap="displayHeatmap"
-        :displayMarkers="displayMarkers"
-        :displayClusters="displayClusters"
-        :groupByKey="groupByKey"
+        :uploaded-file="uploadedFile"
+        :hidden-marker-indices="hiddenMarkerIndices"
+        :overlay-events="overlayEvents"
+        :create-info-window="createInfoWindow"
+        :clicked-marker="clickedMarker"
+        :display-heatmap="displayHeatmap"
+        :display-markers="displayMarkers"
+        :display-clusters="displayClusters"
+        :group-by-key="groupByKey"
+        :layers="layers"
         @marker-selected="markerSelected"
         @update-overlay-events="updateOverlayEvents"
       ></GoogleMap>
@@ -55,6 +56,9 @@ const _GoogleMap = () => ({
     },
     groupByKey: {
       default: text('groupByKey', '2')
+    },
+    layers: {
+      default: state.layers
     }
   },
   data() {

@@ -147,7 +147,6 @@ import {
   mdiFileEditOutline,
   mdiAccount,
 } from "@mdi/js";
-import state from "@/store/driveStore";
 
 interface TableRow {
   id: string;
@@ -176,6 +175,12 @@ export default class Table extends Vue {
    */
   @Prop({ default: false })
   private tableLoading!: boolean;
+  /**
+   * Google drive folder id
+   */
+  @Prop({ default: null })
+  private folderId!: string;
+
   private search: string = "";
   private mdiMagnify = mdiMagnify;
   private loading = false;
@@ -195,7 +200,7 @@ export default class Table extends Vue {
   private copyLinkDisplay = false;
 
   private get driveFolderUrl() {
-    return `https://drive.google.com/drive/folders/${state.folderId}`;
+    return `https://drive.google.com/drive/folders/${this.folderId}`;
   }
 
   private get vuetifyTableLoading() {

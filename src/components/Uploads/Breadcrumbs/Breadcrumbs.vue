@@ -9,9 +9,8 @@
   </v-breadcrumbs>
 </template>
 <script lang='ts'>
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Prop } from "vue-property-decorator";
 import { mdiChevronRight } from "@mdi/js";
-import state from "@/store/driveStore";
 
 /**
  * Breadcrumbs to let the user go to google drive easily
@@ -20,6 +19,12 @@ import state from "@/store/driveStore";
   components: {},
 })
 export default class Breaadcrumbs extends Vue {
+  /**
+   * Google drive folder id
+   */
+  @Prop({ default: null })
+  private folderId!: string;
+
   private mdiChevronRight = mdiChevronRight;
   private get items() {
     return [
@@ -30,8 +35,8 @@ export default class Breaadcrumbs extends Vue {
       },
       {
         text: "tableandmap.com",
-        disabled: state.folderId === null,
-        href: `https://drive.google.com/drive/folders/${state.folderId}`,
+        disabled: this.folderId === null,
+        href: `https://drive.google.com/drive/folders/${this.folderId}`,
       },
     ];
   }

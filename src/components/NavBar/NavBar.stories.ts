@@ -9,7 +9,7 @@ export default {
 const _NavBar = () => ({
   components: { NavBar },
   template: `
-    <NavBar :drawerAllowed="drawerAllowed"></NavBar>`,
+    <NavBar :drawer-allowed="drawerAllowed"></NavBar>`,
   props: {
     drawerAllowed: {
       default: boolean('drawerAllowed', true)

@@ -4,6 +4,7 @@
       v-if="loggedIn"
       :files="files"
       :table-loading="tableLoading"
+      :folder-id="folderId"
       @row-clicked="rowClicked"
       @update-shared="updateShared"
       @rename="rename"
@@ -42,6 +43,10 @@ export default class Uploads extends _View {
 
   private get tableLoading() {
     return state.refreshFilesLoading;
+  }
+
+  private get folderId() {
+    return state.folderId;
   }
 
   protected activated() {

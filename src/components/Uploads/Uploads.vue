@@ -5,11 +5,12 @@
       @finish="finish"
     />
     <div class="full-width margin-large">
-      <Breadcrumbs />
+      <Breadcrumbs :folder-id="folderId" />
       <v-divider />
       <Table
         :files="files"
         :table-loading="tableLoading"
+        :folder-id="folderId"
         @row-clicked="rowClicked"
         @update-shared="updateShared"
         @rename="rename"
@@ -54,6 +55,12 @@ export default class Uploads extends Vue {
    */
   @Prop({ default: false })
   private tableLoading!: boolean;
+  /**
+   * Google drive folder id
+   */
+  @Prop({ default: null })
+  private folderId!: string;
+
   private filesToRename: {
     file: gapi.client.drive.File;
     configFile: gapi.client.drive.File;

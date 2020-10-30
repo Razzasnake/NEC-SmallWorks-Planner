@@ -13,7 +13,8 @@ const _Uploads = () => ({
   template: `
     <Uploads
       :files="filesProp"
-      :tableLoading="tableLoading"
+      :table-loading="tableLoading"
+      :folder-id="folderId"
       @row-clicked="rowClicked"
       @update-shared="updateShared"
       @rename="rename"
@@ -32,6 +33,9 @@ const _Uploads = () => ({
     },
     tableLoading: {
       default: boolean('tableLoading', false)
+    },
+    folderId: {
+      default: null
     }
   },
   methods: {
