@@ -136,7 +136,7 @@ export const saveUploadedFile = () => {
 }
 
 const updateConfigFile = (callback?: (file: gapi.client.drive.File) => void | undefined) => {
-  if (state.uploadedFile && state.uploadedFile.toSaveChanges) {
+  if (driveState.user && state.uploadedFile && state.uploadedFile.toSaveChanges) {
     const files = {
       file: driveState.files.find(_ => _.name === state.uploadedFile!.fileName),
       configFile: driveState.files.find(_ => _.name === `${state.uploadedFile!.fileName}.json`),
@@ -160,7 +160,7 @@ const updateConfigFile = (callback?: (file: gapi.client.drive.File) => void | un
 }
 
 const updateGeojsonFile = (callback?: (file: gapi.client.drive.File) => void | undefined) => {
-  if (state.uploadedFile && state.uploadedFile.toSaveChanges) {
+  if (driveState.user && state.uploadedFile && state.uploadedFile.toSaveChanges) {
     const config = JSON.stringify(state.layers.filter(_ => _.data !== null));
     const existingConfigFile = driveState.files.find(_ => _.name === `${state.uploadedFile!.fileName}.geojson.json`);
     uploadFile(config, "application/json", `${state.uploadedFile!.fileName}.geojson.json`, existingConfigFile ? existingConfigFile.id : undefined, callback);
