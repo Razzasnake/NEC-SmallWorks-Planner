@@ -189,7 +189,7 @@ export default class Upload extends Vue {
       } else {
         if (
           event.data.data.length <=
-            parseInt(process.env.VUE_APP_STRIPE_MAX_ROWS) ||
+            parseInt(process.env.VUE_APP_STRIPE_MAX_ROWS!) ||
           state.tier === 1
         ) {
           /**
