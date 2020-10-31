@@ -164,24 +164,29 @@ export default class NavBar extends Vue {
     );
     const file = driveState.files.find(
       (file) => file.name === state.uploadedFile!.fileName
-    )!;
-    const configFile = driveState.files.find(
-      (_) => _.name === `${file.name}.json`
-    )!;
-    const geojsonFile = driveState.files.find(
-      (_) => _.name === `${file.name}.geojson.json`
     );
-    const configFileName = configFile.name!.replace(file.name!, rename);
-    renameFile(configFile.id!, configFileName);
-    if (geojsonFile) {
-      const geojsonFileName = geojsonFile.name!.replace(file.name!, rename);
-      renameFile(geojsonFile.id!, geojsonFileName);
+    if (file) {
+      const configFile = driveState.files.find(
+        (_) => _.name === `${file.name}.json`
+      );
+      const geojsonFile = driveState.files.find(
+        (_) => _.name === `${file.name}.geojson.json`
+      );
+      if (configFile) {
+        const configFileName = configFile.name!.replace(file.name!, rename);
+        renameFile(configFile.id!, configFileName);
+      }
+      if (geojsonFile) {
+        const geojsonFileName = geojsonFile.name!.replace(file.name!, rename);
+        renameFile(geojsonFile.id!, geojsonFileName);
+      }
+      const fileName = file.name!.replace(file.name!, rename);
+      renameFile(file.id!, fileName);
     }
-    const fileName = file.name!.replace(file.name!, rename);
-    renameFile(file.id!, fileName);
-    if (state.uploadedFile) {
-      state.uploadedFile.fileName = fileName;
-    }
+    state.uploadedFile!.fileName = state.uploadedFile!.fileName.replace(
+      state.uploadedFile!.fileName,
+      rename
+    );
   }
 
   private get fileWebViewLink() {
