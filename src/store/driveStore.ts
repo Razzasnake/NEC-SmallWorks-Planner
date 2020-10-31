@@ -156,7 +156,7 @@ export const refreshFiles = (callback?: () => void | undefined) => {
         retrieveAllFilesInFolder(folderId, (result) => {
           if (state.tier === 0) {
             const ids = result.filter(r => r.name!.endsWith(".csv"))
-              .slice(0, process.env.VUE_APP_STRIPE_MAX_UPLOADS)
+              .slice(0, parseInt(process.env.VUE_APP_STRIPE_MAX_UPLOADS))
               .map(r => r.name!.split(".")[r.name!.split(".").length - 2]);
             state.files = result.filter(r => {
               for (const id of ids) {

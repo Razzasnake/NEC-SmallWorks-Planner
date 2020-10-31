@@ -7,7 +7,7 @@ export default {
   title: 'Features/Feature'
 }
 
-const FeatureTemplate = (args, { argTypes }) => ({
+const FeatureTemplate = (args: any, { argTypes }: any) => ({
   components: { Feature },
   template: `
     <Feature
@@ -20,29 +20,29 @@ const FeatureTemplate = (args, { argTypes }) => ({
   }
 })
 
-export const MapYourLocationData = FeatureTemplate.bind({})
+export const MapYourLocationData: any = FeatureTemplate.bind({})
 MapYourLocationData.args = { feature: features[0] }
 
-export const Filterable = FeatureTemplate.bind({})
+export const Filterable: any = FeatureTemplate.bind({})
 Filterable.args = { feature: features[1] }
 
-export const UnlimitedGeocoding = FeatureTemplate.bind({})
+export const UnlimitedGeocoding: any = FeatureTemplate.bind({})
 UnlimitedGeocoding.args = { feature: features[2] }
 
-export const GeojsonAndShapefileLayers = FeatureTemplate.bind({})
+export const GeojsonAndShapefileLayers: any = FeatureTemplate.bind({})
 GeojsonAndShapefileLayers.args = { feature: features[3] }
 
-export const SupportsManyMarkers = FeatureTemplate.bind({})
+export const SupportsManyMarkers: any = FeatureTemplate.bind({})
 SupportsManyMarkers.args = { feature: features[4] }
 
-export const HeatMapLayer = FeatureTemplate.bind({})
+export const HeatMapLayer: any = FeatureTemplate.bind({})
 HeatMapLayer.args = { feature: features[5] }
 
-export const CategoricalGrouping = FeatureTemplate.bind({})
+export const CategoricalGrouping: any = FeatureTemplate.bind({})
 CategoricalGrouping.args = { feature: features[6] }
 
-export const Automation = FeatureTemplate.bind({})
+export const Automation: any = FeatureTemplate.bind({})
 Automation.args = { feature: features[7] }
 
-export const HelpfulTableFooters = FeatureTemplate.bind({})
+export const HelpfulTableFooters: any = FeatureTemplate.bind({})
 HelpfulTableFooters.args = { feature: features[8] }

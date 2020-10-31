@@ -17,6 +17,4 @@ const config: any = {
   }
 }
 
-export { config }
-
 export default new Vuetify(config)

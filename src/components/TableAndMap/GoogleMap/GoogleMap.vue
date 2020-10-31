@@ -119,7 +119,7 @@ export default class GoogleMap extends Vue {
   /**
    * All of the uploaded geojson and shapefile layers
    */
-  @Prop({ default: new Array() })
+  @Prop({ default: Array() })
   private layers!: { id: string, fileName: string, data: object | null }[];
 
   private mapLogic!: GoogleMapLogic;

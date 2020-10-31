@@ -97,7 +97,7 @@ export default class PreviewCard extends Vue {
   /**
    * All of the uploaded geojson and shapefile layers
    */
-  @Prop({ default: new Array() })
+  @Prop({ default: Array() })
   private layers!: { id: string, fileName: string, data: object | null }[];
 
   private panorama: google.maps.StreetViewPanorama | null = null;

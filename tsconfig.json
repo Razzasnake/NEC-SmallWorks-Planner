@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
     "importHelpers": true,
     "moduleResolution": "node",
     "experimentalDecorators": true,
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
@@ -16,7 +17,8 @@
       "vuetify",
       "gapi",
       "gapi.auth2",
-      "gapi.client.drive"
+      "gapi.client.drive",
+      "jest"
     ],
     "paths": {
       "@/*": [
@@ -38,7 +40,6 @@
     "tests/**/*.tsx"
   ],
   "exclude": [
-    "node_modules",
-    "src/components/**/*.stories.ts" // TODO: Currently throws console errors if stories are included.
+    "node_modules"
   ]
 }
