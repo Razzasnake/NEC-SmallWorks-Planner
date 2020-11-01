@@ -25,7 +25,6 @@
 </template>
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
-import Tiers from "@/components/Pricing/Tiers/Tiers.vue";
 
 /**
  * On upload upsell modal
@@ -33,7 +32,7 @@ import Tiers from "@/components/Pricing/Tiers/Tiers.vue";
 @Component({
   name: "PricingUpsellOnUpload",
   components: {
-    Tiers,
+    Tiers: () => import("@/components/Pricing/Tiers/Tiers.vue"),
   },
 })
 export default class OnUpload extends Vue {
