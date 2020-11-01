@@ -1,8 +1,11 @@
 <h1 align="center">Table & Map - Visualize your location data</h1>
 
 <p align="center">
-  <a href="https://app.netlify.com/sites/tableandmap/deploys">
+  <a href="https://app.netlify.com/sites/tableandmap/deploys" target="_blank">
     <img src="https://api.netlify.com/api/v1/badges/f57a2cf3-d0c8-4436-b4e4-05bee35b6687/deploy-status" alt="Build Status on CircleCI" />
+  </a>
+  <a href="https://app.netlify.com/sites/tableandmap-storybook/deploys" target="_blank">
+    <img src="https://api.netlify.com/api/v1/badges/799b2854-07a2-4e84-a194-379b3eb48315/deploy-status" alt="Build Status on CircleCI" />
   </a>
 </p>
 
