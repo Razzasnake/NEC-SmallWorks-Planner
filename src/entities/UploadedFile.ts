@@ -1,7 +1,7 @@
 class Row {
-  public id!: string;
-  public index!: number;
-  public data!: any[];
+  public id: string;
+  public index: number;
+  public data: any[];
   public lat: number | null = null;
   public lng: number | null = null;
   public features: { name: string, id: string, features: google.maps.Data.Feature[] | null }[] = [];
@@ -14,8 +14,8 @@ class Row {
   }
 
   constructor(index: number, row: any[], columnSelections: { lat: number, lng: number }) {
-    this.index = index;
     this.id = index.toString();
+    this.index = index;
     this.data = row;
     this.lat = parseFloat(row[columnSelections.lat]);
     this.lng = parseFloat(row[columnSelections.lng]);
