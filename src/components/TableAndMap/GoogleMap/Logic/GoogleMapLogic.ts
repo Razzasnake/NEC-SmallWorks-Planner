@@ -1,5 +1,5 @@
 import UploadedFile, { Row } from "@/entities/UploadedFile";
-import MarkerClusterer from "@google/markerclustererplus";
+import MarkerClusterer from "@googlemaps/markerclustererplus";
 import Theme from "./Theme";
 import Utils from "./Utils";
 import colors from "vuetify/lib/util/colors";
