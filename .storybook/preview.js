@@ -1,15 +1,15 @@
-import { addDecorator } from '@storybook/vue'
-import "@/setups/logrocket"
+import { addDecorator } from "@storybook/vue";
+import "@/setups/logrocket";
 
-import Vue from 'vue'
-import Vuetify from "vuetify"
-import "@/sass/helpers/_utility.scss"
+import Vue from "vue";
+import Vuetify from "vuetify";
+import "@/sass/helpers/_utility.scss";
 
-Vue.use(Vuetify)
+Vue.use(Vuetify);
 
 const config = {
   icons: {
-    iconfont: 'mdiSvg',
+    iconfont: "mdiSvg",
   },
   theme: {
     themes: {
@@ -18,9 +18,9 @@ const config = {
       }
     }
   }
-}
+};
 
 addDecorator(() => ({
   vuetify: new Vuetify(config),
-  template: '<v-app><story /></v-app>'
-}))
+  template: "<v-app><story /></v-app>"
+}));
