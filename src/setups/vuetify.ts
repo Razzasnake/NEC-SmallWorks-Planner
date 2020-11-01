@@ -4,7 +4,7 @@ import "@/sass/helpers/_utility.scss"
 
 Vue.use(Vuetify)
 
-const config: any = {
+export const config: any = {
   icons: {
     iconfont: 'mdiSvg',
   },
