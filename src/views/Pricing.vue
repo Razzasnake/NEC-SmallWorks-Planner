@@ -12,6 +12,7 @@ import _View from "./_View";
  * Pricing landing page
  */
 @Component({
+  name: "ViewsPricing",
   components: {
     Page,
   },

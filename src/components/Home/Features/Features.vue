@@ -80,6 +80,7 @@ import Preview from "@/components/Home/Preview/Preview.vue";
  * Display the features that are currently available
  */
 @Component({
+  name: "HomeFeatures",
   components: {
     Preview,
   },

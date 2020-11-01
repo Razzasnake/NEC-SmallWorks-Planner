@@ -160,6 +160,7 @@ interface TableRow {
  * Display all of the users uploads stored in google drive.
  */
 @Component({
+  name: "UploadsTable",
   components: {
     Loading,
   },

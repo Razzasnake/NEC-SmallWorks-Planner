@@ -41,6 +41,7 @@ type PinnedData = {
  * Display the uploaded file in a table and on a map.
  */
 @Component({
+  name: "TableAndMapTable",
   components: {
     AgGridVue,
   },

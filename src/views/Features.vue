@@ -12,6 +12,7 @@ import _View from "./_View";
  * Features landing page
  */
 @Component({
+  name: "ViewsFeatures",
   components: {
     Page,
   },

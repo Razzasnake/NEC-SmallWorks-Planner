@@ -47,6 +47,7 @@ import { Component, Vue } from "vue-property-decorator";
  * Textarea that allows the user to paste in a csv
  */
 @Component({
+  name: "UploadWorkflowUploadPasteModal",
   components: {},
 })
 export default class PasteModal extends Vue {

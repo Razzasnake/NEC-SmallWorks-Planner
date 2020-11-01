@@ -10,6 +10,7 @@ import _View from "./_View";
  * 404 status page
  */
 @Component({
+  name: "ViewsError404",
   components: {
     Error404Component,
   },

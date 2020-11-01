@@ -34,6 +34,7 @@ import Tiers from "@/components/Pricing/Tiers/Tiers.vue";
  * Account page with billing
  */
 @Component({
+  name: "Account",
   components: {
     Tiers
   },

@@ -17,6 +17,7 @@ import _View from "./_View";
  * Feature full content page
  */
 @Component({
+  name: "ViewsFeature",
   components: {
     FeatureComponent,
   },

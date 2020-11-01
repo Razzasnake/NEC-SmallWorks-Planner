@@ -24,6 +24,7 @@ import { mdiEye } from "@mdi/js";
 import state, { updateViewOptions } from "@/store/exploreStore";
 
 @Component({
+  name: "TableAndMapTableAgGridLink",
   components: {},
 })
 export default class AgGridLink extends Vue {

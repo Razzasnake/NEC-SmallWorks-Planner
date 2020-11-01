@@ -120,6 +120,7 @@ import DoubleClickEditText from "@/components/Shared/DoubleClickEditText/DoubleC
  * Navigation Bar at the top of the website to navigate between sections
  */
 @Component({
+  name: "NavBar",
   components: {
     Login,
     NavigationDrawer,

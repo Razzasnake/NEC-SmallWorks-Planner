@@ -91,6 +91,7 @@ import OnUploadUpsell from "@/components/Pricing/Upsell/OnUpload/OnUpload.vue";
  * Accept a csv or excel file
  */
 @Component({
+  name: "UploadWorkflowUpload",
   components: {
     PasteModal,
     Loading,

@@ -10,6 +10,7 @@ declare const Microsoft: any;
  * Component with a height of 1 pixel and width of 1 pixel. Pass in a list of addresses and it uses the bing map to geocode them super fast.
  */
 @Component({
+  name: "UploadWorkflowGeocoder",
   components: {},
 })
 export default class Geocoder extends Vue {

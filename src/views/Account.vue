@@ -20,6 +20,7 @@ import SigninToContinue from "@/components/Shared/SigninToContinue/SigninToConti
  * Account page with billing
  */
 @Component({
+  name: "ViewsAccount",
   components: {
     AccountComponent,
     SigninToContinue

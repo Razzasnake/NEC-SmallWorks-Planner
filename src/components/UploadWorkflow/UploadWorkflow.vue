@@ -71,6 +71,7 @@ import Loading from "@/components/Shared/Loading/Loading.vue";
  * Add all of the parts of the workflow together
  */
 @Component({
+  name: "UploadWorkflow",
   components: {
     Upload,
     SelectColumns,

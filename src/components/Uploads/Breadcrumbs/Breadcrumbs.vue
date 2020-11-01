@@ -16,9 +16,10 @@ import { mdiChevronRight } from "@mdi/js";
  * Breadcrumbs to let the user go to google drive easily
  */
 @Component({
+  name: "UploadsBreadcrumbs",
   components: {},
 })
-export default class Breaadcrumbs extends Vue {
+export default class Breadcrumbs extends Vue {
   /**
    * Google drive folder id
    */

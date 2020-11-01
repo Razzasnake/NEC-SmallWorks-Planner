@@ -12,6 +12,7 @@ import UploadedFile from "@/entities/UploadedFile";
  * All examples
  */
 @Component({
+  name: "ViewsExamples",
   components: {
     Page,
   },

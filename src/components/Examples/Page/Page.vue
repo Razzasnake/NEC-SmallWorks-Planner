@@ -55,6 +55,7 @@ import UploadedFile from "@/entities/UploadedFile";
  * All examples
  */
 @Component({
+  name: "ExamplesPage",
   components: {
     Teaser,
     BasePage,

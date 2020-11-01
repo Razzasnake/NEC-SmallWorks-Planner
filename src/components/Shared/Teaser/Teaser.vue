@@ -42,6 +42,7 @@ import TeaserI from "@/entities/Teaser";
  * Generic teaser component
  */
 @Component({
+  name: "SharedTeaser",
   components: {},
 })
 export default class Teaser extends Vue {

@@ -38,6 +38,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
  * Display a 404 page
  */
 @Component({
+  name: "SharedError404",
   components: {},
 })
 export default class Error404 extends Vue {

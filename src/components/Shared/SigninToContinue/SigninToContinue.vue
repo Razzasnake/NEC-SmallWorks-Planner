@@ -16,6 +16,7 @@ import { Component, Vue } from "vue-property-decorator";
  * Display when the content needs the user to sign in
  */
 @Component({
+  name: "SharedSigninToContinue",
   components: {},
 })
 export default class SigninToContinue extends Vue {

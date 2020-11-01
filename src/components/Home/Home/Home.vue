@@ -62,6 +62,7 @@ import Tiers from "@/components/Pricing/Tiers/Tiers.vue";
  * Root most component for the home page
  */
 @Component({
+  name: "HomeHome",
   components: {
     CallToAction,
     Features,

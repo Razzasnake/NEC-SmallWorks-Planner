@@ -13,6 +13,7 @@ import UploadedFile from "@/entities/UploadedFile";
  * Uploads section where a user can manage their documents
  */
 @Component({
+  name: "UploadsNavigation",
   components: {
     UploadWorkflow,
   },

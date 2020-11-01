@@ -52,6 +52,7 @@ import { mdiLogout, mdiAccount } from "@mdi/js";
  * Login/Logout of Google
  */
 @Component({
+  name: "NavBarLogin",
   components: {},
 })
 export default class Login extends Vue {

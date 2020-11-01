@@ -77,6 +77,7 @@ import { mdiUpload } from "@mdi/js";
  * Modal to manage the uploaded shape files
  */
 @Component({
+  name: "NavBarLayerManager",
   components: {},
 })
 export default class LayerManager extends Vue {

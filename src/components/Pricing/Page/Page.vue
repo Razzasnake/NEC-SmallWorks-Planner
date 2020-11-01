@@ -18,6 +18,7 @@ import Tiers from "../Tiers/Tiers.vue";
  * Pricing page
  */
 @Component({
+  name: "PricingPage",
   components: {
     BasePage,
     Tiers

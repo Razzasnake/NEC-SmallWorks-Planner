@@ -37,6 +37,7 @@ import RenameModal from "./RenameModal/RenameModal.vue";
  * Uploads section where a user can manage their documents
  */
 @Component({
+  name: "Uploads",
   components: {
     Navigation,
     Breadcrumbs,

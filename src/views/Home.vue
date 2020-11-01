@@ -21,6 +21,7 @@ import Loading from "@/components/Shared/Loading/Loading.vue";
  * Home page to display to first visitors
  */
 @Component({
+  name: "ViewsHome",
   components: {
     HomeComponent,
     Loading,

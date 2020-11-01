@@ -39,6 +39,7 @@ import { examples } from "@/entities/data";
  * Display a preview of the available examples that are currently available
  */
 @Component({
+  name: "HomeExamples",
   components: {
     Teaser,
     Loading,

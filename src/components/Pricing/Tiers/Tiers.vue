@@ -31,6 +31,7 @@ import Tier from "./Tier.vue";
  * Pricing tiers
  */
 @Component({
+  name: "PricingTiers",
   components: {
     Tier,
   },

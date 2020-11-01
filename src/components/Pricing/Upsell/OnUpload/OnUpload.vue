@@ -31,6 +31,7 @@ import Tiers from "@/components/Pricing/Tiers/Tiers.vue";
  * On upload upsell modal
  */
 @Component({
+  name: "PricingUpsellOnUpload",
   components: {
     Tiers,
   },

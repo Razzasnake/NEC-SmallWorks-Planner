@@ -79,6 +79,7 @@ import PolygonRelationWorker from "worker-loader!@/store/WebWorkers/PolygonRelat
  * Display a preview of the marker/row that has been clicked.
  */
 @Component({
+  name: "TableAndMapPreviewCard",
   components: {
     AgGridVue,
   },

@@ -110,6 +110,7 @@ import driveState from "@/store/driveStore";
  * Table options
  */
 @Component({
+  name: "NavBarNavigationDrawer",
   components: {
     LayerManager,
   },

@@ -22,6 +22,7 @@ import UploadedFile from "@/entities/UploadedFile";
  * Get someone to upload a file.
  */
 @Component({
+  name: "HomeCallToAction",
   components: {
     UploadWorkflow,
   },

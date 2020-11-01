@@ -41,6 +41,7 @@ import state from "@/store/driveStore";
  * Pricing tier
  */
 @Component({
+  name: "PricingTier",
   components: {},
 })
 export default class Tier extends Vue {

@@ -44,6 +44,7 @@ interface Column {
  * Confirm our predictions or select columns for lat/lon or address component
  */
 @Component({
+  name: "UploadWorkflowSelectColumns",
   components: {},
 })
 export default class SelectColumns extends Vue {

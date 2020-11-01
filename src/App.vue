@@ -20,6 +20,7 @@ import state from "@/store/exploreStore";
  * Root of project
  */
 @Component({
+  name: "App",
   components: {
     NavBar,
   },

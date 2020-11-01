@@ -27,6 +27,7 @@ import SigninToContinue from "@/components/Shared/SigninToContinue/SigninToConti
  * Display all of the users uploads stored in google drive.
  */
 @Component({
+  name: "ViewsUploads",
   components: {
     UploadsComponent,
     SigninToContinue

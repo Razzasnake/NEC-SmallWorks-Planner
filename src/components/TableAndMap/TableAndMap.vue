@@ -67,6 +67,7 @@ interface Split {
  * Display the uploaded file in a table and on a map.
  */
 @Component({
+  name: "TableAndMap",
   components: {
     GoogleMap,
     Table,

@@ -27,6 +27,7 @@ import { features } from "@/entities/data";
  * Features page component
  */
 @Component({
+  name: "FeaturesPage",
   components: {
     Teaser,
     BasePage,

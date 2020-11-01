@@ -95,6 +95,7 @@ import { features, examples } from "@/entities/data";
  * Footer of website
  */
 @Component({
+  name: "HomeFooter",
   components: {},
 })
 export default class Footer extends Vue {

@@ -79,6 +79,7 @@ Component.registerHooks(["beforeRouteLeave"]);
  * Explore the data that was just uploaded
  */
 @Component({
+  name: "ViewsExplore",
   components: {
     Loading,
     TableAndMap,

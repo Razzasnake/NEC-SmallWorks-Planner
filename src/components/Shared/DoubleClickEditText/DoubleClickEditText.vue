@@ -32,6 +32,7 @@ import { Component, Vue, Prop } from "vue-property-decorator";
  * Create some text that is editable upon double click.
  */
 @Component({
+  name: "SharedDoubleClickEditText",
   components: {},
 })
 export default class DoubleClickEditText extends Vue {

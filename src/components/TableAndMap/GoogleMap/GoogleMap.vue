@@ -65,6 +65,7 @@ import {
  * Display the rows that have been uploaded.
  */
 @Component({
+  name: "TableAndMapGoogleMap",
   components: {},
 })
 export default class GoogleMap extends Vue {

@@ -44,6 +44,7 @@ import { Component, Vue } from "vue-property-decorator";
  * Explain the google drive integration
  */
 @Component({
+  name: "HomeGoogleDriveIntegration",
   components: {},
 })
 export default class GoogleDriveIntegration extends Vue {

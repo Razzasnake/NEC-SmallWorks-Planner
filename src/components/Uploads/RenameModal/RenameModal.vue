@@ -40,6 +40,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
  * Modal where users can rename their file
  */
 @Component({
+  name: "UploadsRenameModal",
   components: {},
 })
 export default class RenameModal extends Vue {

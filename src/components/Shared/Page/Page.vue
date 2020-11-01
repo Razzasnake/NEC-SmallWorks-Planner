@@ -54,6 +54,7 @@ import CallToAction from "@/components/Home/CallToAction/CallToAction.vue";
  * Generic Page component
  */
 @Component({
+  name: "SharedPage",
   components: {
     Footer,
     CallToAction

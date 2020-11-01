@@ -71,6 +71,7 @@ import { Component, Vue } from "vue-property-decorator";
  * Preview of the platform
  */
 @Component({
+  name: "HomePreview",
   components: {},
 })
 export default class Preview extends Vue {}

@@ -29,6 +29,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
  * Display a loading state
  */
 @Component({
+  name: "SharedLoading",
   components: {},
 })
 export default class Loading extends Vue {

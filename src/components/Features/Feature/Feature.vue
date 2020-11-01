@@ -27,6 +27,7 @@ import UnlimitedGeocoding from "./Content/UnlimitedGeocoding.vue";
  * Feature component with content
  */
 @Component({
+  name: "FeaturesFeature",
   components: {
     BasePage,
     Automation,
