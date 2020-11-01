@@ -6,10 +6,10 @@ export default () => {
           return require("@/assets/examples/glacier.jpg")
         },
         getName: () => {
-          return "Tim Gamble"
+          return "James Joseph"
         },
         getEmail: () => {
-          return "tjgambs@gmail.com"
+          return "jjoseph@gmail.com"
         }
       }
     }

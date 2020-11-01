@@ -28,20 +28,20 @@ const data = {
   owners: [
     {
       kind: "drive#user",
-      displayName: "Tim Gamble",
+      displayName: "James Joseph",
       photoLink: "https://lh4.googleusercontent.com/-ICaXVuRWujY/AAAAAAAAAAI/AAAAAAAAkqg/uB0RZbl7XOY/s64/photo.jpg",
       me: true,
       permissionId: "07807101812976335157",
-      emailAddress: "tjgambs@gmail.com"
+      emailAddress: "jjoseph@gmail.com"
     }
   ],
   lastModifyingUser: {
     kind: "drive#user",
-    displayName: "Tim Gamble",
+    displayName: "James Joseph",
     photoLink: "https://lh4.googleusercontent.com/-ICaXVuRWujY/AAAAAAAAAAI/AAAAAAAAkqg/uB0RZbl7XOY/s64/photo.jpg",
     me: true,
     permissionId: "07807101812976335157",
-    emailAddress: "tjgambs@gmail.com"
+    emailAddress: "jjoseph@gmail.com"
   },
   shared: false,
   ownedByMe: true,
@@ -77,9 +77,9 @@ const data = {
       kind: "drive#permission",
       id: "07807101812976335157",
       type: "user",
-      emailAddress: "tjgambs@gmail.com",
+      emailAddress: "jjoseph@gmail.com",
       role: "owner",
-      displayName: "Tim Gamble",
+      displayName: "James Joseph",
       photoLink: "https://lh4.googleusercontent.com/-ICaXVuRWujY/AAAAAAAAAAI/AAAAAAAAkqg/uB0RZbl7XOY/s64/photo.jpg",
       deleted: false
     }
