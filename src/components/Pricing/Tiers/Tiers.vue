@@ -88,19 +88,24 @@ export default class Tiers extends Vue {
             : "Sign in to upgrade",
           action: () => {
             if (state.user) {
-              const stripe = Stripe(process.env.VUE_APP_STRIPE_PRODUCT_ID);
-              stripe.redirectToCheckout({
-                lineItems: [
-                  {
-                    price: process.env.VUE_APP_STRIPE_PRICE_ID,
-                    quantity: 1,
-                  },
-                ],
-                mode: "subscription",
-                successUrl: process.env.VUE_APP_BASE_URL + "/account",
-                cancelUrl: process.env.VUE_APP_BASE_URL + this.$route.path,
-                customerEmail: state.user.getBasicProfile().getEmail(),
-              });
+              const script = document.createElement("script");
+              script.src = "https://js.stripe.com/v3/";
+              script.onload = () => {
+                const stripe = Stripe(process.env.VUE_APP_STRIPE_PRODUCT_ID);
+                stripe.redirectToCheckout({
+                  lineItems: [
+                    {
+                      price: process.env.VUE_APP_STRIPE_PRICE_ID,
+                      quantity: 1,
+                    },
+                  ],
+                  mode: "subscription",
+                  successUrl: process.env.VUE_APP_BASE_URL + "/account",
+                  cancelUrl: process.env.VUE_APP_BASE_URL + this.$route.path,
+                  customerEmail: state.user!.getBasicProfile().getEmail(),
+                });
+              };
+              document.getElementsByTagName("head")[0].appendChild(script);
             } else {
               const el = document.getElementById("google-signin-button");
               if (el) {
