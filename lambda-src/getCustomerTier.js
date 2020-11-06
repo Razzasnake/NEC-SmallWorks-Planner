@@ -1,4 +1,4 @@
-const fetch = require("node-fetch").default;
+const https = require("https");
 
 const STRIPE_PRIVATE_KEY ="***REMOVED***"; // "***REMOVED***"
 const headers = {
@@ -14,26 +14,29 @@ exports.handler = async (event) => {
       headers
     };
   }
-  const data = JSON.parse(event.body);
-  const url = "https://api.stripe.com/v1/customers";
-  return fetch(url, {
-    headers: {
-      Authorization: `Bearer ${STRIPE_PRIVATE_KEY}`
-    }
-  }).then(async (resp) => {
-    if (resp.status !== 200) {
-      return {
-        statusCode: resp.status,
-        body: resp.statusText,
-        headers
-      };
-    }
-    const response = JSON.parse(await resp.text());
-    const user = response.data.find(u => u.email === data.email);
-    return {
-      statusCode: 200,
-      body: (user && user.subscriptions.data.length && user.subscriptions.data[0].status === "active") ? "1" : "0",
-      headers
-    };
+  const reqBody = JSON.parse(event.body);
+  return new Promise((resolve) => {
+    https.get("https://api.stripe.com/v1/customers", { headers: { Authorization: `Bearer ${STRIPE_PRIVATE_KEY}` } }, (resp) => {
+      if (resp.statusCode !== 200) {
+        return resolve({
+          statusCode: resp.statusCode,
+          body: resp.statusMessage,
+          headers
+        });
+      }
+      let data = "";
+      resp.on("data", (chunk) => {
+        data += chunk;
+      });
+      resp.on("end", () => {
+        const response = JSON.parse(data);
+        const user = response.data.find(u => u.email === reqBody.email);
+        resolve({
+          statusCode: 200,
+          body: (user && user.subscriptions.data.length && user.subscriptions.data[0].status === "active") ? "1" : "0",
+          headers
+        });
+      });
+    });
   });
-};
+}

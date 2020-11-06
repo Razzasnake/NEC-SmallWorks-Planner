@@ -18,6 +18,7 @@
       "gapi",
       "gapi.auth2",
       "gapi.client.drive",
+      "googlemaps",
       "jest"
     ],
     "paths": {

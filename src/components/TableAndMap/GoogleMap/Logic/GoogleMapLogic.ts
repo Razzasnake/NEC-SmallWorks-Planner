@@ -110,7 +110,7 @@ export default class GoogleMapLogic {
   }
 
   public createMap() {
-    Utils.injectGoogleMapsLibrary(["drawing", "visualization", "geometry"]).then(() => {
+    Utils.injectGoogleMapsLibrary().then(() => {
       const mapEl = document.getElementById(this.mapId);
       if (mapEl) {
         this.map = new google.maps.Map(mapEl, {

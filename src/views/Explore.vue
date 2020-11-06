@@ -163,11 +163,7 @@ export default class Explore extends _View {
   }
 
   private created() {
-    GoogleMapUtils.injectGoogleMapsLibrary([
-      "drawing",
-      "visualization",
-      "geometry",
-    ]).then(() => {
+    GoogleMapUtils.injectGoogleMapsLibrary().then(() => {
       this.googleMapsLibrary = true;
     });
   }

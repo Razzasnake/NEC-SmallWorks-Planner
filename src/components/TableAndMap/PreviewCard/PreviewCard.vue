@@ -161,7 +161,7 @@ export default class PreviewCard extends Vue {
   }
 
   private created() {
-    Utils.injectGoogleMapsLibrary([]).then((google) => {
+    Utils.injectGoogleMapsLibrary().then(() => {
       this.updatePanorama();
       this.clickedMarker.features.forEach((feature) => {
         if (feature.features === null) {
