@@ -25,6 +25,28 @@
               <div v-else>
                 {{ fileName }}
               </div>
+              <div
+                v-if="loggedIn && isSaving"
+                class="text-subtitle-1"
+              >
+                <v-icon size="1rem">
+                  {{ mdiAutorenew }}
+                </v-icon>
+                Saving...
+              </div>
+              <div
+                v-else-if="loggedIn"
+                class="text-subtitle-1"
+              >
+                <v-icon size="1rem">
+                  {{ mdiCloudCheckOutline }}
+                </v-icon>
+                Saved to
+                <a
+                  :href="driveFolderUrl"
+                  target="_blank"
+                >Drive</a>
+              </div>
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -113,7 +135,12 @@ import NavigationDrawer from "./NavigationDrawer.vue";
 import Login from "./Login/Login.vue";
 import state from "@/store/exploreStore";
 import driveState, { renameFile, updateShared } from "@/store/driveStore";
-import { mdiMenuDown, mdiLink } from "@mdi/js";
+import {
+  mdiMenuDown,
+  mdiLink,
+  mdiCloudCheckOutline,
+  mdiAutorenew,
+} from "@mdi/js";
 import DoubleClickEditText from "@/components/Shared/DoubleClickEditText/DoubleClickEditText.vue";
 
 /**
@@ -136,6 +163,8 @@ export default class NavBar extends Vue {
   private drawer: boolean | null = null;
   private mdiMenuDown = mdiMenuDown;
   private mdiLink = mdiLink;
+  private mdiCloudCheckOutline = mdiCloudCheckOutline;
+  private mdiAutorenew = mdiAutorenew;
 
   private get loggedIn() {
     return driveState.user !== null;
@@ -146,6 +175,16 @@ export default class NavBar extends Vue {
       return state.uploadedFile.toSaveChanges;
     }
     return false;
+  }
+
+  private get driveFolderUrl() {
+    return `https://drive.google.com/drive/folders/${driveState.folderId}`;
+  }
+
+  private get isSaving() {
+    return (
+      state.saving.file || state.saving.configFile || state.saving.geojsonFile
+    );
   }
 
   private get fileName() {

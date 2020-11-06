@@ -15,7 +15,12 @@ interface ExploreStoreI {
   overlayEventJsons: OverlayJson[],
   tableLogic: TableLogic | null,
   layers: { id: string, fileName: string, data: object | null }[],
-  viewOptions: string[]
+  viewOptions: string[],
+  saving: {
+    file: boolean,
+    configFile: boolean,
+    geojsonFile: boolean
+  }
 };
 
 interface Config {
@@ -41,7 +46,12 @@ const state: ExploreStoreI = Vue.observable({
   overlayEventJsons: [],
   tableLogic: null,
   layers: [],
-  viewOptions: ["map", "map:markers", "table", "table:footer", "table:footer:avg"]
+  viewOptions: ["map", "map:markers", "table", "table:footer", "table:footer:avg"],
+  saving: {
+    file: false,
+    configFile: false,
+    geojsonFile: false
+  }
 });
 
 export const updateUploadedFile = (uploadedFile: UploadedFile) => {
@@ -114,7 +124,9 @@ export const saveUploadedFile = () => {
     }
     updateGeojsonFile(() => {
       const data = arrayToCSV(state.uploadedFile!.data.map(_ => _.data));
+      state.saving.file = true;
       uploadFile(data, "text/csv", state.uploadedFile!.fileName, undefined, () => {
+        state.saving.file = false;
         updateConfigFile((configFile) => {
           router.replace({ name: "Explore", params: { fileId: configFile.id! } });
         });
@@ -155,7 +167,13 @@ const updateConfigFile = (callback?: (file: gapi.client.drive.File) => void | un
       }
     };
     const config = JSON.stringify(configObj);
-    uploadFile(config, "application/json", `${state.uploadedFile!.fileName}.json`, files.configFile ? files.configFile.id : undefined, callback);
+    state.saving.configFile = true;
+    uploadFile(config, "application/json", `${state.uploadedFile!.fileName}.json`, files.configFile ? files.configFile.id : undefined, (file) => {
+      if (callback) {
+        callback(file);
+      }
+      state.saving.configFile = false;
+    });
   }
 }
 
@@ -163,7 +181,13 @@ const updateGeojsonFile = (callback?: (file: gapi.client.drive.File) => void | u
   if (driveState.user && state.uploadedFile && state.uploadedFile.toSaveChanges) {
     const config = JSON.stringify(state.layers.filter(_ => _.data !== null));
     const existingConfigFile = driveState.files.find(_ => _.name === `${state.uploadedFile!.fileName}.geojson.json`);
-    uploadFile(config, "application/json", `${state.uploadedFile!.fileName}.geojson.json`, existingConfigFile ? existingConfigFile.id : undefined, callback);
+    state.saving.geojsonFile = true;
+    uploadFile(config, "application/json", `${state.uploadedFile!.fileName}.geojson.json`, existingConfigFile ? existingConfigFile.id : undefined, (file) => {
+      if (callback) {
+        callback(file);
+      }
+      state.saving.geojsonFile = false;
+    });
   }
 }
 
