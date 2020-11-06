@@ -1,4 +1,4 @@
-const axios = require("axios");
+const fetch = require("node-fetch").default;
 
 const STRIPE_PRIVATE_KEY ="***REMOVED***"; // "***REMOVED***"
 const headers = {
@@ -16,29 +16,23 @@ exports.handler = async (event) => {
   }
   const data = JSON.parse(event.body);
   const url = "https://api.stripe.com/v1/customers";
-  return axios.get(url, {
+  return fetch(url, {
     headers: {
       Authorization: `Bearer ${STRIPE_PRIVATE_KEY}`
     }
-  }).then((resp) => {
-    const user = resp.data.data.find(u => u.email === data.email)
-    if (user && user.subscriptions.data.length && user.subscriptions.data[0].status === "active") {
+  }).then(async (resp) => {
+    if (resp.status !== 200) {
       return {
-        statusCode: 200,
-        body: "1",
-        headers
-      };
-    } else {
-      return {
-        statusCode: 200,
-        body: "0",
+        statusCode: resp.status,
+        body: resp.statusText,
         headers
       };
     }
-  }).catch((err) => {
+    const response = JSON.parse(await resp.text());
+    const user = response.data.find(u => u.email === data.email);
     return {
-      statusCode: err.response.status,
-      body: err.response.statusText,
+      statusCode: 200,
+      body: (user && user.subscriptions.data.length && user.subscriptions.data[0].status === "active") ? "1" : "0",
       headers
     };
   });
