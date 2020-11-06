@@ -267,7 +267,10 @@ export default class GoogleMapLogic {
     if (this.groupByKey) {
       const visibleCategories: Set<string> = new Set();
       this.markers.filter(_ => _.getVisible()).forEach(marker => {
-        visibleCategories.add((marker as unknown as { row: Row }).row[this.groupByKey!]);
+        const category = (marker as unknown as { row: Row }).row[this.groupByKey!];
+        if (category) {
+          visibleCategories.add(category.toString());
+        }
       });
       this.visibleCategories = visibleCategories;
     }
