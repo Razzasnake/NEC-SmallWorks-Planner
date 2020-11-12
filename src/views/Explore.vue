@@ -144,7 +144,7 @@ export default class Explore extends _View {
 
   protected activated() {
     examples.forEach(async (example) => {
-      const slug = example.title.toLowerCase().replaceAll(" ", "-");
+      const slug = example.title.toLowerCase().split(" ").join("-");
       if (slug === this.fileId) {
         updateUploadedFile(await exampleApi.getExample(example));
         super.activated({

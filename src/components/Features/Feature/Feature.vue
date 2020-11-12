@@ -49,7 +49,7 @@ export default class Feature extends Vue {
   private feature!: TeaserI;
 
   private get Content() {
-    return `${this.feature.title.replaceAll(" ", "")}`;
+    return `${this.feature.title.split(" ").join("")}`;
   }
 
   private finish(uploadedFile: UploadedFile) {

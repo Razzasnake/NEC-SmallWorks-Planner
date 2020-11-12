@@ -91,7 +91,7 @@ export const directLinkDownloadData = () => {
       )!;
       downloadUserUpload({ file, configFile, geojsonFile }, true);
     } else {
-      const exampleDataset = examples.find(e => e.title.toLowerCase().replaceAll(" ", "-") === fileId);
+      const exampleDataset = examples.find(e => e.title.toLowerCase().split(" ").join("-") === fileId);
       if (!exampleDataset) {
         gapi.load("client", () => {
           const token = gapi.client.getToken();
