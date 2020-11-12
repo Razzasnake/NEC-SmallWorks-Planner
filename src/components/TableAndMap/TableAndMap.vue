@@ -6,6 +6,7 @@
       :class="sectionClass"
     >
       <GoogleMap
+        v-if="showMap"
         :uploaded-file="uploadedFile"
         :hidden-marker-indices="hiddenMarkerIndices"
         :overlay-events="overlayEvents"
@@ -117,6 +118,7 @@ export default class TableAndMap extends Vue {
   private hiddenMarkerIndices: Set<number> = new Set();
   private clickedMarker: Row | null = null;
   private splitInstance: Split | null = null;
+  private showMap: boolean = false;
 
   private get hasMap(): boolean {
     return this.viewOptions.indexOf("map") > -1;
@@ -267,6 +269,8 @@ export default class TableAndMap extends Vue {
   }
 
   private hiddenMarkerIndicesChanged(hiddenMarkerIndices: Set<number>) {
+    /* We want to show the map after the hidden marker indices have first been decided. */
+    this.showMap = true;
     this.hiddenMarkerIndices = hiddenMarkerIndices;
   }
 

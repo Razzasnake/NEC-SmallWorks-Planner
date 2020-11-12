@@ -89,7 +89,6 @@ export const downloadUserUpload = async (files: {
           columnSelections: config.columnSelections,
           firstRowHeader: config.firstRowHeader,
         });
-        updateUploadedFile(uploadedFile);
         if (config.filters) {
           state.filters = config.filters;
         }
@@ -102,6 +101,7 @@ export const downloadUserUpload = async (files: {
         if (config.overlayEventJsons) {
           state.overlayEventJsons = config.overlayEventJsons;
         }
+        updateUploadedFile(uploadedFile);
         if (files.geojsonFile && files.geojsonFile.id) {
           await downloadFile(files.geojsonFile.id).then((layers) => {
             state.layers = JSON.parse(layers);
