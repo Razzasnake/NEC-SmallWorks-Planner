@@ -45,7 +45,7 @@ const _Table = () => ({
       default: []
     },
     viewOptions: {
-      default: ['table:footer:min', 'table:footer:max', 'table:footer:avg', 'table:footer:total']
+      default: ['table', 'table:footer', 'table:footer:avg']
     },
     clickedMarker: {
       default: null

@@ -157,7 +157,7 @@ export default class Explore extends _View {
       this.$router.push({ name: "Home" });
     } else if (state.uploadedFile) {
       this.uploadedFileNameChanged();
-    } else if (this.fileId) {
+    } else if (this.fileId && driveState.files.length) {
       directLinkDownloadData();
     }
   }

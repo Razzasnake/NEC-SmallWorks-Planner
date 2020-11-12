@@ -77,10 +77,9 @@ export default class Table extends Vue {
    */
   @Prop({
     default: [
-      "table:footer:min",
-      "table:footer:max",
-      "table:footer:avg",
-      "table:footer:total",
+      "table",
+      "table:footer",
+      "table:footer:avg"
     ],
   })
   private viewOptions!: string[];
