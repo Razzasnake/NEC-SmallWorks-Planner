@@ -93,7 +93,7 @@ export default class Login extends Vue {
     color: #37474f;
   }
   #google-signin-button {
-    width: 100px;
+    min-width: 100px;
   }
 }
 </style>
