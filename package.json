@@ -32,7 +32,7 @@
     "vue-class-component": "^7.2.6",
     "vue-property-decorator": "^9.0.2",
     "vue-router": "^3.4.9",
-    "vuetify": "^2.3.16",
+    "vuetify": "^2.3.17",
     "xlsx": "^0.16.8"
   },
   "devDependencies": {
@@ -42,8 +42,8 @@
     "@storybook/addon-knobs": "^6.0.28",
     "@storybook/vue": "^6.0.28",
     "@types/jest": "^26.0.15",
-    "@typescript-eslint/eslint-plugin": "^4.6.1",
-    "@typescript-eslint/parser": "^4.6.1",
+    "@typescript-eslint/eslint-plugin": "^4.7.0",
+    "@typescript-eslint/parser": "^4.7.0",
     "@vue/cli-plugin-babel": "^4.5.8",
     "@vue/cli-plugin-eslint": "^4.5.8",
     "@vue/cli-plugin-router": "^4.5.8",
@@ -52,18 +52,18 @@
     "@vue/cli-service": "^4.5.8",
     "@vue/eslint-config-typescript": "^7.0.0",
     "@vue/test-utils": "^1.1.1",
-    "babel-loader": "^8.1.0",
-    "eslint": "^7.12.1",
+    "babel-loader": "^8.2.1",
+    "eslint": "^7.13.0",
     "eslint-plugin-vue": "^7.1.0",
     "netlify-lambda": "^2.0.1",
     "sass": "^1.29.0",
-    "sass-loader": "^10.0.5",
+    "sass-loader": "^10.1.0",
     "sitemap-webpack-plugin": "^0.9.0",
     "typescript": "^4.0.5",
     "vue-cli-plugin-storybook": "^2.0.0",
     "vue-template-compiler": "^2.6.12",
     "vuetify-loader": "^1.6.0",
-    "webpack-bundle-analyzer": "^3.9.0",
+    "webpack-bundle-analyzer": "^4.1.0",
     "worker-loader": "^3.0.5"
   }
 }
