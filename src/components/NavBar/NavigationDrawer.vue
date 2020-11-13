@@ -40,7 +40,7 @@
       </span>
     </v-list-group>
     <v-list-group
-      v-if="uploadedFile && uploadedFile.toSaveChanges"
+      v-if="uploadedFile && uploadedFile.toSaveChanges && user"
       :prepend-icon="mdiSecurity"
     >
       <template #activator>
@@ -123,6 +123,10 @@ export default class NavigationDrawer extends Vue {
   private mdiSecurity = mdiSecurity;
   private uploadLayerModal: boolean = false;
   private copyLinkDisplay = false;
+
+  private get user() {
+    return driveState.user;
+  }
 
   private get viewOptions() {
     return state.viewOptions;
