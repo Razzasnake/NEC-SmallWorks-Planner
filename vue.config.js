@@ -31,7 +31,7 @@ module.exports = {
     plugins: [
       // new BundleAnalyzerPlugin(),
       new VuetifyLoaderPlugin(),
-      new SitemapPlugin(process.env.VUE_APP_BASE_URL, paths)
+      new SitemapPlugin({ base: process.env.VUE_APP_BASE_URL, paths })
     ]
   }
 }
