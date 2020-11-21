@@ -10,12 +10,12 @@ export default class Utils {
     const libraries = ["drawing", "visualization", "geometry"];
     return new Promise((resolve) => {
       if (window['google']) {
-        return resolve();
+        return resolve(true);
       }
       const script = document.createElement("script");
       script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.VUE_APP_GOOGLEMAPS_KEY}&libraries=${libraries.join(",")}`;
       script.onload = () => {
-        resolve();
+        resolve(true);
       };
       document.getElementsByTagName("head")[0].appendChild(script);
     });

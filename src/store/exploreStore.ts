@@ -111,7 +111,7 @@ export const downloadUserUpload = async (files: {
           });
         }
         worker.terminate();
-        resolve();
+        resolve(true);
       };
     }
   });
