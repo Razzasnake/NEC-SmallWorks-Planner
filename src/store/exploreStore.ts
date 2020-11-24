@@ -250,7 +250,12 @@ export const updateViewOptions = (viewOptions: string[]) => {
 
 export const exportToCsv = () => {
   if (state.tableLogic && state.tableLogic.api && state.uploadedFile) {
+    let fileName = state.uploadedFile.fileName;
+    if (state.uploadedFile.fileName.indexOf(".") > -1) {
+      fileName = state.uploadedFile.fileName.split(".").slice(0, -2).join(".");
+    }
     state.tableLogic.api.exportDataAsCsv({
+      fileName,
       columnKeys: state.uploadedFile.data[0].data.map((_, index) => index.toString()),
       skipPinnedBottom: true
     });
