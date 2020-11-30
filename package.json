@@ -26,7 +26,7 @@
     "@types/google-maps": "^3.2.2",
     "d3-geo": "^2.0.1",
     "logrocket": "^1.0.14",
-    "shpjs": "^3.6.2",
+    "shpjs": "^3.6.3",
     "split.js": "^1.6.2",
     "vue": "^2.6.12",
     "vue-class-component": "^7.2.6",
@@ -36,11 +36,11 @@
     "xlsx": "^0.16.9"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.8",
-    "@storybook/addon-actions": "^6.1.5",
-    "@storybook/addon-essentials": "^6.1.5",
-    "@storybook/addon-knobs": "^6.1.5",
-    "@storybook/vue": "^6.1.5",
+    "@babel/core": "^7.12.9",
+    "@storybook/addon-actions": "^6.1.9",
+    "@storybook/addon-essentials": "^6.1.9",
+    "@storybook/addon-knobs": "^6.1.9",
+    "@storybook/vue": "^6.1.9",
     "@types/jest": "^26.0.15",
     "@typescript-eslint/eslint-plugin": "^4.8.2",
     "@typescript-eslint/parser": "^4.8.2",
@@ -52,7 +52,7 @@
     "@vue/cli-service": "^4.5.9",
     "@vue/eslint-config-typescript": "^7.0.0",
     "@vue/test-utils": "^1.1.1",
-    "babel-loader": "^8.2.1",
+    "babel-loader": "^8.2.2",
     "eslint": "^7.14.0",
     "eslint-plugin-vue": "^7.1.0",
     "netlify-lambda": "^2.0.1",
@@ -63,7 +63,7 @@
     "vue-cli-plugin-storybook": "^2.0.0",
     "vue-template-compiler": "^2.6.12",
     "vuetify-loader": "^1.6.0",
-    "webpack-bundle-analyzer": "^4.1.0",
+    "webpack-bundle-analyzer": "^4.2.0",
     "worker-loader": "^3.0.5"
   }
 }
