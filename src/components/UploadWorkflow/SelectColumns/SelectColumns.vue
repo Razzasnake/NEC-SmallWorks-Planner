@@ -89,25 +89,25 @@ export default class SelectColumns extends Vue {
 
   private addressColmns: Column[] = [
     {
-      label: "Address",
+      label: "Location / Address",
       key: "address",
       search: "",
       selection: null,
     },
     {
-      label: "City",
+      label: "City / County",
       key: "city",
       search: "",
       selection: null,
     },
     {
-      label: "State",
+      label: "State / Province / Postcode",
       key: "state",
       search: "",
       selection: null,
     },
     {
-      label: "Zip",
+      label: "Zip / Postcode / Country",
       key: "zip",
       search: "",
       selection: null,
