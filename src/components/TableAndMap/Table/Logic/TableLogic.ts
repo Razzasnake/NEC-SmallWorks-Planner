@@ -44,7 +44,7 @@ export default class TableLogic {
       })
     })
     return columnTypes.map(meta => {
-      return (meta.number / (meta.number + meta.string)) > 0.95 ? "number" : "text"
+      return (meta.number / (meta.number + meta.string)) > 0.95 ? "agNumberColumnFilter" : "agTextColumnFilter"
     })
   }
 

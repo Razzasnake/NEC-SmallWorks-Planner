@@ -104,12 +104,17 @@ export default class Table extends Vue {
   @Watch("clickedMarker")
   private clickedMarkerUpdated(newValue: Row | null, oldValue: Row | null) {
     if (oldValue) {
-      this.gridApi.getRowNode(oldValue.id).setSelected(false);
+      const node = this.gridApi.getRowNode(oldValue.id);
+      if (node) {
+        node.setSelected(false);
+      }
     }
     if (this.clickedMarker) {
       const node = this.gridApi.getRowNode(this.clickedMarker.id);
-      node.setSelected(true);
-      this.gridApi.ensureIndexVisible(node.rowIndex);
+      if (node) {
+        node.setSelected(true);
+        this.gridApi.ensureIndexVisible(node.rowIndex);
+      }
     }
   }
 
@@ -169,8 +174,11 @@ export default class Table extends Vue {
     this.gridApi.forEachNodeAfterFilter((node, index) => {
       rowData.push(node.data.webWorkerSafeState);
     });
-    const columnIds = this.columnApi
-      .getAllColumns()
+    const columns = this.columnApi.getAllColumns();
+    if (columns === null) {
+      return;
+    }
+    const columnIds = columns
       .filter((column) => column.getColDef().filter === "number")
       .map((col) => col.getColId());
 
