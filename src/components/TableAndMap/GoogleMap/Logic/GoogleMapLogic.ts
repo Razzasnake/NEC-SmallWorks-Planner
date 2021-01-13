@@ -247,9 +247,11 @@ export default class GoogleMapLogic {
 
   private updateBounds() {
     const bounds = new google.maps.LatLngBounds();
-    this.markers
-      .filter((_, index) => !this.hiddenMarkerIndices.has(index))
-      .forEach(marker => {
+    let markers = this.markers.filter((_, index) => !this.hiddenMarkerIndices.has(index));
+    if (markers.length === 0) {
+      markers = this.markers;
+    }
+    markers.forEach(marker => {
         const pos = marker.getPosition();
         if (pos && pos.lat() && pos.lng()) {
           bounds.extend(pos);
