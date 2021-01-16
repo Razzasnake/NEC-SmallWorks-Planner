@@ -393,16 +393,15 @@ export default class GoogleMapLogic {
     if (this.heatmap) {
       this.heatmap.setMap(null);
     }
-    this.heatmap = new google.maps.visualization.HeatmapLayer({
-      data: this.markers
-        .filter((_, index) => {
-          const position = _.getPosition();
-          return !this.hiddenMarkerIndices.has(index) && position && position.lat() && position.lng();
-        })
-        .map(_ => {
-          return { location: _.getPosition() };
-        })
-    });
+    const data = this.markers
+      .filter((_, index) => {
+        const position = _.getPosition();
+        return !this.hiddenMarkerIndices.has(index) && position && position.lat() && position.lng();
+      })
+      .map(_ => {
+        return { location: _.getPosition(), weight: 1 };
+      }) as google.maps.visualization.WeightedLocation[];
+    this.heatmap = new google.maps.visualization.HeatmapLayer({ data });
     if (this.displayHeatmap && this.heatmap) {
       this.heatmap.setMap(this.map);
     }
