@@ -137,7 +137,10 @@ export default class NavigationDrawer extends Vue {
 
   private get isSaved() {
     if (state.uploadedFile) {
-      return driveState.files.filter(_ => _.name === state.uploadedFile!.fileName).length > 0;
+      return (
+        driveState.files.filter((_) => _.name === state.uploadedFile!.fileName)
+          .length > 0
+      );
     }
     return false;
   }
