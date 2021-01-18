@@ -35,7 +35,7 @@
                 Saving...
               </div>
               <div
-                v-else-if="loggedIn"
+                v-else-if="loggedIn && isSaved"
                 class="text-subtitle-1"
               >
                 <v-icon size="1rem">
@@ -185,6 +185,13 @@ export default class NavBar extends Vue {
     return (
       state.saving.file || state.saving.configFile || state.saving.geojsonFile
     );
+  }
+
+  private get isSaved() {
+    if (state.uploadedFile) {
+      return driveState.files.filter(_ => _.name === state.uploadedFile!.fileName).length > 0;
+    }
+    return false;
   }
 
   private get fileName() {

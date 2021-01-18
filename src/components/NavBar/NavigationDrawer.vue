@@ -40,7 +40,7 @@
       </span>
     </v-list-group>
     <v-list-group
-      v-if="uploadedFile && uploadedFile.toSaveChanges && user"
+      v-if="isSaved"
       :prepend-icon="mdiSecurity"
     >
       <template #activator>
@@ -124,16 +124,8 @@ export default class NavigationDrawer extends Vue {
   private uploadLayerModal: boolean = false;
   private copyLinkDisplay = false;
 
-  private get user() {
-    return driveState.user;
-  }
-
   private get viewOptions() {
     return state.viewOptions;
-  }
-
-  private get uploadedFile() {
-    return state.uploadedFile;
   }
 
   private get isPublic() {
@@ -141,6 +133,13 @@ export default class NavigationDrawer extends Vue {
       (file) => file.name === state.uploadedFile!.fileName
     )!;
     return file ? file.shared : false;
+  }
+
+  private get isSaved() {
+    if (state.uploadedFile) {
+      return driveState.files.filter(_ => _.name === state.uploadedFile!.fileName).length > 0;
+    }
+    return false;
   }
 
   private get groupByKeyItems() {
