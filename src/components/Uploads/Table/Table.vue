@@ -276,7 +276,7 @@ export default class Table extends Vue {
   private formatLastModified(file: gapi.client.drive.File) {
     let lastModified = "";
     if (file.modifiedTime) {
-      const options = { year: "numeric", month: "short", day: "numeric" };
+      const options = { year: "numeric", month: "short", day: "numeric" } as Intl.DateTimeFormatOptions;
       const locale =
         navigator.languages && navigator.languages.length
           ? navigator.languages[0]

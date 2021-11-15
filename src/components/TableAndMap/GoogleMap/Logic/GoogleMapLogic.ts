@@ -575,7 +575,7 @@ export default class GoogleMapLogic {
           .slice(0, overlayIndex)
           .concat(this.overlayEvents.slice(overlayIndex + 1));
         this.vueComponent.$emit("update-overlay-events", newOverlayEvents);
-        this.selectedOverlayEvent.overlay.setMap(null);
+        this.selectedOverlayEvent.overlay!.setMap(null);
         this.selectedOverlayEvent = null;
       }
     }
@@ -584,8 +584,8 @@ export default class GoogleMapLogic {
   public initOverlayEvents(): void {
     this.clearOverlays();
     this.overlayEvents.forEach(event => {
-      event.overlay.setOptions(this.polyOptions);
-      event.overlay.setMap(this.map);
+      event.overlay!.setOptions(this.polyOptions);
+      event.overlay!.setMap(this.map);
       this.onOverlayComplete(event, false);
     });
     this.clearSelection();
@@ -668,7 +668,7 @@ export default class GoogleMapLogic {
     const doneLayers = this.layers.filter(_ => _.data !== null);
     const currentIds = new Set(doneLayers.flatMap((layer: any) => layer.data.features).map((feature: any) => feature.properties.Table_Map_Id));
     this.map.data.forEach(layer => {
-      const layerId = layer.getId().toString();
+      const layerId = layer.getId()!.toString();
       if (!currentIds.has(layerId)) {
         this.map.data.remove(layer);
       }

@@ -75,7 +75,7 @@ export const downloadUserUpload = async (files: {
       const worker = new ParserWorker();
       worker.postMessage({
         file: await downloadFile(files.file.id),
-        type: "buffer",
+        type: "string",
       });
       worker.onmessage = async (event) => {
         const config: Config = JSON.parse(

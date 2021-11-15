@@ -129,7 +129,7 @@ export default class Table extends Vue {
       let isContained: boolean = false;
       if (event.type === google.maps.drawing.OverlayType.RECTANGLE) {
         const rectangle = event.overlay as google.maps.Rectangle;
-        isContained = rectangle.getBounds().contains(latLng);
+        isContained = rectangle.getBounds()!.contains(latLng);
       } else if (event.type === google.maps.drawing.OverlayType.POLYGON) {
         const polygon = event.overlay as google.maps.Polygon;
         isContained = google.maps.geometry.poly.containsLocation(
@@ -139,9 +139,9 @@ export default class Table extends Vue {
       } else if (event.type === google.maps.drawing.OverlayType.CIRCLE) {
         const circle = event.overlay as google.maps.Circle;
         isContained =
-          circle.getBounds().contains(latLng) &&
+          circle.getBounds()!.contains(latLng) &&
           google.maps.geometry.spherical.computeDistanceBetween(
-            circle.getCenter(),
+            circle.getCenter()!,
             latLng
           ) <= circle.getRadius();
       }

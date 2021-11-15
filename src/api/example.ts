@@ -8,7 +8,7 @@ export default {
     return new Promise((resolve) => {
       const worker = new ParserWorker();
       fetch(teaser.github.url).then(async response => {
-        worker.postMessage({ file: await response.text(), type: "buffer" });
+        worker.postMessage({ file: await response.text(), type: "string" });
         worker.onmessage = event => {
           resolve(new UploadedFile({
             toUpload: false,

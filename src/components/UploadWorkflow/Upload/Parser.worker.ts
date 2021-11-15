@@ -2,7 +2,7 @@ import { read, utils } from "xlsx";
 
 const ctx: Worker = self as any;
 
-const convert = (file: string | ArrayBuffer | null, type: "binary" | "buffer"): { error: boolean, data: unknown[] } => {
+const convert = (file: string | ArrayBuffer | null, type: "binary" | "string"): { error: boolean, data: unknown[] } => {
   try {
     const workbook = read(file, { type });
     const firstWorksheet = workbook.Sheets[workbook.SheetNames[0]];

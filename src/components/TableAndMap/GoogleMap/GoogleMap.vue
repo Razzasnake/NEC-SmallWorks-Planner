@@ -54,7 +54,7 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import UploadedFile, { Row } from "@/entities/UploadedFile";
 import GoogleMapLogic from "./Logic/GoogleMapLogic";
 import {
-  mdiHandRight,
+  mdiHandBackRightOutline,
   mdiCircleOutline,
   mdiVectorPolygon,
   mdiSquareOutline,
@@ -126,7 +126,7 @@ export default class GoogleMap extends Vue {
   private mapLogic!: GoogleMapLogic;
 
   private drawingOptions = [
-    { title: "Stop drawing", icon: mdiHandRight },
+    { title: "Stop drawing", icon: mdiHandBackRightOutline },
     { title: "Draw a circle", icon: mdiCircleOutline },
     { title: "Draw a shape", icon: mdiVectorPolygon },
     { title: "Draw a rectangle", icon: mdiSquareOutline },

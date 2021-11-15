@@ -27,7 +27,7 @@ export default class Utils {
         case google.maps.drawing.OverlayType.RECTANGLE:
           return {
             type: this.t_(event.type),
-            geometry: this.b_((event.overlay as google.maps.Rectangle).getBounds())
+            geometry: this.b_((event.overlay as google.maps.Rectangle).getBounds()!)
           }
         case google.maps.drawing.OverlayType.POLYGON:
           return {
@@ -38,7 +38,7 @@ export default class Utils {
           const circle = event.overlay as google.maps.Circle
           return {
             type: this.t_(event.type),
-            geometry: this.p_(circle.getCenter()),
+            geometry: this.p_(circle.getCenter()!),
             radius: circle.getRadius()
           }
       }

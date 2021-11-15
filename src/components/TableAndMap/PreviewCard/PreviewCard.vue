@@ -2,6 +2,7 @@
   <v-dialog
     v-model="visible"
     max-width="1600"
+    width="100%"
     scrollable
     @click:outside="close"
   >

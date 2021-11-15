@@ -179,7 +179,7 @@ export default class Upload extends Vue {
   private convert(
     fileName: string,
     file: string | ArrayBuffer | null,
-    type: "binary" | "buffer"
+    type: "binary" | "string"
   ) {
     this.loading = true;
     const worker = new ParserWorker();
@@ -212,7 +212,7 @@ export default class Upload extends Vue {
     this.convert(
       `pasted-dataset.${Math.random().toString(36).substring(7)}.csv`,
       text,
-      "buffer"
+      "string"
     );
   }
 }
