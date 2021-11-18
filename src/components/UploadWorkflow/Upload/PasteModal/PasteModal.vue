@@ -20,7 +20,9 @@
           :disabled="text.length > 0"
           label="Dataset URL"
         />
-        <div class="margin-bottom-small">OR</div>
+        <div class="margin-bottom-small">
+          OR
+        </div>
         <v-textarea
           v-model="text"
           :disabled="datasetUrl.length > 0"
