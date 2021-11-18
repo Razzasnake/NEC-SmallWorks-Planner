@@ -110,7 +110,7 @@ export default class Upload extends Vue {
   @Prop({ type: Boolean, default: false })
   private small!: boolean;
 
-  private accept: string = ".xls,.xlr,.xlt,.xlsx,.xlsm,.xlsb,.csv";
+  private accept: string = ".xls,.xlr,.xlt,.xlsx,.xlsm,.xlsb,.csv,.json";
   private loading: boolean = false;
   private displayPasteModal: boolean = false;
   private snackbar: boolean = false;

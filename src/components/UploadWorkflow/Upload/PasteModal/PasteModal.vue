@@ -53,7 +53,7 @@ import { Component, Vue } from "vue-property-decorator";
 export default class PasteModal extends Vue {
   private text: string = "";
   private description: string =
-    "Copy a dataset from an excel or csv file (including the header) and paste it into the text box below.";
+    "Copy a dataset from an excel or csv file (including the header) or json file and paste it into the text box below.";
   private placeholder: string =
     "Street Address,City,State,Zip Code,Latitude,Longitude\n1600 Amphitheatre Pkwy,Mountain View,CA,94043,37.423432,-122.078865";
   private visible: boolean = true;
