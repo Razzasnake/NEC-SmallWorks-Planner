@@ -20,6 +20,7 @@
           :disabled="text.length > 0"
           label="Dataset URL"
         />
+        <div class="margin-bottom-small">OR</div>
         <v-textarea
           v-model="text"
           :disabled="datasetUrl.length > 0"
@@ -108,3 +109,8 @@ export default class PasteModal extends Vue {
   }
 }
 </script>
+<style scoped lang="scss">
+::v-deep .v-text-field__details {
+  display: none;
+}
+</style>
