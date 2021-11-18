@@ -88,7 +88,7 @@ import Preview from "@/components/Home/Preview/Preview.vue";
 export default class Features extends Vue {
   private title = "Plot Addresses on a Map";
   private subtitle =
-    "Upload an excel or csv file with addresses or latitudes and longitudes to plot your data on an interactive map.";
+    "Upload an excel, csv or json file with addresses or latitudes and longitudes to plot your data on an interactive map.";
   private cards = [
     {
       title: "Unlimited Geocoding",
