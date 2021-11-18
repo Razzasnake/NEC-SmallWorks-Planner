@@ -9,5 +9,16 @@ export default {
     }).catch(() => {
       return 0;
     });
+  },
+  getPastedUrl(pastedUrl: string) {
+    const url = `${process.env.VUE_APP_LAMBDA_BASE_URL}/getPastedUrl`;
+    return fetch(url, {
+      method: "POST",
+      body: JSON.stringify({ url: pastedUrl })
+    }).then(async response => {
+      return await response.text();
+    }).catch(() => {
+      return "";
+    });
   }
 }

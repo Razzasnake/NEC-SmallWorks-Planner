@@ -55,6 +55,7 @@
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
 import Loading from "@/components/Shared/Loading/Loading.vue";
+import lambdaApi from "@/api/lambda";
 
 /**
  * Textarea that allows the user to paste in a csv
@@ -94,8 +95,8 @@ export default class PasteModal extends Vue {
      */
     if (this.datasetUrl) {
       this.isLoading = true;
-      fetch(this.datasetUrl).then(async response => {
-        this.$emit("upload-text", await response.text());
+      lambdaApi.getPastedUrl(this.datasetUrl).then(response => {
+        this.$emit("upload-text", response);
         this.closeModal();
       }).finally(() => {
         this.isLoading = false;

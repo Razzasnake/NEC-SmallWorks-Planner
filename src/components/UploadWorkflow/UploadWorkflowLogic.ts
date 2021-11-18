@@ -18,23 +18,23 @@ export default class UploadWorkflowLogic {
     const latTerms = new Set(["latitude", "lat"]);
     const lngTerms = new Set(["longitude", "lng", "lon", "long"]);
     const addressTerms = new Set(["address", "streetaddress"]);
-    const cityTerms = new Set(["city"]);
-    const stateTerms = new Set(["state", "st"]);
-    const zipTerms = new Set(["zip", "zipcode"]);
+    const cityTerms = new Set(["city", "place"]);
+    const stateTerms = new Set(["state", "st", "postcode"]);
+    const zipTerms = new Set(["zip", "zipcode", "country", "postcode"]);
     if (data.length) {
       data[0].forEach((h, index) => {
         const cleanH = h.toString().toLowerCase().replace(/[^a-zA-Z]+/g, '');
-        if (latTerms.has(cleanH)) {
+        if (latTerms.has(cleanH) && !columnSelections.lat) {
           columnSelections.lat = index;
-        } else if (lngTerms.has(cleanH)) {
+        } else if (lngTerms.has(cleanH) && !columnSelections.lng) {
           columnSelections.lng = index;
-        } else if (addressTerms.has(cleanH)) {
+        } else if (addressTerms.has(cleanH) && !columnSelections.address) {
           columnSelections.address = index;
-        } else if (cityTerms.has(cleanH)) {
+        } else if (cityTerms.has(cleanH) && !columnSelections.city) {
           columnSelections.city = index;
-        } else if (stateTerms.has(cleanH)) {
+        } else if (stateTerms.has(cleanH) && !columnSelections.state) {
           columnSelections.state = index;
-        } else if (zipTerms.has(cleanH)) {
+        } else if (zipTerms.has(cleanH) && !columnSelections.zip) {
           columnSelections.zip = index;
         }
       });

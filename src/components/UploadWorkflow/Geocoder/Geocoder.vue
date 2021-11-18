@@ -21,7 +21,7 @@ export default class Geocoder extends Vue {
   private addresses!: string[];
   private completed: number = 0;
   private searchManager: any;
-  private numWorkers: number = 5; /* Best number after time trials. Don't change. */
+  private numWorkers: number = 2; /* Best number after time trials. Don't change. */
 
   private get completedAux() {
     return this.completed;

@@ -3,7 +3,7 @@ import exploreState, { saveUploadedFile, downloadUserUpload } from "./exploreSto
 import router from "@/router";
 import slackApi from "@/api/slack";
 import { examples } from "@/entities/data";
-import stripeApi from "@/api/stripe";
+import lambdaApi from "@/api/lambda";
 import LogRocket from "logrocket";
 
 interface DriveStoreI {
@@ -41,7 +41,7 @@ export const signIn = (id: string) => {
       state.user = user;
       state.loggedIn = true;
       const profile = user.getBasicProfile();
-      await stripeApi.getCustomerTier(profile.getEmail()).then(tier => {
+      await lambdaApi.getCustomerTier(profile.getEmail()).then(tier => {
         state.tier = tier;
       });
       if ($crisp) {
