@@ -26,6 +26,7 @@ const convert = (file: string | ArrayBuffer | null, type: "binary" | "string"): 
     });
     return { error: false, data: cleanArr };
   } catch (e) {
+    console.log(e);
     return {
       error: true,
       data: []
