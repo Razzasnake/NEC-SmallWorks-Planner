@@ -13,10 +13,10 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "@ag-grid-community/client-side-row-model": "^26.2.0",
-    "@ag-grid-community/core": "^26.2.0",
-    "@ag-grid-community/csv-export": "^26.2.0",
-    "@ag-grid-community/vue": "^26.2.0",
+    "@ag-grid-community/client-side-row-model": "^25.0.1",
+    "@ag-grid-community/core": "^25.0.1",
+    "@ag-grid-community/csv-export": "^25.0.1",
+    "@ag-grid-community/vue": "^25.0.1",
     "@googlemaps/markerclustererplus": "^1.2.8",
     "@mdi/js": "^6.5.95",
     "@types/d3-geo": "^3.0.2",
