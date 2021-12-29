@@ -78,7 +78,6 @@ export const downloadUserUpload = async (files: {
         type: "string",
       });
       worker.onmessage = async (event) => {
-        console.log(event.data);
         const config: Config = JSON.parse(
           await downloadFile(files.configFile!.id!)
         ) as any;
