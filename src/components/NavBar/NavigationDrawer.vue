@@ -147,7 +147,7 @@ export default class NavigationDrawer extends Vue {
 
   private get groupByKeyItems() {
     if (state.uploadedFile) {
-      return state.uploadedFile.data[0].data.map((_, index) => {
+      const groupByKetItems = state.uploadedFile.data[0].data.map((_, index) => {
         if (state.uploadedFile!.firstRowHeader) {
           return {
             text: state.uploadedFile!.data[0].data[index],
@@ -159,7 +159,9 @@ export default class NavigationDrawer extends Vue {
             value: index.toString(),
           };
         }
-      });
+      })
+      console.log(groupByKetItems);
+      return groupByKetItems.filter(_ => _);
     }
     return [];
   }
