@@ -21,6 +21,14 @@
         <h4 class="text-h4 align-center margin-bottom-large">
           Pricing
         </h4>
+        <div class="align-center margin-bottom-large">
+          <v-btn
+            :disabled="!manageBillingUrl"
+            @click="openBilling"
+          >
+            Manage billing
+          </v-btn>
+        </div>
         <Tiers />
       </div>
     </div>
@@ -55,6 +63,11 @@ export default class Account extends Vue {
    */
   @Prop({ default: 0 })
   private tier!: number;
+  /**
+   * Manage Billing Url
+   */
+  @Prop({ default: null })
+  private manageBillingUrl!: string;
 
   private get availableFiles() {
     return this.tier === 0 ? process.env.VUE_APP_STRIPE_MAX_UPLOADS : "Unlimited"
@@ -79,6 +92,10 @@ export default class Account extends Vue {
       return this.user.getBasicProfile().getImageUrl();
     }
     return null;
+  }
+
+  private openBilling() {
+    window.open(this.manageBillingUrl, "_self");
   }
 }
 </script>
