@@ -179,7 +179,7 @@ export default class Table extends Vue {
       return;
     }
     const columnIds = columns
-      .filter((column) => column.getColDef().filter === "number")
+      .filter((column) => column.getColDef().filter === "agNumberColumnFilter")
       .map((col) => col.getColId());
 
     const worker = new CalculateFooterWorker();
