@@ -17,10 +17,10 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "@ag-grid-community/client-side-row-model": "^25.0.1",
-    "@ag-grid-community/core": "^25.0.1",
-    "@ag-grid-community/csv-export": "^25.0.1",
-    "@ag-grid-community/vue": "^25.0.1",
+    "@ag-grid-community/client-side-row-model": "^25.3.0",
+    "@ag-grid-community/core": "^25.3.0",
+    "@ag-grid-community/csv-export": "^25.3.0",
+    "@ag-grid-community/vue": "^25.3.0",
     "@googlemaps/markerclustererplus": "^1.2.10",
     "@mdi/js": "^6.5.95",
     "@types/d3-geo": "^3.0.2",
@@ -60,7 +60,7 @@
     "babel-loader": "^8.2.3",
     "eslint-plugin-vue": "^8.2.0",
     "netlify-lambda": "^2.0.15",
-    "sass": "^1.46.0",
+    "sass": "^1.47.0",
     "sass-loader": "^10.2.0",
     "sitemap-webpack-plugin": "^1.1.1",
     "typescript": "^4.5.4",

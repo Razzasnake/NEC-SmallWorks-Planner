@@ -159,7 +159,7 @@ export default class Table extends Vue {
       this.gridApi.setFilterModel(this.filters);
     }
     if (this.sorting.length) {
-      this.gridApi.setSortModel(this.sorting);
+      this.columnApi.applyColumnState({ state: this.sorting });
     }
     this.updateVisibleRows();
     this.tableLogic.setGridApi(this.gridApi);
@@ -210,7 +210,10 @@ export default class Table extends Vue {
      *
      * @type {{ colId: string, sort: string }[]}
      */
-    this.$emit("sort-changed", this.gridApi.getSortModel());
+    const sort = this.columnApi.getColumnState()
+      .filter(_ => _.sort !== null)
+      .map(_ => ({ colId: _.colId, sort: _.sort }));
+    this.$emit("sort-changed", sort);
   }
 
   private filterChanged() {
