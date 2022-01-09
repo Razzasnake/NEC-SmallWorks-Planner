@@ -3,6 +3,9 @@ module.exports = {
   env: {
     node: true
   },
+  plugins: [
+    'import'
+  ],
   'extends': [
     'plugin:vue/recommended',
     '@vue/typescript'
