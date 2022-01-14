@@ -19,24 +19,24 @@ export default class GoogleMapLogic {
   public colorPosition: { [key: string]: number } | null = null;
   public materialColors = [
     { fileName: "red", hash: colors.red.darken1 },
-    { fileName: "pink", hash: colors.pink.darken1 },
-    { fileName: "purple", hash: colors.purple.darken1 },
-    { fileName: "deepPurple", hash: colors.deepPurple.darken1 },
-    { fileName: "indigo", hash: colors.indigo.darken1 },
     { fileName: "blue", hash: colors.blue.darken1 },
-    { fileName: "lightBlue", hash: colors.lightBlue.darken1 },
+    { fileName: "yellow", hash: colors.yellow.darken1 },
+    { fileName: "green", hash: colors.green.darken1 },
+    { fileName: "purple", hash: colors.purple.darken1 },
+    { fileName: "orange", hash: colors.orange.darken1 },
+    { fileName: "pink", hash: colors.pink.darken1 },
+    { fileName: "brown", hash: colors.brown.darken1 },
+    { fileName: "grey", hash: colors.grey.darken1 },
+    { fileName: "indigo", hash: colors.indigo.darken1 },
+    { fileName: "amber", hash: colors.amber.darken1 },
     { fileName: "cyan", hash: colors.cyan.darken1 },
     { fileName: "teal", hash: colors.teal.darken1 },
-    { fileName: "green", hash: colors.green.darken1 },
+    { fileName: "lightBlue", hash: colors.lightBlue.darken1 },
     { fileName: "lightGreen", hash: colors.lightGreen.darken1 },
-    { fileName: "lime", hash: colors.lime.darken1 },
-    { fileName: "yellow", hash: colors.yellow.darken1 },
-    { fileName: "amber", hash: colors.amber.darken1 },
-    { fileName: "orange", hash: colors.orange.darken1 },
+    { fileName: "deepPurple", hash: colors.deepPurple.darken1 },
     { fileName: "deepOrange", hash: colors.deepOrange.darken1 },
-    { fileName: "brown", hash: colors.brown.darken1 },
+    { fileName: "lime", hash: colors.lime.darken1 },
     { fileName: "blueGrey", hash: colors.blueGrey.darken1 },
-    { fileName: "grey", hash: colors.grey.darken1 }
   ];
   public visibleCategories: Set<string> = new Set();
 
