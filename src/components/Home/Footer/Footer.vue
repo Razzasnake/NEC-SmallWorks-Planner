@@ -80,6 +80,7 @@
         :class="{ 'margin-right-small': Boolean(index) }"
         :href="s.link"
         target="_blank"
+        rel="noreferrer"
       >
         <v-icon>{{ s.icon }}</v-icon>
       </a>
