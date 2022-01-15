@@ -10,7 +10,8 @@
       </v-card-title>
       <v-card-subtitle>
         Copy and paste the embed code below into your website's HTML to embed
-        this Map.
+        this Map. You <b>must</b> have this dataset set to Public under the
+        permissions settings for this to work. 
       </v-card-subtitle>
       <v-card-text class="card-text-area">
         <v-textarea
