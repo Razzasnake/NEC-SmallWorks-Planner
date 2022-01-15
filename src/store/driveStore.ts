@@ -89,7 +89,7 @@ export const directLinkDownloadData = () => {
       const geojsonFile = state.files.find(
         (_) => _.name === `${file.name}.geojson.json`
       )!;
-      downloadUserUpload({ file, configFile, geojsonFile }, true);
+      downloadUserUpload({ file, configFile, geojsonFile }, router.currentRoute.name !== "Embed");
     } else {
       const exampleDataset = examples.find(e => e.title.toLowerCase().split(" ").join("-") === fileId);
       if (!exampleDataset) {

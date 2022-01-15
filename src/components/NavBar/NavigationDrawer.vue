@@ -12,7 +12,20 @@
         v-for="(dropdown1, index1) in dropdown0.dropdowns"
         :key="index1"
       >
-        <v-list-item v-if="dropdown1.key === 'map:groupByKey'">
+        <v-list-item
+          v-if="dropdown1.key === 'map:disableMarkers'"
+          link
+          @click="updateViewOptions(dropdown1)"
+        >
+          <v-list-item-content>
+            <v-list-item-title>{{
+              keyVisible(dropdown1.key)
+                ? `Enable ${dropdown1.label}`
+                : `Disable ${dropdown1.label}`
+            }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item v-else-if="dropdown1.key === 'map:groupByKey'">
           <v-list-item-content>
             <v-select
               :value="groupByKeyValue"
@@ -201,6 +214,10 @@ export default class NavigationDrawer extends Vue {
         {
           label: "Heat Map",
           key: "map:heat",
+        },
+        {
+          label: "Markers",
+          key: "map:disableMarkers"
         },
         {
           label: "Markers",

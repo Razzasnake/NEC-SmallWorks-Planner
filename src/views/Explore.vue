@@ -1,5 +1,5 @@
 <template>
-  <div class="explore">
+  <div :class="exploreOrEmbed">
     <TableAndMap
       v-if="uploadedFile && googleMapsLibrary"
       :uploaded-file="uploadedFile"
@@ -53,10 +53,8 @@
   </div>
 </template>
 <script lang='ts'>
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { Component, Prop, Watch } from "vue-property-decorator";
 import TableAndMap from "@/components/TableAndMap/TableAndMap.vue";
-import UploadedFile from "@/entities/UploadedFile";
-import TableLogic from "@/components/TableAndMap/Table/Logic/TableLogic";
 import { OverlayJson } from "@/components/TableAndMap/GoogleMap/Logic/Utils";
 import state, {
   reset,
@@ -74,6 +72,8 @@ import { examples } from "@/entities/data";
 import exampleApi from "@/api/example";
 
 Component.registerHooks(["beforeRouteLeave"]);
+
+declare const $crisp: any;
 
 /**
  * Explore the data that was just uploaded
@@ -130,6 +130,10 @@ export default class Explore extends _View {
     return "";
   }
 
+  private get exploreOrEmbed() {
+    return this.$route.name === "Explore" ? "explore" : "embed";
+  }
+
   @Watch("uploadedFileName")
   private uploadedFileNameChanged() {
     if (state.uploadedFile) {
@@ -143,6 +147,7 @@ export default class Explore extends _View {
   }
 
   protected activated() {
+    this.embedSetup();
     examples.forEach(async (example) => {
       const slug = example.title.toLowerCase().split(" ").join("-");
       if (slug === this.fileId) {
@@ -159,6 +164,18 @@ export default class Explore extends _View {
       this.uploadedFileNameChanged();
     } else if (this.fileId && driveState.files.length) {
       directLinkDownloadData();
+    }
+  }
+
+  private embedSetup() {
+    if ($crisp && this.$route.name === "Embed") {
+      $crisp.push(["do", "chat:hide"]);
+      const script = document.createElement("script");
+      script.src = "https://apis.google.com/js/platform.js";
+      script.onload = () => {
+        directLinkDownloadData();
+      };
+      document.getElementsByTagName("head")[0].appendChild(script);
     }
   }
 
@@ -215,5 +232,8 @@ export default class Explore extends _View {
 <style lang='scss' scoped>
 .explore {
   height: calc(100vh - 52px);
+}
+.embed {
+  height: 100vh;
 }
 </style>

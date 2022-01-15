@@ -27,6 +27,12 @@ const routes = [
     props: true
   },
   {
+    path: '/embed/:fileId?',
+    name: 'Embed',
+    component: () => import(/* webpackChunkName: "Embed" */ '@/views/Explore.vue'),
+    props: true
+  },
+  {
     path: '/features/:slug',
     name: 'Feature',
     component: () => import(/* webpackChunkName: "Feature" */ '@/views/Feature.vue'),

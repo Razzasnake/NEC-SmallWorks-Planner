@@ -1,7 +1,10 @@
 <template>
   <div id="app">
     <v-app>
-      <NavBar :drawer-allowed="drawerAllowed" />
+      <NavBar
+        v-if="displayNav"
+        :drawer-allowed="drawerAllowed"
+      />
       <v-main>
         <keep-alive>
           <router-view />
@@ -28,6 +31,9 @@ import state from "@/store/exploreStore";
 export default class App extends Vue {
   private get drawerAllowed() {
     return state.uploadedFile !== null && this.$route.name === "Explore";
+  }
+  private get displayNav() {
+    return this.$route.name !== null && this.$route.name !== "Embed";
   }
 }
 </script>

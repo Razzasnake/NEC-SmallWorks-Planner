@@ -201,6 +201,9 @@ export default class TableAndMap extends Vue {
     marker: google.maps.Marker,
     row: Row
   ): google.maps.InfoWindow | null {
+    if (this.viewOptions.indexOf("map:disableMarkers") > -1) {
+      return null;
+    }
     if (this.uploadedFile.firstRowHeader) {
       const keys = ["Name", "Address"];
       let content = "";
@@ -229,6 +232,9 @@ export default class TableAndMap extends Vue {
   }
 
   private markerSelected(id: string): void {
+    if (this.viewOptions.indexOf("map:disableMarkers") > -1) {
+      return;
+    }
     const clickedMarker = this.rowData.find((_) => _.id === id);
     if (clickedMarker) {
       this.clickedMarker = clickedMarker;

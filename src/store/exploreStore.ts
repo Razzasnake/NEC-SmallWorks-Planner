@@ -119,7 +119,7 @@ export const downloadUserUpload = async (files: {
 
 export const saveUploadedFile = () => {
   if (driveState.user && state.uploadedFile && state.uploadedFile.toUpload) {
-    if (router.currentRoute.name !== "Explore") {
+    if (router.currentRoute.name !== "Explore" && router.currentRoute.name !== "Embed") {
       router.push({ name: "Explore" });
     }
     updateGeojsonFile(() => {
@@ -139,10 +139,10 @@ export const saveUploadedFile = () => {
       if (router.currentRoute.params.fileId !== configFile.id) {
         router.push({ name: "Explore", params: { fileId: configFile.id! } });
       }
-    } else if (router.currentRoute.name !== "Explore") {
+    } else if (router.currentRoute.name !== "Explore" && router.currentRoute.name !== "Embed") {
       router.push({ name: "Explore" });
     }
-  } else if (router.currentRoute.name !== "Explore") {
+  } else if (router.currentRoute.name !== "Explore" && router.currentRoute.name !== "Embed") {
     router.push({ name: "Explore" });
   }
 }
