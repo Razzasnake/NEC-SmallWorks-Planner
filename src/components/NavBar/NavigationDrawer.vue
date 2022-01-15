@@ -260,10 +260,10 @@ export default class NavigationDrawer extends Vue {
   ];
 
   private openEmbedCode() {
-    if (driveState.tier === 0) {
-      this.onUploadUpsell = true;
-    } else {
+    if (driveState.tier === 1) {
       this.displayEmbedCode = true;
+    } else {
+      this.onUploadUpsell = true;
     }
   }
 
