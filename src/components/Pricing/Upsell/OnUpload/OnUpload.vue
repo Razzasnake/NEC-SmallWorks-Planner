@@ -5,7 +5,7 @@
   >
     <v-card>
       <v-card-title class="headline center">
-        Upgrade to Pro for unlimited rows and uploads
+        {{ headline }}
       </v-card-title>
       <v-card-text>
         <Tiers />
@@ -24,7 +24,7 @@
   </v-dialog>
 </template>
 <script lang='ts'>
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Prop } from "vue-property-decorator";
 
 /**
  * On upload upsell modal
@@ -36,6 +36,9 @@ import { Component, Vue } from "vue-property-decorator";
   },
 })
 export default class OnUpload extends Vue {
+  @Prop({ default: "Upgrade to Pro for unlimited rows and uploads" })
+  private headline!: string
+
   private visibleAux: boolean = true;
   private get visible() {
     return this.visibleAux;

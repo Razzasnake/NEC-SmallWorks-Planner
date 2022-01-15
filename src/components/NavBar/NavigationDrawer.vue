@@ -107,6 +107,7 @@
         <v-list-item-title>Embed Code</v-list-item-title>
         <OnUploadUpsell
           v-if="onUploadUpsell"
+          headline="Upgrade to Pro to embed on your website"
           @close="onUploadUpsell = false"
         />
         <EmbedCode
