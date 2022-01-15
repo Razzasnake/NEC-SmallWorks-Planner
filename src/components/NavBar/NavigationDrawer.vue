@@ -99,6 +99,18 @@
         />
       </v-list-item-content>
     </v-list-item>
+    <v-list-item @click="displayEmbedCode = true">
+      <v-list-item-icon>
+        <v-icon>{{ mdiXml }}</v-icon>
+      </v-list-item-icon>
+      <v-list-item-content>
+        <v-list-item-title>Embed Code</v-list-item-title>
+        <EmbedCode
+          v-if="displayEmbedCode"
+          @close="displayEmbedCode = false"
+        />
+      </v-list-item-content>
+    </v-list-item>
     <v-list-item
       link
       @click="exportToCsv"
@@ -115,8 +127,9 @@
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
 import state, { updateViewOptions, exportToCsv } from "@/store/exploreStore";
-import { mdiExport, mdiTable, mdiMap, mdiLayers, mdiSecurity } from "@mdi/js";
+import { mdiExport, mdiTable, mdiMap, mdiLayers, mdiSecurity, mdiXml } from "@mdi/js";
 import LayerManager from "./LayerManager/LayerManager.vue";
+import EmbedCode from "./EmbedCode/EmbedCode.vue";
 import driveState from "@/store/driveStore";
 
 /**
@@ -126,6 +139,7 @@ import driveState from "@/store/driveStore";
   name: "NavBarNavigationDrawer",
   components: {
     LayerManager,
+    EmbedCode,
   },
 })
 export default class NavigationDrawer extends Vue {
@@ -134,8 +148,10 @@ export default class NavigationDrawer extends Vue {
   private mdiExport = mdiExport;
   private mdiLayers = mdiLayers;
   private mdiSecurity = mdiSecurity;
+  private mdiXml = mdiXml;
   private uploadLayerModal: boolean = false;
   private copyLinkDisplay = false;
+  private displayEmbedCode = false;
 
   private get viewOptions() {
     return state.viewOptions;
