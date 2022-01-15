@@ -99,14 +99,18 @@
         />
       </v-list-item-content>
     </v-list-item>
-    <v-list-item @click="displayEmbedCode = true">
+    <v-list-item @click="openEmbedCode">
       <v-list-item-icon>
         <v-icon>{{ mdiXml }}</v-icon>
       </v-list-item-icon>
       <v-list-item-content>
         <v-list-item-title>Embed Code</v-list-item-title>
+        <OnUploadUpsell
+          v-if="onUploadUpsell"
+          @close="onUploadUpsell = false"
+        />
         <EmbedCode
-          v-if="displayEmbedCode"
+          v-else-if="displayEmbedCode"
           @close="displayEmbedCode = false"
         />
       </v-list-item-content>
@@ -131,6 +135,7 @@ import { mdiExport, mdiTable, mdiMap, mdiLayers, mdiSecurity, mdiXml } from "@md
 import LayerManager from "./LayerManager/LayerManager.vue";
 import EmbedCode from "./EmbedCode/EmbedCode.vue";
 import driveState from "@/store/driveStore";
+import OnUploadUpsell from "@/components/Pricing/Upsell/OnUpload/OnUpload.vue";
 
 /**
  * Table options
@@ -140,6 +145,7 @@ import driveState from "@/store/driveStore";
   components: {
     LayerManager,
     EmbedCode,
+    OnUploadUpsell,
   },
 })
 export default class NavigationDrawer extends Vue {
@@ -152,6 +158,7 @@ export default class NavigationDrawer extends Vue {
   private uploadLayerModal: boolean = false;
   private copyLinkDisplay = false;
   private displayEmbedCode = false;
+  private onUploadUpsell = false;
 
   private get viewOptions() {
     return state.viewOptions;
@@ -250,6 +257,14 @@ export default class NavigationDrawer extends Vue {
       ],
     },
   ];
+
+  private openEmbedCode() {
+    if (driveState.tier === 0) {
+      this.onUploadUpsell = true;
+    } else {
+      this.displayEmbedCode = true;
+    }
+  }
 
   private keyVisible(key: string) {
     return this.viewOptions.indexOf(key) > -1;

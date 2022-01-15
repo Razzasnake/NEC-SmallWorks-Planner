@@ -77,6 +77,7 @@ export default class Tiers extends Vue {
         price: "$9.99 / month",
         options: [
           "Starter Plan",
+          "Embed on Your Website",
           "Unlimited Rows",
           "Unlimited Uploads"
         ],
