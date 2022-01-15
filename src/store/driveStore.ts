@@ -98,6 +98,12 @@ export const directLinkDownloadData = () => {
           gapi.client.setToken(null);
           gapi.client.setApiKey(process.env.VUE_APP_LOGGED_OUT_USER_API_KEY);
           gapi.client.load("drive", "v3", async () => {
+            if (router.currentRoute.name === "Embed") {
+              if (!await isFileOwnerPro(fileId)) {
+                router.push({ name: "404" });
+                return;
+              }
+            }
             downloadFile(fileId).then(resp => {
               const body = JSON.parse(resp);
               gapi.client.drive.files.get({
@@ -209,6 +215,19 @@ export const downloadFile = (fileId: string) => {
     .get({ fileId, alt: "media" })
     .then((response) => {
       return response.body;
+    });
+}
+
+export const isFileOwnerPro = (fileId: string) => {
+  return gapi.client.drive.files
+    .get({ fileId, fields: "owners" })
+    .then(async (response) => {
+      const ownerTiers = await Promise.all(JSON.parse(response.body).owners.map(async (_: gapi.client.drive.User) => {
+        return lambdaApi.getCustomerTier(_.emailAddress!).then(tier => {
+          return tier;
+        });
+      }));
+      return ownerTiers.filter(_ => _).length > 0;
     });
 }
 
