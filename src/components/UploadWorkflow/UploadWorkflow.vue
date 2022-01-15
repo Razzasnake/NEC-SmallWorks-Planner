@@ -48,7 +48,7 @@
           <v-btn
             text
             color="primary"
-            :disabled="finishIsDisabled"
+            :disabled="finishIsDisabled || (uploadedFile && (uploadedFile.data.length === 1 && firstRowHeader))"
             @click="finish"
           >
             Confirm
