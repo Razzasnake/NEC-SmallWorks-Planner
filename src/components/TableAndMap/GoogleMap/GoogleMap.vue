@@ -5,6 +5,7 @@
       class="google-map"
     />
     <v-btn-toggle
+      v-if="!isEmbed"
       class="drawing-manager"
       :value="mapLogic.activeDrawingMode"
     >
@@ -32,6 +33,9 @@
         </v-icon>
       </v-btn>
     </v-btn-toggle>
+    <div v-else class="affiliation">
+      <a :href="rootUrl">Powered by Table & Map</a>
+    </div>
     <v-card
       v-if="mapLogic.colorPosition"
       class="legend"
@@ -133,6 +137,14 @@ export default class GoogleMap extends Vue {
   ];
   private mdiDelete = mdiDelete;
 
+  private get isEmbed() {
+    return this.$route.name === "Embed";
+  }
+
+  private get rootUrl() {
+    return process.env.VUE_APP_BASE_URL;
+  }
+
   @Watch("uploadedFile")
   private updateUploadedFile(): void {
     this.mapLogic.initMarkers();
@@ -204,6 +216,18 @@ export default class GoogleMap extends Vue {
   position: absolute;
   top: 5px;
   left: 5px;
+}
+.affiliation {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background-color: rgba(255, 255, 255, .60);
+  padding-left: 6px;
+  padding-right: 6px;
+  font-size: 10px;
+  a {
+    text-decoration: none;
+  }
 }
 .legend {
   position: absolute;
