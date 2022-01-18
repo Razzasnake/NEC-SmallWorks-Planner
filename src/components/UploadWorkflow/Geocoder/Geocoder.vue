@@ -21,7 +21,7 @@ export default class Geocoder extends Vue {
   private addresses!: string[];
   private completed: number = 0;
   private searchManager: any;
-  private numWorkers: number = 2; /* Best number after time trials. Don't change. */
+  private numWorkers: number = 1; /* Best number after time trials. Don't change. */
 
   private get completedAux() {
     return this.completed;
@@ -73,7 +73,7 @@ export default class Geocoder extends Vue {
     const geocode = (index: number, stop: number) => {
       const searchRequest = {
         where: this.addresses[index],
-        callback: (r: {
+        callback: async (r: {
           results: { location: { latitude: number; longitude: number } }[];
         }) => {
           if (r && r.results && r.results.length > 0) {
@@ -98,8 +98,8 @@ export default class Geocoder extends Vue {
             return geocode(index + 1, stop);
           }
         },
-        errorCallback: () => {
-          // TODO, generate a new search manager if this fails
+        errorCallback: async () => {
+          this.searchManager = await this.newSearchManager();
           return geocode(index, stop);
         },
       };

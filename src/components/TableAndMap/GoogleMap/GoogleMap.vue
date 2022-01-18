@@ -33,7 +33,10 @@
         </v-icon>
       </v-btn>
     </v-btn-toggle>
-    <div v-else class="affiliation">
+    <div
+      v-else
+      class="affiliation"
+    >
       <a :href="rootUrl">Powered by Table & Map</a>
     </div>
     <v-card
