@@ -43,29 +43,33 @@ export default class Geocoder extends Vue {
     this.geocode();
   }
 
-  private mounted() {
-    const bingMapsScript = document.createElement("script");
-    bingMapsScript.setAttribute(
-      "src",
-      "https://www.bing.com/api/maps/mapcontrol?q&key=***REMOVED***"
-    );
-    bingMapsScript.async = true;
-    bingMapsScript.defer = true;
-    document.head.appendChild(bingMapsScript);
+  private async mounted() {
+    this.searchManager = await this.newSearchManager();
+  }
+
+  private newSearchManager() {
+    return new Promise((resolve) => {
+      const bingMapsScript = document.createElement("script");
+      const windowAny = window as any;
+      windowAny.OnLoadBingMapsApi = () => {
+        const map = new Microsoft.Maps.Map("#hiddenMap", {
+          credentials: process.env.VUE_APP_GEOCODE_KEY,
+        });
+        Microsoft.Maps.loadModule("Microsoft.Maps.Search", () => {
+          resolve(new Microsoft.Maps.Search.SearchManager(map));
+        });
+      };
+      bingMapsScript.setAttribute(
+        "src",
+        `https://www.bing.com/api/maps/mapcontrol?key=${process.env.VUE_APP_GEOCODE_KEY}&callback=OnLoadBingMapsApi`
+      );
+      bingMapsScript.async = true;
+      bingMapsScript.defer = true;
+      document.head.appendChild(bingMapsScript);
+    });
   }
 
   private geocode() {
-    if (!this.searchManager) {
-      const map = new Microsoft.Maps.Map("#hiddenMap", {
-        credentials: process.env.VUE_APP_GEOCODE_KEY,
-      });
-      Microsoft.Maps.loadModule("Microsoft.Maps.Search", () => {
-        this.searchManager = new Microsoft.Maps.Search.SearchManager(map);
-        this.geocode();
-      });
-      return;
-    }
-
     const geocode = (index: number, stop: number) => {
       const searchRequest = {
         where: this.addresses[index],
@@ -95,6 +99,7 @@ export default class Geocoder extends Vue {
           }
         },
         errorCallback: () => {
+          // TODO, generate a new search manager if this fails
           return geocode(index, stop);
         },
       };
