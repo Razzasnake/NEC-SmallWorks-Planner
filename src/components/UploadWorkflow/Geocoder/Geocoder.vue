@@ -21,7 +21,7 @@ export default class Geocoder extends Vue {
   private addresses!: string[];
   private completed: number = 0;
   private searchManager: any;
-  private numWorkers: number = 1; /* Best number after time trials. Don't change. */
+  private numWorkers: number = 2; /* Best number after time trials. Don't change. */
 
   private get completedAux() {
     return this.completed;
@@ -40,6 +40,13 @@ export default class Geocoder extends Vue {
 
   @Watch("addresses")
   private addressesUpdated() {
+    if (this.addresses.length > 10000) {
+      /* If the number of addresses is too big, we will need to refresh the token
+      at some point and right now, that only works for single workers. */
+      this.numWorkers = 1;
+    } else {
+      this.numWorkers = 2;
+    }
     this.geocode();
   }
 
