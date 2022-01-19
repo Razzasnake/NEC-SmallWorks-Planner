@@ -40,18 +40,7 @@ export default class Geocoder extends Vue {
 
   @Watch("addresses")
   private addressesUpdated() {
-    if (this.addresses.length > 10000) {
-      /* If the number of addresses is too big, we will need to refresh the token
-      at some point and right now, that only works for single workers. */
-      this.numWorkers = 1;
-    } else {
-      this.numWorkers = 2;
-    }
     this.geocode();
-  }
-
-  private async mounted() {
-    this.searchManager = await this.newSearchManager();
   }
 
   private newSearchManager() {
@@ -76,7 +65,7 @@ export default class Geocoder extends Vue {
     });
   }
 
-  private geocode() {
+  private async geocode() {
     const geocode = (index: number, stop: number) => {
       const searchRequest = {
         where: this.addresses[index],
@@ -106,19 +95,27 @@ export default class Geocoder extends Vue {
           }
         },
         errorCallback: async () => {
-          this.searchManager = await this.newSearchManager();
           return geocode(index, stop);
         },
       };
       this.searchManager.geocode(searchRequest);
     };
 
-    const numPerWorker = Math.ceil(this.addresses.length / this.numWorkers);
-    for (let i = 0; i < this.addresses.length; i += (numPerWorker + 1)) {
-      if (i + numPerWorker > this.addresses.length - 1) {
-        geocode(i, this.addresses.length - 1);
-      } else {
-        geocode(i, i + numPerWorker);
+    const chunk = 1000;
+    for (let i = 0, j = this.addresses.length; i < j; i += chunk) {
+      const temporary = this.addresses.slice(i, i + chunk);
+      const numPerWorker = Math.ceil(temporary.length / this.numWorkers);
+      const before = this.completed;
+      this.searchManager = await this.newSearchManager();
+      for (let k = 0; k < temporary.length; k += numPerWorker + 1) {
+        if (k + numPerWorker > temporary.length - 1) {
+          geocode(i + k, i + temporary.length - 1);
+        } else {
+          geocode(i + k, i + k + numPerWorker);
+        }
+      }
+      while (before + temporary.length !== this.completed) {
+        await new Promise((resolve) => setTimeout(resolve, 500));
       }
     }
   }
