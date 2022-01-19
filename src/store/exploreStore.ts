@@ -55,7 +55,7 @@ const state: ExploreStoreI = Vue.observable({
 });
 
 export const updateUploadedFile = (uploadedFile: UploadedFile) => {
-  if (uploadedFile.data.length > 1000) {
+  if (uploadedFile.data.length > 1000 && uploadedFile.toUpload) {
     if (state.viewOptions.indexOf("map:clusters") < 0) {
       state.viewOptions.push("map:clusters");
     }
