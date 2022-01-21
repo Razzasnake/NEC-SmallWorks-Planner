@@ -57,9 +57,9 @@ export default class AgGridLink extends Vue {
     /**
      * Open the preview card from a click in the table
      *
-     * @type {string}
+     * @type { id: string, validate: boolean }
      */
-    this.$parent.$parent.$emit("marker-selected", this.params.data.id);
+    this.$parent.$parent.$emit("marker-selected", { id: this.params.data.id, validate: false });
   }
 }
 </script>

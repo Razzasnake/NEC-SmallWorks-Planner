@@ -187,9 +187,9 @@ export default class GoogleMapLogic {
             /**
              * Notify the parent of the marker that has been clicked
              *
-             * @type {string}
+             * @type { id: string, validate: boolean }
              */
-            this.vueComponent.$emit("marker-selected", row.id);
+            this.vueComponent.$emit("marker-selected", { id: row.id, validate: true });
           }
         });
         this.addInfoWindow(newMarker, row);

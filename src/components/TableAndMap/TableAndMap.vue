@@ -231,11 +231,11 @@ export default class TableAndMap extends Vue {
     return null;
   }
 
-  private markerSelected(id: string): void {
-    if (this.viewOptions.indexOf("map:disableMarkers") > -1) {
+  private markerSelected(payload: { id: string, validate: boolean }): void {
+    if (payload.validate && this.viewOptions.indexOf("map:disableMarkers") > -1) {
       return;
     }
-    const clickedMarker = this.rowData.find((_) => _.id === id);
+    const clickedMarker = this.rowData.find((_) => _.id === payload.id);
     if (clickedMarker) {
       this.clickedMarker = clickedMarker;
     }
