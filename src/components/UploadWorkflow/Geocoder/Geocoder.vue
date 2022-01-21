@@ -66,7 +66,7 @@ export default class Geocoder extends Vue {
   }
 
   private async geocode() {
-    const geocode = (index: number, stop: number) => {
+    const geocode = (index: number, stop: number, attempt: number = 0) => {
       const searchRequest = {
         where: this.addresses[index],
         callback: async (r: {
@@ -95,7 +95,19 @@ export default class Geocoder extends Vue {
           }
         },
         errorCallback: async () => {
-          return geocode(index, stop);
+          if (attempt > 3) {
+            this.$emit("update-location", {
+              index,
+              latitude: null,
+              longitude: null,
+            });
+            this.completedAux += 1;
+            if (index < stop) {
+              return geocode(index + 1, stop);
+            }
+          } else {
+            return geocode(index, stop, attempt + 1);
+          }
         },
       };
       this.searchManager.geocode(searchRequest);
