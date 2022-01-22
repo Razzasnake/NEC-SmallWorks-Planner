@@ -42,10 +42,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.16.10",
-    "@storybook/addon-actions": "^6.4.13",
-    "@storybook/addon-essentials": "^6.4.13",
+    "@storybook/addon-actions": "^6.4.14",
+    "@storybook/addon-essentials": "^6.4.14",
     "@storybook/addon-knobs": "^6.3.1",
-    "@storybook/vue": "^6.4.13",
+    "@storybook/vue": "^6.4.14",
     "@types/jest": "^27.4.0",
     "@typescript-eslint/eslint-plugin": "^5.10.0",
     "@typescript-eslint/parser": "^5.10.0",
