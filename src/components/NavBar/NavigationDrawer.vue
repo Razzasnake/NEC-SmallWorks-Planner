@@ -107,7 +107,7 @@
         <v-list-item-title>Embed Code</v-list-item-title>
         <OnUploadUpsell
           v-if="onUploadUpsell"
-          headline="Upgrade to Pro to embed on your website"
+          :headline="headline"
           @close="onUploadUpsell = false"
         />
         <EmbedCode
@@ -160,6 +160,7 @@ export default class NavigationDrawer extends Vue {
   private copyLinkDisplay = false;
   private displayEmbedCode = false;
   private onUploadUpsell = false;
+  private headline = '';
 
   private get viewOptions() {
     return state.viewOptions;
@@ -263,6 +264,7 @@ export default class NavigationDrawer extends Vue {
     if (driveState.tier === 1) {
       this.displayEmbedCode = true;
     } else {
+      this.headline = "Upgrade to Pro to embed on your website";
       this.onUploadUpsell = true;
     }
   }
@@ -345,6 +347,7 @@ export default class NavigationDrawer extends Vue {
     if (driveState.tier === 1) {
       exportToCsv();
     } else {
+      this.headline = "Upgrade to Pro to export this dataset";
       this.onUploadUpsell = true;
     }
   }
