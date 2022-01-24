@@ -22,6 +22,7 @@ const _TableAndMap = () => ({
         :table-logic="tableLogic"
         :view-options="viewOptions"
         :layers="layers"
+        :is-paid-tier="isPaidTier"
         @update-overlay-event-jsons="updateOverlayEventJsons"
         @sort-changed="sortChanged"
         @filter-changed="filterChanged"
@@ -45,6 +46,9 @@ const _TableAndMap = () => ({
     },
     layers: {
       default: []
+    },
+    isPaidTier: {
+      default: true
     }
   },
   data() {

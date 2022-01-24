@@ -9,6 +9,7 @@
       :table-logic="tableLogic"
       :view-options="viewOptions"
       :layers="layers"
+      :is-paid-tier="isPaidTier"
       @update-overlay-event-jsons="updateOverlayEventJsons"
       @sort-changed="updateSorting"
       @filter-changed="updateFilters"
@@ -132,6 +133,10 @@ export default class Explore extends _View {
 
   private get exploreOrEmbed() {
     return this.$route.name === "Explore" ? "explore" : "embed";
+  }
+
+  private get isPaidTier() {
+    return driveState.tier === 1;
   }
 
   @Watch("uploadedFileName")

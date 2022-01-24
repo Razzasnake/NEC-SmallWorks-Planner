@@ -8,8 +8,8 @@
     :does-external-filter-pass="doesExternalFilterPass"
     :get-row-node-id="getRowNodeId"
     :modules="modules"
+    :enable-cell-text-selection="isPaidTier"
     suppress-menu-hide
-    enable-cell-text-selection
     @grid-ready="gridReady"
     @sort-changed="sortChanged"
     @filter-changed="filterChanged"
@@ -88,6 +88,11 @@ export default class Table extends Vue {
    */
   @Prop({ default: null })
   private clickedMarker!: Row | null;
+  /**
+   * Allow user to select the text from the table
+   */
+  @Prop({ default: false })
+  private isPaidTier!: boolean;
 
   private colDef = defaultColDef;
   private gridApi!: GridApi;

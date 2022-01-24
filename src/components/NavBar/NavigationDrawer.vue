@@ -342,7 +342,11 @@ export default class NavigationDrawer extends Vue {
   }
 
   private exportToCsv() {
-    exportToCsv();
+    if (driveState.tier === 1) {
+      exportToCsv();
+    } else {
+      this.onUploadUpsell = true;
+    }
   }
 }
 </script>

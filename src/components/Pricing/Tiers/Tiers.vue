@@ -53,7 +53,6 @@ export default class Tiers extends Vue {
           "Groupings",
           "GeoJSON and Shapefile Support",
           "Street View Integration",
-          "Export",
           "Shareable Links"
         ],
         action: {
@@ -78,6 +77,7 @@ export default class Tiers extends Vue {
         options: [
           "Starter Plan",
           "Embed on Your Website",
+          "Export",
           "Unlimited Rows",
           "Unlimited Uploads"
         ],

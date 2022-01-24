@@ -22,6 +22,7 @@ const _Table = () => ({
         :overlayEvents="overlayEvents"
         :viewOptions="viewOptions"
         :clickedMarker="clickedMarker"
+        :isPaidTier="isPaidTier"
         @sort-changed="sortChanged"
         @filter-changed="filterChanged"
         @hidden-marker-indices-changed="hiddenMarkerIndicesChanged"
@@ -49,6 +50,9 @@ const _Table = () => ({
     },
     clickedMarker: {
       default: null
+    },
+    isPaidTier: {
+      default: true
     }
   },
   methods: {

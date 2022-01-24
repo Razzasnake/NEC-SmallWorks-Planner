@@ -35,6 +35,7 @@
         :overlay-events="overlayEvents"
         :view-options="viewOptions"
         :clicked-marker="clickedMarker"
+        :is-paid-tier="isPaidTier"
         @sort-changed="sortChanged"
         @filter-changed="filterChanged"
         @hidden-marker-indices-changed="hiddenMarkerIndicesChanged"
@@ -111,6 +112,11 @@ export default class TableAndMap extends Vue {
    */
   @Prop()
   private layers!: { id: string, fileName: string, data: object | null }[];
+  /**
+   * Allow user to select the text from the table
+   */
+  @Prop({ default: false })
+  private isPaidTier!: boolean;
 
   private mapId = "Map-" + Math.random().toString(36).substring(7);
   private tableId = "Table-" + Math.random().toString(36).substring(7);
