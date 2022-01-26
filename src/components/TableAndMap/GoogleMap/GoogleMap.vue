@@ -37,7 +37,10 @@
       v-else
       class="affiliation"
     >
-      <a :href="rootUrl">Powered by Table & Map</a>
+      <a
+        :href="rootUrl"
+        target="_blank"
+      >Powered by Table & Map</a>
     </div>
     <v-card
       v-if="mapLogic.colorPosition"
