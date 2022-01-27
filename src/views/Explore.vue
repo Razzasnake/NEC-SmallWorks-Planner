@@ -156,7 +156,7 @@ export default class Explore extends _View {
     examples.forEach(async (example) => {
       const slug = example.title.toLowerCase().split(" ").join("-");
       if (slug === this.fileId) {
-        updateUploadedFile(await exampleApi.getExample(example));
+        updateUploadedFile(await exampleApi.getExample(example), true);
         super.activated({
           title: `${example.title} - Table & Map`,
           content: example.description,

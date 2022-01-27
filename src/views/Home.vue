@@ -36,7 +36,7 @@ export default class Home extends _View {
 
   private async preview(teaser: ExampleTeaserI) {
     this.loading = true;
-    updateUploadedFile(await exampleApi.getExample(teaser));
+    updateUploadedFile(await exampleApi.getExample(teaser), true);
     this.loading = false;
   }
 
