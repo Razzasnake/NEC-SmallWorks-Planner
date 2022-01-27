@@ -181,18 +181,18 @@ export default class GoogleMapLogic {
         const fileName = this.groupByKey ? this.materialColors[colorPosition[row.data[this.groupByKey]]].fileName : "primary";
         const newMarker = this.createMarker(position, fileName);
         (newMarker as unknown as { row: Row }).row = row;
-        // newMarker.addListener("click", () => {
-        //   if (this.map) {
-        //     this.map.panTo(position);
-        //     /**
-        //      * Notify the parent of the marker that has been clicked
-        //      *
-        //      * @type { id: string, validate: boolean }
-        //      */
-        //     this.vueComponent.$emit("marker-selected", { id: row.id, validate: true });
-        //   }
-        // });
-        // this.addInfoWindow(newMarker, row);
+        newMarker.addListener("click", () => {
+          if (this.map) {
+            this.map.panTo(position);
+            /**
+             * Notify the parent of the marker that has been clicked
+             *
+             * @type { id: string, validate: boolean }
+             */
+            this.vueComponent.$emit("marker-selected", { id: row.id, validate: true });
+          }
+        });
+        this.addInfoWindow(newMarker, row);
         if (this.hiddenMarkerIndices.has(index)) {
           newMarker.setVisible(false);
         }
