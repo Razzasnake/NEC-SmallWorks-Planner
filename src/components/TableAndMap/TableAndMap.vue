@@ -146,12 +146,12 @@ export default class TableAndMap extends Vue {
     return this.viewOptions.indexOf("map:clusters") > -1;
   }
 
-  private get groupByKey(): string | null {
+  private get groupByKey(): number | null {
     const groupByIndex = this.viewOptions.findIndex((_) =>
       _.startsWith("map:groupByKey:")
     );
     if (groupByIndex > -1) {
-      return this.viewOptions[groupByIndex].split("map:groupByKey:")[1];
+      return parseInt(this.viewOptions[groupByIndex].split("map:groupByKey:")[1], 10);
     }
     return null;
   }
@@ -220,9 +220,9 @@ export default class TableAndMap extends Vue {
               header &&
               header.toString().toLowerCase().indexOf(key.toLowerCase()) > -1
             ) {
-              if (row[index]) {
+              if (row.data[index]) {
                 content =
-                  content + `<div><b>${header}:</b> ${row[index]}</div>`;
+                  content + `<div><b>${header}:</b> ${row.data[index]}</div>`;
               }
             }
           });
@@ -293,4 +293,6 @@ export default class TableAndMap extends Vue {
 </script>
 <style lang='scss'>
 @import "@/sass/gutter.scss";
+@import "~@ag-grid-community/core/dist/styles/ag-grid.css";
+@import "~@ag-grid-community/core/dist/styles/ag-theme-balham.css";
 </style>

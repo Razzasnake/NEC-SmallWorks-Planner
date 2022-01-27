@@ -2,7 +2,7 @@ import GoogleMap from './GoogleMap.vue'
 import { uploadedFileGenerator } from '@/generator/UploadedFileGenerator'
 import state, { updateUploadedFile } from '@/store/exploreStore'
 import { action } from '@storybook/addon-actions'
-import { boolean, text } from '@storybook/addon-knobs'
+import { boolean, number } from '@storybook/addon-knobs'
 
 export default {
   title: 'TableAndMap/GoogleMap',
@@ -55,7 +55,7 @@ const _GoogleMap = () => ({
       default: boolean('displayClusters', false)
     },
     groupByKey: {
-      default: text('groupByKey', '2')
+      default: number('groupByKey', 2)
     },
     layers: {
       default: state.layers

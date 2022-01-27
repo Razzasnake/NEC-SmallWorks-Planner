@@ -1,4 +1,4 @@
-import { ColDef, ColGroupDef, GridApi, ICellRendererParams } from "@ag-grid-community/core"
+import { ColDef, ColGroupDef, GridApi, ICellRendererParams, ValueGetterParams } from "@ag-grid-community/core"
 import UploadedFile from "@/entities/UploadedFile"
 import AgPreview from "./AgPreview.vue"
 import { max } from "@/logic/Math";
@@ -54,14 +54,18 @@ export default class TableLogic {
       if (uploadedFile.firstRowHeader) {
         return {
           headerName: uploadedFile.data[0].data[index],
-          field: index.toString(),
-          filter: columnTypes[index]
+          filter: columnTypes[index],
+          valueGetter: (params: ValueGetterParams) => {
+            return params.data.data ? params.data.data[index] : null;
+          }
         }
       } else {
         return {
           headerName: `Column ${(index + 1).toString()}`,
-          field: index.toString(),
-          filter: columnTypes[index]
+          filter: columnTypes[index],
+          valueGetter: (params: ValueGetterParams) => {
+            return params.data.data ? params.data.data[index] : null;
+          }
         }
       }
     })

@@ -1,27 +1,25 @@
 class Row {
-  public id: string;
   public index: number;
   public data: any[];
-  public lat: number | null = null;
-  public lng: number | null = null;
+  public columnSelections: { lat: number, lng: number } | null = null;
   public features: { name: string, id: string, features: google.maps.Data.Feature[] | null }[] = [];
-  [key: string]: any;
 
-  public get webWorkerSafeState() {
-    const data = Object.assign({}, this);
-    data.features = [];
-    return data;
+  public get lat() {
+    return parseFloat(this.data[this.columnSelections!.lat]);
+  }
+
+  public get lng() {
+    return parseFloat(this.data[this.columnSelections!.lng]);
+  }
+
+  public get id() {
+    return this.index.toString();
   }
 
   constructor(index: number, row: any[], columnSelections: { lat: number, lng: number }) {
-    this.id = index.toString();
     this.index = index;
     this.data = row;
-    this.lat = parseFloat(row[columnSelections.lat]);
-    this.lng = parseFloat(row[columnSelections.lng]);
-    row.forEach((col, index) => {
-      this[index.toString()] = col;
-    });
+    this.columnSelections = columnSelections;
   }
 }
 

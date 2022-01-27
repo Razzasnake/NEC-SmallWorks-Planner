@@ -242,8 +242,6 @@ export default class PreviewCard extends Vue {
 }
 </script>
 <style lang='scss' scoped>
-@import "~@ag-grid-community/core/dist/styles/ag-grid.css";
-@import "~@ag-grid-community/core/dist/styles/ag-theme-balham.css";
 #street-view {
   height: 500px;
   display: flex;

@@ -97,7 +97,7 @@ export default class GoogleMapLogic {
     return (this.vueComponent as any).clickedMarker;
   }
 
-  private get groupByKey(): string | null {
+  private get groupByKey(): number | null {
     return (this.vueComponent as any).groupByKey;
   }
 
@@ -141,7 +141,7 @@ export default class GoogleMapLogic {
           marker.setVisible(newValue);
         }
         if (newValue && this.groupByKey) {
-          const category = (marker as unknown as { row: Row }).row[this.groupByKey];
+          const category = (marker as unknown as { row: Row }).row.data[this.groupByKey];
           if (category) {
             visibleCategories.add(category.toString());
           }
@@ -174,11 +174,11 @@ export default class GoogleMapLogic {
           return;
         }
         const position = { lat: row.lat!, lng: row.lng! };
-        if (this.groupByKey && colorPosition[row[this.groupByKey]] === undefined) {
-          colorPosition[row[this.groupByKey]] = colorPositionIndex;
+        if (this.groupByKey && colorPosition[row.data[this.groupByKey]] === undefined) {
+          colorPosition[row.data[this.groupByKey]] = colorPositionIndex;
           colorPositionIndex = (colorPositionIndex + 1) % this.materialColors.length;
         }
-        const fileName = this.groupByKey ? this.materialColors[colorPosition[row[this.groupByKey]]].fileName : "primary";
+        const fileName = this.groupByKey ? this.materialColors[colorPosition[row.data[this.groupByKey]]].fileName : "primary";
         const newMarker = this.createMarker(position, fileName);
         (newMarker as unknown as { row: Row }).row = row;
         newMarker.addListener("click", () => {
@@ -269,7 +269,7 @@ export default class GoogleMapLogic {
     if (this.groupByKey) {
       const visibleCategories: Set<string> = new Set();
       this.markers.filter(_ => _.getVisible()).forEach(marker => {
-        const category = (marker as unknown as { row: Row }).row[this.groupByKey!];
+        const category = (marker as unknown as { row: Row }).row.data[this.groupByKey!];
         if (category) {
           visibleCategories.add(category.toString());
         }
@@ -332,7 +332,7 @@ export default class GoogleMapLogic {
   private createSvgPieChart(markers: google.maps.Marker[]) {
     const data: { [key: string]: number } = {};
     markers.forEach(marker => {
-      const value = (marker as unknown as { row: Row }).row[this.groupByKey!];
+      const value = (marker as unknown as { row: Row }).row.data[this.groupByKey!];
       if (data[value] === undefined) {
         data[value] = 0;
       }
@@ -624,7 +624,7 @@ export default class GoogleMapLogic {
     const colorPosition: { [key: string]: number } = {};
     let colorPositionIndex: number = 0;
     this.markers.forEach(row => {
-      const data = (row as unknown as { row: Row }).row;
+      const data = (row as unknown as { row: { data: any[]} }).row.data;
       if (this.groupByKey && colorPosition[data[this.groupByKey]] === undefined) {
         colorPosition[data[this.groupByKey]] = colorPositionIndex;
         colorPositionIndex = (colorPositionIndex + 1) % this.materialColors.length;

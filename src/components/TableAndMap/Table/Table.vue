@@ -177,7 +177,7 @@ export default class Table extends Vue {
     }
     const rowData: Row[] = [];
     this.gridApi.forEachNodeAfterFilter((node, index) => {
-      rowData.push(node.data.webWorkerSafeState);
+      rowData.push(node.data.data);
     });
     const columns = this.columnApi.getAllColumns();
     if (columns === null) {
@@ -185,7 +185,7 @@ export default class Table extends Vue {
     }
     const columnIds = columns
       .filter((column) => column.getColDef().filter === "agNumberColumnFilter")
-      .map((col) => col.getColId());
+      .map((col) => parseInt(col.getColId(), 10));
 
     const worker = new CalculateFooterWorker();
     worker.postMessage({ columnIds, rowData });
@@ -193,16 +193,16 @@ export default class Table extends Vue {
       const pinnedData: PinnedData = event.data;
       const pinnedFooter = [];
       if (this.viewOptions.includes("table:footer:min")) {
-        pinnedFooter.push({ ...pinnedData.min, preview: "Min" });
+        pinnedFooter.push({ data: {...pinnedData.min }, preview: "Min" });
       }
       if (this.viewOptions.includes("table:footer:max")) {
-        pinnedFooter.push({ ...pinnedData.max, preview: "Max" });
+        pinnedFooter.push({ data: {...pinnedData.max }, preview: "Max" });
       }
       if (this.viewOptions.includes("table:footer:avg")) {
-        pinnedFooter.push({ ...pinnedData.avg, preview: "Avg" });
+        pinnedFooter.push({ data: {...pinnedData.avg }, preview: "Avg" });
       }
       if (this.viewOptions.includes("table:footer:total")) {
-        pinnedFooter.push({ ...pinnedData.total, preview: "Total" });
+        pinnedFooter.push({ data: {...pinnedData.total }, preview: "Total" });
       }
       this.gridApi.setPinnedBottomRowData(pinnedFooter);
       worker.terminate();
@@ -266,7 +266,3 @@ export default class Table extends Vue {
   }
 }
 </script>
-<style lang='scss' scoped>
-@import "~@ag-grid-community/core/dist/styles/ag-grid.css";
-@import "~@ag-grid-community/core/dist/styles/ag-theme-balham.css";
-</style>

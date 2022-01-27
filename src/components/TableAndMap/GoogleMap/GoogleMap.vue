@@ -126,7 +126,7 @@ export default class GoogleMap extends Vue {
    * Categorical column to use to determine the marker color and pie chart when clusters are activated.
    */
   @Prop({ default: null })
-  private groupByKey!: string | null;
+  private groupByKey!: number | null;
   /**
    * All of the uploaded geojson and shapefile layers
    */
@@ -144,7 +144,7 @@ export default class GoogleMap extends Vue {
   private mdiDelete = mdiDelete;
 
   private get isEmbed() {
-    return this.$route.name === "Embed";
+    return this.$route && this.$route.name === "Embed";
   }
 
   private get rootUrl() {
