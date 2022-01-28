@@ -140,7 +140,7 @@ export default class GoogleMapLogic {
         if (marker.getVisible() !== newValue) {
           marker.setVisible(newValue);
         }
-        if (newValue && this.groupByKey) {
+        if (newValue && this.groupByKey !== null) {
           const category = (marker as unknown as { row: Row }).row.data[this.groupByKey];
           if (category) {
             visibleCategories.add(category.toString());
@@ -174,11 +174,11 @@ export default class GoogleMapLogic {
           return;
         }
         const position = { lat: row.lat!, lng: row.lng! };
-        if (this.groupByKey && colorPosition[row.data[this.groupByKey]] === undefined) {
+        if (this.groupByKey !== null && colorPosition[row.data[this.groupByKey]] === undefined) {
           colorPosition[row.data[this.groupByKey]] = colorPositionIndex;
           colorPositionIndex = (colorPositionIndex + 1) % this.materialColors.length;
         }
-        const fileName = this.groupByKey ? this.materialColors[colorPosition[row.data[this.groupByKey]]].fileName : "primary";
+        const fileName = this.groupByKey !== null ? this.materialColors[colorPosition[row.data[this.groupByKey]]].fileName : "primary";
         const newMarker = this.createMarker(position, fileName);
         (newMarker as unknown as { row: Row }).row = row;
         newMarker.addListener("click", () => {
@@ -266,7 +266,7 @@ export default class GoogleMapLogic {
       this.markerCluster.clearMarkers();
       this.markerCluster = null;
     }
-    if (this.groupByKey) {
+    if (this.groupByKey !== null) {
       const visibleCategories: Set<string> = new Set();
       this.markers.filter(_ => _.getVisible()).forEach(marker => {
         const category = (marker as unknown as { row: Row }).row.data[this.groupByKey!];
@@ -288,22 +288,22 @@ export default class GoogleMapLogic {
         {
           maxZoom: 12,
           clusterClass: "custom-clustericon",
-          calculator: this.groupByKey ? (...args) => this.computeClusterCalculator(...args) : undefined,
+          calculator: this.groupByKey !== null ? (...args) => this.computeClusterCalculator(...args) : undefined,
           styles: [
             {
-              width: this.groupByKey ? 50 : 30,
-              height: this.groupByKey ? 50 : 30,
-              className: this.groupByKey ? undefined : "custom-clustericon-1"
+              width: this.groupByKey !== null ? 50 : 30,
+              height: this.groupByKey !== null ? 50 : 30,
+              className: this.groupByKey !== null ? undefined : "custom-clustericon-1"
             },
             {
-              width: this.groupByKey ? 60 : 40,
-              height: this.groupByKey ? 60 : 40,
-              className: this.groupByKey ? undefined : "custom-clustericon-2"
+              width: this.groupByKey !== null ? 60 : 40,
+              height: this.groupByKey !== null ? 60 : 40,
+              className: this.groupByKey !== null ? undefined : "custom-clustericon-2"
             },
             {
-              width: this.groupByKey ? 70 : 50,
-              height: this.groupByKey ? 70 : 50,
-              className: this.groupByKey ? undefined : "custom-clustericon-3"
+              width: this.groupByKey !== null ? 70 : 50,
+              height: this.groupByKey !== null ? 70 : 50,
+              className: this.groupByKey !== null ? undefined : "custom-clustericon-3"
             }
           ],
           ignoreHidden: true
@@ -625,11 +625,11 @@ export default class GoogleMapLogic {
     let colorPositionIndex: number = 0;
     this.markers.forEach(row => {
       const data = (row as unknown as { row: { data: any[]} }).row.data;
-      if (this.groupByKey && colorPosition[data[this.groupByKey]] === undefined) {
+      if (this.groupByKey !== null && colorPosition[data[this.groupByKey]] === undefined) {
         colorPosition[data[this.groupByKey]] = colorPositionIndex;
         colorPositionIndex = (colorPositionIndex + 1) % this.materialColors.length;
       }
-      const fileName = this.groupByKey ? this.materialColors[colorPosition[data[this.groupByKey]]].fileName : "primary";
+      const fileName = this.groupByKey !== null ? this.materialColors[colorPosition[data[this.groupByKey]]].fileName : "primary";
       row.setIcon(require(`@/assets/markers/${fileName}.png`));
     });
     if (Object.keys(colorPosition).length) {
