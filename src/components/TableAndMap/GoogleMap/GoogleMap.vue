@@ -43,15 +43,15 @@
       >Powered by Table & Map</a>
     </div>
     <v-card
-      v-if="mapLogic.colorPosition"
+      v-if="mapLogic.groupByVariables.colorPosition"
       class="legend"
     >
       <template
-        v-for="key in Object.keys(mapLogic.colorPosition).filter(key => mapLogic.visibleCategories.has(key))"
+        v-for="key in Object.keys(mapLogic.groupByVariables.colorPosition).filter(key => mapLogic.groupByVariables.visibleCategories.has(key))"
       >
         <div
           :key="key"
-          :style="`background-color: ${mapLogic.materialColors[mapLogic.colorPosition[key]].hash};`"
+          :style="`background-color: ${mapLogic.materialColors[mapLogic.groupByVariables.colorPosition[key]].hash};`"
         >
           {{ key }}
         </div>
@@ -200,7 +200,7 @@ export default class GoogleMap extends Vue {
   }
 
   private created(): void {
-    this.mapLogic = Vue.observable(new GoogleMapLogic(this));
+    this.mapLogic = new GoogleMapLogic(this);
     this.mapLogic.createMap();
   }
 

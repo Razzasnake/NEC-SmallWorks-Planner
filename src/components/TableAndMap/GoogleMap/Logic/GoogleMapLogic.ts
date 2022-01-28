@@ -3,11 +3,17 @@ import MarkerClusterer from "@googlemaps/markerclustererplus";
 import Theme from "./Theme";
 import Utils from "./Utils";
 import colors from "vuetify/lib/util/colors";
+import Vue from "vue";
 
 type AvailableOverlays =
   | google.maps.Polygon
   | google.maps.Rectangle
   | google.maps.Circle;
+
+class GroupByVariables {
+  public visibleCategories: Set<string> = new Set();
+  public colorPosition: { [key: string]: number } | null = null;
+}
 
 export default class GoogleMapLogic {
 
@@ -16,7 +22,6 @@ export default class GoogleMapLogic {
     .substring(7);
   public activeDrawingMode: number | null = null;
   public iconColor: string = "#000000DE";
-  public colorPosition: { [key: string]: number } | null = null;
   public materialColors = [
     { fileName: "red", hash: colors.red.darken1 },
     { fileName: "blue", hash: colors.blue.darken1 },
@@ -38,7 +43,7 @@ export default class GoogleMapLogic {
     { fileName: "lime", hash: colors.lime.darken1 },
     { fileName: "blueGrey", hash: colors.blueGrey.darken1 },
   ];
-  public visibleCategories: Set<string> = new Set();
+  public groupByVariables = Vue.observable(new GroupByVariables());
 
   private vueComponent!: Vue;
   private map!: google.maps.Map;
@@ -147,7 +152,7 @@ export default class GoogleMapLogic {
           }
         }
       });
-      this.visibleCategories = visibleCategories;
+      this.groupByVariables.visibleCategories = visibleCategories;
     });
   }
 
@@ -199,9 +204,9 @@ export default class GoogleMapLogic {
         drawnMarkers.push(newMarker);
       });
     if (Object.keys(colorPosition).length) {
-      this.colorPosition = colorPosition;
+      this.groupByVariables.colorPosition = colorPosition;
     } else {
-      this.colorPosition = null;
+      this.groupByVariables.colorPosition = null;
     }
     this.markers = drawnMarkers;
   }
@@ -274,7 +279,7 @@ export default class GoogleMapLogic {
           visibleCategories.add(category.toString());
         }
       });
-      this.visibleCategories = visibleCategories;
+      this.groupByVariables.visibleCategories = visibleCategories;
     }
     if (this.markerCluster) {
       this.markerCluster.repaint();
@@ -347,7 +352,7 @@ export default class GoogleMapLogic {
     const svgEl = document.createElement("svg");
     svgEl.setAttribute("viewBox", "-1 -1 2 2");
     const slices = Object.keys(data).map(key => {
-      const hash = this.materialColors[this.colorPosition![key]].hash;
+      const hash = this.materialColors[this.groupByVariables.colorPosition![key]].hash;
       return { total: data[key], percent: data[key] / markers.length, color: hash };
     });
     slices.forEach(slice => {
@@ -633,9 +638,9 @@ export default class GoogleMapLogic {
       row.setIcon(require(`@/assets/markers/${fileName}.png`));
     });
     if (Object.keys(colorPosition).length) {
-      this.colorPosition = colorPosition;
+      this.groupByVariables.colorPosition = colorPosition;
     } else {
-      this.colorPosition = null;
+      this.groupByVariables.colorPosition = null;
     }
     if (this.markerCluster) {
       this.markerCluster.clearMarkers();
