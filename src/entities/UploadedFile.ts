@@ -27,7 +27,7 @@ export default class UploadedFile {
   public toUpload: boolean;
   public toSaveChanges: boolean;
   public fileName: string;
-  public data: Row[];
+  public readonly data: Row[];
   public columnSelections: { lat: number, lng: number };
   public firstRowHeader: boolean;
 
@@ -35,7 +35,7 @@ export default class UploadedFile {
     this.toUpload = obj.toUpload;
     this.toSaveChanges = obj.toSaveChanges;
     this.fileName = obj.fileName;
-    this.data = obj.data.map((_, index) => new Row(index, _, obj.columnSelections));
+    this.data = obj.data.map((_, index) => Object.freeze(new Row(index, _, obj.columnSelections)));
     this.columnSelections = obj.columnSelections;
     this.firstRowHeader = obj.firstRowHeader;
   }
