@@ -267,8 +267,3 @@ export default class Table extends Vue {
   }
 }
 </script>
-<style lang="scss" scoped>
-::v-deep .v-select {
-  margin-top: -15px;
-}
-</style>
