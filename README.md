@@ -44,6 +44,5 @@ npm run build -- --mode prod
 npm run lint
 ```
 
-ag-grid-community
 eslint
 sass-loader

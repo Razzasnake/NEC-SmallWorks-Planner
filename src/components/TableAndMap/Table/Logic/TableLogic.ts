@@ -77,7 +77,7 @@ export default class TableLogic {
       suppressMenu: true,
       sortable: false,
       cellRenderer: undefined,
-      cellRendererFramework: AgPreview
+      cellRendererSelector: () => ({ frameworkComponent: AgPreview }),
     }
     this.columnDefs = [previewCol].concat(generatedCols)
   }

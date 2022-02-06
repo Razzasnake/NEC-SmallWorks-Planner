@@ -64,11 +64,7 @@ export default class AgGridLink extends Vue {
 }
 </script>
 <style lang="scss" scoped>
-.v-text-field {
-  padding-top: 0px;
-  margin-top: -3px;
+.v-select {
+  margin-top: 10px;
 }
-// .v-select {
-//   margin-top: 20px !important;
-// }
 </style>

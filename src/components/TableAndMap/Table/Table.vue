@@ -22,7 +22,6 @@ import {
   GridApi,
   ColumnApi,
   RowNode,
-  CellKeyPressEvent,
 } from "@ag-grid-community/core";
 import TableLogic, { defaultColDef } from "./Logic/TableLogic";
 import { Row } from "@/entities/UploadedFile";
