@@ -24,6 +24,7 @@ import {
   RowNode,
 } from "@ag-grid-community/core";
 import TableLogic, { defaultColDef } from "./Logic/TableLogic";
+import AgPreview from "./Logic/AgPreview.vue";
 import { Row } from "@/entities/UploadedFile";
 import CalculateFooterWorker from "worker-loader!./Logic/WebWorkers/CalculateFooter.worker";
 import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
@@ -43,6 +44,7 @@ type PinnedData = {
   name: "TableAndMapTable",
   components: {
     AgGridVue,
+    AgPreview,
   },
 })
 export default class Table extends Vue {
