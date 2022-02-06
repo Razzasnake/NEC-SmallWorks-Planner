@@ -1,5 +1,6 @@
 import { ColDef, ColGroupDef, GridApi, ICellRendererParams, ValueGetterParams } from "@ag-grid-community/core"
 import UploadedFile from "@/entities/UploadedFile"
+import AgPreview from "./AgPreview.vue"
 import { max } from "@/logic/Math";
 
 export const defaultColDef: ColDef = {
@@ -76,7 +77,7 @@ export default class TableLogic {
       suppressMenu: true,
       sortable: false,
       cellRenderer: undefined,
-      cellRendererSelector: () => ({ frameworkComponent: 'AgPreview' }),
+      cellRendererFramework: AgPreview,
     }
     this.columnDefs = [previewCol].concat(generatedCols)
   }
