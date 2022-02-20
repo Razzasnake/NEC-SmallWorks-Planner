@@ -89,7 +89,7 @@
 </template>
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
-import { mdiTwitter, mdiFacebook, mdiYoutube, mdiLinkedin } from "@mdi/js";
+import { mdiLinkedin } from "@mdi/js";
 import { features, examples } from "@/entities/data";
 
 /**
@@ -123,13 +123,7 @@ export default class Footer extends Vue {
   };
 
   private socialLinks = [
-    {
-      icon: mdiYoutube,
-      link: "https://www.youtube.com/channel/UC5OELo9txQahDBUBA7iMJIg",
-    },
     { icon: mdiLinkedin, link: "https://www.linkedin.com/company/tableandmap" },
-    { icon: mdiFacebook, link: "https://www.facebook.com/tableandmap" },
-    { icon: mdiTwitter, link: "https://twitter.com/tableandmap" },
   ];
 
   private get currentYear() {
