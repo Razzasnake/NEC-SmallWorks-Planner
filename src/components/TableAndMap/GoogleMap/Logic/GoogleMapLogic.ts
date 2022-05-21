@@ -124,6 +124,7 @@ export default class GoogleMapLogic {
           disableDefaultUI: true,
           clickableIcons: false,
           zoomControl: true,
+          streetViewControl: true,
           gestureHandling: "greedy",
           styles: Theme
         });
