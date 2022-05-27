@@ -125,11 +125,18 @@ export default class GoogleMapLogic {
           clickableIcons: false,
           zoomControl: true,
           streetViewControl: true,
+          fullscreenControl: true,
+          mapTypeControl: true,
+          mapTypeControlOptions: {
+            position: google.maps.ControlPosition.TOP_RIGHT,
+          },
+          controlSize: 32,
           gestureHandling: "greedy",
           styles: Theme
         });
         this.addIdleListener();
         this.initMarkers();
+        this.initMyLocationButton();
       }
     });
   }
@@ -155,6 +162,64 @@ export default class GoogleMapLogic {
       });
       this.groupByVariables.visibleCategories = visibleCategories;
     });
+  }
+
+  private initMyLocationButton() {
+    const controlDiv = document.createElement('div');
+
+    const firstChild = document.createElement('button');
+    firstChild.style.backgroundColor = '#fff';
+    firstChild.style.border = 'none';
+    firstChild.style.outline = 'none';
+    firstChild.style.width = '28px';
+    firstChild.style.height = '28px';
+    firstChild.style.borderRadius = '2px';
+    firstChild.style.boxShadow = '0 1px 4px rgba(0,0,0,0.3)';
+    firstChild.style.cursor = 'pointer';
+    firstChild.style.marginRight = '10px';
+    firstChild.style.padding = '0';
+    firstChild.title = 'Your Location';
+    controlDiv.appendChild(firstChild);
+
+    const secondChild = document.createElement('div');
+    secondChild.style.margin = '5px';
+    secondChild.style.width = '18px';
+    secondChild.style.height = '18px';
+    secondChild.style.backgroundImage = 'url(https://maps.gstatic.com/tactile/mylocation/mylocation-sprite-2x.png)';
+    secondChild.style.backgroundSize = '180px 18px';
+    secondChild.style.backgroundPosition = '0 0';
+    secondChild.style.backgroundRepeat = 'no-repeat';
+    firstChild.appendChild(secondChild);
+
+    google.maps.event.addListener(this.map, 'center_changed', () => {
+      secondChild.style.backgroundPosition = '0 0';
+    });
+
+    firstChild.addEventListener('click', () => {
+      let imgX = 0;
+      const animationInterval = setInterval(() => {
+        imgX = -imgX - 18;
+        secondChild.style.backgroundPosition = imgX + 'px 0';
+      }, 500);
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          const latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+          new google.maps.Marker({
+            map: this.map,
+            animation: google.maps.Animation.DROP,
+            position: latlng
+          });
+          this.map.setCenter(latlng);
+          clearInterval(animationInterval);
+          secondChild.style.backgroundPosition = '-144px 0';
+        });
+      } else {
+        clearInterval(animationInterval);
+        secondChild.style.backgroundPosition = '0 0';
+      }
+    });
+    this.map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(controlDiv);
   }
 
   public initMarkers(): void {
@@ -258,11 +323,11 @@ export default class GoogleMapLogic {
       markers = this.markers;
     }
     markers.forEach(marker => {
-        const pos = marker.getPosition();
-        if (pos && pos.lat() && pos.lng()) {
-          bounds.extend(pos);
-        }
-      });
+      const pos = marker.getPosition();
+      if (pos && pos.lat() && pos.lng()) {
+        bounds.extend(pos);
+      }
+    });
     this.map.setOptions({ maxZoom: 15 });
     this.map.fitBounds(bounds);
   }
@@ -630,7 +695,7 @@ export default class GoogleMapLogic {
     const colorPosition: { [key: string]: number } = {};
     let colorPositionIndex: number = 0;
     this.markers.forEach(row => {
-      const data = (row as unknown as { row: { data: any[]} }).row.data;
+      const data = (row as unknown as { row: { data: any[] } }).row.data;
       if (this.groupByKey !== null && colorPosition[data[this.groupByKey]] === undefined) {
         colorPosition[data[this.groupByKey]] = colorPositionIndex;
         colorPositionIndex = (colorPositionIndex + 1) % this.materialColors.length;
