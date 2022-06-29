@@ -151,7 +151,7 @@ export default class GoogleMapLogic {
         }
         const newValue = this.map.getBounds()!.contains(marker.getPosition()!);
         if (marker.getVisible() !== newValue) {
-          marker.setVisible(newValue);
+          this.markers[index].setOptions({ opacity: newValue ? 1 : 0.3 });
         }
         if (newValue && this.groupByKey !== null) {
           const category = (marker as unknown as { row: Row }).row.data[this.groupByKey];
@@ -265,7 +265,7 @@ export default class GoogleMapLogic {
         });
         this.addInfoWindow(newMarker, row);
         if (this.hiddenMarkerIndices.has(index)) {
-          newMarker.setVisible(false);
+          newMarker.setOptions({ opacity: 0.3 });
         }
         drawnMarkers.push(newMarker);
       });
@@ -721,12 +721,12 @@ export default class GoogleMapLogic {
   ) {
     oldVals.forEach(index => {
       if (!newVals.has(index) && this.markers[index]) {
-        this.markers[index].setVisible(true);
+        this.markers[index].setOptions({ opacity: 1 });
       }
     });
     newVals.forEach(index => {
       if (!oldVals.has(index) && this.markers[index]) {
-        this.markers[index].setVisible(false);
+        this.markers[index].setOptions({ opacity: 0.3 });
       }
     });
     if ((newVals.size || oldVals.size) && this.markers.length) {
