@@ -252,7 +252,8 @@ export const exportToCsv = () => {
   if (state.tableLogic && state.tableLogic.api && state.uploadedFile) {
     let fileName = state.uploadedFile.fileName;
     if (state.uploadedFile.fileName.indexOf(".") > -1) {
-      fileName = state.uploadedFile.fileName.split(".").slice(0, -2).join(".");
+      const ranString = state.uploadedFile.fileName.split(".")[state.uploadedFile.fileName.split(".").length-2];
+      fileName = state.uploadedFile.fileName.replace(`.${ranString}`, '');
     }
     state.tableLogic.api.exportDataAsCsv({
       fileName,
