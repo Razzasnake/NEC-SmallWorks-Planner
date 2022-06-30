@@ -32,6 +32,19 @@
           {{ mdiDelete }}
         </v-icon>
       </v-btn>
+      <v-btn
+        v-else-if="mapLogic.activeOverlays.length"
+        class="delete-all"
+        x-small
+        fab
+        title="Delete all shapes"
+        @click="deleteAllOverlays"
+      >
+        <v-icon color="error">
+          {{ mdiDelete }}
+        </v-icon>
+        <div style="padding: 0 5px">Delete All</div>
+      </v-btn>
     </v-btn-toggle>
     <div
       v-else
@@ -208,6 +221,10 @@ export default class GoogleMap extends Vue {
     this.mapLogic.deleteSelectedOverlay();
   }
 
+  private deleteAllOverlays() {
+    this.mapLogic.deleteAllOverlays();
+  }
+
   private beforeDestroy(): void {
     this.mapLogic.beforeDestroy();
   }
@@ -222,6 +239,9 @@ export default class GoogleMap extends Vue {
   position: absolute;
   top: 5px;
   left: 5px;
+  .delete-all {
+    width: 108px;
+  }
 }
 .affiliation {
   position: absolute;

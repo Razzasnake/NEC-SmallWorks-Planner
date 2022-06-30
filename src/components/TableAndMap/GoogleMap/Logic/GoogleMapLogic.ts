@@ -652,6 +652,13 @@ export default class GoogleMapLogic {
     }
   }
 
+  public deleteAllOverlays(): void {
+    this.vueComponent.$emit("update-overlay-events", []);
+    this.overlayEvents.forEach(overlayEvent => {
+      overlayEvent.overlay!.setMap(null);
+    });
+  }
+
   public initOverlayEvents(): void {
     this.clearOverlays();
     this.overlayEvents.forEach(event => {
