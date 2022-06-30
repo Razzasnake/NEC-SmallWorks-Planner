@@ -93,22 +93,36 @@ export const directLinkDownloadData = () => {
     } else {
       const exampleDataset = examples.find(e => e.title.toLowerCase().split(" ").join("-") === fileId);
       if (!exampleDataset) {
+        console.log('1')
         gapi.load("client", () => {
+          console.log('2')
           const token = gapi.client.getToken();
+          console.log('3')
           gapi.client.setToken(null);
+          console.log('4')
           gapi.client.setApiKey(process.env.VUE_APP_LOGGED_OUT_USER_API_KEY);
+          console.log('5')
           gapi.client.load("drive", "v3", async () => {
+            console.log('6')
             if (router.currentRoute.name === "Embed") {
+              console.log('7')
               if (!await isFileOwnerPro(fileId)) {
+                console.log('8')
                 router.push({ name: "404" });
+                console.log('9')
                 return;
               }
+              console.log('10')
             }
+            console.log('11')
             downloadFile(fileId).then(resp => {
+              console.log('12')
               const body = JSON.parse(resp);
+              console.log('13')
               gapi.client.drive.files.get({
                 fileId: body.ids.file
               }).execute((resp) => {
+                console.log('14')
                 downloadUserUpload({
                   file: {
                     id: body.ids.file,
@@ -124,7 +138,8 @@ export const directLinkDownloadData = () => {
                   gapi.client.setToken(token);
                 });
               });
-            }).catch(() => {
+            }).catch((e) => {
+              console.log(e)
               router.push({ name: "404" });
             });
           });
