@@ -62,7 +62,7 @@
       class="legend"
     >
       <template
-        v-for="key in Object.keys(mapLogic.groupByVariables.colorPosition).sort().filter(key => mapLogic.groupByVariables.visibleCategories.has(key))"
+        v-for="key in Object.keys(mapLogic.groupByVariables.colorPosition).sort((a, b) => (a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }))).filter(key => mapLogic.groupByVariables.visibleCategories.has(key))"
       >
         <div
           :key="key"
