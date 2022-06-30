@@ -52,7 +52,7 @@ export default class GoogleMapLogic {
   private markerCluster: MarkerClusterer | null = null;
   private heatmap: google.maps.visualization.HeatmapLayer | null = null;
   private activeOverlays: AvailableOverlays[] = [];
-  private selectedOverlayEvent: google.maps.drawing.OverlayCompleteEvent | null = null;
+  private selectedOverlayEvent: { obj: google.maps.drawing.OverlayCompleteEvent | null } = Vue.observable({ obj: null });
   private markers: google.maps.Marker[] = [];
   private clickedInfoWindow: google.maps.InfoWindow | null = null;
   private activeLayerIds: Set<string> = new Set();
@@ -151,7 +151,7 @@ export default class GoogleMapLogic {
         }
         const newValue = this.map.getBounds()!.contains(marker.getPosition()!);
         if (marker.getVisible() !== newValue) {
-          this.markers[index].setOptions({ opacity: newValue ? 1 : 0.3 });
+          marker.setVisible(newValue);
         }
         if (newValue && this.groupByKey !== null) {
           const category = (marker as unknown as { row: Row }).row.data[this.groupByKey];
@@ -542,7 +542,7 @@ export default class GoogleMapLogic {
       this.clearSelection();
       newOverlay.setEditable(true);
       newOverlay.setDraggable(true);
-      this.selectedOverlayEvent = newEvent;
+      this.selectedOverlayEvent.obj = newEvent;
     });
     if (newEvent.type === google.maps.drawing.OverlayType.POLYGON) {
       this.setPolygonListeners(newOverlay as google.maps.Polygon);
@@ -551,7 +551,7 @@ export default class GoogleMapLogic {
     } else if (newEvent.type === google.maps.drawing.OverlayType.CIRCLE) {
       this.setCircleListeners(newOverlay as google.maps.Circle);
     }
-    this.selectedOverlayEvent = newEvent;
+    this.selectedOverlayEvent.obj = newEvent;
     if (emit) {
       /**
        * Notify the parent of all of the polygons currently being displayed on the map
@@ -628,26 +628,26 @@ export default class GoogleMapLogic {
   }
 
   public clearSelection(): void {
-    if (this.selectedOverlayEvent) {
-      const overlay = this.selectedOverlayEvent.overlay as AvailableOverlays;
+    if (this.selectedOverlayEvent.obj) {
+      const overlay = this.selectedOverlayEvent.obj.overlay as AvailableOverlays;
       overlay.setEditable(false);
       overlay.setDraggable(false);
-      this.selectedOverlayEvent = null;
+      this.selectedOverlayEvent.obj = null;
     }
   }
 
   public deleteSelectedOverlay(): void {
-    if (this.selectedOverlayEvent) {
+    if (this.selectedOverlayEvent.obj) {
       const overlayIndex = this.overlayEvents.findIndex(
-        _ => _.overlay === this.selectedOverlayEvent!.overlay
+        _ => _.overlay === this.selectedOverlayEvent.obj!.overlay
       );
       if (overlayIndex >= 0) {
         const newOverlayEvents = this.overlayEvents
           .slice(0, overlayIndex)
           .concat(this.overlayEvents.slice(overlayIndex + 1));
         this.vueComponent.$emit("update-overlay-events", newOverlayEvents);
-        this.selectedOverlayEvent.overlay!.setMap(null);
-        this.selectedOverlayEvent = null;
+        this.selectedOverlayEvent.obj.overlay!.setMap(null);
+        this.selectedOverlayEvent.obj = null;
       }
     }
   }

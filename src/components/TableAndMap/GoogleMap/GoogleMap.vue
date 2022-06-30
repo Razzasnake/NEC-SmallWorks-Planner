@@ -22,7 +22,7 @@
         </v-icon>
       </v-btn>
       <v-btn
-        v-if="mapLogic.selectedOverlayEvent"
+        v-if="mapLogic.selectedOverlayEvent.obj"
         x-small
         fab
         title="Delete selected shape"
