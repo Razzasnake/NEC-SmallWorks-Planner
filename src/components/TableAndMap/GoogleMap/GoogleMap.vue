@@ -5,7 +5,6 @@
       class="google-map"
     />
     <v-btn-toggle
-      v-if="!isEmbed"
       class="drawing-manager"
       :value="mapLogic.activeDrawingMode"
     >
@@ -49,7 +48,7 @@
       </v-btn>
     </v-btn-toggle>
     <div
-      v-else
+      v-if="isEmbed"
       class="affiliation"
     >
       <a
@@ -247,7 +246,7 @@ export default class GoogleMap extends Vue {
 }
 .affiliation {
   position: absolute;
-  top: 0px;
+  top: 40px;
   left: 0px;
   background-color: rgba(255, 255, 255, .60);
   padding-left: 6px;
