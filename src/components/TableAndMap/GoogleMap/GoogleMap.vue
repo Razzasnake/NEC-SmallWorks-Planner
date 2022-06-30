@@ -43,7 +43,9 @@
         <v-icon color="error">
           {{ mdiDelete }}
         </v-icon>
-        <div style="padding: 0 5px">Delete All</div>
+        <div style="padding: 0 5px">
+          Delete All
+        </div>
       </v-btn>
     </v-btn-toggle>
     <div
