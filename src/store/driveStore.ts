@@ -96,8 +96,7 @@ export const directLinkDownloadData = () => {
         gapi.load("client", () => {
           const token = gapi.client.getToken();
           gapi.client.setToken(null);
-          const userApiKeys = Object.keys(process.env).filter(_ => _.startsWith('VUE_APP_LOGGED_OUT_USER_API_KEY'));
-          gapi.client.setApiKey(process.env[userApiKeys[userApiKeys.length * Math.random() | 0]]);
+          gapi.client.setApiKey(process.env.VUE_APP_LOGGED_OUT_USER_API_KEY);
           gapi.client.load("drive", "v3", async () => {
             if (router.currentRoute.name === "Embed") {
               if (!await isFileOwnerPro(fileId)) {
