@@ -265,7 +265,7 @@ export default class GoogleMapLogic {
         });
         this.addInfoWindow(newMarker, row);
         if (this.hiddenMarkerIndices.has(index)) {
-          newMarker.setOptions({ opacity: 0.3 });
+          newMarker.setOptions({ opacity: 0.5 });
         }
         drawnMarkers.push(newMarker);
       });
@@ -733,7 +733,7 @@ export default class GoogleMapLogic {
     });
     newVals.forEach(index => {
       if (!oldVals.has(index) && this.markers[index]) {
-        this.markers[index].setOptions({ opacity: 0.3 });
+        this.markers[index].setOptions({ opacity: 0.5 });
       }
     });
     if ((newVals.size || oldVals.size) && this.markers.length) {
