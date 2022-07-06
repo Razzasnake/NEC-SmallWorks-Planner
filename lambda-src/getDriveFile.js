@@ -43,13 +43,14 @@ exports.handler = async (event) => {
           });
           return;
         }
-        let buf = [];
-        res.data.on("data", (e) => buf.push(e));
+        let data = "";
+        res.data.on("data", (chunk) => {
+          data += chunk;
+        });
         res.data.on("end", () => {
-          const buffer = Buffer.concat(buf);
           resolve({
             statusCode: 200,
-            body: buffer,
+            body: data,
             headers
           });
         });
