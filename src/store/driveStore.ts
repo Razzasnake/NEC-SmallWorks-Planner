@@ -105,7 +105,7 @@ export const directLinkDownloadData = () => {
               }
             }
             downloadFile(fileId).then(resp => {
-              const body = JSON.parse(resp);
+              const body = JSON.parse(resp!);
               gapi.client.drive.files.get({
                 fileId: body.ids.file
               }).execute((resp) => {
@@ -211,6 +211,11 @@ export const updateShared = (files: gapi.client.drive.File[], shared: boolean) =
 }
 
 export const downloadFile = (fileId: string) => {
+  if (gapi.client.getToken() === null) {
+    return lambdaApi.getDriveFile({ fileId }).then((fileResponse) => {
+      return fileResponse;
+    });
+  }
   return gapi.client.drive.files
     .get({ fileId, alt: "media" })
     .then((response) => {

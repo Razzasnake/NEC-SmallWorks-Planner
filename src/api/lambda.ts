@@ -31,5 +31,16 @@ export default {
     }).catch(() => {
       return null;
     });
+  },
+  getDriveFile(payload: { fileId: string }) {
+    const url = `${process.env.VUE_APP_LAMBDA_BASE_URL}/getDriveFile`;
+    return fetch(url, {
+      method: "POST",
+      body: JSON.stringify(payload)
+    }).then(async response => {
+      return await response.text();
+    }).catch(() => {
+      return null;
+    });
   }
 }

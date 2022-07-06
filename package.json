@@ -30,6 +30,8 @@
     "@types/google-maps": "^3.2.3",
     "d3-geo": "^3.0.1",
     "eslint": "^7.32.0",
+    "google-auth-library": "^8.1.0",
+    "googleapis": "^105.0.0",
     "logrocket": "^2.1.3",
     "shpjs": "^4.0.2",
     "split.js": "^1.6.5",

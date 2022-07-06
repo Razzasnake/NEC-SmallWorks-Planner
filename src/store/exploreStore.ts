@@ -79,7 +79,7 @@ export const downloadUserUpload = async (files: {
       });
       worker.onmessage = async (event) => {
         const config: Config = JSON.parse(
-          await downloadFile(files.configFile!.id!)
+          (await downloadFile(files.configFile!.id!))!
         ) as any;
         const uploadedFile = new UploadedFile({
           toUpload: false,
@@ -104,7 +104,7 @@ export const downloadUserUpload = async (files: {
         updateUploadedFile(uploadedFile);
         if (files.geojsonFile && files.geojsonFile.id) {
           await downloadFile(files.geojsonFile.id).then((layers) => {
-            state.layers = JSON.parse(layers);
+            state.layers = JSON.parse(layers!);
             state.layers.forEach(layer => {
               processUploadedLayer(layer);
             });
