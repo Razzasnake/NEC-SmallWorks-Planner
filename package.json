@@ -29,6 +29,7 @@
     "@types/gapi.client.drive": "^3.0.13",
     "@types/google-maps": "^3.2.3",
     "d3-geo": "^3.0.1",
+    "encoding": "^0.1.13",
     "eslint": "^7.32.0",
     "google-auth-library": "^8.1.0",
     "googleapis": "^105.0.0",
