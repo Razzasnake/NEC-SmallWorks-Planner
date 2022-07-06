@@ -51,7 +51,7 @@ export default class GoogleMapLogic {
   private drawingManager: google.maps.drawing.DrawingManager | null = null;
   private markerCluster: MarkerClusterer | null = null;
   private heatmap: google.maps.visualization.HeatmapLayer | null = null;
-  private activeOverlays: AvailableOverlays[] = [];
+  private activeOverlays: { obj: AvailableOverlays[] } = Vue.observable({ obj: [] });
   private selectedOverlayEvent: { obj: google.maps.drawing.OverlayCompleteEvent | null } = Vue.observable({ obj: null });
   private markers: google.maps.Marker[] = [];
   private clickedInfoWindow: google.maps.InfoWindow | null = null;
@@ -563,7 +563,7 @@ export default class GoogleMapLogic {
         this.overlayEvents.concat(newEvent)
       );
     }
-    this.activeOverlays.push(newOverlay);
+    this.activeOverlays.obj.push(newOverlay);
     this.activeDrawingMode = null;
   }
 
@@ -670,11 +670,11 @@ export default class GoogleMapLogic {
   }
 
   public clearOverlays(): void {
-    this.activeOverlays.forEach(overlay => {
+    this.activeOverlays.obj.forEach(overlay => {
       google.maps.event.clearInstanceListeners(overlay);
       overlay.setMap(null);
     });
-    this.activeOverlays = [];
+    this.activeOverlays.obj = [];
   }
 
   public clickedMarkerChanged() {

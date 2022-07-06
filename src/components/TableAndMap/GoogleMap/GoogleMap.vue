@@ -32,7 +32,7 @@
         </v-icon>
       </v-btn>
       <v-btn
-        v-else-if="mapLogic.activeOverlays.length"
+        v-else-if="mapLogic.activeOverlays.obj.length"
         class="delete-all"
         x-small
         fab
