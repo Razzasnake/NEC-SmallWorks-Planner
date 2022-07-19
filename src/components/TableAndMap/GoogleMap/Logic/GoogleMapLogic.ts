@@ -733,6 +733,7 @@ export default class GoogleMapLogic {
   ) {
     oldVals.forEach(index => {
       if (!newVals.has(index) && this.markers[index]) {
+        this.markers[index].setVisible(true);
         this.markers[index].setOptions({ opacity: 1 });
       }
     });
