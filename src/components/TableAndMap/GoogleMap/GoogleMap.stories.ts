@@ -25,6 +25,7 @@ const _GoogleMap = () => ({
         :display-markers="displayMarkers"
         :display-clusters="displayClusters"
         :group-by-key="groupByKey"
+        :unselected-marker-opacity="unselectedMarkerOpacity"
         :layers="layers"
         @marker-selected="markerSelected"
         @update-overlay-events="updateOverlayEvents"
@@ -56,6 +57,9 @@ const _GoogleMap = () => ({
     },
     groupByKey: {
       default: number('groupByKey', 2)
+    },
+    unselectedMarkerOpacity: {
+      default: number('unselectedMarkerOpacity', 0)
     },
     layers: {
       default: state.layers

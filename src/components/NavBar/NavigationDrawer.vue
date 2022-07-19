@@ -37,6 +37,19 @@
             />
           </v-list-item-content>
         </v-list-item>
+        <v-list-item v-else-if="dropdown1.key === 'map:unselectedMarkerOpacity'">
+          <v-list-item-content>
+            <v-list-item-title>Unselected Marker Opacity</v-list-item-title>
+            <v-slider
+              :value="unselectedMarkerOpacityValue"
+              dense
+              :step="1"
+              :max="100"
+              :min="0"
+              @change="unselectedMarkerOpacityChange"
+            />
+          </v-list-item-content>
+        </v-list-item>
         <v-list-item
           v-else
           link
@@ -213,6 +226,15 @@ export default class NavigationDrawer extends Vue {
   }
   private set groupByKeyValue(newValue: string | null) {}
 
+  private get unselectedMarkerOpacityValue() {
+    const value = this.viewOptions.find((_) => _.startsWith("map:unselectedMarkerOpacity:"));
+    if (value) {
+      return parseInt(value.split("map:unselectedMarkerOpacity:")[1]);
+    }
+    return 0;
+  }
+  private set unselectedMarkerOpacityValue(newValue: number | null) {}
+
   private dropdowns = [
     {
       label: "Table",
@@ -255,6 +277,10 @@ export default class NavigationDrawer extends Vue {
         {
           label: "Group By",
           key: "map:groupByKey",
+        },
+        {
+          label: "Unselected Marker Opacity",
+          key: "map:unselectedMarkerOpacity",
         },
       ],
     },
@@ -313,6 +339,16 @@ export default class NavigationDrawer extends Vue {
     );
     if (value) {
       newOptions.push(`map:groupByKey:${value}`);
+    }
+    updateViewOptions(newOptions);
+  }
+
+  private unselectedMarkerOpacityChange(value: number | undefined) {
+    const newOptions: string[] = this.viewOptions.filter(
+      (_) => !_.startsWith("map:unselectedMarkerOpacity")
+    );
+    if (value) {
+      newOptions.push(`map:unselectedMarkerOpacity:${value || 0}`);
     }
     updateViewOptions(newOptions);
   }

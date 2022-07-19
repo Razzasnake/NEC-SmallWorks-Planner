@@ -16,6 +16,7 @@
         :display-clusters="displayClusters"
         :clicked-marker="clickedMarker"
         :group-by-key="groupByKey"
+        :unselected-marker-opacity="unselectedMarkerOpacity"
         :layers="layers"
         @marker-selected="markerSelected"
         @update-overlay-events="updateOverlayEvents"
@@ -154,6 +155,16 @@ export default class TableAndMap extends Vue {
       return parseInt(this.viewOptions[groupByIndex].split("map:groupByKey:")[1], 10);
     }
     return null;
+  }
+
+  private get unselectedMarkerOpacity(): number {
+    const groupByIndex = this.viewOptions.findIndex((_) =>
+      _.startsWith("map:unselectedMarkerOpacity:")
+    );
+    if (groupByIndex > -1) {
+      return parseInt(this.viewOptions[groupByIndex].split("map:unselectedMarkerOpacity:")[1], 10);
+    }
+    return 0;
   }
 
   private get sectionClass(): string {

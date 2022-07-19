@@ -142,6 +142,11 @@ export default class GoogleMap extends Vue {
   @Prop({ default: null })
   private groupByKey!: number | null;
   /**
+   * Used to adjust the opacity of the markers that are usually hidden
+   */
+  @Prop({ default: 0 })
+  private unselectedMarkerOpacity!: number;
+  /**
    * All of the uploaded geojson and shapefile layers
    */
   @Prop({ default: Array() })
@@ -206,6 +211,11 @@ export default class GoogleMap extends Vue {
   @Watch("groupByKey")
   private updateGroupByKey() {
     this.mapLogic.updateMarkerImages();
+  }
+
+  @Watch('unselectedMarkerOpacity')
+  private updateUpdateunselectedMarkerOpacity() {
+    this.mapLogic.updateUnselectedMarkerOpacity();
   }
 
   @Watch("layers")

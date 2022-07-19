@@ -106,6 +106,10 @@ export default class GoogleMapLogic {
     return (this.vueComponent as any).groupByKey;
   }
 
+  private get unselectedMarkerOpacity(): number {
+    return (this.vueComponent as any).unselectedMarkerOpacity || 0;
+  }
+
   private get layers(): { id: string, fileName: string, data: object | null }[] {
     return (this.vueComponent as any).layers;
   }
@@ -265,7 +269,8 @@ export default class GoogleMapLogic {
         });
         this.addInfoWindow(newMarker, row);
         if (this.hiddenMarkerIndices.has(index)) {
-          newMarker.setOptions({ opacity: 0.5 });
+          newMarker.setVisible(this.unselectedMarkerOpacity > 0);
+          newMarker.setOptions({ opacity: this.unselectedMarkerOpacity / 100 });
         }
         drawnMarkers.push(newMarker);
       });
@@ -733,13 +738,22 @@ export default class GoogleMapLogic {
     });
     newVals.forEach(index => {
       if (!oldVals.has(index) && this.markers[index]) {
-        this.markers[index].setOptions({ opacity: 0.5 });
+        this.markers[index].setVisible(this.unselectedMarkerOpacity > 0);
+        this.markers[index].setOptions({ opacity: this.unselectedMarkerOpacity / 100 });
       }
     });
     if ((newVals.size || oldVals.size) && this.markers.length) {
       this.displayHeatmapChanged();
       this.displayClustersChanged();
     }
+  }
+
+  public updateUnselectedMarkerOpacity() {
+    this.hiddenMarkerIndices.forEach(index => {
+      this.markers[index].setVisible(this.unselectedMarkerOpacity > 0);
+      this.markers[index].setOptions({ opacity: this.unselectedMarkerOpacity / 100 });
+    });
+    this.displayClustersChanged();
   }
 
   public updateLayers() {
