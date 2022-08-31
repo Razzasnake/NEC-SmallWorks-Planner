@@ -89,7 +89,8 @@
 </template>
 <script lang='ts'>
 import { Component, Vue } from "vue-property-decorator";
-import { mdiLinkedin } from "@mdi/js";
+import { mdiGit, mdiLinkedin } from "@mdi/js";
+import { mdiGithub } from "@mdi/js";
 import { features, examples } from "@/entities/data";
 
 /**
@@ -124,6 +125,7 @@ export default class Footer extends Vue {
 
   private socialLinks = [
     { icon: mdiLinkedin, link: "https://www.linkedin.com/company/tableandmap" },
+    { icon: mdiGithub, link: "https://github.com/tjgambs/tableandmap" },
   ];
 
   private get currentYear() {
