@@ -23,7 +23,35 @@
 
 
 ## Project setup
+Update .env file
 ```
+VUE_APP_BASE_URL=http://localhost:8080
+
+VUE_APP_LOGGED_OUT_USER_API_KEY=
+VUE_APP_GOOGLEMAPS_KEY=
+VUE_APP_GEOCODE_KEY=
+VUE_APP_GOOGLE_CLIENT_ID=
+
+VUE_APP_STRIPE_MAX_UPLOADS=5
+VUE_APP_STRIPE_MAX_ROWS=1000
+VUE_APP_STRIPE_PRODUCT_ID=
+VUE_APP_STRIPE_PRICE_ID=
+
+VUE_APP_LAMBDA_BASE_URL=http://localhost:9000
+
+VUE_APP_SLACK_WEBHOOK=
+VUE_APP_LOG_ROCKET_ID=
+VUE_APP_CRISP_ID=
+VUE_APP_GA_ID=
+
+STRIPE_PRIVATE_KEY=
+GOOGLE_AUTH_EMAIL=
+GOOGLE_AUTH_KEY=
+
+```
+
+```
+sudo n 16
 npm install
 ```
 
@@ -43,6 +71,3 @@ npm run build -- --mode prod
 ```
 npm run lint
 ```
-
-eslint
-sass-loader
