@@ -1,3 +1,4 @@
+require("dotenv").config();
 var googleapis = require('googleapis').google;
 var googleauth = require('google-auth-library');
 
@@ -9,8 +10,8 @@ const headers = {
 const getClient = () => {
   return new Promise((resolve) => {
     const client = new googleauth.JWT({
-      email: "***REMOVED***",
-      key: "***REMOVED***",
+      email: process.env.GOOGLE_AUTH_EMAIL,
+      key: process.env.GOOGLE_AUTH_KEY,
       scopes: ["https://www.googleapis.com/auth/drive"]
     });
     client.authorize(() => {

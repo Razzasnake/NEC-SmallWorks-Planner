@@ -1,6 +1,8 @@
+require("dotenv").config();
 const https = require("https");
 
-const STRIPE_PRIVATE_KEY = "***REMOVED***"; // "***REMOVED***"
+const STRIPE_PRIVATE_KEY = process.env.STRIPE_PRIVATE_KEY
+
 const headers = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "Content-Type"
