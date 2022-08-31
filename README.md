@@ -47,11 +47,10 @@ VUE_APP_GA_ID=
 STRIPE_PRIVATE_KEY=
 GOOGLE_AUTH_EMAIL=
 GOOGLE_AUTH_KEY=
-
 ```
 
 ```
-sudo n 16
+sudo n 14
 npm install
 ```
 
