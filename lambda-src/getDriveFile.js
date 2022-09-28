@@ -37,6 +37,7 @@ exports.handler = async (event) => {
       { responseType: "stream" },
       (err, res) => {
         if (err) {
+          console.log(err)
           resolve({
             statusCode: 404,
             body: "Failure",
