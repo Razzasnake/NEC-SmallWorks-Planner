@@ -11,7 +11,7 @@ const getClient = () => {
   return new Promise((resolve) => {
     const client = new googleauth.JWT({
       email: process.env.GOOGLE_AUTH_EMAIL,
-      key: process.env.GOOGLE_AUTH_KEY,
+      key: process.env.GOOGLE_AUTH_KEY.replaceAll('\\n', '\n'),
       scopes: ["https://www.googleapis.com/auth/drive"]
     });
     client.authorize(() => {
@@ -37,7 +37,6 @@ exports.handler = async (event) => {
       { responseType: "stream" },
       (err, res) => {
         if (err) {
-          console.log(err)
           resolve({
             statusCode: 404,
             body: "Failure",
