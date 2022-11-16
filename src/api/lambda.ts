@@ -1,3 +1,5 @@
+import pako from 'pako'
+
 export default {
   getCustomerTier(email: string) {
     const url = `${process.env.VUE_APP_LAMBDA_BASE_URL}/getCustomerTier`;
@@ -38,7 +40,10 @@ export default {
       method: "POST",
       body: JSON.stringify(payload)
     }).then(async response => {
-      return await response.text();
+      const gezipedData = atob(await response.text());
+      const gzipedDataArray = Uint8Array.from(gezipedData, c => c.charCodeAt(0));
+      const ungzipedData = pako.ungzip(gzipedDataArray);
+      return new TextDecoder().decode(ungzipedData);
     }).catch(() => {
       return null;
     });

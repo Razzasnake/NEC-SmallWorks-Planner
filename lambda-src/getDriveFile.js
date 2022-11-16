@@ -62,8 +62,8 @@ exports.handler = async (event) => {
         res.data.on("end", async () => {
           resolve({
             statusCode: 200,
-            body: JSON.stringify(await gzipString(data)),
-            headers: { ...headers, 'Content-Encoding': 'gzip' }
+            body: (await gzipString(data)).toString('base64'),
+            headers
           });
         });
       });
