@@ -1,11 +1,22 @@
 require("dotenv").config();
 var googleapis = require('googleapis').google;
 var googleauth = require('google-auth-library');
+var { gzip } = require('zlib');
 
 const headers = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "Content-Type"
 }
+
+const gzipString = async (input) => {
+  const buffer = Buffer.from(input);
+  return new Promise((resolve, reject) => gzip(buffer, (err, data) => {
+    if (err) {
+      reject(err);
+    }
+    resolve(data);
+  }));
+};
 
 const getClient = () => {
   return new Promise((resolve) => {
@@ -48,11 +59,11 @@ exports.handler = async (event) => {
         res.data.on("data", (chunk) => {
           data += chunk;
         });
-        res.data.on("end", () => {
+        res.data.on("end", async () => {
           resolve({
             statusCode: 200,
-            body: data,
-            headers
+            body: await gzipString(data),
+            headers: { ...headers, 'Content-Encoding': 'gzip' }
           });
         });
       });
