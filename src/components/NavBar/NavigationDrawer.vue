@@ -131,6 +131,17 @@
     </v-list-item>
     <v-list-item
       link
+      @click="clearAllFilters"
+    >
+      <v-list-item-icon>
+        <v-icon>{{ mdiFilterRemoveOutline }}</v-icon>
+      </v-list-item-icon>
+      <v-list-item-content>
+        <v-list-item-title>Clear All Filters</v-list-item-title>
+      </v-list-item-content>
+    </v-list-item>
+    <v-list-item
+      link
       @click="exportToCsv"
     >
       <v-list-item-icon>
@@ -144,8 +155,8 @@
 </template>
 <script lang='ts'>
 import { Component, Vue, Prop } from "vue-property-decorator";
-import state, { updateViewOptions, exportToCsv } from "@/store/exploreStore";
-import { mdiExport, mdiTable, mdiMap, mdiLayers, mdiSecurity, mdiXml } from "@mdi/js";
+import state, { updateViewOptions, updateOverlayEventJsons, updateFilters, exportToCsv } from "@/store/exploreStore";
+import { mdiExport, mdiTable, mdiMap, mdiLayers, mdiSecurity, mdiXml, mdiFilterRemoveOutline } from "@mdi/js";
 import LayerManager from "./LayerManager/LayerManager.vue";
 import EmbedCode from "./EmbedCode/EmbedCode.vue";
 import driveState from "@/store/driveStore";
@@ -169,6 +180,7 @@ export default class NavigationDrawer extends Vue {
   private mdiLayers = mdiLayers;
   private mdiSecurity = mdiSecurity;
   private mdiXml = mdiXml;
+  private mdiFilterRemoveOutline = mdiFilterRemoveOutline;
   private uploadLayerModal: boolean = false;
   private copyLinkDisplay = false;
   private displayEmbedCode = false;
@@ -386,6 +398,11 @@ export default class NavigationDrawer extends Vue {
       this.headline = "Upgrade to Pro to export this dataset";
       this.onUploadUpsell = true;
     }
+  }
+
+  private clearAllFilters() {
+    updateFilters({});
+    updateOverlayEventJsons([]);
   }
 }
 </script>

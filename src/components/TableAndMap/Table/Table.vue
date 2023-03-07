@@ -122,6 +122,13 @@ export default class Table extends Vue {
     }
   }
 
+  @Watch("filters")
+  private filtersUpdated() {
+    if (this.gridApi) {
+      this.gridApi.setFilterModel(this.filters);
+    }
+  }
+
   private isExternalFilterPresent(): boolean {
     return this.overlayEvents.length > 0;
   }
