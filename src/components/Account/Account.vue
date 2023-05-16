@@ -35,69 +35,69 @@
   </div>
 </template>
 <script lang='ts'>
-import { Component, Vue, Prop } from "vue-property-decorator";
-import Tiers from "@/components/Pricing/Tiers/Tiers.vue";
+	import { Component, Vue, Prop } from "vue-property-decorator";
+	import Tiers from "@/components/Pricing/Tiers/Tiers.vue";
 
-/**
- * Account page with billing
- */
-@Component({
-  name: "Account",
-  components: {
-    Tiers
-  },
-})
-export default class Account extends Vue {
-  /**
-   * The logged in user
-   */
-  @Prop({ default: null })
-  private user!: gapi.auth2.GoogleUser | null;
-  /**
-   * The number of files uploaded by this user
-   */
-  @Prop({ default: 0 })
-  private numberFiles!: number;
-  /**
-   * The user accounts tier
-   */
-  @Prop({ default: 0 })
-  private tier!: number;
-  /**
-   * Manage Billing Url
-   */
-  @Prop({ default: null })
-  private manageBillingUrl!: string;
+	/**
+	* Account page with billing
+	*/
+	@Component({
+	name: "Account",
+	components: {
+	Tiers
+	},
+	})
+	export default class Account extends Vue {
+	/**
+	* The logged in user
+	*/
+	@Prop({ default: null })
+	private user!: gapi.auth2.GoogleUser | null;
+	/**
+	* The number of files uploaded by this user
+	*/
+	@Prop({ default: 1 })
+	private numberFiles!: number;
+	/**
+	* The user accounts tier
+	*/
+	@Prop({ default: 1 })
+	private tier!: number;
+	/**
+	* Manage Billing Url
+	*/
+	@Prop({ default: null })
+	private manageBillingUrl!: string;
 
-  private get availableFiles() {
-    return this.tier === 0 ? process.env.VUE_APP_STRIPE_MAX_UPLOADS : "Unlimited"
-  }
+	private get availableFiles() {
+	return "Unlimited";
+	}
 
-  private get name() {
-    if (this.user) {
-      return this.user.getBasicProfile().getName();
-    }
-    return null;
-  }
+	private get name() {
+	if (this.user) {
+	return this.user.getBasicProfile().getName();
+	}
+	return null;
+	}
 
-  private get email() {
-    if (this.user) {
-      return this.user.getBasicProfile().getEmail();
-    }
-    return null;
-  }
+	private get email() {
+	if (this.user) {
+	return this.user.getBasicProfile().getEmail();
+	}
+	return null;
+	}
 
-  private get imageUrl() {
-    if (this.user) {
-      return this.user.getBasicProfile().getImageUrl();
-    }
-    return null;
-  }
+	private get imageUrl() {
+	if (this.user) {
+	return this.user.getBasicProfile().getImageUrl();
+	}
+	return null;
+	}
 
-  private openBilling() {
-    window.open(this.manageBillingUrl, "_self");
-  }
-}
+	private openBilling() {
+	window.open(this.manageBillingUrl, "_self");
+	}
+	}
 </script>
 <style lang='scss' scoped>
 .feature {

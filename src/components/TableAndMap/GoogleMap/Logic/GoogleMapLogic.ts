@@ -240,7 +240,7 @@ export default class GoogleMapLogic {
     this.clearMarkers();
     const drawnMarkers: google.maps.Marker[] = [];
     const colorPosition: { [key: string]: number } = {};
-    let colorPositionIndex: number = 0;
+    const colorPositionIndex: number = 0;
     this.uploadedFile.data
       .slice(this.uploadedFile.firstRowHeader ? 1 : 0)
       .forEach((row, index) => {
@@ -248,22 +248,49 @@ export default class GoogleMapLogic {
           drawnMarkers.push(new google.maps.Marker());
           return;
         }
+
         const position = { lat: row.lat!, lng: row.lng! };
-        if (this.groupByKey !== null && colorPosition[row.data[this.groupByKey]] === undefined) {
-          colorPosition[row.data[this.groupByKey]] = colorPositionIndex;
-          colorPositionIndex = (colorPositionIndex + 1) % this.materialColors.length;
+        let fileName;
+
+        const priorityIndex = this.uploadedFile.priorityIndex; 
+        const startDateIndex = this.uploadedFile.startDateIndex; 
+        let startDate;
+        let priority;
+        
+        if (row.data && Array.isArray(row.data)) {
+            if (priorityIndex !== null) {
+                priority = row.data[priorityIndex]; 
+            }
+
+            if (startDateIndex !== null) {
+                const [day, month, year] = row.data[startDateIndex].split("/");
+                startDate = new Date(`${month}/${day}/${year}`);
+            }
         }
-        const fileName = this.groupByKey !== null ? this.materialColors[colorPosition[row.data[this.groupByKey]]].fileName : "primary";
-        const newMarker = this.createMarker(position, fileName);
+
+        if (!priority || isNaN(priority) || !startDate) {
+            console.log('Missing or invalid data', row.data, 'startDate:', startDate, 'priority:', priority);
+        } else {
+            startDate.setDate(startDate.getDate() + Number(priority) - 1); 
+            const targetDate = startDate;
+            const currentDate = new Date();
+            const diffTime = targetDate.getTime() - currentDate.getTime();
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
+
+            if (diffDays < 0) {
+                fileName = "red";
+            } else if (diffDays <= 2) {
+                fileName = "amber";
+            } else {
+                fileName = "green";
+            }
+        }
+
+        const newMarker = this.createMarker(position, fileName || "default");
         (newMarker as unknown as { row: Row }).row = row;
         newMarker.addListener("click", () => {
           if (this.map) {
             this.map.panTo(position);
-            /**
-             * Notify the parent of the marker that has been clicked
-             *
-             * @type { id: string, validate: boolean }
-             */
             this.vueComponent.$emit("marker-selected", { id: row.id, validate: true });
           }
         });
@@ -274,13 +301,10 @@ export default class GoogleMapLogic {
         }
         drawnMarkers.push(newMarker);
       });
-    if (Object.keys(colorPosition).length) {
-      this.groupByVariables.colorPosition = colorPosition;
-    } else {
-      this.groupByVariables.colorPosition = null;
-    }
+
     this.markers = drawnMarkers;
   }
+
 
   public clearMarkers(): void {
     this.markers.forEach(marker => {
@@ -706,48 +730,70 @@ export default class GoogleMapLogic {
   public updateMarkerImages() {
     const colorPosition: { [key: string]: number } = {};
     let colorPositionIndex: number = 0;
-    this.markers.forEach(row => {
-      const data = (row as unknown as { row: { data: any[] } }).row.data;
-      if (this.groupByKey !== null && colorPosition[data[this.groupByKey]] === undefined) {
-        colorPosition[data[this.groupByKey]] = colorPositionIndex;
-        colorPositionIndex = (colorPositionIndex + 1) % this.materialColors.length;
-      }
-      const fileName = this.groupByKey !== null ? this.materialColors[colorPosition[data[this.groupByKey]]].fileName : "primary";
-      row.setIcon(require(`@/assets/markers/${fileName}.png`));
+    this.markers.forEach(marker => {
+        const row = (marker as unknown as { row: Row }).row;
+        let fileName;
+
+        if (this.groupByKey !== null) {
+            const data = row.data;
+            if (colorPosition[data[this.groupByKey]] === undefined) {
+                colorPosition[data[this.groupByKey]] = colorPositionIndex;
+                colorPositionIndex = (colorPositionIndex + 1) % this.materialColors.length;
+            }
+            fileName = this.materialColors[colorPosition[data[this.groupByKey]]].fileName;
+        } else {
+            const priorityIndex = this.uploadedFile.priorityIndex; 
+            const startDateIndex = this.uploadedFile.startDateIndex; 
+            let startDate;
+            let priority;
+            
+            if (row.data && Array.isArray(row.data)) {
+                if (priorityIndex !== null) {
+                    priority = row.data[priorityIndex];
+                }
+
+                if (startDateIndex !== null) {
+                    const [day, month, year] = row.data[startDateIndex].split("/");
+                    startDate = new Date(`${month}/${day}/${year}`);
+                }
+            }
+
+            if (!priority || isNaN(priority) || !startDate) {
+                console.log('Missing or invalid data', row.data, 'startDate:', startDate, 'priority:', priority);
+            } else {
+                startDate.setDate(startDate.getDate() + Number(priority) - 1); 
+                const targetDate = startDate;
+                const currentDate = new Date();
+                const diffTime = targetDate.getTime() - currentDate.getTime();
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
+
+                if (diffDays < 0) {
+                    fileName = "red";
+                } else if (diffDays <= 2) {
+                    fileName = "amber";
+                } else {
+                    fileName = "green";
+                }
+            }
+        }
+
+        marker.setIcon(require(`@/assets/markers/${fileName || 'default'}.png`));
     });
+
     if (Object.keys(colorPosition).length) {
-      this.groupByVariables.colorPosition = colorPosition;
+        this.groupByVariables.colorPosition = colorPosition;
     } else {
-      this.groupByVariables.colorPosition = null;
+        this.groupByVariables.colorPosition = null;
     }
+
     if (this.markerCluster) {
-      this.markerCluster.clearMarkers();
-      this.markerCluster = null;
+        this.markerCluster.clearMarkers();
+        this.markerCluster = null;
     }
+
     this.displayClustersChanged();
   }
 
-  public hiddenMarkerIndicesUpdated(
-    newVals: Set<number>,
-    oldVals: Set<number>
-  ) {
-    oldVals.forEach(index => {
-      if (!newVals.has(index) && this.markers[index]) {
-        this.markers[index].setVisible(true);
-        this.markers[index].setOptions({ opacity: 1 });
-      }
-    });
-    newVals.forEach(index => {
-      if (!oldVals.has(index) && this.markers[index]) {
-        this.markers[index].setVisible(this.unselectedMarkerOpacity > 0);
-        this.markers[index].setOptions({ opacity: this.unselectedMarkerOpacity / 100 });
-      }
-    });
-    if ((newVals.size || oldVals.size) && this.markers.length) {
-      this.displayHeatmapChanged();
-      this.displayClustersChanged();
-    }
-  }
 
   public updateUnselectedMarkerOpacity() {
     this.hiddenMarkerIndices.forEach(index => {

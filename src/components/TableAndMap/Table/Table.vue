@@ -16,126 +16,129 @@
   />
 </template>
 <script lang='ts'>
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import { AgGridVue } from "@ag-grid-community/vue";
-import {
-  GridApi,
-  ColumnApi,
-  RowNode,
-} from "@ag-grid-community/core";
-import TableLogic, { defaultColDef } from "./Logic/TableLogic";
-import { Row } from "@/entities/UploadedFile";
-import CalculateFooterWorker from "worker-loader!./Logic/WebWorkers/CalculateFooter.worker";
-import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
-import { CsvExportModule } from "@ag-grid-community/csv-export";
+	import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+	import { AgGridVue } from "@ag-grid-community/vue";
+	import {
+	GridApi,
+	ColumnApi,
+	RowNode,
+	} from "@ag-grid-community/core";
+	import TableLogic, { defaultColDef } from "./Logic/TableLogic";
+	import { Row } from "@/entities/UploadedFile";
+	import CalculateFooterWorker from "worker-loader!./Logic/WebWorkers/CalculateFooter.worker";
+	import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
+	import { CsvExportModule } from "@ag-grid-community/csv-export";
 
-type PinnedData = {
-  min: number[];
-  max: number[];
-  avg: number[];
-  total: number[];
-};
+	type PinnedData = {
+	min: number[];
+	max: number[];
+	avg: number[];
+	total: number[];
+	};
 
-/**
- * Display the uploaded file in a table and on a map.
- */
-@Component({
-  name: "TableAndMapTable",
-  components: {
-    AgGridVue,
-  },
-})
-export default class Table extends Vue {
-  /**
-   * All of the google markers to display in the table and map
-   */
-  @Prop()
-  private rowData!: Row[];
-  /**
-   * An object used to apply previous filters
-   */
-  @Prop({ default: Object() })
-  private filters!: { [colId: string]: any };
-  /**
-   * An array of objects to apply previous sorting
-   */
-  @Prop({ default: Array() })
-  private sorting!: { colId: string; sort: string }[];
-  /**
-   * Config for the table, must specify the columns
-   */
-  @Prop()
-  private tableLogic!: TableLogic;
-  /**
-   * All of the polygons that have been drawn on the map
-   */
-  @Prop({ default: Array() })
-  private overlayEvents!: google.maps.drawing.OverlayCompleteEvent[];
-  /**
-   * Whether or not to show the footer rows
-   */
-  @Prop({
-    default: [
-      "table",
-      "table:footer",
-      "table:footer:avg"
-    ],
-  })
-  private viewOptions!: string[];
-  /**
-   * Row being shown in the preview card, scroll to it and highlight it
-   */
-  @Prop({ default: null })
-  private clickedMarker!: Row | null;
-  /**
-   * Allow user to select the text from the table
-   */
-  @Prop({ default: false })
-  private isPaidTier!: boolean;
+	/**
+	* Display the uploaded file in a table and on a map.
+	*/
+	@Component({
+	name: "TableAndMapTable",
+	components: {
+	AgGridVue,
+	},
+	})
+	export default class Table extends Vue {
+	/**
+	* All of the google markers to display in the table and map
+	*/
+	@Prop()
+	private rowData!: Row[];
+	/**
+	* An object used to apply previous filters
+	*/
+	@Prop({ default: Object() })
+	private filters!: { [colId: string]: any };
+	/**
+	* An array of objects to apply previous sorting
+	*/
+	@Prop({ default: Array() })
+	private sorting!: { colId: string; sort: string }[];
+	/**
+	* Config for the table, must specify the columns
+	*/
+	@Prop()
+	private tableLogic!: TableLogic;
+	/**
+	* All of the polygons that have been drawn on the map
+	*/
+	@Prop({ default: Array() })
+	private overlayEvents!: google.maps.drawing.OverlayCompleteEvent[];
+	/**
+	* Whether or not to show the footer rows
+	*/
+	@Prop({
+	default: [
+	"table",
+	"table:footer",
+	"table:footer:avg"
+	],
+	})
+	private viewOptions!: string[];
+	/**
+	* Row being shown in the preview card, scroll to it and highlight it
+	*/
+	@Prop({ default: null })
+	private clickedMarker!: Row | null;
+	/**
+	* Allow user to select the text from the table
+	*/
+	@Prop({ default: false })
+	private isPaidTier!: boolean;
 
-  private colDef = defaultColDef;
-  private gridApi!: GridApi;
-  private columnApi!: ColumnApi;
-  private modules = [ClientSideRowModelModule, CsvExportModule];
+	get colDef() {
+	return defaultColDef;
+	}
 
-  @Watch("viewOptions")
-  private viewOptionsUpdated() {
-    if (this.gridApi) {
-      this.updatePinnedFooter();
-    }
-  }
+	private gridApi!: GridApi;
+	private columnApi!: ColumnApi;
+	private modules = [ClientSideRowModelModule, CsvExportModule];
 
-  @Watch("clickedMarker")
-  private clickedMarkerUpdated(newValue: Row | null, oldValue: Row | null) {
-    if (oldValue) {
-      const node = this.gridApi.getRowNode(oldValue.id);
-      if (node) {
-        node.setSelected(false);
-      }
-    }
-    if (this.clickedMarker) {
-      const node = this.gridApi.getRowNode(this.clickedMarker.id);
-      if (node) {
-        node.setSelected(true);
-        this.gridApi.ensureIndexVisible(node.rowIndex);
-      }
-    }
-  }
+	@Watch("viewOptions")
+	private viewOptionsUpdated() {
+	if (this.gridApi) {
+	this.updatePinnedFooter();
+	}
+	}
 
-  @Watch("filters")
-  private filtersUpdated() {
-    if (this.gridApi) {
-      this.gridApi.setFilterModel(this.filters);
-    }
-  }
+	@Watch("clickedMarker")
+	private clickedMarkerUpdated(newValue: Row | null, oldValue: Row | null) {
+	if (oldValue) {
+	const node = this.gridApi.getRowNode(oldValue.id);
+	if (node) {
+	node.setSelected(false);
+	}
+	}
+	if (this.clickedMarker) {
+	const node = this.gridApi.getRowNode(this.clickedMarker.id);
+	if (node) {
+	node.setSelected(true);
+	this.gridApi.ensureIndexVisible(node.rowIndex);
+	}
+	}
+	}
 
-  private isExternalFilterPresent(): boolean {
-    return this.overlayEvents.length > 0;
-  }
+	@Watch("filters")
+	private filtersUpdated() {
+	if (this.gridApi) {
+	this.gridApi.setFilterModel(this.filters);
+	}
+	}
 
-  private doesExternalFilterPass(node: RowNode) {
-    const latLng = new google.maps.LatLng(node.data.lat, node.data.lng);
-    for (let i = 0; i < this.overlayEvents.length; i++) {
+	private isExternalFilterPresent(): boolean {
+	return this.overlayEvents.length > 0;
+	}
+
+	private doesExternalFilterPass(node: RowNode) {
+	const latLng = new google.maps.LatLng(node.data.lat, node.data.lng);
+	for (let i = 0; i < this.overlayEvents.length; i++) {
       const event = this.overlayEvents[i];
       let isContained: boolean = false;
       if (event.type === google.maps.drawing.OverlayType.RECTANGLE) {

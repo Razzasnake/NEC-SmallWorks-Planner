@@ -61,7 +61,8 @@ export const updateUploadedFile = (uploadedFile: UploadedFile, example: boolean 
     }
   }
   state.uploadedFile = uploadedFile;
-  state.tableLogic = new TableLogic(uploadedFile);
+  state.tableLogic = new TableLogic();
+  state.tableLogic.setData(uploadedFile);
   saveUploadedFile();
 }
 
@@ -123,7 +124,7 @@ export const saveUploadedFile = () => {
       router.push({ name: "Explore" });
     }
     updateGeojsonFile(() => {
-      const data = arrayToCSV(state.uploadedFile!.data.map(_ => _.data));
+      const data = arrayToCSV(state.uploadedFile!.data.map(_ => Object.values(_.data)));
       state.saving.file = true;
       uploadFile(data, "text/csv", state.uploadedFile!.fileName, undefined, () => {
         state.saving.file = false;
@@ -257,7 +258,7 @@ export const exportToCsv = () => {
     }
     state.tableLogic.api.exportDataAsCsv({
       fileName,
-      columnKeys: state.uploadedFile.data[0].data.map((_, index) => index.toString()),
+      columnKeys: state.uploadedFile.data[0].data.map(({}, index: number) => index.toString()),
       skipPinnedBottom: true
     });
   }

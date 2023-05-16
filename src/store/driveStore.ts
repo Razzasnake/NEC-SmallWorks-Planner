@@ -23,7 +23,7 @@ const state: DriveStoreI = Vue.observable({
   files: [],
   folderId: null,
   refreshFilesLoading: true,
-  tier: null
+  tier: 1
 });
 
 export const signIn = (id: string) => {
@@ -300,7 +300,8 @@ const getTableAndMapFolderId = (callback: (folderId: string) => void) => {
   const q = `mimeType = '${mimeType}' and trashed = false and name='${name}'`;
   gapi.client.drive.files.list({ pageSize: 1, q }).then((response) => {
     const folders = response.result.files;
-    if (folders && folders.length) {
+    if (folders && folders.length)
+    {
       if (folders[0].id) {
         callback(folders[0].id);
       }

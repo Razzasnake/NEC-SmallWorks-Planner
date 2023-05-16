@@ -55,7 +55,7 @@
     </div>
     <v-app-bar
       dense
-      color="primary"
+      color="#2050A0"
       app
       :clipped-left="$vuetify.breakpoint.lgAndUp"
     >
@@ -69,7 +69,7 @@
         to="/"
       >
         <v-toolbar-title class="appbar-title">
-          Table & Map
+          Small Works Planner
         </v-toolbar-title>
       </router-link>
       <a
@@ -79,34 +79,7 @@
         <v-toolbar-title class="appbar-title">Table & Map</v-toolbar-title>
       </a>
       <v-spacer />
-      <v-menu
-        v-if="$vuetify.breakpoint.smAndUp"
-        bottom
-        offset-y
-        open-on-hover
-      >
-        <template #activator="{ on, attrs }">
-          <v-btn
-            color="#eeeeee"
-            text
-            v-bind="attrs"
-            v-on="on"
-          >
-            Learn<v-icon>{{ mdiMenuDown }}</v-icon>
-          </v-btn>
-        </template>
-        <v-list>
-          <v-list-item to="/features">
-            <v-list-item-title>Features</v-list-item-title>
-          </v-list-item>
-          <v-list-item to="/examples">
-            <v-list-item-title>Examples</v-list-item-title>
-          </v-list-item>
-          <v-list-item to="/pricing">
-            <v-list-item-title>Pricing</v-list-item-title>
-          </v-list-item>
-        </v-list>
-      </v-menu>
+    
       <v-toolbar-items>
         <v-btn
           v-if="loggedIn && $router"

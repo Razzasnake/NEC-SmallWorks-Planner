@@ -100,35 +100,6 @@
       </v-list-item>
     </v-list-group>
 
-    <v-list-item @click="uploadLayerModal = true">
-      <v-list-item-icon>
-        <v-icon>{{ mdiLayers }}</v-icon>
-      </v-list-item-icon>
-      <v-list-item-content>
-        <v-list-item-title>Layer Manager</v-list-item-title>
-        <LayerManager
-          v-if="uploadLayerModal"
-          @close="uploadLayerModal = false"
-        />
-      </v-list-item-content>
-    </v-list-item>
-    <v-list-item @click="openEmbedCode">
-      <v-list-item-icon>
-        <v-icon>{{ mdiXml }}</v-icon>
-      </v-list-item-icon>
-      <v-list-item-content>
-        <v-list-item-title>Embed Code</v-list-item-title>
-        <OnUploadUpsell
-          v-if="onUploadUpsell"
-          :headline="headline"
-          @close="onUploadUpsell = false"
-        />
-        <EmbedCode
-          v-else-if="displayEmbedCode"
-          @close="displayEmbedCode = false"
-        />
-      </v-list-item-content>
-    </v-list-item>
     <v-list-item
       link
       @click="clearAllFilters"
@@ -140,184 +111,192 @@
         <v-list-item-title>Clear All Filters</v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <v-list-item
-      link
-      @click="exportToCsv"
+  
+
+	  <v-list-item
+      style="position: absolute; bottom: 0; width: 100%; text-align: right; padding-bottom: 30px;"
     >
-      <v-list-item-icon>
-        <v-icon>{{ mdiExport }}</v-icon>
-      </v-list-item-icon>
-      <v-list-item-content>
-        <v-list-item-title>Export</v-list-item-title>
-      </v-list-item-content>
-    </v-list-item>
+		  <img :src="NorwichElec" alt="Norwich Electric" style="width: 90%; margin-left: 5px;" />
+	  </v-list-item>
   </v-list>
 </template>
 <script lang='ts'>
-import { Component, Vue, Prop } from "vue-property-decorator";
-import state, { updateViewOptions, updateOverlayEventJsons, updateFilters, exportToCsv } from "@/store/exploreStore";
-import { mdiExport, mdiTable, mdiMap, mdiLayers, mdiSecurity, mdiXml, mdiFilterRemoveOutline } from "@mdi/js";
-import LayerManager from "./LayerManager/LayerManager.vue";
-import EmbedCode from "./EmbedCode/EmbedCode.vue";
-import driveState from "@/store/driveStore";
-import OnUploadUpsell from "@/components/Pricing/Upsell/OnUpload/OnUpload.vue";
+	import { Component, Vue, Prop } from "vue-property-decorator";
+	import state, { updateViewOptions, updateOverlayEventJsons, updateFilters, exportToCsv } from "@/store/exploreStore";
+	import { mdiExport, mdiTable, mdiMap, mdiLayers, mdiSecurity, mdiXml, mdiFilterRemoveOutline } from "@mdi/js";
+	import LayerManager from "./LayerManager/LayerManager.vue";
+	import EmbedCode from "./EmbedCode/EmbedCode.vue";
+	import driveState from "@/store/driveStore";
+	import OnUploadUpsell from "@/components/Pricing/Upsell/OnUpload/OnUpload.vue";
+	import NorwichElec from "@/assets/NorwichElec.png";
 
-/**
- * Table options
- */
-@Component({
-  name: "NavBarNavigationDrawer",
-  components: {
-    LayerManager,
-    EmbedCode,
-    OnUploadUpsell,
-  },
-})
-export default class NavigationDrawer extends Vue {
-  private activeText: string = "Hide ";
-  private inactiveText: string = "Show ";
-  private mdiExport = mdiExport;
-  private mdiLayers = mdiLayers;
-  private mdiSecurity = mdiSecurity;
-  private mdiXml = mdiXml;
-  private mdiFilterRemoveOutline = mdiFilterRemoveOutline;
-  private uploadLayerModal: boolean = false;
-  private copyLinkDisplay = false;
-  private displayEmbedCode = false;
-  private onUploadUpsell = false;
-  private headline = '';
+	/**
+	* Table options
+	*/
+	@Component({
+	name: "NavBarNavigationDrawer",
+	components: {
+	LayerManager,
+	EmbedCode,
+	OnUploadUpsell,
+	},
+	})
+	export default class NavigationDrawer extends Vue {
+	private activeText: string = "Hide ";
+	private inactiveText: string = "Show ";
+	private mdiExport = mdiExport;
+	private mdiLayers = mdiLayers;
+	private mdiSecurity = mdiSecurity;
+	private mdiXml = mdiXml;
+	private mdiFilterRemoveOutline = mdiFilterRemoveOutline;
+	private uploadLayerModal: boolean = false;
+	private copyLinkDisplay = false;
+	private displayEmbedCode = false;
+	private onUploadUpsell = false;
+	private headline = '';
 
-  private get viewOptions() {
-    return state.viewOptions;
-  }
+	private getCurrentDateTime(): string {
+	    const currentDate = new Date();
+	    const dateString = currentDate.toLocaleDateString('en-US', {
+	        year: 'numeric',
+	        month: '2-digit',
+	        day: '2-digit',
+	        hour: '2-digit',
+	        minute: '2-digit',
+	        second: '2-digit'
+	    });
+	    return dateString;
+	}
 
-  private get isPublic() {
-    const file = driveState.files.find(
-      (file) => file.name === state.uploadedFile!.fileName
-    )!;
-    return file ? file.shared : false;
-  }
 
-  private get isSaved() {
-    if (state.uploadedFile) {
-      return (
-        driveState.files.filter((_) => _.name === state.uploadedFile!.fileName)
-          .length > 0
-      );
-    }
-    return false;
-  }
+	private get viewOptions() {
+	return state.viewOptions;
+	}
 
-  private get groupByKeyItems() {
-    if (state.uploadedFile) {
-      const groupByKetItems = state.uploadedFile.data[0].data.map((_, index) => {
-        if (state.uploadedFile!.firstRowHeader) {
-          return {
-            text: state.uploadedFile!.data[0].data[index],
-            value: index.toString(),
-          };
-        } else {
-          return {
-            text: `Column ${(index + 1).toString()}`,
-            value: index.toString(),
-          };
-        }
-      })
-      console.log(groupByKetItems);
-      return groupByKetItems.filter(_ => _);
-    }
-    return [];
-  }
+	private get isPublic() {
+	const file = driveState.files.find(
+	(file) => file.name === state.uploadedFile!.fileName
+	)!;
+	return file ? file.shared : false;
+	}
 
-  private get groupByKeyValue() {
-    const value = this.viewOptions.find((_) => _.startsWith("map:groupByKey:"));
-    if (value) {
-      return value.split("map:groupByKey:")[1];
-    }
-    return null;
-  }
-  private set groupByKeyValue(newValue: string | null) {}
+	private get isSaved() {
+	if (state.uploadedFile) {
+	return (
+	driveState.files.filter((_) => _.name === state.uploadedFile!.fileName)
+	.length > 0
+	);
+	}
+	return false;
+	}
 
-  private get unselectedMarkerOpacityValue() {
-    const value = this.viewOptions.find((_) => _.startsWith("map:unselectedMarkerOpacity:"));
-    if (value) {
-      return parseInt(value.split("map:unselectedMarkerOpacity:")[1]);
-    }
-    return 0;
-  }
-  private set unselectedMarkerOpacityValue(newValue: number | null) {}
+	private get groupByKeyItems() {
+	if (state.uploadedFile) {
+	const groupByKetItems = state.uploadedFile.data[0].data.map((_, index) => {
+	if (state.uploadedFile!.firstRowHeader) {
+	return {
+	text: state.uploadedFile!.data[0].data[index],
+	value: index.toString(),
+	};
+	} else {
+	return {
+	text: `Column ${(index + 1).toString()}`,
+	value: index.toString(),
+	};
+	}
+	})
+	console.log(groupByKetItems);
+	return groupByKetItems.filter(_ => _);
+	}
+	return [];
+	}
 
-  private dropdowns = [
-    {
-      label: "Table",
-      icon: mdiTable,
-      dropdowns: [
-        {
-          label: "Table",
-          key: "table",
-        },
-        {
-          label: "Footer",
-          key: "table:footer",
-        },
-      ],
-    },
-    {
-      label: "Map",
-      icon: mdiMap,
-      dropdowns: [
-        {
-          label: "Map",
-          key: "map",
-        },
-        {
-          label: "Heat Map",
-          key: "map:heat",
-        },
-        {
-          label: "Markers",
-          key: "map:disableMarkers"
-        },
-        {
-          label: "Markers",
-          key: "map:markers",
-        },
-        {
-          label: "Clusters",
-          key: "map:clusters",
-        },
-        {
-          label: "Group By",
-          key: "map:groupByKey",
-        },
-        {
-          label: "Unselected Marker Opacity",
-          key: "map:unselectedMarkerOpacity",
-        },
-      ],
-    },
-  ];
+	private get groupByKeyValue() {
+	const value = this.viewOptions.find((_) => _.startsWith("map:groupByKey:"));
+	if (value) {
+	return value.split("map:groupByKey:")[1];
+	}
+	return null;
+	}
+	private set groupByKeyValue(newValue: string | null) {}
 
-  private openEmbedCode() {
-    if (driveState.tier === 1) {
-      this.displayEmbedCode = true;
-    } else {
-      this.headline = "Upgrade to Pro to embed on your website";
-      this.onUploadUpsell = true;
-    }
-  }
+	private get unselectedMarkerOpacityValue() {
+	const value = this.viewOptions.find((_) => _.startsWith("map:unselectedMarkerOpacity:"));
+	if (value) {
+	return parseInt(value.split("map:unselectedMarkerOpacity:")[1]);
+	}
+	return 0;
+	}
+	private set unselectedMarkerOpacityValue(newValue: number | null) {}
 
-  private keyVisible(key: string) {
-    return this.viewOptions.indexOf(key) > -1;
-  }
+	private dropdowns = [
+	{
+	label: "Table",
+	icon: mdiTable,
+	dropdowns: [
+	{
+	label: "Table",
+	key: "table",
+	},
+	
+	],
+	},
+	{
+	label: "Map",
+	icon: mdiMap,
+	dropdowns: [
+	{
+	label: "Map",
+	key: "map",
+	},
+	{
+	label: "Heat Map",
+	key: "map:heat",
+	},
+	{
+	label: "Markers",
+	key: "map:disableMarkers"
+	},
+	{
+	label: "Markers",
+	key: "map:markers",
+	},
+	{
+	label: "Clusters",
+	key: "map:clusters",
+	},
+	{
+	label: "Group By",
+	key: "map:groupByKey",
+	},
+	{
+	label: "Unselected Marker Opacity",
+	key: "map:unselectedMarkerOpacity",
+	},
+	],
+	},
+	];
 
-  private updateViewOptions(selection: { label: string; key: string }) {
-    let newOptions: string[] = [];
-    if (this.keyVisible(selection.key)) {
-      newOptions = this.viewOptions.filter((_) => _ !== selection.key);
-      if (selection.key === "map:heat") {
-        newOptions.push("map:markers");
-        if (state.uploadedFile && state.uploadedFile.data.length > 1000) {
+	private openEmbedCode() {
+	if (driveState.tier === 1) {
+	this.displayEmbedCode = true;
+	} else {
+	this.headline = "Upgrade to Pro to embed on your website";
+	this.onUploadUpsell = true;
+	}
+	}
+
+	private keyVisible(key: string) {
+	return this.viewOptions.indexOf(key) > -1;
+	}
+
+	private updateViewOptions(selection: { label: string; key: string }) {
+	let newOptions: string[] = [];
+	if (this.keyVisible(selection.key)) {
+	newOptions = this.viewOptions.filter((_) => _ !== selection.key);
+	if (selection.key === "map:heat") {
+	newOptions.push("map:markers");
+	if (state.uploadedFile && state.uploadedFile.data.length > 1000) {
           newOptions.push("map:clusters");
         }
       }
@@ -404,5 +383,7 @@ export default class NavigationDrawer extends Vue {
     updateFilters({});
     updateOverlayEventJsons([]);
   }
-}
+  private NorwichElec = NorwichElec;
+  
+  }
 </script>

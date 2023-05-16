@@ -119,25 +119,29 @@ export default class PreviewCard extends Vue {
   private visible = true;
 
   private get markerData() {
-    let values: { label: string; value: string }[] = [];
-    if (this.uploadedFile.firstRowHeader) {
-      this.uploadedFile.data[0].data.forEach((key, index) => {
+  let values: { label: string; value: string }[] = [];
+  if (this.uploadedFile.firstRowHeader) {
+    this.uploadedFile.data[0].data.forEach((key, index) => {
+      if (key !== "longitude" && key !== "latitude") {
         values.push({
           label: (key || "").toString(),
           value: (this.clickedMarker.data[index] || "").toString(),
         });
-      });
-    } else {
-      this.uploadedFile.data[0].data.forEach((_, index) => {
-        const key = `Column ${index.toString()}`;
+      }
+    });
+  } else {
+    this.uploadedFile.data[0].data.forEach((_, index) => {
+      const key = `Column ${index.toString()}`;
+      if (key !== "Column longitude" && key !== "Column latitude") {
         values.push({
           label: (key || "").toString(),
           value: (this.clickedMarker.data[index] || "").toString(),
         });
-      });
-    }
-    return values;
+      }
+    });
   }
+  return values;
+}
 
   private get featureTables() {
     return this.clickedMarker.features.map((feature) => {
